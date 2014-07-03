@@ -1,0 +1,38 @@
+import pandas.io.data as web
+import datetime
+pd.options.display.line_width=300
+start = datetime.datetime(2006,1,1)
+end = datetime.datetime(2013,12,31)
+
+comps = YahooIndexComponents('^DJI').parse()
+print(comps)
+opinions = [YahooAnalystOpinionsFeed(comp).parse() for comp in comps.Symbol]
+res = [web.DataReader(comp, 'yahoo', start,end) for comp in comps.Symbol]
+
+keys=pd.concat(opinions).To.unique()
+values=
+
+(Oppenheimer,
+{'Equal Weight':0, 'Perform', 'Hold', 'Buy', 'Neutral', 'Mkt Perform',
+       'Outperform', 'Overweight', 'Sell', 'Underperform', 'Underweight',
+       'Reduce', 'Equal-weight', 'Sector Outperform', 'In-Line',
+       'Sector Perform', 'NT Buy/LT Buy', 'Strong Buy', 'Market Perform',
+       'Maintain Position', 'LT Attractive', 'NT Buy', 'Attractive',
+       'Recommended List', 'Perform-In-Line', 'Accumulate',
+       'NT Accum/LT Buy', 'Top Pick', 'Peer Perform', 'NT Strong Buy',
+       'Recomm List', 'NT Accum', 'Maintain', 'Mkt Outperform', 'LT Buy',
+       'Add', 'Market Outperform', 'NT Neutral', 'NT Accumulate',
+       'Positive', 'Above Average', 'ST Mkt Perform', 'ST Buy',
+       'LT Mkt Performer', 'Mkt Performer', 'Buy Aggressive',
+       'NT Mkt Performer', 'NT/LT Outperformer', 'Outperf. Signif.',
+       'IT Outperform', 'Buy-Focus List', 'Trading Buy',
+       'Mkt Outperformer', 'ST Accumulate', 'Average', 'Long-term Buy',
+       'Sector Underperform', nan, 'ST Neutral', 'Perform In Line',
+       'LT Neutral', 'Mkt Underperform', 'NT Neut/LT Buy',
+       'NT Neutral/LT Buy', 'Long Term Buy', 'ST Mkt Perform/LT Buy',
+       'In-line', 'US Recomm. List', 'Below Average', 'Net Positive',
+       'LT Accum', 'Avoid', 'Buy $100', 'LT Accumulate', 'NT Outperformer',
+       'NT/LT Mkt Performer', 'NT/LT Buy', 'In Line', 'NT Ntrl/LT Accm',
+       'Outperform/Buy', 'Avoi', 'Strong Sell', 'NT Mkt Outperformer',
+       'NT Acc/LT Buy', 'Buy/Core', 'Recomm. List', 'LT Mkt Perform',
+       'NT Strong Buy/LT Strong Buy', 'Equal-Weight']
