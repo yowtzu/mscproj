@@ -1,7 +1,31 @@
 import numpy as np
+import scipy as sp
 from scipy import stats
 
-def LinearProcess(T=100, sv=1, sw=1, phi=0.95):
+class StochasticProcess:
+    def __init__(self, parameters):
+        self.x_dim = parameters.x_dim
+        self.y_dim = parameters.y_dim
+
+    def simulate(self, T=100, seed=12345):
+        self.xs = np.zeros(T, x_dim)
+        self.ys = np.zeros(T, y_dim)
+        
+        # initialise x[0] and y[0]
+        self.xs[0] = self.sample_initial()
+        self.ys[0] = self.sample_observation(self.xs[0])
+    
+        for t in range(1,T):
+            self.xs[t] = self.sample_transition(self.xs[t-1])
+            self.ys[t] = self.sample_observation(self.xs[t])
+
+    def plot(self, window=None):
+        if window:
+           pass
+ 
+            
+def Process(T=100, sv=1, sw=1, phi=0.95):
+    """ process """
     x = np.zeros(T)
     y = np.zeros(T)
     x[0] = stats.multivariate_normal.rvs()
@@ -12,6 +36,34 @@ def LinearProcess(T=100, sv=1, sw=1, phi=0.95):
 
 res = LinearProcess()
 y = res[1]
+
+def predict(X, P, A, Q, B, U):
+    """ Prediction of X and P
+    X: The mean state estimate of the previous step (k-1)
+    P: The state covariance of previous step (k-1)
+    A: The transition n x n matrix
+    Q: The process noise covariance matrix
+    B: The input effect matrix
+    U: The control input
+    """
+    X = np.dot(A,X) + np.dot(B,U)
+    P = np.dot(A, np.dot(P, A.T)) + Q
+    return(X,P)
+
+def update(X, P, Y, H, R):
+    """ Update correct X state given a new obeservation of Y  
+    K: the Kalman Gain matrix
+    IM: the Mean of predictive distribution of Y
+    IS: The covariance predictive mean of Y
+    LH: the predictive probability of measurement
+    """
+    IM = dot(H, X)
+    IS = R + dot(H, dot(P, H.T)) 
+    K = dot(P, dot(H.T, inv(IS))) 
+    X = X + dot(K, (Y-IM)) 
+    P = P - dot(K, dot(IS, K.T)) 
+    LH = gauss_pdf(Y, IM, IS) 
+    return (X,P,K,IM,IS,LH) 
 
 def KalmanFilter(T=100, sv=1, sw=1, phi=0.95):
     mp=np.zeros(T)
@@ -41,5 +93,6 @@ def KalmanFilter(T=100, sv=1, sw=1, phi=0.95):
 
     return(mp,vp,my,vy)
 
-
 res2 = KalmanFilter()
+
+# plotting for visualisation
