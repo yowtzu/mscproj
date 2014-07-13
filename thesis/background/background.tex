@@ -141,14 +141,74 @@ More formally, suppose we would like to have obtain $k$ samples of $\mathbf{x}=(
 
 There are variations of Gibbs sampling techniques. For examples, a blocked Gibbs sampling groups more than one variables and sample from the joint distribution conditioning on other variables. Refer \cite{RCP05} for details. 
 
+\section{Hidden Markov Models}
+Hidden Markov Models (HMMs) is a class of models that have been applied to many different problems in statistics, signal processing and engineering. Many Monte Carlo techniques have been developed to deal with inference in HMMs, one of which that we have paricular interest in is the Sequential Monte Carlo (SMC). This section provides a brief background on HMMs that is essentially to understand SMC. Refer \cite{CO05} for further details of inference techniques for HMMs in general.
+
+HMMs can be viewed as a class of models that consist of two related process: an underlying Markov process, $X_t$, which is the target process of interest, and a observable process, $Y_t$, which its state can be measured and therefore provides some information about $X_t$. Moreover, it is assumed that these two processes also have conditional independence properties as shown using the graphical model representation in Figure \ref{fig:HMM}. More formally, these properties can be summarised as follows:
+\begin{align}
+   \Pr(X_n \mid X_{1:n}) &= \Pr(X_{n-1})   \nonumber \\
+   \Pr(Y_n \mid X_{1:n}  &= Y_{1:n}) = \Pr(Y_n \mid X_{1:n}) 
+	1 + 1 conditional indepednent
+\end{align}
+
+\begin{figure}
+\includegraphics[scale=1]{hmm.png} 
+\caption{Hidden Markov Models}
+\label{fig:HMM}
+\end{figure}
+
+It is worth emphasizing here that this model is designed to capture systems that evolve from one state to another over time, generating observation after each state move. The inference problem is typically about estimating the state(s) in \emph{real-time} given the observations. This imposes an implicit requirement from the computation perspective that the estimate calculation cost should remain constant over time (i.e., the calculation cost does not increase with the increasing number of states).
+
+Arguably, the most common inference problem in HMMs is the smoothing distribution, $p(x_{1:t} \mid y_{1:t})$, that is estimating the states $x_{1:t}$ based on the sequence of observations up to time $t$, $y_{1:t}$. Using Bayes rules, we can write the density of the distribution of interest as follows:
+\begin{align}
+    p(x_{1:t} \mid y_{1:t}) \propto p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t) \nonumber \\
+    p(x_{1:t} \mid y_{1:t-1})f(x_t \mid x_{t-1})g(y_t \mid x_t)
+\end{align}
+where $f(x_t \mid x_t=1)$ is the transition density and $g(y_t \mid x_t)$ is the likelihood. This recursion is often re-written into two separate steps: prediction (the estimation of distribution of $t$ states given only $t-1$ states) and update steps (the correction of the predicted distribution taking into account the new observation as follows:
+\begin{align}
+  p(x_{1:t} \mid y_{1:t-1}) &= p(x_{1:t-1} \mid y_{1:t-1})f(x_t \mid x_{t-1}) \nonumber \\
+  p(x_{1:t} \mid y_{1:t})   &= \dfrac{p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)}{\int p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t) dx_{1:t}}
+\end{align}
+Moreover, the estimate of any smoothing distribution $p(x_{j:k} \mid y_{1:t})$ where $j \leq k \leq l)$ can be obtained by integrating out $x$ that are not interested in as follows:
+\begin{equation}
+  p(x_{j:l} \mid y_{1:t}) = \int p(x_{1:t} \mid y_{1:t}) dx_{1:j, l+1:t}
+\label{eq:smoothing}
+\end{equation}
+One particular smoothing distribution of interest is the final marginal distribution $p(x_t \mid y_{1:t})$, which is often referred to as the filtering distribution.
+
+Another distribution of interest is  the prediction distribution, that is the estimation of the distribution of any unseen \emph{future} state based on the sequence of observations up to time. Referring to \eqref{eq:smoothing}, if we let $j = 1$ and $l \geq n$ in , we have:
+\begin{equation}
+  p(x_{j:l} \mid y_{1:t}) = p(x_{j:t} \mid y_{1:t}) \prod^k_{i=t+1} f(x_i \mid x_{i-1})
+\end{equation}
+Therefore, any prediction density can be obtained by integrating out the variables of not interest from the above equation.
+
+The problem of distribution estimation as discussed appears to be simple, but the problem is in fact far from being resolved in practice. The integral appear in the above equations are often intractable and can only be estimated.
+
+\subsection{Kalman Filter}
+A special case in which the transition distribution of $X_t \mid X_{t-1}$ and the likelihood are Gaussian distributions centred at a point of a linear combination of the conditional variables) of the following form:
+\begin{align}
+  f_n(x_n \mid x_{n-1}, u_n) &= N(A_n x_{n-1} + F_n(u_n), B_n B^T_n) \nonumber \\
+  g_n(y+n \mid x_n, u_n)    &= N(C_n x_n{n-1}, D_nD^T_n)
+\end{align}
+
+Using the properties of Gaussian distribution, the integral can be resolved analytically. This leads the widely used \emph{Kalman Filter} \cite{KGE60}, which has the following recursion forms:
+\begin{align}
+  1+1
+\end{align}
+There are various extensions to this approach. For example, the Extended Kalman Filtre (EKF) which uses Taylor Series expansion to linearise at the conditional variables locally, Unscentend Kalman Filter, etc.. Refer \cite{WG95} for further details on Kalman Filter.
+
+In general, there is no analytical solution for this estimation problem. A common  technique to dealing with this problem is Sequential Monte Carlo that is introduced in the next section. At any point of time, the distribution of a state is represented using a set of weighted samples (a.k.a. particles). To estimate the smoothing/filtering/prediction distribution, the integrals are performed using Monte Carlo technique in a recursion fashion, i.e., the estimation problem at step $t$ can be dealed with the estimate obtained at time $t-1$, hence the name.
+
 \section{Sequential Monte Carlo}
-Sequential Monte Carlo (SMC) methods are a set of simulation mehtod which provi
+Sequential Monte Carlo (SMC) methods are a set of simulation method which provides a summary.
+
 
 \subsection{Sequential Important Sampling (SIS)}
 
 \subsection{Sequential Important Resampling (SIR)}
 
-\section{Hidden Markov Models}
+\subsection{Parameter estimation}
 
-\subsection{Kalman Filter}
 
+\section{Conclusion}
+In this chapter, 
