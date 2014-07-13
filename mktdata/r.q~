@@ -1,0 +1,5 @@
+\l schema.q
+
+upd:insert;
+
+.u.x:(":5010";":5012")

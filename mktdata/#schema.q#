@@ -1,0 +1,3 @@
+quote:([] time:`timespan$(); sym:`g#`symbols$(); bid:`float$(); ask:`float$(); bidsize:`long$(); asksize:`long$())
+
+trade:([] time:`timespan$(); sym `g#`symbols$(); price:`$(); size$())
