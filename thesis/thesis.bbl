@@ -1,0 +1,32 @@
+\begin{thebibliography}{1}
+
+\bibitem{BD12}
+D.~Barber.
+\newblock {\em {Bayesian Reasoning and Machine Learning}}.
+\newblock {Cambridge University Press}, 2012.
+
+\bibitem{GS84}
+Stuart Geman and Donald Geman.
+\newblock Stochastic relaxation, gibbs distributions, and the bayesian
+  restoration of images.
+\newblock {\em IEEE Trans. Pattern Anal. Mach. Intell.}, 6(6):721--741,
+  November 1984.
+
+\bibitem{WKH70}
+W.K. Hastings.
+\newblock Monte carlo samping methods using markov chains and their
+  applications.
+\newblock {\em Biometrika}, 57:97--109, 1970.
+
+\bibitem{MN53}
+Nicholas Metropolis, Arianna~W. Rosenbluth, Marshall~N. Rosenbluth, Augusta~H.
+  Teller, and Edward Teller.
+\newblock Equation of state calculations by fast computing machines.
+\newblock {\em Journal of Chemical Physics}, 21:1087--1092, 1953.
+
+\bibitem{RCP05}
+Christian~P. Robert and George Casella.
+\newblock {\em Monte Carlo Statistical Methods (Springer Texts in Statistics)}.
+\newblock Springer-Verlag New York, Inc., Secaucus, NJ, USA, 2005.
+
+\end{thebibliography}

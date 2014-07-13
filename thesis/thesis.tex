@@ -1,0 +1,47 @@
+
+
+\documentclass[a4paper,12pt,twoside]{report}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=3cm]{geometry}
+
+\include{thesis.preamble}
+
+
+\begin{document}
+
+\title{\LARGE {\bf Portfolio Optimisation\\with Sequential Monte Carlo}\\
+ \vspace*{6mm}
+}
+
+\author{Yow Tzu Lim}
+\submitdate{September 2014}
+
+\mediumlinespacing
+
+\maketitle
+
+\preface
+\input{abstract/abstract}
+
+\input{acknowledgements/acknowledgements}
+%\input{dedication/dedication}
+%\input{quotes/quotes}
+
+\body
+\mediumlinespacing
+\input{introduction/introduction}
+
+\input{background/background}
+
+% body of thesis comes here
+
+\input{conclusion/conclusion}
+
+\appendix
+% appendices come here
+
+
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{plain}
+\bibliography{bibliography/bibliography}
+
+\end{document}

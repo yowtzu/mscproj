@@ -1,0 +1,118 @@
+
+\chapter{Sequential Monte Carlo}
+
+\label{ch:background}
+
+\section{Portfolio Optimisation theory}
+The fundamental goal of portfolio theory is to optimally allocate resources to different investible assets. The meaning of optimality may be different to the investors. Some investors may have tax considerations; others may have different legal restrictions on investments or holiding periods. Two common objectives, often contradicting, are the investment risk and return. 
+
+In this project, we adopt the Markowitz's mean-variance efficient portfolio which allow one to make the portfolio allocation by considering the trade-off between expected risk and expected return. 
+
+\subsection{Single time step}
+The single period Markowitz algorithm solves the following problem:
+
+
+\subsection{Markowitz's portfolio theory}
+One can consider
+
+
+
+There are various extensions, e.g.,
+by not requiring the user to input estimates of expected return; instead it assumes that the initial expected returns are whatever is required so that the equilibrium asset allocation is equal to what we observe in the markets. The user is only required to state how his assumptions about expected returns differ from the market's and to state his degree of confidence in the alternative assumptions. From this, the Black–Litterman method computes the desired (mean-variance efficient) asset allocation. Black-Litterman model, which attempts to relax some asome 
+
+
+
+Portfolio optimsation goes back, at
+The problem of mean-variance p
+
+\section{Hidden Markov Models}
+
+\subsection{Kalman Filter}
+
+\section{Monte Carlo Integration}
+Monte Carlo integration is a numerical technique that uses sampling techniques to compute an estimate for multi-dimensional definite integral of the form:
+\begin{equation}
+  I = \int f(x)p(x)dx
+\end{equation}
+where $f(\cdot)$ is some function of interest, $p(\cdot)$ is the probabilty density function of $x$.
+
+\subsection{Perfect Monte Carlo}
+In the simplest setting, assuming we are able to sample $N$ independent and identically distributed (i.i.d.) points of $x$ from $p$, denote these as $\{x^i\}$ where $i$ is from $1 \ldots N$, a Monte Carlo estimate of $I$ using the the point masses of the samples is:
+\begin{equation}
+  \hat{I} = \frac{1}{N} \sum^N_{i=1} f(x^i)
+\end{equation}
+This estimate is unbiased and converge almost surely to $I$ as $N \rightarrow \infty$ (Law of Large number).
+
+If the variance of $f(\cdot)$ is bounded, then the central limit theorem holds:
+\begin{equation}
+  \sqrt{N}(\hat{I} - I) \rightarrow N(0, \sigma^2_f)
+\end{equation}
+where $\rightarrow$ denotes convergence in distribution. Note that the fact that the rate of converengece ($\frac{1}{\sqrt{N}}$) is independent of the dimensions of $x$ is important. In constrast, any determinstic method has a rate that decreases a the integral dimension increases \cite{RCP05}. This is the main advantage of Monte Carlo integration.
+
+\subsection{Importance sampling}
+However, it is not always possible to sample directly from the distribution $p$, we can introduce an instrumental distribution $q$, having larger support than $p$.
+
+To obtain an unbaisessed estimator $I$, one can make make $N$ random samples $x^i$ from $q$, then correct by assigningweight to each sample proportional to the ratio $p = p/q$ , which often known as important weights The estimate can be thus be estimated with a weighte average estimate as follow:
+\begin{align*}
+  \hat{I} = 
+\end{align*}
+
+
+\section{Markov chain Monte Carlo (MCMC)}
+The rejection and importance algorithms scale badly with dimensionality. In some problems, it may still possible to decompose the probability distribution of interest, $P(x_{1:N})$ into low dimensional conditional distributions and proceed from there. However, this is not often feasible in practice.
+
+Markov chain Monte Carlo (MCMC) are a set of algorithms that allows ones to draw random samples from the target probability distribution by constructing a Markov chain process, which has its equilibirum distribution set to be target desired distribution.
+
+Conceptually, one may view MCMC as a ``biased'' random walk which guides
+
+To ensure convergence, there are conditions which the Markov Chain needs to satisfy: ergodicty and Detail balance. It is usually not difficult to construct the required Markov Chain, the more difficult problem is to determine how many steps it takes to converge. Various methods e.g., looking at graph etc has been carried, but it is often a matter of art. In our use case here, this is not an issue, and we again refer the user to this book.
+
+In the following sections, we present two basic MCMC algorithms: Metropolis Hastings and Gibbs samplers, and a third algorithms in which these basic algorithms can be ``mix and match'' in a hierarchical fashion to form a more advanced samplers (which is often the case in practice) to fit application needs. $MH$, $Gibbs$, and the third one to demonstrate how they are mix and match to form a hierarcical ones, which is often how is used in practice. For other sampler, refer this book for details.
+
+\subsection{Metropolis Hastings sampler}
+One 
+A standard approach in statistics to simulate from a complex density $\pi(u)$ is to use Markov Chain Monte Carlo (MCMC). We limit ourselves here to the presentation of the Metropolis-Hastings (MH) sampler; other MCMC methods include the Gibbs sampler or the Bakker algorithm, see [25] for details. We run an ergodic Markov chain $U_n$ with a transition density $K$, whose invariant density is $\pi$, and obtain samples after the chain has converged to the invariant distribution. At each $n$, 
+
+
+
+The Metropolis-Hastings algorithm is probably the simplest MCMC algorithm. Effectively, it is essentially a \emph{guided} random walk towards the region with high potential.
+
+\begin{algorithm}
+\caption{My algorithm}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{MyProcedure}{}
+\State $\textit{stringlen} \gets \text{length of }\textit{•}t{string}$
+\State $i \gets \textit{patlen}$
+\BState \emph{top}:
+\If {$i > \textit{stringlen}$} \Return false
+\EndIf
+\State $j \gets \textit{patlen}$
+\BState \emph{loop}:
+\If {$\textit{string}(i) = \textit{path}(j)$}
+\State $j \gets j-1$.
+\State $i \gets i-1$.
+\State \textbf{goto} \emph{loop}.
+\State \textbf{close};
+\EndIf
+\State $i \gets i+\max(\textit{delta}_1(\textit{string}(i)),\textit{delta}_2(j))$.
+\State \textbf{goto} \emph{top}.
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Importance Sampling}
+
+\section{SMC Algorithms}
+\subsection{Sequential Important Sampling (SIS)}
+
+\subsection{Sequential Important Resampling (SIR)}
+
+\subsection{Auxilliary Particle Filtering}
+
+\subsection{Rao-Well optimisation}
+
+\section{Applications}
+\subsection{Robot Tracking}
+\subsection{XYZ}
+\subsection{Signal Processing}
+
