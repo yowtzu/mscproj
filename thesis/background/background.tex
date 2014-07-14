@@ -1,7 +1,7 @@
 
 \chapter{Monte Carlo integration methods}
 \label{ch:mcmethods}
-The application of Monte Carlo techniques in the Statistics domain is increasing popular. In the Bayesian framework, unknown parameters are assumed to be random variables and admit prior distribution that characterises the initial belief. The belief is updated with new observable envidence using Bayes theorem.
+The application of Monte Carlo techniques in the Statistics domain is increasing popular. In the Bayesian framework, unknown parameters are assumed to be random variables and admit prior distribution that characterises the initial belief. The belief is updated with new observable evidence using Bayes theorem.
 
 More formally, let specify the initial belief of a Bayesian model, $M$ as the prior disitribution $p(\theta \mid M)$, the probability of observing an observation $x$ given the model (likelihood) as $p(x \mid \theta, M)$. Using Bayesin Theorem, the updated belief (posterior distribution) $p(\theta \mid M)$ is given as follows:
 \begin{align}
@@ -185,7 +185,7 @@ Therefore, any prediction density can be obtained by integrating out the variabl
 The problem of distribution estimation as discussed appears to be simple, but the problem is in fact far from being resolved in practice. The integral appear in the above equations are often intractable and can only be estimated.
 
 \subsection{Kalman Filter}
-A special case in which the transition distribution of $X_t \mid X_{t-1}$ and the likelihood are Gaussian distributions centred at a point of a linear combination of the conditional variables) of the following form:
+In a special case setting, in which the transition distribution of $X_t \mid X_{t-1}$ and the likelihood are Gaussian distributions centred at a point of a linear combination of the conditional variables of the following form:
 \begin{align}
   f_n(x_n \mid x_{n-1}, u_n) &= N(A_n x_{n-1} + F_n(u_n), B_n B^T_n) \nonumber \\
   g_n(y+n \mid x_n, u_n)    &= N(C_n x_n{n-1}, D_nD^T_n)
@@ -197,11 +197,8 @@ Using the properties of Gaussian distribution, the integral can be resolved anal
 \end{align}
 There are various extensions to this approach. For example, the Extended Kalman Filtre (EKF) which uses Taylor Series expansion to linearise at the conditional variables locally, Unscentend Kalman Filter, etc.. Refer \cite{WG95} for further details on Kalman Filter.
 
-In general, there is no analytical solution for this estimation problem. A common  technique to dealing with this problem is Sequential Monte Carlo that is introduced in the next section. At any point of time, the distribution of a state is represented using a set of weighted samples (a.k.a. particles). To estimate the smoothing/filtering/prediction distribution, the integrals are performed using Monte Carlo technique in a recursion fashion, i.e., the estimation problem at step $t$ can be dealed with the estimate obtained at time $t-1$, hence the name.
-
 \section{Sequential Monte Carlo}
-Sequential Monte Carlo (SMC) methods are a set of simulation method which provides a summary.
-
+As mentioned, there is however no analytical solution for this estimation problem in a general settings for this model. A common  technique to dealing with this problem is Sequential Monte Carlo (SMC). Conceptually, the distribution of a state at any point of time is represented using a set of weighted samples (a.k.a. particles). These particles are propagate from one state to another through time by proper re-weighting and re-sampling as necessary to track the changes of the distribution. To estimate the smoothing/filtering/prediction distribution, the integrals are performed on these samples using Monte Carlo technique in a recursion fashion, i.e., the estimation problem at step $t$ is calculated with the estimate obtained at time $t-1$, hence the name.
 
 \subsection{Sequential Important Sampling (SIS)}
 
