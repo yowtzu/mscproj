@@ -1,21 +1,3 @@
-@ARTICLE{RTR00,
-    author = {R. Tyrrell Rockafellar and Stanislav Uryasev},
-    title = {Optimization of Conditional Value-at-Risk},
-    journal = {Journal of Risk},
-    year = {2000},
-    volume = {2},
-    pages = {21--41}
-}
-
-@Book{BR57,
-  author =       "Bellman, Richard",
-  title =        "Dynamic Programming",
-  publisher =    "Princeton University Press",
-  year =         "1957",
-  address =   "Princeton, NJ, USA",
-  edition =   "1",
-}
-
 @book{CO05,
  author = {Capp{\'e}, Olivier and Moulines, Eric and Ryden, Tobias},
  title = {Inference in Hidden Markov Models (Springer Series in Statistics)},

@@ -1,17 +1,7 @@
-\chapter{Sequential Monte Carlo}
+
+\chapter{Monte Carlo integration methods}
 \label{ch:mcmethods}
-Since the pioneering work of applying modern sequential Monte Carlo (SMC) \cite{} to tracking and vision problem, these techniques are applied to wide range of domains. This chapter presents an introduction to SMC algorithms
-
- which a particular focus on how it can 
-
-on applications to tracking, 
-
-It has been more than two decades sin
- two decades since the pioneer 
-
-This chapter presents a brief introduction to Sequential Monte Carlo, a class of general class of techniques
-
-The application of Monte Carlo methods in the Statistics domain is increasing popular. In the Bayesian framework, unknown parameters are assumed to be random variables and admit prior distribution that characterises the initial belief. The belief is updated with new observable evidence using Bayes theorem.
+The application of Monte Carlo techniques in the Statistics domain is increasing popular. In the Bayesian framework, unknown parameters are assumed to be random variables and admit prior distribution that characterises the initial belief. The belief is updated with new observable evidence using Bayes theorem.
 
 More formally, let specify the initial belief of a Bayesian model, $M$ as the prior disitribution $p(\theta \mid M)$, the probability of observing an observation $x$ given the model (likelihood) as $p(x \mid \theta, M)$. Using Bayesin Theorem, the updated belief (posterior distribution) $p(\theta \mid M)$ is given as follows:
 \begin{align}
@@ -162,7 +152,7 @@ HMMs can be viewed as a class of models that consist of two related process: an 
 \end{align}
 
 \begin{figure}
-\includegraphics[scale=1]{figures/hmm.png} 
+\includegraphics[scale=1]{hmm.png} 
 \caption{Hidden Markov Models}
 \label{fig:HMM}
 \end{figure}
@@ -211,23 +201,11 @@ There are various extensions to this approach. For example, the Extended Kalman 
 As mentioned, there is however no analytical solution for this estimation problem in a general settings for this model. A common  technique to dealing with this problem is Sequential Monte Carlo (SMC). Conceptually, the distribution of a state at any point of time is represented using a set of weighted samples (a.k.a. particles). These particles are propagate from one state to another through time by proper re-weighting and re-sampling as necessary to track the changes of the distribution. To estimate the smoothing/filtering/prediction distribution, the integrals are performed on these samples using Monte Carlo technique in a recursion fashion, i.e., the estimation problem at step $t$ is calculated with the estimate obtained at time $t-1$, hence the name.
 
 \subsection{Sequential Important Sampling (SIS)}
-Recalled that importance sampling allows one to calculation the expectation with respect to a distribution $\pi$, $E_{\pi}[f(X)]$ using samples from a different proposal distribution $q$ as $E_{q}[\pi(X)f(X)/q(X)]$. 
 
-Sequential importace sampling extends this idea further. 
-
-The basis of sequential important sampling technique
-
-As with all seq
-
-The basis of sequential importa
 \subsection{Sequential Important Resampling (SIR)}
 
 \subsection{Parameter estimation}
 
-
-The stochastic regulation problem is transformed into a parameter estimation problem given the reference data $y_{1:n}$.
-
-The algorithm is summarised here.
 
 \section{Conclusion}
 In this chapter, 
