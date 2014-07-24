@@ -2,8 +2,9 @@ import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
 from collections import Iterable
+from numpy import linalg
 
-class SIR:
+class KantasSIR:
     def __init__(self, process, N=30, resample_move_enabled=False):
         self.T = process.T
         self.x_dim = process.config.x_dim
@@ -11,6 +12,20 @@ class SIR:
         self.xs = process.xs # this is not known, but for plotting purpose only
         self.ys = process.ys
         
+        # Model specification
+        dim = self.x_dim
+        self.X = np.zeros(dim)    # just random initialsation
+        self.P = np.identity(dim)
+        self.F = np.identity(dim)
+        self.G = np.identity(dim)
+        self.C = np.identity(dim)
+        self.A = np.identity(dim)
+        self.B = np.identity(dim)
+        self.Y = np.identity(dim)
+        self.U = np.zeros(dim)
+        self.H = np.identity(dim)
+        self.D = np.identity(dim)
+
         # model parameters
         self.N = N  # number of particle
         
@@ -37,9 +52,11 @@ class SIR:
         """ X_t | X_t-1 """
         return stats.multivariate_normal(self.model_mu,self.model_sigma).pdf(x_new-x_old)
 
-    def d_lik(self, x, y):
+    def d_lik(self, x, y, t):
         """ Y_t | X_t """
-        return stats.multivariate_normal(self.model_nu, self.model_tau).pdf(y-x)
+        """ need to perform Kalman filter """
+        # use the predictive X and P
+        return stats.multivariate_normal(self.IM, self.IS).pdf(y)
 
     # proposal distribution (bootstrapping proposal)
     def d_init_prop(self, x,y):
@@ -56,6 +73,33 @@ class SIR:
         r = stats.multivariate_normal(x_old + self.filter_mu, self.filter_sigma).rvs(size)
         return(r)
 
+    def predict(self, X, P, A, B, F, U):
+        """ Prediction of X and P                                                                     
+        X: The mean state estimate of the previous step (k-1)                                         
+        P: The state covariance of previous step (k-1)                                                
+        A: The transition n x n matrix                                                                
+        Q: The process noise covariance matrix                                                        
+        B: The input effect matrix                                                                    
+        U: The control input                                                                          
+        """
+        X = np.dot(A, X) + np.dot(F, U)
+        P = np.dot(A, np.dot(P, A.T)) + np.dot(B, B.T)
+        return(X,P)
+
+    def update(self, X, P, Y, C, G, U, D):
+        """ Update correct X state given a new obeservation of Y                                      
+        K: the Kalman Gain matrix                                                                     
+        IM: the Mean of predictive distribution of Y                                                  
+        IS: The covariance predictive mean of Y                                                       
+        LH: the predictive probability of measurement                                                 
+        """
+        IM = np.dot(C, X) + np.dot(G, U)
+        IS = np.dot(C, np.dot(P, C.T)) + np.dot(D, D.T)
+        K = np.dot(P, np.dot(C.T, linalg.inv(IS)))
+        X = X + np.dot(K, (Y-IM))
+        P = P - np.dot(K, np.dot(C, P))
+        return(X,P,K,IM,IS)
+    
     #################################
     def apply(self):
         # result holder
@@ -65,8 +109,22 @@ class SIR:
         
         # step 0 (initialisation)
         self.xshat[0,0] = self.r_init_prop(self.N, self.ys[0])
-        self.ws[0,:] = self.d_init(self.xshat[0,0,:]) * self.d_lik(self.xshat[0,0,:],self.ys[0]) / self.d_init_prop(self.xshat[0,0,:],self.ys[0])
+
+        # MODIFY!!! 
+        self.X = np.dot(self.A, self.X) + np.dot(self.F, self.U)
+        self.P = np.dot(self.A, np.dot(self.P, self.A.T)) + np.dot(self.B, self.B.T)
+        self.IM = np.dot(self.C, self.X) + np.dot(self.G, self.U)
+        self.IS = np.dot(self.C, np.dot(self.P, self.C.T)) + np.dot(self.D, self.D.T)
+        
+        self.ws[0,:] = self.d_init(self.xshat[0,0,:]) * self.d_lik(self.xshat[0,0,:],self.ys[0], 0) / self.d_init_prop(self.xshat[0,0,:],self.ys[0])
+
+        self.K = np.dot(self.P, np.dot(self.C.T, linalg.inv(self.IS)))
+        self.X = self.X + np.dot(self.K, (self.Y-self.IM))
+        self.P = self.P - np.dot(self.K, np.dot(self.C, self.P))
+
+
         self.ess[0] = sum(self.ws[0,:])**2 / sum(self.ws[0,:]**2)
+
         # not required: ws[t,:] = ws[t,:]/scipy.sum(ws[t,:])
         
         #print("Iteration: ", 0)
@@ -91,10 +149,21 @@ class SIR:
             #print("m xshat", self.xshat[t,:,:])
             #print("m ws", self.ws[t,:])   
             
+            self.X = np.dot(self.A, self.X) + np.dot(self.F, self.U)
+            self.P = np.dot(self.A, np.dot(self.P, self.A.T)) + np.dot(self.B, self.B.T)
+            self.IM = np.dot(self.C, self.X) + np.dot(self.G, self.U)
+            self.IS = np.dot(self.C, np.dot(self.P, self.C.T)) + np.dot(self.D, self.D.T)
+            
             # next iteration stuff
             for i in range(self.N):
                 self.xshat[t,t,i,:] = self.r_prop(1, self.xshat[t,t-1,i,:], self.ys[t,:])
-                self.ws[t,i] = self.ws[t,i] * self.d_prior(self.xshat[t,t-1,i,:], self.xshat[t,t,i,:]) * self.d_lik(self.xshat[t,t,i,:],self.ys[t,:]) / self.d_prop(self.xshat[t,t-1,i,:],self.xshat[t,t,i,:],self.ys[t,:])
+
+                # MODIFY!!!
+                self.ws[t,i] = self.ws[t,i] * self.d_prior(self.xshat[t,t-1,i,:], self.xshat[t,t,i,:]) * self.d_lik(self.xshat[t,t,i,:],self.ys[t,:], t) / self.d_prop(self.xshat[t,t-1,i,:],self.xshat[t,t,i,:],self.ys[t,:])
+
+            self.K = np.dot(self.P, np.dot(self.C.T, linalg.inv(self.IS)))
+            self.X = self.X + np.dot(self.K, (self.ys[t,:]-self.IM))
+            self.P = self.P - np.dot(self.K, np.dot(self.C, self.P))
 
             # normalise the weight and effective sample size
             self.ws[t,:] = self.ws[t,:]/sum(self.ws[t,:])

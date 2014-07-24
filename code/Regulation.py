@@ -3,7 +3,8 @@ from scipy import stats
 import matplotlib.pyplot as plt
 from collections import Iterable
 
-class SIR:
+class Regulation:
+    """ x -> u here """
     def __init__(self, process, N=30, resample_move_enabled=False):
         self.T = process.T
         self.x_dim = process.config.x_dim
@@ -30,10 +31,12 @@ class SIR:
     # assume to be known filter stuffs
     ##################
     def d_init(self, x):
+        """ G """
         """ X_0 """
         return stats.multivariate_normal(self.model_mu,self.model_sigma).pdf(x)
 
     def d_prior(self, x_old, x_new):
+        """ M """
         """ X_t | X_t-1 """
         return stats.multivariate_normal(self.model_mu,self.model_sigma).pdf(x_new-x_old)
 
@@ -47,7 +50,6 @@ class SIR:
 
     def r_init_prop(self, size, y):
         return stats.multivariate_normal(self.filter_mu, self.filter_sigma).rvs(size).reshape(self.N, self.x_dim)
-
 
     def d_prop(self, x_old, x_new, y):
         return stats.multivariate_normal(self.filter_mu, self.filter_sigma).pdf(x_new-x_old)
