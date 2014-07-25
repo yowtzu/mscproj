@@ -3,7 +3,7 @@ from scipy import stats
 
 class BasicStochasticProcessConfig:
     """ Assume the model of the form
-        X_0 ~ N(0, sigma)
+        X_0 ~ 0
         X_k = X_k-1 + W_k-1, p(W) ~ N(0, sigma)
         Y_k = X_k + V_k, p(V) ~ N(0,y_sigma) """
     
