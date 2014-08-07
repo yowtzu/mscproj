@@ -1,0 +1,49 @@
+\chapter{Introduction}
+\graphicspath{{Chapter1/figures/}}
+\label{Introduction}
+Resource allocation is a common challenge for every investor. In the investment decision making process, investors decide how much resources are allocated to different investable assets to form a portfolio with the aim to optimise the performance of the overall portfolio is better off than any other according to some criterion. The criterion can be different to the investors. (Some investors may have different considerations such as tax considerations and legal restriction on investment assets or holding periods.)
+
+Two common objectives, often contradicting, are the financial return and the investment risk. The Markowitz's modern portfolio theory \cite{HM58} proposes a portfolio selection framework. In Markowitz's model, it is assumed that investor attempt to maximize a portfolio's return and minimize the risk (measured by the variance of the portfolio return. Based on this criteria, the set of non-dominance portfolio is known as the \emph{efficient porfolios}. Using variance as a risk measure has its limitation. Variance is a symmetric measure; an out performing asset (than the expected return) is deemed to as risky as an under perfoming one. Many alternative risk measurements have been proposed, e.g. Sortino ratio, Conditional Value at Risk (CVaR), etc.. Refer \cite{RTR00} for details.
+
+%In the original Markowitz model, the investment decision problem is viewed and solved as a single time-step problem. In practice, investment often span across multi time-step period and adjustments may be made to the allocation periodically to achive better performance as needed. This problem is much more difficult to deal with because it is time inconsistent in the sense that an investment strategy that is optimal over the whole period may not be the optimal one over a sub-isnterval of the period. This violates the Bellman's Priciple of Optimality \cite{BR57}. Consequently, dynamic programming approach is not applicable here.
+
+Surprisingly, there are some investment managers who have no interest on maximising their portfolio's return. Instead, the main objective of portfolio management for such a fund is simply track and replicate the exposure of a benchmark index as close as possible. These funds are attractive as it provides investors the exposure to the market, at the same time, minimal active management required makes the fund less vulnerable to change of management and has the advatanges of lower fees and taxes. The performance of these funds are often assessed in term of how well the fund tracks the benchmark index using some pre-defined metrics.
+
+\section{Technical Approach}
+Traditionally, portfolio optimization have been explored in an analytical fashion, adopting necessary assumption as necessary. This seems rather restrictive; there are many instances where numerical method has been used to derive an approximate or even more effective solution to the problem in question. For example, Monte Carlo technique is used to do integral, evolutionary techniques applied in engineering domains, etc..
+
+Our approach to the problem in this thesis is a radical one. We view a portfolio optimisation as a \emph{stochastic} control problem. We adopt the Bayesian view and treat tehse parameters as random variables. The objective is to find the sequence of control parameters that optimise the control objective defined in terms of portfolio return and financial risk. We investigate the potential of using SMCs as the means of determining the optimal strategy, or at least excellent, strategies for the portfolio optimisation problem in question. The main reason of choosing SMCs is its ability to carry out \emph{sequential} update on the posterior distribution over time fit well with parameter inference in stochastic process. Moreoever, these techniques have achieved significant success in their applications on many domains. Of course, other heuristic search tecniques are also potentially applicable.
+
+To investigate this approach, we first applied the technique on to a simpled determinstic reference model. This model is doubly useful. It demonstrates the concept nicely and serves as a basic model to allow us to gain further understanding on the tunable parameters. We then considered a simplied a market model with two assets: one risky asset with its price modelled as Brownian motion with drift, and one zero interest risk-free asset (constant) which has an analytical solution. Using SMCs, we search for the optimal strategy (the set of control parameters at each time point) that optimise against the optimisation criteria (a.k.a. reward) in terms of expected return over the investment period, and minimize the financial risk (variance of the return) using SMC techniques. The results are then evaluated against with the analytic solution described in \cite{MF14}.
+
+\section{Thesis hypothesis}
+Formally, the hypothesis of the thesis is stated as follows:
+\begin{quote}
+Sequential Monte Carlo (SMCs) have the potential to be an effective means of searching the optimal strategy for portfolio problem.
+\end{quote}
+We attempt to examine this hypothesis from three different perspectives:
+\begin{enumerate}
+\item Exploring the potential of SMCs in searching the optimal strategy from mean-variance criteria with constraints.
+\item Exploring the sensitivity of the techniques in terms of the parameter settings.
+\item Exploring the trade-off between the estimation accuracy, the complexity of the problem complexity and the computational efforts numerically and providing suggestions for real-world problem.
+\end{enumerate}
+Given the time frame, we fully understand it is impossible to evaluate our approach on full scale strategy. The aim is to establish the plausibility or, at the very least, a greater understanding of the strengths and weaknesses of the above approach.
+
+\section{Thesis organisation}
+The subsequent chapters of this thesis are organised as follows:
+\begin{itemize}
+\item Chapter 2 reviews some fundamental concept in Monte Carlo method that are related to this thesis. It begins with a brief introduction to basic methods such as perfect Monte Carlo sampling, rejection sampling, importance sampling. It then details two common Markov Chain Monte Carlo (MCMC) techniques, namely Metropolis-Hastings and Gibbs Sampling. Lastly, it introduces the Sequential Monte Carlo (SMC)  technique used in this thesis.
+\item Chapter 3 briefly review the state of the art of portfolio optisation problem. It then discusses how a portfolio problem can be transformed naturally into standard parameter estimation in Sequential Monte Carlo frameowrk.
+\item Chapter 4 details the toy experiment in which we attempt to use SMC to track a reference signal generated by a known synthetic model. 
+\item Chapter 5 details the experiment in using SMC to infer the optimal control for portfolio that tracks real-world indices. In particular, we focus on the major stock indices accross the continient. It first discusses the market model that is used. It then details the problem form
+ulation. Lastly, it discusses the experimental results, in comparison to the theorical results.
+\item Chapter 6 concludes the thesis by evaluating the degree to which the hypothesis has been justfied and outlines potential work for the future.
+\end{itemize}
+
+%%% ----------------------------------------------------------------------
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End: 

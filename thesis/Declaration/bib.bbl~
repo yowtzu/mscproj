@@ -1,0 +1,62 @@
+\begin{thebibliography}{1}
+
+\bibitem{Lim:2007:ibm}
+Yow~Tzu Lim, Pau~Chen Cheng, John~Andrew Clark, and Pankaj Rohatgi.
+\newblock {IBM Research Report RC24442: Policy Evolution with Genetic
+  Programming}.
+\newblock Technical report, 2007.
+\newblock IBM Research Report RC24442,
+  \href{http://domino.watson.ibm.com/library/CyberDig.nsf/Home}{http://domino.%
+watson.ibm.com/library/CyberDig.nsf/Home} (use search key "RC24442").
+
+\bibitem{Lim:2008:cec}
+Yow~Tzu Lim, Pau~Chen Cheng, John~Andrew Clark, and Pankaj Rohatgi.
+\newblock Policy evolution with genetic programming: {A} comparison of three
+  approaches.
+\newblock In Jun Wang, editor, {\em 2008 IEEE World Congress on Computational
+  Intelligence}, Hong Kong, 1-6 June 2008. IEEE Computational Intelligence
+  Society, IEEE Press.
+
+\bibitem{Lim:2008:gecco}
+Yow~Tzu Lim, Pau~Chen Cheng, Pankaj Rohatgi, and John~Andrew Clark.
+\newblock {MLS} security policy evolution with genetic programming.
+\newblock In Maarten Keijzer, Giuliano Antoniol, Clare~Bates Congdon, Kalyanmoy
+  Deb, Benjamin Doerr, Nikolaus Hansen, John~H. Holmes, Gregory~S. Hornby,
+  Daniel Howard, James Kennedy, Sanjeev Kumar, Fernando~G. Lobo, Julian~Francis
+  Miller, Jason Moore, Frank Neumann, Martin Pelikan, Jordan Pollack, Kumara
+  Sastry, Kenneth Stanley, Adrian Stoica, El-Ghazali Talbi, and Ingo Wegener,
+  editors, {\em GECCO '08: Proceedings of the 10th annual conference on Genetic
+  and evolutionary computation}, pages 1571--1578, Atlanta, GA, USA, 12-16 July
+  2008. ACM.
+
+\bibitem{YTL08}
+Yow~Tzu Lim, Pau~Chen Cheng, John~Andrew Clark, and Pankaj Rohatgi.
+\newblock Policy evolution with grammatical evolution.
+\newblock In {\em The Second Annual Conference of the International Technology
+  Alliance}, Adelphi, Maryland, USA, 2008.
+
+\bibitem{DBLP:conf/seal/LimCCR08}
+Yow~Tzu Lim, Pau-Chen Cheng, John~Andrew Clark, and Pankaj Rohatgi.
+\newblock Policy evolution with grammatical evolution.
+\newblock In Xiaodong Li, Michael Kirley, Mengjie Zhang, David~G. Green, Victor
+  Ciesielski, Hussein~A. Abbass, Zbigniew Michalewicz, Tim Hendtlass, Kalyanmoy
+  Deb, Kay~Chen Tan, J{\"u}rgen Branke, and Yuhui Shi, editors, {\em
+  Proceedings of the 7th International Conference on Simulated Evolution And
+  Learning (SEAL '08)}, volume 5361 of {\em Lecture Notes in Computer Science},
+  pages 71--80, Melbourne, Australia, December 7-10 2008. Springer.
+
+\bibitem{YTL09}
+Yow~Tzu Lim, John~A Clark, Pau-Chen Cheng, and Juan~E Tapiador.
+\newblock Mission specific security policy discovery.
+\newblock In {\em The Third Annual Conference of the International Technology
+  Alliance}, Adelphi, Maryland, USA, 2009.
+
+\bibitem{Lim:2009:ibm}
+Yow~Tzu Lim, Pau~Chen Cheng, John~A Clark, and Pankaj Rohatgi.
+\newblock {IBM Research Report RC24865: Dynamic Security Policy Learning}.
+\newblock Technical report, 2009.
+\newblock IBM Research Report RC24865,
+  \href{http://domino.watson.ibm.com/library/CyberDig.nsf/Home}{http://domino.%
+watson.ibm.com/library/CyberDig.nsf/Home} (use search key "RC24865").
+
+\end{thebibliography}

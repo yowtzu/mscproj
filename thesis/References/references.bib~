@@ -1,0 +1,3381 @@
+@Misc{HUMIE10,
+title = "{A}nnual HUMIE {A}wards for {H}uman-competitive {R}esults produced by {G}enetic and {E}volutionary {C}omputation",
+howpublished = "Websites",
+month = dec,
+year = 2010,
+URL = "http://www.genetic-programming.org/hc2005/main.html"
+}
+
+@Book{REB75,
+  author =	"Richard E. Barlow and Frank Proschan",
+  title =	"{S}tatistical {T}heory of {R}eliability and {L}ife
+		 {T}esting ({P}robability {M}odels)",
+  publisher =	"Holt, Rinehart and Winston, Inc.",
+  year = 	"1975",
+  series =	"International Series in Decision Processes, and Series
+		 in Quantitative Methods for Decision Making",
+}
+
+@book{CPP02,
+ author = "Pfleeger, Charles P. and Pfleeger, Shari Lawrence",
+ title = "{S}ecurity in {C}omputing",
+ year = 2002,
+ isbn = "0130355488",
+ publisher = "Prentice Hall Professional Technical Reference",
+ }
+
+@book{RL06,
+ author = "Lehtinen, Rick and Russell, Deborah and Gangemi, G. T.",
+ title = "{C}omputer {S}ecurity {B}asics",
+ year = 2006,
+ isbn = "0596006691",
+ publisher = "O'Reilly Media, Inc.",
+ }
+
+@book{GM94,
+ author = "Mc{D}aniel, George",
+ title = "{IBM} {D}ictionary of {C}omputing",
+ year = 1994,
+ isbn = "0-07-031489-6",
+ publisher = "Mc{G}raw-Hill, Inc.",
+ address = "New York, NY, USA",
+ }
+
+@book{DBP98,
+ author = "Parker, Donn B.",
+ title = "{F}ighting {C}omputer {C}rime: {A} {N}ew {F}ramework for {P}rotecting {I}nformation",
+ year = 1998,
+ isbn = "0-471-16378-3",
+ publisher = "John Wiley \& Sons, Inc.",
+ address = "New York, NY, USA",
+ }
+
+@book{DG05,
+ author = "D. Gollmann",
+ title = "{C}omputer {S}ecurity",
+ year = 2005,
+ isbn = "0-470-86293-9",
+ publisher = "John Wiley \& Sons Ltd",
+}
+
+@book{RJA01,
+ author = "Ross J. Anderson",
+ title = "{S}ecurity {E}ngineering: {A} {G}uide to {B}uilding {D}ependable {D}istributed {S}ystems",
+ year = 2001,
+ isbn = "0471389226",
+ publisher = "John Wiley \& Sons, Inc.",
+ address = "New York, NY, USA",
+ }
+
+@Book{MB02,
+  author =	"M. Bishop",
+  title =	"{C}omputer {S}ecurity: {A}rt and {S}cience",
+  publisher =	"Addison Wesley",
+  year = 	2002,
+  address =	"New York",
+}
+
+@inproceedings{AP01,
+ author = "Pfitzmann, Andreas and K{\"{o}}hntopp, Marit",
+ title = "{A}nonymity, {U}nobservability, and {P}seudonymity --- {A} {P}roposal for {T}erminology",
+ booktitle = "{I}nternational {W}orkshop on {D}esigning {P}rivacy {E}nhancing {T}echnologies",
+ year = 2001,
+ isbn = "3-540-41724-9",
+ pages = "1--9",
+ location = "Berkeley, California, United States",
+ publisher = "Springer-Verlag New York, Inc.",
+ address = "New York, NY, USA",
+ }
+
+
+@Book{CS05,
+editor = "Catherine Soanes and Angus Stevenson",
+title = "{T}he {O}xford {D}ictionary of {E}nglish",
+publisher = "Oxford University Press",
+year = 2005,
+edition = "Second",
+}
+
+@TechReport{KJB77,
+  author =	"K. J. Biba",
+  title =	"{I}ntegrity {C}onsiderations for {S}ecure {C}omputer {S}ystems",
+  number =	"TR-3153",
+  month =	apr,
+  institution = "The MITRE Corporation, Bedford, MA.",
+  year = 	"1977",
+}
+
+@techreport{DEB73,
+author = "Bell, David E. and LaPadula, Leonard J.",
+title =	 "{S}ecure {C}omputer {S}ystems: {M}athematical {F}oundations",
+institution = "The MITRE Corporation, Bedford, MA.",
+number = "ESD-TR-73-278",
+month= nov,
+year = 1973,
+}
+
+@InProceedings{DDC87,
+  author =	"D. D. Clark and D. R. Wilson",
+  title =	"{A} {C}omparison of {C}ommercial and {M}ilitary {C}omputer {S}ecurity {P}olicies",
+  pages =	"184--195",
+  booktitle =	"{P}roceedings of the 1987 {IEEE} {S}ymposium on {S}ecurity and {P}rivacy ({SSP} '87)",
+  ISBN = 	"0-8186-0771-8",
+  month =	apr,
+  publisher =	"IEEE Computer Society Press",
+  address =	"Los Angeles, Ca., USA",
+  year = 	1990,
+}
+
+@TechReport{DOD85,
+  author =	"{U.S. Department of Defense}",
+  title =	"{T}rusted {C}omputer {S}ystems {E}valuation {C}riteria",
+  number =	"5200.28-STD",
+  month =	dec,
+  URL =  	"http://www.radium.ncsc.mil/tpep/library/rainbow/5200.28-STD.html,
+		 http://www.radium.ncsc.mil/tpep/library/rainbow/5200.28-STD.pdf",
+  keywords =	"TCSEC, orange book",
+  type = 	"(Orange Book)",
+  address =	"Fort Meade, MD",
+  institution =  "National Computer Security Center",
+  year = 	1985,
+}
+
+@book{AB01,
+ author = "Alan Burns and Andrew J. Wellings",
+ title = "{R}eal-{T}ime {S}ystems and {P}rogramming {L}anguages: {ADA} 95, {R}eal-{T}ime {J}ava, and {R}eal-{T}ime {POSIX}",
+ year = 2001,
+ isbn = "0201729881",
+ publisher = "Addison-Wesley Longman Publishing Co., Inc.",
+ address = "Boston, MA, USA",
+}
+
+@PhdThesis{HRC06,
+  author =	"Howard Roberts Chivers",
+  title =	"{S}ecurity {D}esign {A}nalysis",
+  month =	jan,
+  URL =  	"http://www.cs.york.ac.uk/ftpdir/reports/YCST-2006-06.pdf",
+  school =	"University of York",
+  year = 	2006,
+}
+
+@Manual{CC05,
+  key = "CommonCriteria",
+  title =	"{C}ommon {C}riteria for {I}nformation {T}echnology {S}ecurity {E}valuation - {P}art 1 {I}ntroduction and {G}eneral {M}odel",
+  month =	aug,
+  URL =  	"http://www.commoncriteriaportal.org/public/files/ccpart1v2.3.pdf",
+  note = 	"Version 2.3, adopted by ISO/IEC as ISO/IEC International Standard (IS) 15408 1-3.",
+  organization = "Common Criteria Project Sponsoring Organisations",
+  year = 	2005,
+}
+
+@Misc{RB06,
+author = "Richard Bejtlich",
+title = "{T}ao{S}ecurity --- {S}ecurity is {N}ot {R}efrigeration",
+howpublished = "Blog",
+month = oct,
+year = 2006,
+URL = "http://taosecurity.blogspot.com/2006/10/security-is-not-refrigeration.html"
+}
+
+@Misc{CRH06,
+author = "Campbell R. Harvey",
+title = "{C}ampbell {R}. {H}arvey's {H}ypertextual {F}inance {G}lossary",
+howpublished = "Website",
+month = nov,
+year = 2006,
+URL = "http://www.duke.edu/~charvey/Classes/wpg/glossary.htm",
+}
+
+@TechReport{PCC07,
+author = "Pau-Chen Cheng and Pankaj Rohatgi and Claudia Keser and Paul A. Karger and Grant M. Wagner and Angela Schuett Reninger",
+title = "{F}uzzy {M}ulti-{L}evel {S}ecurity: {A}n {E}xperiment on {Q}uantified {R}isk-{A}daptive {A}ccess {C}ontrol",
+institution = "IBM Research Report RC24190",
+year = 2007,
+}
+
+@INPROCEEDINGS{PCC07A,
+author = "Pau Chen Cheng and Pankaj Rohatgi and Claudia Keser and Paul A. Karger and Grant M. Wagner and Angela Schuett Reninger",
+title = "{F}uzzy {M}ulti-{L}evel {S}ecurity: {A}n {E}xperiment on {Q}uantified {R}isk-{A}daptive {A}ccess {C}ontrol",
+booktitle = "{P}roceedings of the {IEEE} {S}ymposium on {S}ecurity and {P}rivacy",
+year = 2007,
+issn = "1081-6011",
+pages = "222--230",
+doi = "http://doi.ieeecomputersociety.org/10.1109/SP.2007.21",
+publisher = "IEEE Computer Society",
+address = "Los Alamitos, CA, USA",
+}
+
+@Misc{CA05,
+author = "C \& A Security Risk Analysis Group",
+title = "{I}ntroduction to {S}ecurity {R}isk {A}nalysis",
+howpublished = "Website",
+year = 2005,
+URL = "http://www.security-risk-analysis.com/",
+}
+
+@misc{RHL02,
+key = "REDHATLINUX",
+title = "{R}ed {H}at {L}inux 9: {R}ed {H}at {L}inux {S}ecurity {G}uide",
+publisher = "Red Hat, Inc.",
+year = 2002,
+address = "1801 Varsity Drive Raleigh NC 27606-2072 USA",
+url = "http://www.redhat.com/docs/manuals/linux/RHL-9-Manual/pdf/rhl-sg-en-9.pdf",
+}
+
+@Book{BS00,
+  author =	"Bruce Schneier",
+  title =	"{S}ecrets \& {L}ies --- {D}igital {S}ecurity in a {N}etworked {W}orld",
+  year = 	2000,
+  publisher =	"John Wiley and Sons",
+}
+
+@misc{HK02,
+  author = "H. Khurana and V. Gligor and J. Linn",
+  title = "{R}easoning {A}bout {J}oint {A}dministration of {A}ccess {P}olicies for {C}oalition {R}esources",
+  text = "H.Khurana, V.D. Gligor, and J. Linn, Reasoning About Joint Administration
+    of Access Policies for Coalition Resources, (full length manuscript), March
+    15 th, 2002, available at http ://glue. umd. edu/-gligor.",
+  year = 2002,
+  url = "citeseer.ist.psu.edu/khurana02reasoning.html" 
+}
+
+@inproceedings{CEP02,
+ author = "Charles E. Phillips, Jr. and T.C. Ting and Steven A. Demurjian",
+ title = "{I}nformation {S}haring and {S}ecurity in {D}ynamic {C}oalitions",
+ booktitle = "{SACMAT} '02: {P}roceedings of the seventh {ACM} {S}ymposium on {A}ccess {C}ontrol {M}odels and {T}echnologies",
+ year = 2002,
+ isbn = "1-58113-496-7",
+ pages = "87--96",
+ location = "Monterey, California, USA",
+ doi = "http://doi.acm.org/10.1145/507711.507726",
+ publisher = "ACM Press",
+ address = "New York, NY, USA",
+}
+
+@TechReport{SCS00,
+author = "Spring, S.C. and Dennis M. Gormley and K. Scott Mc{M}ahon and Kenneth Smith and Daniel Hobbes",
+title = "{I}nformation {S}haring for {D}ynamic {C}oalitions",
+institution = "Virginia Pacific-Sierra Research",
+year = 2000,
+types = "VPSR Report",
+number = "2836",
+month = dec,
+}
+
+@article{RSS94,
+    author = "Ravi S. Sandhu and Pierrangela Samarati",
+    title = "{A}ccess {C}ontrol: {P}rinciples and {P}ractice",
+    journal = "{IEEE} {C}ommunications {M}agazine",
+    volume = 32,
+    number = "9",
+    pages = "40--48",
+    year = 1994,
+    url = "citeseer.ist.psu.edu/article/sandhu94access.html"
+}
+
+@misc{EMR99,
+  author = "E. Royer and C. Toh",
+  title = "{A} {R}eview of {C}urrent {R}outing {P}rotocols for {A}d-{H}oc {M}obile {W}ireless {N}etworks",
+  text = "E.M. Royer and C-K Toh. A Review of Current Routing Protocols for Ad-Hoc
+    Mobile Wireless Networks. IEEE Personal Communications, Apr. 1999.",
+  year = 1999,
+  url = "citeseer.ist.psu.edu/royer99review.html" 
+}
+
+@Article{IC03,
+  title =	"{M}obile {A}d {H}oc {N}etworking: {I}mperatives and {C}hallenges",
+  author =	"Imrich Chlamtac and Marco Conti and Jennifer J.-N. Liu",
+  journal =	"{A}d {H}oc {N}etworks",
+  year = 	2003,
+  number =	"1",
+  volume =	"1",
+  pages =	"13--64",
+  URL =  	"http://dx.doi.org/10.1016/S1570-8705(03)00013-1",
+}
+
+@Article{JJ87,
+  author =	"John Jubin and Janet D. Tornow",
+  title =	"{T}he {DARPA} {P}acket {R}adio {N}etwork {P}rotocol",
+  volume =	"75",
+  number =	"1",
+  month =	jan,
+  year = 	1987,
+  pages =	"21--32",
+}
+
+@InProceedings{DAB90,
+author = "Beyer, D.A.",
+title = "{A}ccomplishments of the {DARPA} {SURAN} {P}rogram",
+booktitle = "{M}ilitary {C}ommunications {C}onference ({MILCOM})",
+pages = "855--862",
+year = 1990,
+volume = "2",
+address = "Monterey, CA, USA",
+month = sep,
+publisher = "IEEE",
+}
+
+@TechReport{SC99,
+  author =	"S. Corson and J. Macker",
+  title =	"{M}obile {A}d {H}oc {N}etworking ({MANET}): {R}outing {P}rotocol
+		 {P}erformance {I}ssues and {E}valuation {C}onsiderations",
+  URL =  	"http://www.ietf.org/rfc/rfc2501.txt",
+  year = 	1999,
+  number =	"2501",
+  institution =  "Internet Engineering Task Force",
+  month =	jan,
+  type = 	"Internet Request for Comment {RFC}",
+}
+
+@Article{RR02,
+author = "Ramanathan, R. and Redi, J",
+title = "{A} {B}rief {O}verview of {A}d {H}oc {N}etworks: {C}hallenges and {D}irections",
+journal = "{C}ommunications {M}agazine, {IEEE}",
+year = 2002,
+volume = "40",
+pages = "20--22",
+month = may,
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Evolutionary Algorithms
+
+@InProceedings{JRK89,
+  title =	"{H}ierarchical {G}enetic {A}lgorithms {O}perating on {P}opulations of {C}omputer {P}rograms",
+  author =	"John R. Koza",
+  year = 	1989,
+  booktitle =	"{I}nternational {J}oint {C}onferences on {A}rtificial {I}ntelligence ({IJCAI})",
+  pages =	"768--774",
+}
+
+@InProceedings{CR98,
+  author =	"Conor Ryan and J. J. Collins and Michael O'Neill",
+  title =	"{G}rammatical {E}volution: {E}volving {P}rograms for an {A}rbitrary {L}anguage",
+  booktitle =	"{P}roceedings of the {F}irst {E}uropean {W}orkshop on {G}enetic {P}rogramming",
+  year = 	1998,
+  editor =	"Wolfgang Banzhaf and Riccardo Poli and Marc Schoenauer and Terence C. Fogarty",
+  volume =	1391,
+  series =	"LNCS",
+  pages =	"83--95",
+  address =	"Paris",
+  publisher_address = "Berlin",
+  month =	apr,
+  publisher =	"Springer-Verlag",
+  keywords =	"genetic algorithms, genetic programming, grammatica evolution",
+  ISBN = 	"3-540-64360-5",
+  URL =  	"http://citeseer.ist.psu.edu/ryan98grammatical.html",
+  abstract =	"We describe a Genetic Algorithm that can evolve
+		 complete programs. Using a variable length linear
+		 genome to govern how a Backus Naur Form grammar
+		 definition is mapped to a program, expressions and
+		 programs of arbitrary complexity may be evolved. Other
+		 automatic programming methods are described, before our
+		 system, Grammatical Evolution, is applied to a symbolic
+		 regression problem.",
+  notes =	"EuroGP'98",
+}
+
+@book{CD59,
+address = "London, UK",
+author = "Charles Darwin",
+keywords = "biology",
+priority = "2",
+publisher = "Murray",
+title = "{O}n the {O}rigin of the {S}pecies by {M}eans of {N}atural {S}election",
+year = 1859
+}
+
+@book{HS64,
+author = "Herbert Spencer",
+title = "{P}rinciples of {B}iology",
+year = 1864,
+publisher = "Willian and Norgate",
+address = "London and Edinburgh",
+volume = "1",
+page = "444",
+}
+
+@Book{WB98,
+author		=	"W. Banzhaf and P. Nordin and R. E. Keller and F. D. Francone",
+title		=	"{G}enetic {P}rogramming --- {A}n {I}ntroduction: {O}n the {A}utomatic {E}volution of {C}omputer {P}rograms and its {A}pplications",
+publisher	=	"Morgan Kaufmann Publishers Inc.",
+address		=	"San Francisco, CA, USA",
+year		= 	1998,
+isbn		=	"1-55860-510-X",
+keywords	=	"genetic algorithms, genetic programming",
+}
+
+@Book{JHH75,
+  author =	"John H. Holland",
+  title =	"{A}dpatation in {N}atural and {A}rtificial {S}ystems",
+  publisher =	"University of Michigan Press",
+  address =	"Ann Arbor, MI",
+  year = 	1975,
+}
+
+@InProceedings{JEB85,
+  author =	"James E. Baker",
+  title =	"{A}daptive {S}election {M}ethods for {G}enetic {A}lgorithms",
+  pages =	"101--111",
+  ISBN = 	"0-8058-0426-9",
+  editor =	"John J. Grefenstette",
+  booktitle =	"{P}roceedings of the 1st {I}nternational {C}onference on
+		 {G}enetic {A}lgorithms and their {A}pplications",
+  address =	"Pittsburgh, PA",
+  month =	jul,
+  year = 	1985,
+  publisher =	"Lawrence Erlbaum Associates",
+}
+
+@PhdThesis{AB81,
+  author =	"A. Brindle",
+  title =	"{G}enetic {A}lgorithms for {F}unction {O}ptimization",
+  school =	"University of Alberta",
+  year = 	1981,
+  address =	"Edmonton, Alberta, Canada",
+  month =	jan,
+  note = 	"Computer Science Department, Technical Report TR81-2",
+}
+
+@InProceedings{DT94,
+  title =	"{E}litist {R}ecombination: {A}n {I}ntegrated {S}election
+		 {R}ecombination {GA}",
+  author =	"Dirk Thierens and David E. Goldberg",
+  year = 	"1994",
+  bibdate =	"2002-04-17",
+  bibsource =	"DBLP,
+		 http://dblp.uni-trier.de/db/conf/icec/icec1994-1.html#ThierensG94",
+  booktitle =	"International Conference on Evolutionary Computation",
+  pages =	"508--512",
+}
+
+@InProceedings{DT97,
+  title =	"{S}election {S}chemes, {E}litist {R}ecombination, and
+		 {S}election {I}ntensity",
+  author =	"Dirk Thierens",
+  editor =	"Thomas B{\"a}ck",
+  booktitle =	"{P}roceedings of the {S}eventh {I}nternational {C}onference on
+		 {G}enetic {A}lgorithms (ICGA97)",
+  publisher =	"Morgan Kaufmann",
+  address =	"San Francisco, CA",
+  year = 	"1997",
+}
+
+@Book{AEE03,
+  author =	"A. E. Eiben and J. E. Smith",
+  title =	"{I}ntroduction to {E}volutionary {C}omputing",
+  publisher =	"Springer",
+  year = 	2003,
+  keywords =	"genetic algorithms, genetic programming",
+  ISBN = 	"3-540-40184-9",
+  URL =  	"http://www.cs.vu.nl/~gusz/ecbook/ecbook.html",
+  notes =	"Chapter list 1. Introduction 2. What is an
+		 Evolutionary Algorithm? 3. Genetic Algorithms 4.
+		 Evolution Strategies 5. Evolutionary Programming 6.
+		 Genetic Programming 7. Learning Classifier Systems 8.
+		 Parameter Control in Evolutionary Algorithms 9.
+		 Multi-Modal Problems and Spatial Distribution 10.
+		 Hybridisation with Other Techniques: Memetic Algorithms
+		 11. Theory 12. Constraint Handling 13. Special Forms of
+		 Evolution 14. Working with Evolutionary Algorithms 15.
+		 Summary 16. Appendices 17. Index 18. References",
+  size = 	"pages",
+}
+
+@InProceedings{WB94,
+  author =	"Wolfgang Banzhaf",
+  title =	"{G}enotype-{P}henotype-{M}apping and {N}eutral {V}ariation ---
+		 {A} {C}ase {S}tudy in {G}enetic {P}rogramming",
+  booktitle =	"{P}arallel {P}roblem {S}olving from {N}ature --- {PPSN
+		 III}",
+  editor =	"Yuval Davidor and Hans-Paul Schwefel and Reinhard
+		 M{\"a}nner",
+  year = 	1994,
+  publisher =	"Springer",
+  address =	"Berlin",
+  pages =	"322--332",
+  note = 	"{L}ecture {N}otes in {C}omputer {S}cience 866",
+}
+
+@inproceedings{JFM00,
+ author = "Miller, Julian F. and Thomson, Peter",
+ title = "{C}artesian {G}enetic {P}rogramming",
+ booktitle = "{P}roceedings of the {E}uropean {C}onference on {G}enetic {P}rogramming",
+ year = 2000,
+ isbn = "3-540-67339-3",
+ pages = "121--132",
+ publisher = "Springer-Verlag",
+ address = "London, UK",
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Genetic Programming
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@Book{JRK92,
+  author =	"John R. Koza",
+  title =	"{G}enetic {P}rogramming: {O}n the {P}rogramming of {C}omputers
+		 by {M}eans of {N}atural {S}election",
+  year = 	1992,
+  publisher =	"MIT Press",
+  address =	"Cambridge, MA, USA",
+  keywords =	"genetic algorithms, genetic programming, text book",
+  ISBN = 	"0-262-11170-5",
+}
+
+@Article{DJM95,
+  author =	"David J. Montana",
+  title =	"{S}trongly {T}yped {G}enetic {P}rogramming",
+  journal =	"{E}volutionary {C}omputation",
+  volume =	"3",
+  number =	"2",
+  year = 	1995,
+  pages =	"199--230",
+}
+
+@book{JR03,
+ author = "Koza, John R.",
+ title = "{G}enetic {P}rogramming {IV}: {R}outine {H}uman-{C}ompetitive {M}achine {I}ntelligence",
+ year = 2003,
+ isbn = "1402074468",
+ publisher = "Kluwer Academic Publishers",
+ address = "Norwell, MA, USA",
+ }
+
+@Article{MB01,
+  author =	"Markus Brameier and Wolfgang Banzhaf",
+  title =	"{A} {C}omparison of {L}inear {G}enetic {P}rogramming and {N}eural
+		 {N}etworks in {M}edical {D}ata {M}ining",
+  journal =	"{IEEE} {T}ransactions on {E}volutionary {C}omputation",
+  year = 	2001,
+  volume =	"5",
+  number =	"1",
+  pages =	"17--26",
+  month =	feb,
+  keywords =	"genetic algorithms, genetic programming, Data mining,
+		 evolutionary computation, neural networks",
+  URL =  	"http://web.cs.mun.ca/~banzhaf/papers/ieee_taec.pdf",
+  size = 	"10 pages",
+  abstract =	"We apply linear genetic programming to several
+		 diagnosis problems in medicine. An efficient algorithm
+		 is presented that eliminates intron code in linear
+		 genetic programs. This results in a significant speedup
+		 which is especially interesting when operating with
+		 complex datasets as they are occuring in real-world
+		 applications like medicine. We compare our results to
+		 those obtained with neural networks and argue that
+		 genetic programming is able to show similar performance
+		 in classification and generalization even within a
+		 relatively small number of generations.",
+  notes =	"proben1/UCI LGP variable length string of C
+		 instruction. Branching. steady state tournament
+		 selection. two-point string crossover {"}high mutation
+		 rates have been experienced to produced better
+		 results{"} p19. Size<=256 {"}it is much easier for the
+		 GP system to implement structural introns [than
+		 semantic ones]{"} p20 {"}for all problems discussed,
+		 the performance of GP in generalization comes close to
+		 or even better then the results documented for NNs{"}
+		 (MLP, RPROP) p21 Ten demes of 500 connected in one
+		 direction circle. 5% mutation rate. {"}On average, the
+		 number of effective generations is reduced by a factor
+		 of three when using demes. Tests with and without
+		 conditionals. Runtime comparison. Intron removal (dead
+		 code) at run time.",
+}
+
+@Article{LS02,
+  author =	"Lee Spector and Alan Robinson",
+  title =	"{G}enetic {P}rogramming and {A}utoconstructive {E}volution
+		 with the {P}ush {P}rogramming {L}anguage",
+  journal =	"{G}enetic {P}rogramming and {E}volvable {M}achines",
+  year = 	2002,
+  volume =	"3",
+  number =	"1",
+  pages =	"7--40",
+  month =	mar,
+  keywords =	"genetic algorithms, genetic programming, artificial
+		 life, modularity, programming languages,
+		 self-adaptation",
+  ISSN = 	"1389-2576",
+  URL =  	"http://hampshire.edu/lspector/pubs/push-gpem-final.pdf",
+  doi =  	"doi:10.1023/A:1014538503543",
+  abstract =	"Push is a programming language designed for the
+		 expression of evolving programs within an evolutionary
+		 computation system. This article describes Push and
+		 illustrates some of the opportunities that it presents
+		 for evolutionary computation. Two evolutionary
+		 computation systems, PushGP and Pushpop, are described
+		 in detail. PushGP is a genetic programming system that
+		 evolves Push programs to solve computational problems.
+		 Pushpop, an ?autoconstructive evolution? system, also
+		 evolves Push programs but does so while simultaneously
+		 evolving its own evolutionary mechanisms.",
+  notes =	"Article ID: 395988",
+  doi-url =	"http://dx.doi.org/10.1023/A:1014538503543",
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Grammatical Evolution
+
+@InProceedings{MON04,
+  author =	"Michael O'Neill and Anthony Brabazon",
+  title =	"{G}rammatical {S}warm",
+  booktitle =	"{G}enetic and {E}volutionary {C}omputation --- {GECCO}-2004,
+		 {P}art {I}",
+  year = 	2004,
+  editor =	"Kalyanmoy Deb and Riccardo Poli and Wolfgang Banzhaf
+		 and Hans-Georg Beyer and Edmund Burke and Paul Darwen
+		 and Dipankar Dasgupta and Dario Floreano and James
+		 Foster and Mark Harman and Owen Holland and Pier Luca
+		 Lanzi and Lee Spector and Andrea Tettamanzi and Dirk
+		 Thierens and Andy Tyrrell",
+  series =	"Lecture Notes in Computer Science",
+  pages =	"163--174",
+  address =	"Seattle, WA, USA",
+  publisher_address = "Heidelberg",
+  month =	jun # " 26--30",
+  organisation = "ISGEC",
+  publisher =	"Springer-Verlag",
+  volume =	"3102",
+  ISBN = 	"3-540-22344-4",
+  ISSN = 	"0302-9743",
+  URL =  	"http://link.springer.de/link/service/series/0558/bibs/3102/31020163.htm",
+  size = 	"12",
+  notes =	"GECCO-2004 A joint meeting of the thirteenth
+		 international conference on genetic algorithms
+		 (ICGA-2004) and the ninth annual genetic programming
+		 conference (GP-2004)",
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+Review Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+MOEA
+@TechReport{EZ01,
+  author =	"Eckart Zitzler and Marco Laumanns and Lothar Thiele",
+  title =	"{SPEA2}: {I}mproving the {S}trength {P}areto
+		 {E}volutionary {A}lgorithm",
+  institution =  "Computer Engineering and Networks Laboratory (TIK),
+		 Swiss Federal Institute of Technology (ETH) Zurich",
+  year = 	2001,
+  number =	"103",
+  address =	"Gloriastrasse 35, CH-8092 Zurich, Switzerland",
+  month =	may,
+}
+
+@InProceedings{KD00,
+  author =	"Kalyanmoy Deb and Samir Agrawal and Amrit Pratap and
+		 T. Meyarivan",
+  title =	"{A} {F}ast {E}litist {N}on-{D}ominated {S}orting {G}enetic {A}lgorithm
+		 for {M}ulti-{O}bjective {O}ptimization: {NSGA-II}",
+  booktitle =	"{P}arallel {P}roblem {S}olving from {N}ature --- {PPSN VI}",
+  pages =	"849--858",
+  year = 	2000,
+  editor =	"Marc Schoenauer and Kalyanmoy Deb and G{\"{u}}nter
+		 Rudolph and Xin Yao and Evelyne Lutton and Juan Julian
+		 Merelo and Hans-Paul Schwefel",
+  address =	"Berlin",
+  publisher =	"Springer",
+}
+
+@TechReport{EZ98,
+  author =	"Eckart Zitzler and Lothar Thiele",
+  address =	"Zurich, Switzerland",
+  institution =  "Computer Engineering and Communication Networks Lab
+		 (TIK), Swiss Federal Institute of Technology (ETH)",
+  key =  	"Zitzler \& Thiele, 1998a",
+  number =	"43",
+  month =	may,
+  title =	"{A}n {E}volutionary {A}lgorithm for {M}ultiobjective
+		 {O}ptimization: {T}he {S}trength {P}areto {A}pproach",
+  year = 	1998,
+}
+
+@Article{NS94,
+  author =	"N. Srinivas and Kalyanmoy Deb",
+  journal =	"{E}volutionary {C}omputation",
+  key =  	"Srinivas \& Deb, 1994",
+  month =	"Fall",
+  number =	"3",
+  pages =	"221--248",
+  title =	"{M}ultiobjective {O}ptimization {U}sing {N}ondominated
+		 {S}orting in {G}enetic {A}lgorithms",
+  volume =	"2",
+  year = 	1994,
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Fuzzy Expert Systems
+
+@Article{LAZ65,
+  title =	"{F}uzzy {S}ets",
+  author =	"Lotfi A. Zadeh",
+  journal =	"{I}nformation and {C}ontrol",
+  year = 	"1965",
+  month =	jun,
+  number =	"3",
+  volume =	"8",
+  pages =	"338--353",
+}
+
+@misc{MK93,
+  author = "Mark Kantrowitz and Erik Horstkotte and Cliff Joslyn",
+  title = "{A}nswers to {F}requently {A}sked {Q}uestions about {F}uzzy {L}ogic and {F}uzzy {E}xpert {S}ystems",
+  month = apr,
+  year = 1993,
+  url = "http://www.cs.cmu.edu/Web/Groups/AI/html/faqs/ai/fuzzy/part1/faq.html"
+}
+
+@Article{DIB95,
+author = "David I. Brubaker",
+title = "{F}uzzy {O}perators",
+journal = "{EDN}",
+year = 1995,
+month = nov,
+url = "http://www.edn.com/archives/1995/110995/23column.htm"
+}
+
+@ARTICLE{RRY80,
+author = "Yager, R. R.",
+title = "{O}n the {G}eneral {C}lass of {F}uzzy {C}onnectives",
+journal = "{F}uzzy {S}ets and {S}ystems",
+year = 1980,
+volume = "4",
+number= "3",
+pages = "235--242"
+}
+
+@article{DD85,
+author = "Dubois, D. and Prade, H.",
+title = "{A} {R}eview of {F}uzzy {S}et {A}ggregation {C}onnectives",
+journal = "{I}nformation {S}ciences",
+volume = 36,
+year = 1985,
+pages = "85--121"
+}
+
+@book{HZ01,
+	author = "Zimmermann, Hans-J{\"{u}}rgen",
+	edition = "4th",
+	howpublished = "Hardcover",
+	isbn = "0792374355",
+	keywords = "book, fuzzy",
+	month = oct,
+	publisher = "Springer",
+	title = "{F}uzzy {S}et {T}heory and its {A}pplications",
+	url = "http://www.worldcat.org/isbn/0792374355",
+	year = 2001,
+}
+
+@manual{FLT07,
+  title = "{F}uzzy {L}ogic {T}oolbox {U}ser's {G}uide 2",
+  organization = "The MathWorks, Inc.",
+  address = "Natick, MA",
+  edition = "Version 2.2.9 (Release 2009a)",  
+  month = mar,
+  year = 2009,
+  url = "http://www.mathworks.com/access/helpdesk/help/pdf_doc/fuzzy/fuzzy.pdf"
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+@TechReport{RS07,
+  author =	"R. Shirey",
+  title =	"{I}nternet {S}ecurity {G}lossary, {V}ersion 2",
+  number =	"2828",
+  month =	aug,
+  URL =  	"ftp://ftp.ietf.org/rfc/rfc4949.txt",
+  abstract =	"   This Glossary provides definitions, abbreviations, and explanations
+   of terminology for information system security. The 334 pages of
+   entries offer recommendations to improve the comprehensibility of
+   written material that is generated in the Internet Standards Process
+   (RFC 2026). The recommendations follow the principles that such
+   writing should (a) use the same term or definition whenever the same
+   concept is mentioned; (b) use terms in their plainest, dictionary
+   sense; (c) use terms that are already well-established in open
+   publications; and (d) avoid terms that either favor a particular
+   vendor or favor a particular technology or mechanism over other,
+   competing techniques that already exist or could be developed.",
+  institution =  "Internet Engineering Task Force",
+  year = 	2007,
+}
+
+@InProceedings{PS01,
+  title =	"{A}ccess {C}ontrol: {P}olicies, {M}odels, and {M}echanisms",
+  author =	"Pierangela Samarati and Sabrina De Capitani di Vimercati",
+  publisher =	"Springer",
+  year = 	2001,
+  volume =	"2171",
+  bibdate =	"2002-01-03",
+  bibsource =	"DBLP,
+		 http://dblp.uni-trier.de/db/conf/fosad/fosad2000.html#SamaratiV00",
+  booktitle =	"{F}oundations of {S}ecurity {A}nalysis and {D}esign",
+  editor =	"Riccardo Focardi and Roberto Gorrieri",
+  ISBN = 	"3-540-42896-8",
+  pages =	"137--196",
+  series =	"Lecture Notes in Computer Science",
+  URL =  	"http://link.springer.de/link/service/series/0558/bibs/2171/21710137.htm",
+}
+
+@Article{JM85,
+  author =	"John Mc{L}ean",
+  title =	"{A} comment on the {"}basic security theorem{"} of {B}ell and {L}a{P}adula",
+  journal =	"{I}nformation {P}rocessing {L}etters",
+  volume =	"20",
+  number =	"2",
+  pages =	"67--70",
+  day =  	"15",
+  month =	feb,
+  year = 	1985,
+  CODEN =	"IFPLAT",
+  ISSN = 	"0020-0190",
+  affiliation =  "US Naval Research Lab, Computer Science \& Systems Branch, Washington, DC, USA",
+  affiliationaddress = "US Naval Research Lab, Computer Science \& Systems Branch, Washington, DC, USA",
+  classification = "404; 722; 723; C4240 (Programming and algorithm theory); C6130 (Data handling techniques)",
+  corpsource =	"Naval Res. Lab., Washington, DC, USA",
+}
+
+@Article{JM90,
+  author =	"John Mc{L}ean",
+  title =	"{T}he {S}pecification and {M}odeling of {C}omputer {S}ecurity",
+  journal =	"{C}omputer",
+  volume =	"23",
+  number =	"1",
+  pages =	"9--16",
+  month =	jan,
+  year = 	1990,
+  CODEN =	"CPTRB4",
+  ISSN = 	"0018-9162",
+  bibdate =	"Sat Feb 1 16:21:14 MST 1997",
+  bibsource =	"Compendex database",
+  abstract =	"Computer security models can limit the damage caused
+		 by Trojan Horse programs, especially if the limitations
+		 of the widely accepted BLP model are eliminated as
+		 proposed here.",
+  affiliation =  "US Naval Research Lab, Washington, DC, USA",
+  classification = "722; 723; 914; C6130 (Data handling techniques)",
+  journalabr =	"Computer",
+  keywords =	"Access Control; Bell and LaPadula model; BLP model;
+		 Computer Security Models; Computer security models;
+		 Computer Systems, Digital; Data Processing--Security of
+		 Data; Discretionary access control; Files; Industrial
+		 security; MAC; Mandatory access control; National
+		 security; Protection; Security levels; Software
+		 specification; Trusted Computer Systems; Trusted
+		 computer systems",
+  thesaurus =	"Security of data",
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@InProceedings{DFCB89,
+  author =	"D. F. C. Brewer and M. J. Nash",
+  title =	"The Chinese Wall Security Policy",
+  pages =	"206--214",
+  booktitle =	"Proceedings of the 1989 {IEEE} Computer Society
+		 Symposium on Security and Privacy ({SSP} '89)",
+  ISBN = 	"0-8186-1939-2",
+  month =	may,
+  publisher =	"IEEE",
+  address =	"Washington - Brussels - Tokyo",
+  year = 	"1989",
+}
+
+@Conference{BWL71,
+  author =	"Butler W. Lampson",
+  title =	"Protection",
+  booktitle =	"Proceedings of the 5th Annual Princeton Conference on
+		 Information Sciences and Systems",
+  address =	"Princeton University",
+  pages =	"437--443",
+  year = 	"1971",
+  keywords =	"PROTECTION",
+}
+
+@INPROCEEDINGS{DFF92,
+    author = {David F. Ferraiolo and D. Richard Kuhn},
+    title = {Role-Based Access Control},
+    booktitle = {In 15th NIST-NCSC National Computer Security Conference},
+    year = {1992},
+    pages = {554--563}
+}
+
+@InProceedings{RS00,
+  author =	"Ravi Sandhu and David Ferraiolo and Richard Kuhn",
+  title =	"The {NIST} Model for Role-based Access Control:
+		 Towards a Unified Standard",
+  pages =	"47--64",
+  booktitle =	"Proceedings of the 5th {ACM} Workshop on Role-Based
+		 Access Control ({RBAC}-00)",
+  month =	jul # " 26--27",
+  publisher =	"ACM Press",
+  address =	"N.Y.",
+  year = 	"2000",
+}
+
+@manual{ANSI04,
+key = "ANSI04",
+title = {American National Standard for Information Technology - Role Based Access Control},
+ORGANIZATION = "American National Standards Institute, Inc.",
+NOTE = "ANSI/INCITS 359-2004",
+ADDRESS = "25 West 43rd Street, New York, NY 10036, USA",
+MONTH = feb,
+YEAR = "2004",
+}
+
+@inproceedings{JDM98,
+ author = {Moffett, Jonathan D.},
+ title = {Control principles and role hierarchies},
+ booktitle = {RBAC '98: Proceedings of the third ACM workshop on Role-based access control},
+ year = {1998},
+ isbn = {1-58113-113-5},
+ pages = {63--69},
+ location = {Fairfax, Virginia, United States},
+ doi = {http://doi.acm.org/10.1145/286884.286900},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ }
+
+@article{RSS96,
+ author = {Ravi S. Sandhu and Edward J. Coyne and Hal L. Feinstein and Charles E. Youman},
+ title = {Role-Based Access Control Models},
+ journal = {Computer},
+ volume = {29},
+ number = {2},
+ year = 1996,
+ issn = {0018-9162},
+ pages = {38--47},
+ doi = {http://dx.doi.org/10.1109/2.485845},
+ publisher = {IEEE Computer Society Press},
+ address = {Los Alamitos, CA, USA},
+ }
+
+@inproceedings{DJ96,
+ author = {Jonscher, D. and Dittrich, K. R.},
+ title = {Argos - A Configurable Access Control System for Interoperable Environments},
+ booktitle = {Proceedings of the ninth annual IFIP TC11 WG11.3 working conference on Database security IX : status and prospects},
+ year = {1996},
+ isbn = {0-412-72920-2},
+ pages = {43--60},
+ location = {Rennselaerville, New York, United States},
+ publisher = {Chapman \& Hall, Ltd.},
+ address = {London, UK, UK},
+ }
+
+@InProceedings{RT97,
+  author =	"Roshan Thomas",
+  title =	"Team-Based Access Control {(TMAC)}",
+  pages =	"13--22",
+  ISBN = 	"0-89791-985-8",
+  booktitle =	"Proceedings of the 2nd {ACM} Workshop on Role-Based
+		 Access Control ({RBAC}-97)",
+  month =	nov # " 6--7",
+  publisher =	"ACM Press",
+  address =	"New York",
+  year = 	"1997",
+}
+
+@InProceedings{EC02,
+  author =	"Eve Cohen and Roshan Thomas and William Winsborough
+		 and Deborah Shands",
+  title =	"Models for Coalition-based Access Control ({CBAC})",
+  pages =	"97--106",
+  booktitle =	"Proceedings of the Seventh {ACM} Symposium on Access
+		 Control Models and Technologies ({SACMAT}-02)",
+  month =	jun # " 3--4",
+  publisher =	"ACM Press",
+  address =	"New York",
+  year = 	"2002",
+}
+
+@InProceedings{EB00,
+  author =	"Elisa Bertino and Piero A. Bonatti and Eiena Ferrari",
+  title =	"{TRBAC}: {A} Temporal Role-based Access Control
+		 Model",
+  pages =	"21--30",
+  booktitle =	"Proceedings of the 5th {ACM} Workshop on Role-Based
+		 Access Control ({RBAC}-00)",
+  month =	jul # " 26--27",
+  publisher =	"ACM Press",
+  address =	"N.Y.",
+  year = 	"2000",
+}
+
+@Article{MN93,
+  author =	"M. Nyanchama and S. Osborn",
+  title =	"Role-Based Security: Pros, Cons \& Some Research
+		 Directions",
+  volume =	"2",
+  number =	"2",
+  month =	jun,
+  URL =  	"ftp://ftp.csd.uwo.ca/pub/csd-technical-reports/442/roles.ps.Z",
+  added-by =	"gka",
+  pages =	"11--17",
+  year = 	"1993",
+  journal =	"{ACM SIGSAC Review}",
+}
+
+@TechReport{JPO04,
+key="{JPO04}",
+title = {{Horizontal Integration: Broader Access Models for Realizing
+Information Dominance}},
+institution = {The MITRE Corporation JASON Program Office},
+year = {2004},
+number = {JSR-04-132},
+address = {Mc{L}ean, Virginia},
+month = {Dec},
+}
+
+@InProceedings{TYCW92,
+  author =	"T. Y. C. Woo and S. S. Lam",
+  title =	"Authorization in Distributed Systems: {A} Formal
+		 Approach",
+  pages =	"33--51",
+  booktitle =	"Proceedings of the 1992 {IEEE} Computer Society
+		 Symposium on Security and Privacy ({SSP} '92)",
+  ISBN = 	"0-8186-2825-1",
+  month =	may,
+  publisher =	"IEEE",
+  address =	"Washington - Brussels - Tokyo",
+  year = 	"1992",
+}
+
+@Article{SJ01,
+  author =	"Sushil Jajodia and Pierangela Samarati and Maria Luisa
+		 Sapino and V. S. Subrahmanian",
+  title =	"Flexible support for multiple access control
+		 policies",
+  journal =	"ACM Transactions on Database Systems",
+  volume =	"26",
+  number =	"2",
+  pages =	"214--260",
+  month =	jun,
+  year = 	"2001",
+  CODEN =	"ATDSD3",
+  ISSN = 	"0362-5915",
+  bibdate =	"Tue Feb 19 16:12:15 MST 2002",
+  bibsource =	"http://www.acm.org/pubs/contents/journals/tods/",
+  acknowledgement = "Nelson H. F. Beebe, University of Utah, Department
+		 of Mathematics, 110 LCB, 155 S 1400 E RM 233, Salt Lake
+		 City, UT 84112-0090, USA, Tel: +1 801 581 5254, FAX: +1
+		 801 581 4148, e-mail: \path|beebe@math.utah.edu|,
+		 \path|beebe@acm.org|, \path|beebe@computer.org|
+		 (Internet), URL:
+		 \path|http://www.math.utah.edu/~beebe/|",
+}
+
+@InProceedings{SJ97,
+  author =	"S. Jajodia and P. Samarati and V. S. Subrahmanian",
+  title =	"A Logical Language for Expressing Authorizations",
+  pages =	"31--43",
+  booktitle =	"Proceedings of the 1997 {IEEE} Computer Society
+		 Symposium on Security and Privacy ({SSP} '97)",
+  month =	may # " 4--7",
+  publisher =	"IEEE Press",
+  address =	"Los Alamitos",
+  year = 	"1997",
+}
+
+@Article{SJ97A,
+  author =	"Sushil Jajodia and Pierangela Samarati and V. S.
+			 Subrahmanian and Eliza Bertino",
+  title =	"A Unified Framework for Enforcing Multiple Access
+		 Control Policies",
+  journal =	"SIGMOD Record (ACM Special Interest Group on
+		 Management of Data)",
+  volume =	"26",
+  number =	"2",
+  pages =	"474--485",
+  month =	jun,
+  year = 	"1997",
+  CODEN =	"SRECD8",
+  ISSN = 	"0163-5808",
+  bibdate =	"Mon Jan 12 08:45:59 MST 2004",
+  bibsource =	"http://portal.acm.org/",
+  acknowledgement = "Nelson H. F. Beebe, University of Utah, Department
+		 of Mathematics, 110 LCB, 155 S 1400 E RM 233, Salt Lake
+		 City, UT 84112-0090, USA, Tel: +1 801 581 5254, FAX: +1
+		 801 581 4148, e-mail: \path|beebe@math.utah.edu|,
+		 \path|beebe@acm.org|, \path|beebe@computer.org|
+		 (Internet), URL:
+		 \path|http://www.math.utah.edu/~beebe/|",
+}
+
+@InProceedings{CNR01,
+  author =	"Carlos N. Ribeiro and Andr{\'e} Z{\'u}quete and Paulo
+		 Ferreira and Paulo Guedes",
+  title =	"{SPL}: An Access Control Language for Security
+		 Policies and Complex Constraints",
+  URL =  	"http://www.gsd.inesc-id.pt/~avz/pubs/SPL.pdf",
+  added-by =	"msteiner",
+  added-at =	"Mon Dec 8 12:58:37 2003",
+  abstract =	"Most organizations use several security policies to
+		 control different systems and data, comprising in this
+		 way a global complex policy. These security policies
+		 are often scattered over different environments, each
+		 one with its own security model, making them difficult
+		 to administer and understand. Moreover, some
+		 applications (e.g. workflow), often need to cross
+		 several of these security domains and satisfy each one
+		 of their policies, which is very difficult to
+		 accomplish when these policies are scattered over the
+		 organization, in conflict with each other and
+		 frequently expressed in different models. This work
+		 presents a security policy language that allows
+		 organizations to express and keep their global security
+		 policies in one single description. Although flexible
+		 enough to express simultaneously several types of
+		 complex security policies, this language can be easily
+		 implemented by an event monitor. The proposed language
+		 can express the concepts of permission and prohibition,
+		 and some restricted forms of obligation. We show how to
+		 express and implement obligation using the transaction
+		 concept, and how to use obligation to express
+		 information flow policies together with other complex
+		 security policies. We also address the problem of
+		 conflicting policies and show how to efficiently
+		 enforce the security policies expressed by the language
+		 with a security event monitor, including history-based
+		 and obligation-based security policies.",
+  pages =	"89--107",
+  booktitle =	"Proceedings of the Symposium on Network and
+		 Distributed Systems Security ({NDSS} 2001)",
+  month =	feb,
+  address =	"San Diego, CA",
+  year = 	"2001",
+  organization = "Internet Society",
+}
+
+@book {SD03,
+editor = {Godik, Simon and Moses, Tim},
+title = {{eXtensible Access Control Markup Language (XACML) Version 1.0.}},
+howpublished = {{OASIS Standard}},
+month = {February},
+year = {2003}
+}
+
+@ARTICLE{MS02,
+journal		= {IEEE Network},
+title		= {{Security and management policy specification}},
+volume		= {16},
+number		= {2},
+ISSN		= {0890-8044},
+author		= {Sloman, Morris and Lupu, Emil},
+pages		= {10--19},
+month		= {March},
+year		= {2002},
+url		= {http://pubs.doc.ic.ac.uk/IEEEnetworkSurvey/}
+}
+
+@ARTICLE{MS94,
+journal		= {Journal of Network and Systems Management},
+title		= {{Policy Driven Management For Distributed Systems}},
+volume		= {2},
+number		= {4},
+author		= {Sloman, Morris},
+pages		= {333--360},
+month		= {December},
+year		= {1994},
+url		= {http://pubs.doc.ic.ac.uk/policy-distributed-systems/}}
+
+@InProceedings{JDM91,
+  title =	"The representation of policies as system objects",
+  author =	"Jonathan D. Moffett and Morris Sloman",
+  publisher =	"ACM",
+  year = 	"1991",
+  bibdate =	"2006-02-10",
+  bibsource =	"DBLP,
+		 http://dblp.uni-trier.de/db/conf/group/coocs1991.html#MoffettS91",
+  booktitle =	"COOCS",
+  pages =	"171--184",
+  URL =  	"http://doi.acm.org/10.1145/122831.122850",
+}
+@Article{JDM93,
+  abstract =	"Discusses the concepts developed within the Domino
+		 project on domain management for open systems, and how
+		 these concepts are implemented. Domains are a means of
+		 grouping objects, distinct from the management policies
+		 which are specified in terms of domains. Domains and
+		 policies are discussed from the viewpoint of both the
+		 manager and the underlying mechanisms which implement
+		 them. The emphasis of the user view is on conceptual
+		 clarity and the emphasis of the mechanism view is on
+		 efficient implementation in distributed systems. Both
+		 views need to be implemented, although in some cases
+		 there may be a direct correspondence between the two
+		 views. The authors argue that keeping managers
+		 independent from the domain of objects they manage
+		 gives flexibility and simplifies both the user and
+		 mechanism views of system management.",
+  doi =  	"doi:10.1088/0967-1846/1/1/005",
+  URL =  	"http://stacks.iop.org/0967-1846/1/37",
+  author =	"J D Moffett and M S Sloman",
+  journal =	"Distributed Systems Engineering",
+  volume =	"1",
+  number =	"1",
+  pages =	"37--47",
+  title =	"User and mechanism views of distributed systems
+		 management",
+  month =	sep,
+  year = 	"1993",
+  ISSN = 	"0967-1846",
+  doi-url =	"http://dx.doi.org/10.1088/0967-1846/1/1/005",
+}
+
+@ARTICLE{JDM93A,
+    author = {Jonathan D. Moffett and Morris S. Sloman},
+    title = {Policy Hierarchies for Distributed Systems Management},
+    journal = {IEEE Journal on Selected Areas in Communications},
+    year = {1993},
+    volume = {11},
+    pages = {1404--1414}
+}
+
+iTA model 
+
+@InProceedings{RD97,
+  author =	"R. Darimont and E. Delor and P. Massonet and A. van
+		 Lamsweerde",
+  title =	"{GRAIL/KAOS}: An Environment for Goal-Driven
+		 Requirements Engineering",
+  booktitle =	"Proceedings of the 1997 International Conference on
+		 Software Engineering",
+  publisher =	"ACM Press",
+  year = 	"1997",
+  ISBN = 	"0-89791-914-9",
+  annote =	"checked",
+  pages =	"612--613",
+  URL =  	"http://www.acm.org/pubs/articles/proceedings/soft/253228/p612-darimont/p612-darimont.pdf",
+  genterms =	"DESIGN, LANGUAGES, PERFORMANCE, THEORY",
+  categories =	"D.3.2 Software, PROGRAMMING LANGUAGES, Language
+		 Classifications. D.2.1 Software, SOFTWARE ENGINEERING,
+		 Requirements/Specifications, Languages.",
+  annote =	"incomplete",
+}
+
+@Article{EL99,
+  title =	"Conflicts in Policy-Based Distributed Systems
+		 Management",
+  author =	"Emil Lupu and Morris Sloman",
+  journal =	"IEEE Trans. Software Eng",
+  year = 	"1999",
+  number =	"6",
+  volume =	"25",
+  bibdate =	"2003-11-19",
+  bibsource =	"DBLP,
+		 http://dblp.uni-trier.de/db/journals/tse/tse25.html#LupuS99",
+  pages =	"852--869",
+  URL =  	"http://www.computer.org:80/tse/ts1999/e0852abs.htm",
+}
+
+@Article{AH90,
+  title =	"Mir\'o: Visual Specification of Security",
+  author =	"Allan Heydon and Mark W. Maimone and J. D. Tygar and
+		 Jeannette M. Wing and Amy Moormann Zaremski",
+  journal =	"IEEE Transactions on Software Engineering",
+  pages =	"1185--1197",
+  month =	oct,
+  year = 	"1990",
+  volume =	"16",
+  number =	"10",
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% First few chapters  %
+%%%%%%%%%%%%%%%%%%%%%%%
+@misc{FG02,
+  author = "F. Gonzalez and D. Dasgupta",
+  title = "An immunogenetic technique to detect anomalies in network traffic",
+  text = "F. Gonzalez and D. Dasgupta, An immunogenetic technique to detect anomalies
+    in network traffic, in Proceedings of the genetic and evolutionary compuation
+    conference, GECCO 2002.",
+  year = "2002",
+  url = "citeseer.ist.psu.edu/gonzalez02immunogenetic.html" }
+
+@InProceedings{RTA04,
+  month =	sep,
+  year = 	"2004",
+  pages =	"1011--1020",
+  title =	"An artificial immune system for fuzzy-rule induction
+		 in data mining",
+  author =	"RT Alves and MR Delgado and HS Lopes and AA Freitas",
+  keywords =	"artificial immune systems, data mining,
+		 classification",
+  URL =  	"http://www.cs.kent.ac.uk/pubs/2004/1983",
+  publication_type = "inproceedings",
+  submission_id = "22319_1097334764",
+  ISBN = 	"3540230920",
+  booktitle =	"Parallel Problem Solving from Nature - PPSN VIII, LNCS 3242",
+  editor =	"Xin Yao et al.",
+  publisher =	"Springer-Verlag",
+  refereed =	"yes",
+}
+
+@Article{DLNC02,
+  author =	"de L. N. Castro and Von F. J. Zuben",
+  title =	"Learning and optimization using the clonal selection
+		 principle",
+  journal =	"IEEE-EC",
+  year = 	"2002",
+  type = 	"Paper",
+  volume =	"6",
+  issue =	"3",
+  month =	jun,
+  pages =	"239--251",
+}
+
+@MastersThesis{AW01,
+  month =	dec,
+  year = 	"2001",
+  title =	"A resource limited artificial immune classifier",
+  author =	"A Watkins",
+  keywords =	"artificial immune systems, classification, supervised
+		 learning",
+  URL =  	"http://www.cs.kent.ac.uk/pubs/2001/1355",
+  publication_type = "mastersthesis",
+  submission_id = "24015_1016785032",
+  school =	"Mississippi State University",
+  address =	"MS. USA.",
+}
+
+@InProceedings{AS03,
+  month =	dec,
+  year = 	"2003",
+  pages =	"131--139",
+  title =	"{AISEC}: An Artificial Immune System for {E}-mail
+		 Classification",
+  author =	"A. Secker and A Freitas and J. Timmis",
+  URL =  	"http://www.cs.kent.ac.uk/pubs/2003/1759",
+  publication_type = "inproceedings",
+  submission_id = "10707_1071763205",
+  booktitle =	"Proceedings of the Congress on Evolutionary
+		 Computation",
+  editor =	"R. Sarker and R. Reynolds and H. Abbass and T.
+		 Kay-Chen and R. Mc{K}ay and D Essam and T. Gedeon",
+  address =	"Canberra. Australia",
+  organization = "IEEE",
+  refereed =	"yes",
+}
+
+@book{LNC02,
+author = {de Castro, L.N. and Timmis, J.},
+title = {Artificial {I}mmune {S}ystems: A {N}ew {C}omputational {A}pproach},
+month = {September},
+year = {2002},
+pages = {357},
+keywords = {artificial immune systems, classification, supervised learning, immune networks, case studies, AIS framework, survey},
+note = {},
+url = {http://www.cs.kent.ac.uk/pubs/2002/1507},
+publication_type = {book},
+submission_id = {22001_1031842356},
+ISBN = {1852335947},
+publisher = {Springer-Verlag},
+address = {London. UK.},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Genetic Programming
+@misc{JGAP07,
+title = "{JGAP}: {J}ava {G}enetic {A}lgorithms {P}ackage",
+year = 2007,
+url = "http://jgap.sourceforge.net/",
+}
+
+@misc{JAGA04,
+title = "{JAGA} {J}ava {API} for {G}enetic {A}lgorithms",
+year = 2004,
+url = "http://www.jaga.org/",
+}
+
+@misc{MW07,
+author = "Matthew Wall",
+title = "{GA}lib: {M}atthew's {G}enetic {A}lgorithms {L}ibrary",
+year = 2007,
+url = "http://lancet.mit.edu/ga/",
+}
+
+@InProceedings{RRFM01,
+ title = "{D}iscovering Fuzzy Classification Rules with {G}enetic {P}rogramming and {C}o-{E}volution",
+  author =	"Roberto R. F. Mendes and Fabricio {de B. Voznika} and
+		 Julio C. Nievola and Alex A. Freitas",
+  pages =	"183",
+  URL =  	"http://www.cs.bham.ac.uk/~wbl/biblio/gecco2001/d02.pdf",
+  year = 	2001,
+  publisher =	"Morgan Kaufmann",
+    booktitle = "{P}roceedings of the {G}enetic and {E}volutionary {C}omputation {C}onference ({GECCO}-2001)",
+  editor =	"Lee Spector and Erik D. Goodman and Annie Wu and W. B.
+		 Langdon and Hans-Michael Voigt and Mitsuo Gen and
+		 Sandip Sen and Marco Dorigo and Shahram Pezeshk and Max
+		 H. Garzon and Edmund Burke",
+  address =	"San Francisco, California, USA",
+  publisher_address = "San Francisco, CA 94104, USA",
+  month =	"7-11 " # jul,
+  keywords =	"genetic algorithms, genetic programming: Poster,
+		 evolution strategy, co-evolution, data mining,
+		 classification, fuzzy rules",
+  ISBN = 	"1-55860-774-9",
+  notes =	"A joint meeting of the tenth International Conference
+		 on Genetic Algorithms (ICGA-2001) and the sixth Annual
+		 Genetic Programming Conference (GP-2001) Part of
+		 spector:2001:GECCO",
+}
+
+@Book{MLW00,
+  author =	"Man Leung Wong and Kwong Sak Leung",
+  title =	"Data Mining Using Grammar Based Genetic Programming
+		 and Applications",
+  publisher =	"Kluwer Academic Publishers",
+  year = 	2000,
+  volume =	"3",
+  series =	"Genetic Programming",
+  month =	jan,
+  keywords =	"genetic algorithms, genetic programming",
+  ISBN = 	"0-7923-7746-X",
+  size = 	"232 pages",
+}
+
+@Book{JRK94,
+  author =	"John R. Koza",
+  title =	"{G}enetic {P}rogramming {II}: {A}utomatic {D}iscovery of
+		 {R}eusable {P}rograms",
+  publisher =	"MIT Press",
+  year = 	1994,
+  keywords =	"genetic algorithms, genetic programming",
+  ISBN = 	"0-262-11189-6",
+  address =	"Cambridge, MA",
+  month =	may,
+  size = 	"746 pages",
+}
+
+@Article{JG86,
+  author =	"John Grefenstette",
+  title =	"{O}ptimization of {C}ontrol {P}arameters for {G}enetic
+		 {A}lgorithms",
+  journal =	"{IEEE} {T}rans. on {S}ystems, {M}an, and
+		 {C}ybernetics",
+  year = 	"1986",
+  volume =	"{SMC}-16",
+  number =	"1",
+  pages =	"122--128",
+}
+
+%Grammatical Evolution
+@Article{AB04,
+  title =	"Evolving technical trading rules for spot
+		 foreign-exchange markets using grammatical evolution",
+  author =	"Anthony Brabazon and Michael O{'}Neill",
+  year = 	"2004",
+  abstract =	"Grammatical Evolution (GE) is a novel, data-driven,
+		 model-induction tool, inspired by the biological
+		 gene-to-protein mapping process. This study provides an
+		 introduction to GE, and applies the methodology in an
+		 attempt to uncover useful technical trading rules which
+		 can be used to trade foreign exchange markets. In this
+		 study, each of the evolved rules (programs) represents
+		 a market trading system. The form of these programs is
+		 not specified ex-ante, but emerges by means of an
+		 evolutionary process. Daily US-DM, US-Stg and US-Yen
+		 exchange rates for the period 1992 to 1997 are used to
+		 train and test the model. The findings suggest that the
+		 developed rules earn positive returns in hold-out
+		 sample test periods, after allowing for trading and
+		 slippage costs. This suggests potential for future
+		 research to determine whether further refinement of the
+		 methodology adopted in this study could improve the
+		 returns earned by the developed rules. It is also noted
+		 that this novel methodology has general utility for
+		 rule-induction, and data mining applications. Copyright
+		 Springer-Verlag Berlin/Heidelberg 2004",
+  bibsource =	"OAI-PMH server at oai.repec.openlib.org",
+  description =  "Grammatical evolution, Foreign exchange prediction,
+		 Technical trading rules,",
+  identifier =	"RePEc:spr:comgts:v:1:y:2004:i:3:p:311-327",
+  oai =  	"oai:RePEc:spr:comgts:v:1:y:2004:i:3:p:311-327",
+  URL =  	"http://hdl.handle.net/10.1007/s10287-004-0018-5",
+}
+
+@InProceedings{MON01,
+  author =	"Michael O'Neill and Anthony Brabazon and Conor Ryan
+		 and J. J. Collins",
+  title =	"Evolving Market Index Trading Rules using Grammatical
+		 Evolution",
+  booktitle =	"Applications of Evolutionary Computing.
+		 EvoWorkshops2001: EvoCOP, EvoFlight, EvoIASP, EvoLearn,
+		 and EvoSTIM. Proceedings",
+  year = 	"2001",
+  editor =	"Egbert J. W. Boers and Stefano Cagnoni and Jens
+		 Gottlieb and Emma Hart and Pier Luca Lanzi and
+		 G{\"u}nther Raidl and Robert E. Smith and Harald
+		 Tijink",
+  volume =	"2037",
+  series =	"LNCS",
+  pages =	"343--352",
+  address =	"Como, Italy",
+  publisher_address = "Berlin",
+  month =	apr # " 18--19",
+  organisation = "EvoNet",
+  publisher =	"Springer-Verlag",
+  email =	{},
+          keywords = "evolutionary computation, applications",
+  size = 	"10 pages",
+  notes =	"EvoWorkshops2001, part of boers:2001:ews",
+}
+
+@InProceedings{TB01,
+  author =	"Tony Brabazon and M. O'Neill and C. Ryan and J. J.
+		 Collins",
+  title =	"Uncovering Technical Trading Rules Using Evolutionary
+		 Automatic Programming",
+  booktitle =	"Proceedings of 2001 AAANZ Conference (Accounting
+		 Association of Australia and NZ)",
+  year = 	"2001",
+  address =	"Auckland, New Zealand",
+  month =	"1-3 " # jul,
+  keywords =	"genetic algorithms, genetic programming, grammatical
+		 evolution, financial prediction",
+}
+
+@InProceedings{ID06,
+  author =	"I. Dempsey and M. O'Neill and A. Brabazon",
+  title =	"Adaptive Trading With Grammatical Evolution",
+  booktitle =	"Proceedings of the 2006 IEEE Congress on Evolutionary
+		 Computation",
+  year = 	"2006",
+  editor =	"Gary G. Yen and Simon M. Lucas and Gary Fogel and
+		 Graham Kendall and Ralf Salomon and Byoung-Tak Zhang
+		 and Carlos A. Coello Coello and Thomas Philip
+		 Runarsson",
+  pages =	"2587--2592",
+  address =	"Vancouver, BC, Canada",
+  month =	"16-21 " # jul,
+  publisher =	"IEEE Press",
+  ISBN = 	"0-7803-9487-9",
+  URL =  	"http://ieeexplore.ieee.org/servlet/opac?punumber=11108",
+}
+
+@InProceedings{TB02,
+  title =	"Trading Foreign Exchange Markets Using Evolutionary
+		 Automatic Programming",
+  author =	"Tony Brabazon and Michael O'Neill",
+  pages =	"133--136",
+  booktitle =	"{GECCO 2002}: Proceedings of the Bird of a Feather
+		 Workshops, Genetic and Evolutionary Computation
+		 Conference",
+  editor =	"Alwyn M. Barry",
+  year = 	"2002",
+  month =	"8 " # jul,
+  publisher =	"AAAI",
+  address =	"New York",
+  publisher_address = "445 Burgess Drive, Menlo Park, CA 94025",
+  notes =	"Bird-of-a-feather Workshops, GECCO-2002. A joint
+		 meeting of the eleventh International Conference on
+		 Genetic Algorithms (ICGA-2002) and the seventh Annual
+		 Genetic Programming Conference (GP-2002) part of
+		 barry:2002:GECCO:workshop",
+}
+
+@misc{MN06,
+  author = {Miguel Nicolau},
+  title = {libGE's Homepage},
+  year = {2006},
+  url = {http://bds.ul.ie/libGE/index.html}
+}
+
+@article{MW96,
+    author = {Matthew Wall},
+    journal = {Mechanical Engineering Department, Massachusetts Institute of Technology},
+    title = {{GAlib: A C++ library of genetic algorithm components}},
+    year = {1996}
+}
+
+@misc{LG06,
+  author = {Loukas Georgiou},
+  title = {Java GE (jGE)'s Homepage},
+  month = {July},
+  year = {2006},
+  url = {http://www.informatics.bangor.ac.uk/~loukas/jge/index.html}
+}
+
+%Fuzzy Logic
+
+
+@Book{MON03,
+  author =	"Michael O'Neill and Conor Ryan",
+  title =	"Grammatical Evolution: Evolutionary Automatic
+		 Programming in a Arbitrary Language",
+  publisher =	"Kluwer Academic Publishers",
+  year = 	"2003",
+  volume =	"4",
+  series =	"Genetic programming",
+  keywords =	"genetic algorithms, genetic programming, grammatical
+		 evolution",
+  ISBN = 	"1-4020-7444-1",
+  URL =  	"http://www.wkap.nl/prod/b/1-4020-7444-1",
+}
+
+
+
+@Book{GJK96,
+  editor =	{G. J. Klir and B. Yuan},
+  title =	{Fuzzy Sets, Fuzzy Logic, and Fuzzy Systems: Selected
+		 Papers by Lotfi {A}. Zadeh},
+  edition =	{1},
+  publisher =	{World Scientific},
+  address =	{Singapore},
+  year = 	{1996},
+  ISBN = 	{981-02-2422-2},
+  descriptor =	{Fuzzy System, Fuzzy Logik, Fuzzy Menge, Fuzzy},
+}
+
+
+
+@book{YRR94,
+title = {Essentials of Fuzzy Modeling and Control},
+author = {Yager, R.R. and Filev, D.P.},
+year = 1994,
+publisher = {John Wiley \& Sons},
+address = {New York}
+}
+
+@article{RRY95,
+author = {Yager, R.R. and Filev, D.P.},
+title = {Generalizing the modeling of fuzzy logic controllers by parameterized aggregation operators},
+journal = {Fuzzy Sets and Systems},
+volume = 70,
+year = 1995,
+pages = {303--313},
+}
+
+@misc{MSG05,
+  title = "Microsoft Security Glossary",
+  month = "Dec",
+  year = "2005",
+  url = "http://www.microsoft.com/security/glossary.mspx" }
+
+@Misc{DA07,
+author = {David Aspinall},
+title = {Computer Security: Lecture presentation slides},
+month = {11},
+year = {2007},
+url = {http://www.inf.ed.ac.uk/teaching/courses/cs/}
+}
+
+@article{JDM94,
+    author = "J. D. Moffett and J. A. Clark",
+    title = "An Introduction to Security in Distributed Systems",
+    journal = "High Integrity Systems",
+    volume = "1",
+    number = "1",
+    pages = "83--92",
+    year = "1994",
+    url = "citeseer.ist.psu.edu/moffett94introduction.html" }
+
+@misc{JDM94A,
+  author = "Jonathan D. Moffett",
+  title = "Security & Distributed Systems",
+  url = "citeseer.ist.psu.edu/187713.html" }
+
+@proceedings{WSN_HK04,
+  editor    = {Holger Karl and
+               Andreas Willig and
+               Adam Wolisz},
+  title     = {Wireless Sensor Networks, First European Workshop, EWSN 2004,
+               Berlin, Germany, January 19-21, 2004, Proceedings},
+  booktitle = {EWSN},
+  publisher = {Springer},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {2920},
+  year      = {2004},
+  isbn      = {3-540-20825-9},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@inproceedings{TRD_FS99,
+ author = {Frank Stajano and Ross J. Anderson},
+ title = {The Resurrecting Duckling: Security Issues for Ad-hoc Wireless Networks},
+ booktitle = {Proceedings of the 7th International Workshop on Security Protocols},
+ year = {1999},
+ isbn = {3-540-67381-4},
+ pages = {172--194},
+ publisher = {Springer-Verlag},
+ address = {London, UK},
+ }
+
+@inproceedings{TRD_FS00,
+ author = {Frank Stajano},
+ title = {The Resurrecting Duckling - What Next?},
+ booktitle = {Revised Papers from the 8th International Workshop on Security Protocols},
+ year = {2000},
+ isbn = {3-540-42566-7},
+ pages = {204--214},
+ publisher = {Springer-Verlag},
+ address = {London, UK},
+ }
+
+@article{PSSO_AH95,
+    author = "Amir Herzberg and Stanislaw Jarecki and Hugo Krawczyk and Moti Yung",
+    title = "Proactive Secret Sharing Or: How to Cope With Perpetual Leakage",
+    journal = "Lecture Notes in Computer Science",
+    volume = "963",
+    pages = "339--352",
+    year = "1995",
+    url = "http://citeseer.ist.psu.edu/herzberg95proactive.html"
+}
+
+@article{SIWSN_AP04,
+ author = {Adrian Perrig and John Stankovic and David Wagner},
+ title = {Security in wireless sensor networks},
+ journal = {Commun. ACM},
+ volume = {47},
+ number = {6},
+ year = {2004},
+ issn = {0001-0782},
+ pages = {53--57},
+ doi = {http://doi.acm.org/10.1145/990680.990707},
+ publisher = {ACM Press},
+ address = {New York, NY, USA},
+ }
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@misc{EF98,
+  author = "E. Friedman and P. Resnick",
+  title = "The social cost of cheap pseudonyms",
+  text = "E. J. Friedman and P. Resnick. The social cost of cheap pseudonyms. mimeo,
+    1998.",
+  year = "1998",
+  url = "citeseer.ist.psu.edu/friedman98social.html" 
+}
+
+@MISC{RM07,
+   author = {Rob Malda},
+   title = {Slashdot FAQ},
+   howpublished = {Handed out at O'Hare},
+   month = {Mac},
+   year = {2007},
+   url = {http://slashdot.org/faq/}
+}
+
+@MISC{RM98,
+   author = "Rob Malda",
+   title = "Slashdot Gets Hacked",
+   month = Sep,
+   year = 1998,
+   url = "http://slashdot.org/articles/98/09/14/1949212.shtml"
+}
+
+@MISC{RM00,
+   author = "Rob Malda",
+   title = "Yup, Somebody Cracked Slashdot",
+   month = Sep,
+   year = 2000,
+   url = "http://slashdot.org/articles/00/09/29/1245218.shtml"
+}
+
+@InProceedings{AC04,
+author = {Andrew Clausen},
+title = {The Cost of Attack of PageRank},
+booktitle = {Proceedings of the International conference on Agents, Web Technologies and Internet Commerce (IAWTIC'2004)},
+year = {2004},
+address = {Gold Coast},
+}
+
+@article{SB98,
+    author = "Sergey Brin and Lawrence Page",
+    title = "The anatomy of a large-scale hypertextual {Web} search engine",
+    journal = "Computer Networks and ISDN Systems",
+    volume = "30",
+    number = "1--7",
+    pages = "107--117",
+    year = "1998",
+    url = "citeseer.ist.psu.edu/brin98anatomy.html" }
+
+@inproceedings{TK05,
+ author = {Tapan Khopkar and Xin Li and Paul Resnick},
+ title = {Self-selection, slipping, salvaging, slacking, and stoning: the impacts of negative feedback at eBay},
+ booktitle = {EC '05: Proceedings of the 6th ACM conference on Electronic commerce},
+ year = {2005},
+ isbn = {1-59593-049-3},
+ pages = {223--231},
+ location = {Vancouver, BC, Canada},
+ doi = {http://doi.acm.org/10.1145/1064009.1064033},
+ publisher = {ACM Press},
+ address = {New York, NY, USA},
+ }
+
+@TechReport{SB03,
+  title =	"A Robust Reputation System for Mobile Ad-hoc",
+  author =	"Sonja Buchegger and Jean-yves Le Boudec",
+  year = 	"2003",
+  month =	nov # " 11",
+  abstract =	"Reputation systems in mobile ad-hoc networks can be
+		 tricked by the spreading of false reputation ratings,
+		 be it false accusations or false praise. Simple
+		 solutions such as exclusively relying on one's own
+		 direct observations have drawbacks, as they do not make
+		 use of all the information available. We propose a
+		 fully distributed reputation system that can cope with
+		 false disseminated information. In our approach,
+		 everyone maintains a reputation rating and a trust
+		 rating about everyone else that they care about. From
+		 time to time first-hand reputation information is
+		 exchanged with others; using a modified Bayesian
+		 approach we designed and present in this paper, only
+		 second-hand reputation information that is not
+		 incompatible with the current reputation rating is
+		 accepted. Thus, reputation ratings are slightly
+		 modified by accepted information. Trust ratings are
+		 updated based on the compatibility of second-hand
+		 reputation information with prior reputation ratings.
+		 Data is entirely distributed: someone's reputation and
+		 trust is the collection of ratings maintained by
+		 others. We enable node redemption and prevent the
+		 sudden exploitation of good reputation built over time
+		 by introducing re-evaluation and reputation fading. We
+		 present the application of our generic reputation
+		 system to the context of neighborhood watch in mobile
+		 ad-hoc networks, specifically to the CONFIDANT [3]
+		 protocol for the detection and isolation of nodes
+		 exhibiting routing or forwarding misbehavior. We
+		 evaluate the performance by simulation.",
+  bibsource =	"OAI-PMH server at cs1.ist.psu.edu",
+  language =	"en",
+  oai =  	"oai:CiteSeerPSU:667909",
+  rights =	"unrestricted",
+  URL =  	"http://citeseer.ist.psu.edu/667909.html;
+		 http://icapeople.epfl.ch/sbuchegg/IC_TECH_REPORT_200350.pdf",
+}
+
+@InProceedings{GZ99,
+  title =	"Collaborative Reputation Mechanisms in Electronic
+		 Marketplaces",
+  author =	"Giorgos Zacharia and Alexandros Moukas and Pattie
+		 Maes",
+  year = 	"1999",
+  bibdate =	"2002-01-03",
+  bibsource =	"DBLP,
+		 http://dblp.uni-trier.de/db/conf/hicss/hicss1999-8.html#ZachariaMM99",
+  booktitle =	"HICSS",
+  URL =  	"http://computer.org/proceedings/hicss/0001/00018/00018026abs.htm",
+}
+
+@ARTICLE{DH06,
+AUTHOR={Daniel Houser and John Wooders},
+TITLE={Reputation in Auctions: Theory, and Evidence from eBay},
+JOURNAL={Journal of Economics \& Management Strategy},
+YEAR=2006,
+VOLUME={15},
+NUMBER={2},
+PAGES={353--369},
+MONTH={06},
+URL={http://ideas.repec.org/a/bla/jemstr/v15y2006i2p353-369.html}
+}
+
+@misc{EA00,
+  author = "E. Adar and B. Huberman",
+  title = "Free riding on {g}nutella",
+  text = "Eytan Adar and Bernardo A. Huberman. Free riding on gnutella. Technical
+    report, Xerox PARC, 10 Aug. 2000.",
+  year = "2000",
+  url = "citeseer.ist.psu.edu/adar00free.html"
+}
+
+@misc{LX04,
+  author = "L. Xiong and L. Liu",
+  title = "Peertrust: Supporting reputation -based trust in peer-to-peer communities",
+  text = "L. Xiong and L. Liu. Peertrust: Supporting reputation -based trust in peer-to-peer
+    communities. IEEE Transactions on Knowledge and Data Engineering (TKDE),
+    Special Issue on Peer-to-Peer Based Data Management, 2004. 6",
+  year = "2004",
+  url = "citeseer.ist.psu.edu/article/xiong04peertrust.html"
+}
+
+@inproceedings{CD00,
+ author = {Chrysanthos Dellarocas},
+ title = {Immunizing online reputation reporting systems against unfair ratings and discriminatory behavior},
+ booktitle = {EC '00: Proceedings of the 2nd ACM conference on Electronic commerce},
+ year = {2000},
+ isbn = {1-58113-272-7},
+ pages = {150--157},
+ location = {Minneapolis, Minnesota, United States},
+ doi = {http://doi.acm.org/10.1145/352871.352889},
+ publisher = {ACM Press},
+ address = {New York, NY, USA},
+ }
+
+@InCollection{PR02,
+author = {Resnick, Paul and Richard Zeckhauser},
+title = {Trust Among Strangers in Internet Transactions: Empirical Analysis of eBay's Reputation System},
+booktitle = {The Economics of the Internet and E-Commerce},
+publisher = {Elsevier Science},
+year = {2002},
+editor = {Michael R. Baye},
+olume = {11},
+Taddress = {Amsterdam},
+}
+
+@article{DDD85,
+author = {Deborah D. Downs and Jerzy R. Rub and Kenneth C. Kung and Carole S. Jordan},
+title = {Issues in Discretionary Access Control},
+journal = {sp},
+volume = {00},
+year = {1985},
+issn = {1540-7993},
+pages = {208},
+doi = {http://doi.ieeecomputersociety.org/10.1109/SP.1985.10014},
+publisher = {IEEE Computer Society},
+address = {Los Alamitos, CA, USA},
+}
+
+@article{PR00,
+ author = {Paul Resnick and Ko Kuwabara and Richard Zeckhauser and Eric Friedman},
+ title = {Reputation systems},
+ journal = {Commun. ACM},
+ volume = {43},
+ number = {12},
+ year = {2000},
+ issn = {0001-0782},
+ pages = {45--48},
+ doi = {http://doi.acm.org/10.1145/355112.355122},
+ publisher = {ACM Press},
+ address = {New York, NY, USA},
+ }
+
+@article{RCM05,
+  ISSN = {0363-7425},
+  abstract = {Scholars in various disciplines have considered the causes, nature, and effects of trust. Prior approaches to studying trust are considered, including characteristics of the trustor, the trustee, and the role of risk. A definition of trust and a model of its antecedents and outcomes are presented, which integrate research from multiple disciplines and differentiate trust from similar constructs. Several research propositions based on the model are presented.},
+  author = {{Mayer, Roger C.} and {Davis, James H.} and {Schoorman, F. David}},
+  copyright = {Copyright 1995 Academy of Management},
+  journal = {The Academy of Management Review},
+  jstor_articletype = {Full Length Article},
+  jstor_date = {199507},
+  jstor_formatteddate = {Jul., 1995},
+  month = {jul},
+  number = {3},
+  pages = {709--734},
+  publisher = {Academy of Management},
+  title = {An Integrative Model of Organizational Trust},
+  url = {http://links.jstor.org/sici?sici=0363-7425%28199507%2920%3A3%3C709%3AAIMOOT%3E2.0.CO%3B2-9},
+  volume = {20},
+  year = {1995},
+}
+
+@Misc{EM06,
+  title =	"Incentive-Based Robust Reputation Mechanism for {P2P}
+		 Services",
+  author =	"Emmanuelle Anceaume and Aina Ravoaja",
+  publisher =	"HAL - CCSd - CNRS",
+  year = 	"2006",
+  abstract =	"In this paper, we address the problem of designing a
+		 robust reputation mechanism for peer-to-peer services.
+		 The mechanism we propose achieves high robustness
+		 against malicious peers (from individual or collusive
+		 ones) and provides incentive for participation. We show
+		 that the quality of the reputation value of trustworthy
+		 and participating peers is always better than the one
+		 of cheating and non participating ones. Finally we
+		 formally prove that, even when a high fraction of peers
+		 of the system exhibits a collusive behavior, a correct
+		 peer can still compute an accurate reputation mechanism
+		 towards a server, at the expense of a reasonable
+		 convergence time.",
+  annote =	"Anne Jaigu <Anne.Jaigu@irisa.fr>",
+  bibsource =	"OAI-PMH server at hal.archives-ouvertes.fr",
+  contributor =  "Anne Jaigu <Anne.Jaigu@irisa.fr>",
+  coverage =	"Peer-to-peer, reputation, ballot stuffing, bad
+		 mouthing, opinions, incentive",
+  identifier =	"inria-00121609 (version 1)",
+  oai =  	"oai:hal.archives-ouvertes.fr:inria-00121609_v1",
+  subject =	"Computer Science/Networking and Telecommunication",
+  type = 	"RAPPORT",
+  URL =  	"http://hal.inria.fr/inria-00121609/en/;
+		 http://hal.archives-ouvertes.fr/docs/00/12/16/09/PDF/PI-1816.pdf",
+}
+
+@Misc{NM03,
+  author =	"Nolan Miller and Paul Resnick and Richard J.
+		 Zeckhauser",
+  title =	"Eliciting Honest Feedback in Electronic Markets",
+  year = 	"2003",
+  booktitle =	"KSG Working Paper Series RWP02-039",
+  abstract =	"This paper proposes a payment-based system to induce
+		 honest reporting of feedback. The system applies proper
+		 scoring rules to each buyer's report, looking to how
+		 well it predicts the report of a later buyer. Honest
+		 reporting proves to be a Nash Equilibrium. To balance
+		 the budget, the incentive payment to each buyer is
+		 charged to someone other than the one whose report that
+		 buyer is asked to predict. In addition, payment schemes
+		 can be scaled to induce appropriate effort by raters.",
+  URL =  	"http://ssrn.com/abstract=348940",
+}
+
+@Article{AJ07,
+  title =	"A survey of trust and reputation systems for online
+		 service provision",
+  author =	"Audun J{\o}sang and Roslan Ismail and Colin Boyd",
+  journal =	"Decision Support Systems",
+  year = 	"2007",
+  number =	"2",
+  volume =	"43",
+  bibdate =	"2007-05-10",
+  bibsource =	"DBLP,
+		 http://dblp.uni-trier.de/db/journals/dss/dss43.html#JosangIB07",
+  pages =	"618--644",
+  URL =  	"http://dx.doi.org/10.1016/j.dss.2005.05.019",
+}
+
+@misc{OB01,
+  author = "Olav Bandmann and Babak Sadighi Firozabadi and Olle Olsson",
+  title = "Decentralized Management of Access Control",
+  url = "citeseer.ist.psu.edu/bandmann01decentralized.html"
+}
+
+@article {TG00,
+	author = {T. Grandison and M. Sloman},
+	title = {A survey of trust in Internet application},
+	journal = {IEEE Communications Surveys & Tutorials},
+	number = {Fourth Quarter},
+	volumn = {3},
+	number = {4},
+	year = {2000},
+	url ={citeseer.ist.psu.edu/article/grandison00survey.html},
+	url ={http://www.comsoc.org/livepubs/surveys/public/2000/dec/grandison.html}
+}
+
+@techreport{MB06,
+    author = "Matt Blaze and Joan Feigenbaum and Jack Lacy",
+    title = "Decentralized Trust Management",
+    number = "96-17",
+    year = "1996",
+    url = "citeseer.ist.psu.edu/blaze96decentralized.html" 
+}
+
+@inproceedings{AAR07,
+ author = {Alfarez Abdul-Rahman and Stephen Hailes},
+ title = {A distributed trust model},
+ booktitle = {NSPW '97: Proceedings of the 1997 workshop on New security paradigms},
+ year = {1997},
+ isbn = {0-89791-986-6},
+ pages = {48--60},
+ location = {Langdale, Cumbria, United Kingdom},
+ doi = {http://doi.acm.org/10.1145/283699.283739},
+ publisher = {ACM Press},
+ address = {New York, NY, USA},
+ }
+
+@article{VC03,
+author = {Vinny Cahill and Elizabeth Gray and Jean-Marc Seigneur and Christian D. Jensen and Yong Chen and Brian Shand and Nathan Dimmock and Andy Twigg and Jean Bacon and Colin English and Waleed Wagealla and Sotirios Terzis and Paddy Nixon and Giovanna di Marzo Serugendo and Ciaran Bryce and Marco Carbone and Karl Krukow and Mogens Nielsen},
+title = {Using Trust for Secure Collaboration in Uncertain Environments},
+journal = {IEEE Pervasive Computing},
+volume = {02},
+number = {3},
+year = {2003},
+issn = {1536-1268},
+pages = {52--61},
+doi = {http://doi.ieeecomputersociety.org/10.1109/MPRV.2003.1228527},
+publisher = {IEEE Computer Society},
+address = {Los Alamitos, CA, USA},
+}
+
+@misc{SB04,
+  author = "Sonja Buchegger and Jean-Yves Le Boudec",
+  title = "A Robust Reputation System for P2P and Mobile Ad-hoc Networks",
+  text = "Buchegger, S., Boudec, J.Y.L.: A robust reputation system for p2p and mobile
+    ad-hoc networks. In: Proceedings of the Second Workshop on the Economics
+    of Peer-to-Peer Systems. (2004)",
+  year = "2004",
+  url = "citeseer.ist.psu.edu/article/buchegger04robust.html"
+}
+
+@article{MC03,
+author = {Marco Carbone and Mogens Nielsen and Vladimiro Sassone},
+title = {A Formal Model for Trust in Dynamic Networks},
+journal = {sefm},
+volume = {00},
+year = {2003},
+isbn = {0-7695-1949-0},
+pages = {54},
+doi = {http://doi.ieeecomputersociety.org/10.1109/SEFM.2003.1236207},
+publisher = {IEEE Computer Society},
+address = {Los Alamitos, CA, USA},
+}
+
+@book{CPP97,
+ author = {Charles P. Pfleeger},
+ title = {Security in computing},
+ year = {1997},
+ isbn = {0-13-337486-6},
+ publisher = {Prentice-Hall, Inc.},
+ address = {Upper Saddle River, NJ, USA},
+ }
+
+@inproceedings{ND04,
+ author = {Nathan Dimmock and Andr\'as Belokosztolszki and David Eyers and Jean Bacon and Ken Moody},
+ title = {Using trust and risk in role-based access control policies},
+ booktitle = {SACMAT '04: Proceedings of the ninth ACM symposium on Access control models and technologies},
+ year = {2004},
+ isbn = {1-58113-872-5},
+ pages = {156--162},
+ location = {Yorktown Heights, New York, USA},
+ doi = {http://doi.acm.org/10.1145/990036.990062},
+ publisher = {ACM Press},
+ address = {New York, NY, USA},
+ }
+
+@inproceedings{HS92,
+ author = {HongHai Shen and Prasun Dewan},
+ title = {Access control for collaborative environments},
+ booktitle = {CSCW '92: Proceedings of the 1992 ACM conference on Computer-supported cooperative work},
+ year = {1992},
+ isbn = {0-89791-542-9},
+ pages = {51--58},
+ location = {Toronto, Ontario, Canada},
+ doi = {http://doi.acm.org/10.1145/143457.143461},
+ publisher = {ACM Press},
+ address = {New York, NY, USA},
+ }
+
+@article{WT05,
+ author = {William Tolone and Gail-Joon Ahn and Tanusree Pai and Seng-Phil Hong},
+ title = {Access control in collaborative systems},
+ journal = {ACM Comput. Surv.},
+ volume = {37},
+ number = {1},
+ year = {2005},
+ issn = {0360-0300},
+ pages = {29--41},
+ doi = {http://doi.acm.org/10.1145/1057977.1057979},
+ publisher = {ACM Press},
+ address = {New York, NY, USA},
+ }
+
+@article{HL04,
+ author = {Haiyun Luo and Jiejun Kong and Petros Zerfos and Songwu Lu and Lixia Zhang},
+ title = {URSA: ubiquitous and robust access control for mobile ad hoc networks},
+ journal = {IEEE/ACM Trans. Netw.},
+ volume = {12},
+ number = {6},
+ year = {2004},
+ issn = {1063-6692},
+ pages = {1049--1063},
+ doi = {http://dx.doi.org/10.1109/TNET.2004.838598},
+ publisher = {IEEE Press},
+ address = {Piscataway, NJ, USA},
+ }
+
+@inproceedings{LM02,
+ author = {Lik Mui and Mojdeh Mohtashemi and Ari Halberstadt},
+ title = {Notions of reputation in multi-agents systems: a review},
+ booktitle = {AAMAS '02: Proceedings of the first international joint conference on Autonomous agents and multiagent systems},
+ year = {2002},
+ isbn = {1-58113-480-0},
+ pages = {280--287},
+ location = {Bologna, Italy},
+ doi = {http://doi.acm.org/10.1145/544741.544807},
+ publisher = {ACM Press},
+ address = {New York, NY, USA},
+ }
+
+
+
+@inbook{DG88,
+  author = "Diego Gambetta",
+  title = "Can We Trust Trust?",
+  editor = "D. Gambetta",
+  booktitle = {Trust: Making and Breaking Cooperative Relations},
+  publisher= "Basil Blackwell",
+  year = "1988",
+  note = {Reprinted in electronic edition from Department of Sociology, University of Oxford, chapter 13, pp. 213-237},
+  url = {citeseer.ist.psu.edu/gambetta88can.html}
+}
+
+@article{IFA02,
+ author = {I. F. Akyildiz and W. Su and Y. Sankarasubramaniam and E. Cayirci},
+ title = {Wireless sensor networks: a survey},
+ journal = {Computer Networks},
+ volume = {38},
+ number = {4},
+ year = {2002},
+ issn = {1389-1286},
+ pages = {393--422},
+ doi = {http://dx.doi.org/10.1016/S1389-1286(01)00302-4},
+ publisher = {Elsevier North-Holland, Inc.},
+ address = {New York, NY, USA},
+}
+
+@inproceedings{MC01,
+ author = {Mao Chen and Jaswinder Pal Singh},
+ title = {Computing and using reputations for internet ratings},
+ booktitle = {EC '01: Proceedings of the 3rd ACM conference on Electronic Commerce},
+ year = {2001},
+ isbn = {1-58113-387-1},
+ pages = {154--162},
+ location = {Tampa, Florida, USA},
+ doi = {http://doi.acm.org/10.1145/501158.501175},
+ publisher = {ACM Press},
+ address = {New York, NY, USA},
+}
+
+@InProceedings{RI03,
+  title =	"A Security Architecture for Reputation Systems",
+  author =	"Roslan Ismail and Colin Boyd and Audun J{\o}sang and
+		 Selwyn Russell",
+  booktitle =	"{E}-Commerce and Web Technologies, 4th International
+		 Conference, {EC}-Web, Prague, Czech Republic, September
+		 2-5, 2003, Proceedings",
+  publisher =	"Springer",
+  year = 	"2003",
+  volume =	"2738",
+  editor =	"Kurt Bauknecht and A. Min Tjoa and Gerald Quirchmayr",
+  ISBN = 	"3-540-40808-8",
+  pages =	"176--185",
+  series =	"Lecture Notes in Computer Science",
+}
+
+@TechReport{AJ05A,
+  contact =	"Michael Kinateder
+		 <Kinateder@informatik.uni-stuttgart.de>",
+  language =	"English",
+  publisher =	"Amsterdam, The Netherlands: IOS Press",
+  year = 	"2005",
+  keywords =	"trust, reputation, transitive, transitivity,
+		 trust-graph, trust-chains",
+  ISBN = 	"ISSN: 1570-1263",
+  notes =	"UniTEC
+		 Homepage==http://unitec.informatik.uni-stuttgart.de;
+		 citation: Simplification and Analysis of Transitive
+		 Trust Networks. In: Web Intelligence and Agent Systems:
+		 An International Journal",
+  series =	"Artikel in Zeitschrift",
+  institution =  "Universit{\"a}t Stuttgart, Fakult{\"a}t Informatik,
+		 Elektrotechnik und Informationstechnik, Germany",
+  author =	"Audun Jøsang and Elizabeth Gray and Michael
+		 Kinateder",
+  month =	{sep},
+  type = 	"Article in Journal",
+  abstract =	"When transacting and interacting through open computer
+		 networks, traditional methods used in the physical
+		 world for establishing trust can no longer be used.
+		 Creating virtual network substitutes with which people,
+		 organisations and software agents can derive trust in
+		 other parties requires computerised analysis of the
+		 underlying trust networks. This article describes an
+		 approach to trust network analysis using subjective
+		 logic (TNA-SL), that consists of the three following
+		 elements. Firstly it uses a concise notation with which
+		 trust transitivity and parallel combination of trust
+		 paths can be expressed. Secondly it defnes a method for
+		 simplifying complex trust networks so that they can be
+		 expressed in this concise form. Finally it allows trust
+		 measures to be expressed as beliefs, so that derived
+		 trust can be automatically and securely computed with
+		 subjective logic. We compare our approach with trust
+		 derivation algorithms that are based on normalisation
+		 such as PageRank and EigenTrust. We also provide a
+		 numerical example to illustrates how TNA-SL can be
+		 applied.",
+  title =	"Simplification and Analysis of Transitive Trust
+		 Networks",
+  booktitle =	"Web Intelligence and Agent Systems: An International
+		 Journal",
+  bibdate =	"August 4, 2005",
+  URL =  	"http://unitec.informatik.uni-stuttgart.de",
+}
+
+%Reputation System
+@InProceedings{LM04,
+  title =	"A Computational Model of Trust and Reputation for
+		 {E}-businesses",
+  author =	"Lik Mui and Mojdeh Mohtashemi and Ari Halberstadt",
+  year = 	"2002",
+  bibdate =	"2004-11-24",
+  bibsource =	"DBLP,
+		 http://dblp.uni-trier.de/db/conf/hicss/hicss2002-7.html#MuiMH02",
+  booktitle =	"HICSS",
+  pages =	"188",
+  URL =  	"http://dlib2.computer.org/conferen/hicss/1435/pdf/14350188.pdf?",
+}
+
+@Article{JS06,
+  title =	"Review on Computational Trust and Reputation Models",
+  author =	"Jordi Sabater and Carles Sierra",
+  journal =	"Artif. Intell. Rev",
+  year = 	"2005",
+  number =	"1",
+  volume =	"24",
+  bibdate =	"2006-01-17",
+  bibsource =	"DBLP,
+		 http://dblp.uni-trier.de/db/journals/air/air24.html#SabaterS05",
+  pages =	"33--60",
+  URL =  	"http://dx.doi.org/10.1007/s10462-004-0041-5",
+}
+
+@Article{LZ99,
+  author =	"Lidong Zhou and Zygmunt J. Haas",
+  title =	"Securing Ad Hoc Networks",
+  volume =	"13",
+  number =	"6",
+  URL =  	"http://www.ee.cornell.edu/~haas/Publications/network99.ps",
+  added-by =	"sti",
+  added-at =	"Wed Apr 4 17:40:39 2001",
+  pages =	"24--30",
+  year = 	"1999",
+  journal =	"{IEEE} Network",
+  annote =	"Overview of security issues in ad-hoc networks, mainly
+		 focusing on secure routing and key management.",
+}
+
+@TechReport{JAC07,
+author = {John A. Clark and Howard R. Chivers and John Murdoch and John A. Mc{D}ermid},
+title = {Trust and Risk Management at Integrated System Level: Research Issues for MANETs},
+institution = {International Technology Alliance (ITA)},
+year = {2007},
+type = {Report (Draft)},
+number = {ITA/TR/2007/03},
+month = {May}
+}
+
+@Article{AT74,
+  author =	"A. Tversky and D. Kahneman",
+  title =	"Judgment under uncertainty: Heuristics and biases",
+  journal =	"Science",
+  volume =	"185",
+  pages =	"1124--1131",
+  year = 	"1974",
+}
+
+@Book{DK82,
+  editor =	"Daniel Kahneman and Paul Slovic and Amos Tversky",
+  year = 	"1982",
+  title =	"Judgment under Uncertainty: Heuristics and Biases",
+  publisher =	"Cambridge University Press",
+  address =	"Cambridge",
+}
+
+@Article{AT81,
+  author =	"A. Tversky and D. Kahneman",
+  title =	"The framing of decisions and the psychology of
+		 choice",
+  journal =	"Science",
+  volume =	"211",
+  number =	"4481",
+  pages =	"453--458",
+  year = 	"1981",
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Static Learning %
+%%%%%%%%%%%%%%%%%%%%%%%
+@misc{YTL07A,
+author = {Yow Tzu Lim and Pau--Chen Cheng and John Andrew Clark and Pankaj Rohatgi},
+title = {Policy Evolution with Genetic Programming},
+year = {2007},
+month = {Nov}
+}
+
+@misc{SM96,
+  author = "S. Mitaim and B. Kosko",
+  title = "What is the best shape of a fuzzy set in function approximation",
+  text = "S. Mitaim and B. Kosko. What is the best shape of a fuzzy set in function
+    approximation. In IEEE International Conference on Fuzzy Systems, 1996.",
+  year = "1996",
+}
+
+
+@misc{HP05,
+author = {Hartmut Pohlheim},
+title = {GEATbx: Genetic and Evolutionary Algorithm Toolbox for use with Matlab},
+year = {2005},
+url = {http://www.geatbx.com/docu/algindex.html},
+}
+
+@INPROCEEDINGS{AK95,
+    author = {Anders Krogh and Jesper Vedelsby},
+    title = {Neural Network Ensembles, Cross Validation, and Active Learning},
+    booktitle = {Advances in Neural Information Processing Systems},
+    year = {1995},
+    pages = {231--238},
+    publisher = {MIT Press}
+}
+
+
+@BOOK{MH73,
+  AUTHOR = {Myles Hollander and Douglas A. Wolfe},
+  TITLE = {Nonparametric statistical inference},
+  PUBLISHER = {John Wiley \& Sons},
+  ADDRESS = {New York},
+  YEAR = {1973}
+}
+
+@book{BJ01,
+ author = {Branke,, Jurgen},
+ title = {Evolutionary Optimization in Dynamic Environments},
+ year = {2001},
+ isbn = {0792376315},
+ publisher = {Kluwer Academic Publishers},
+ address = {Norwell, MA, USA},
+ }
+
+@TECHREPORT{HGB90,
+  AUTHOR = {H. G. Cobb},
+  ADDRESS = {Washington, USA},
+  INSTITUTION = {Naval Research Laboratory},
+  NUMBER = {AIC-90-001},
+  TITLE = {An Investigation into the Use of Hypermutation as an Adaptive Operator in Genetic Algorithms Having Continuouis, Time-Dependent Nonstationary Environments},
+  TYPE = {Technical Report},
+  PS = {ftp://ftp.aic.nrl.navy.mil/pub/papers/1990/AIC-90-001.ps.Z},
+  YEAR = {1990}
+}
+
+@inproceedings{DP00,
+ author = {Domingos,, Pedro and Hulten,, Geoff},
+ title = {Mining high-speed data streams},
+ booktitle = {KDD '00: Proceedings of the sixth ACM SIGKDD international conference on Knowledge discovery and data mining},
+ year = {2000},
+ isbn = {1-58113-233-6},
+ pages = {71--80},
+ location = {Boston, Massachusetts, United States},
+ doi = {http://doi.acm.org/10.1145/347090.347107},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ }
+
+
+@inproceedings{FW04,
+ author = {Fan,, Wei},
+ title = {Systematic data selection to mine concept-drifting data streams},
+ booktitle = {KDD '04: Proceedings of the tenth ACM SIGKDD international conference on Knowledge discovery and data mining},
+ year = {2004},
+ isbn = {1-58113-888-1},
+ pages = {128--137},
+ location = {Seattle, WA, USA},
+ doi = {http://doi.acm.org/10.1145/1014052.1014069},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ }
+
+
+@book{CCA06,
+ author = {Aggarwal,, Charu C.},
+ title = {Data Streams: Models and Algorithms (Advances in Database Systems)},
+ year = {2006},
+ isbn = {0387287590},
+ publisher = {Springer-Verlag New York, Inc.},
+ address = {Secaucus, NJ, USA},
+ }
+
+
+@article{MMG05,
+ author = {Gaber,, Mohamed Medhat and Zaslavsky,, Arkady and Krishnaswamy,, Shonali},
+ title = {Mining data streams: a review},
+ journal = {SIGMOD Rec.},
+ volume = {34},
+ number = {2},
+ year = {2005},
+ issn = {0163-5808},
+ pages = {18--26},
+ doi = {http://doi.acm.org/10.1145/1083784.1083789},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ }
+
+@MANUAL{ILRI95,
+  title =	"{Livestock Policy Analysis, 	ILRI Training Manual; no.No. 2}",
+  organization = "International Livestock Research Institute",
+  month =       "May",
+  chapter =     "1.3",
+  year = 	"1995",
+  publisher =	"Addis Ababa: ILRI",
+  address =     "Ethiopia",
+  keywords =	"livestock economy; productive livestock; animal production; agricultural policy; Africa; market; marketing; land ownership",
+  ISBN = 	"92-9146-003-6",
+}
+
+@book{DB02,
+ author = {Daniel Barbara},
+ editor = {Sushil Jajodia},
+ title = "{Applications of Data Mining in Computer Security}",
+ year = {2002},
+ isbn = {1402070543},
+ publisher = {Kluwer Academic Publishers},
+ address = {Norwell, MA, USA},
+}
+
+@INPROCEEDINGS{HI05,
+    author = {Hajime Inoue and Stephanie Forrest},
+    title = {Inferring Java Security Policies Through Dynamic Sandboxing},
+    booktitle = {In International Conference on Programming Languages and Compilers, Las Vegas},
+    year = {2005}
+}
+
+@inproceedings{VJ07,
+ author = {Vaidya,, Jaideep and Atluri,, Vijayalakshmi and Guo,, Qi},
+ title = {The role mining problem: finding a minimal descriptive set of roles},
+ booktitle = {SACMAT '07: Proceedings of the 12th ACM symposium on Access control models and technologies},
+ year = {2007},
+ isbn = {978-1-59593-745-2},
+ pages = {175--184},
+ location = {Sophia Antipolis, France},
+ doi = {http://doi.acm.org/10.1145/1266840.1266870},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ }
+
+@inproceedings{KM03,
+ author = {Kuhlmann,, Martin and Shohat,, Dalia and Schimpf,, Gerhard},
+ title = {Role mining - revealing business roles for security administration using data mining technology},
+ booktitle = {SACMAT '03: Proceedings of the eighth ACM symposium on Access control models and technologies},
+ year = {2003},
+ isbn = {1-58113-681-1},
+ pages = {179--186},
+ location = {Como, Italy},
+ doi = {http://doi.acm.org/10.1145/775412.775435},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ }
+
+@Techreport{NHL07,
+	title = "Role Mining for Engineering and Optimizing Role Based Access Control Systems",
+	author = "Ninghui Li and Tiancheng Li and Ian Molloy and Qihua Wang and Elisa Bertino and Seraphic Calo and Jorge Lobo",
+	year = "2007",
+	month = "11",
+	day = "30",
+	abstract = "Role engineering is the process of designing an RBAC system.  A promising approach to
+role engineering is role mining, which uses data mining techniques to find an RBAC system
+from existing permission assignment data.  Role mining techniques are also useful for
+optimizing and refactoring an existing RBAC system, which can become increasingly chaotic
+over time. In this paper we study the problem of mining an RBAC system that optimizes
+some objective measure of ``goodness'' for RBAC systems. We introduce the weighted
+structural complexity measure, which sums up the sizes of different RBAC system
+components (e.g., the number of roles, the number of user-role assignments, etc.),
+possibly with different weights for each component. Different optimization objectives can
+be achieved by choosing different weight combinations.  We show that the optimization
+problem is NP-complete.  We then develop heuristic techniques for mining RBAC systems
+with low weighted structural complexity. We show that the problem of mining a
+hierarchical RBAC system is closely related to formal concept analysis, and develop an
+algorithm using the notion of a concept lattice. We also introduce new approaches to
+generating synthetic data for evaluating role mining techniques. Our experiments show
+that our algorithms outperform existing approaches.
+",
+	affiliation = "Purdue University, IBM T.J.Watson Research Center",
+}
+
+
+@PHDTHESIS{BZ03,
+  title = "Policy mining: Learning decision policies from fixed sets of data",
+  author = "Bianca Zadrozny",
+  year = "2003",
+  school = "University of California, San Diego",
+}
+
+@inproceedings{DP02,
+ author = {Pednault,, Edwin and Abe,, Naoki and Zadrozny,, Bianca},
+ title = {Sequential cost-sensitive decision making with reinforcement learning},
+ booktitle = {KDD '02: Proceedings of the eighth ACM SIGKDD international conference on Knowledge discovery and data mining},
+ year = {2002},
+ isbn = {1-58113-567-X},
+ pages = {259--268},
+ location = {Edmonton, Alberta, Canada},
+ doi = {http://doi.acm.org/10.1145/775047.775086},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ }
+
+@inproceedings{IM08,
+title="{Trading in Risk: Using Markets to Improve Access Control}",
+author="Ian Molloy and Pau-Chen Cheng and Pankaj Rohatgi",
+year="2008",
+month="{September}",
+booktitle="{New Security Paradigms Workshop (NSPW)}",
+address="{Plumpjack Squaw Valley Inn, Olympic, California, USA}",
+organization="{Applied Computer Security Associates (ACSA)}",
+note="{see also \cite{RiskMarket_IBM_RC}}"
+}
+
+@techreport{YTL07,
+    author      = "Yow Tzu Lim",
+    title       = "{Survey on Risk-based Decision Making}",
+    institution = "University of York",
+    type        = "Ph.D. Qualifying Dissertation",
+    year        = "2007",
+    month       = "July",
+    day         = "20",
+    address = "York, United Kingdom",
+    abstract  =
+        "Currently, most security policy work begins with a set of rules and then proceeds to look at the refinement problem. The notion of fixed benefit-risk tradeoff is implicitly encoded in this policy. This tradeoff set often becomes sub-optimal, especially in the case of MANET, where risk factors are constantly changing. Following the success of using biological inspired learning techniques in machine learning and data mining, a proposal is formed to explore possibilities of using these proven techniques to better guide decision making in security policy, prior and during operational deployment of the system. These techniques are: Genetic Programming (GP), Grammatical Evoluiton (GE) and Artificial Immune System (AIS). This report provides a review of the ways trust and risk can be used to make informed decisions and outlines the research proposal and techniques."
+}
+
+@InProceedings{EZ02,
+  author =	"Eckart Zitzler and Marco Laumanns and Lothar Thiele",
+  title =	"{SPEA2}: Improving the {S}trength {P}areto
+		 {E}volutionary {A}lgorithm",
+  booktitle =	"EUROGEN 2001. Evolutionary Methods for Design,
+		 Optimization and Control with Applications to
+		 Industrial Problems",
+  editor =	"K. Giannakoglou and D. Tsahalis and J. Periaux and P.
+		 Papailou and T. Fogarty",
+  pages =	"95--100",
+  address =	"Athens, Greece",
+  year = 	"2002",
+}
+
+@TechReport{YTL08A,
+author = "Yow Tzu Lim and Pau Chen Cheng and John Andrew Clark and Pankaj Rohatgi",
+title = "{P}olicy {E}volution with {G}enetic {P}rogramming",
+institution = "IBM Research Report RC24442",
+year = 2008,
+}
+
+@TechReport{PCC08,
+title="{R}isk {M}odulating {F}actors in {R}isk-{B}ased {A}ccess {C}ontrol for {I}nformation
+  in a {MANET}",
+author="Pau-Chen Cheng and Paul A. Karger",
+year= 2008,
+howpublished = "IBM Research Report RC24494",
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+@InProceedings{YTL08,
+  author =	"Yow Tzu Lim and Pau Chen Cheng and John Andrew Clark
+		 and Pankaj Rohatgi",
+  title =	"{P}olicy {E}volution with {G}enetic {P}rogramming: {A}
+		 {C}omparison of {T}hree {A}pproaches",
+  booktitle =	"2008 {IEEE} {W}orld {C}ongress on {C}omputational
+		 {I}ntelligence",
+  year = 	"2008",
+  editor =	"Jun Wang",
+  address =	"Hong Kong",
+  month =	jun # " 1--6",
+  organization = "IEEE Computational Intelligence Society",
+  publisher =	"IEEE Press",
+  isbn13 =	"978-1-4244-1823-7",
+  file = 	"EC0442.pdf",
+  abstract =	"In the early days a policy was a set of simple rules
+		 with a clear intuitive motivation that could be
+		 formalised to good effect. However the world is now
+		 much more complex. Subtle risk decisions may often need
+		 to be made and people are not always adept at
+		 expressing rationale for what they do. Previous
+		 research has demonstrated that Genetic Programming can
+		 be used to infer statements of policies from examples
+		 of decisions made [1]. This allows a policy that may
+		 not formally have been documented to be discovered
+		 automatically, or an underlying set of requirements to
+		 be extracted by interpreting user decisions to posed
+		 ``what if'' scenarios. This study compares the
+		 performance of three different approaches in using
+		 Genetic Programming to infer security policies from
+		 decision examples made, namely symbolic regression,
+		 IF-THEN rules inference and fuzzy membership functions
+		 inference. The fuzzy membership functions inference
+		 approach is found to have the best performance in terms
+		 of accuracy. Also, the fuzzification and
+		 de-fuzzification methods are found to be strongly
+		 correlated; incompatibility between them can have
+		 strong negative impact to the performance.",
+  keywords =	"genetic algorithms, genetic programming",
+  notes =	"WCCI 2008 - A joint meeting of the IEEE, the INNS, the
+		 EPS and the IET.",
+}
+
+@InProceedings{YTL08B,
+  author =	"Yow Tzu Lim and Pau Chen Cheng and Pankaj Rohatgi and
+		 John Andrew Clark",
+  title =	"{MLS} {S}ecurity {P}olicy {E}volution with {G}enetic
+		 {P}rogramming",
+  booktitle =	"{GECCO} '08: {P}roceedings of the 10th {A}nnual {C}onference
+		 on {G}enetic and {E}volutionary {C}omputation",
+  year = 	"2008",
+  editor =	"Maarten Keijzer and Giuliano Antoniol and Clare Bates
+		 Congdon and Kalyanmoy Deb and Benjamin Doerr and
+		 Nikolaus Hansen and John H. Holmes and Gregory S.
+		 Hornby and Daniel Howard and James Kennedy and Sanjeev
+		 Kumar and Fernando G. Lobo and Julian Francis Miller
+		 and Jason Moore and Frank Neumann and Martin Pelikan
+		 and Jordan Pollack and Kumara Sastry and Kenneth
+		 Stanley and Adrian Stoica and El-Ghazali Talbi and Ingo
+		 Wegener",
+  ISBN = 	"978-1-60558-130-9",
+  pages =	"1571--1578",
+  address =	"Atlanta, GA, USA",
+  URL =  	"http://www.cs.bham.ac.uk/~wbl/biblio/gecco2008/docs/p1571.pdf",
+  URL =  	"http://doi.acm.org/10.1145/1389095.1389395",
+  publisher =	"ACM",
+  publisher_address = "New York, NY, USA",
+  month =	jul # " 12--16",
+  keywords =	"genetic algorithms, genetic programming, MLS, policy
+		 inference, security policy, Real-World application",
+  notes =	"GECCO-2008 A joint meeting of the seventeenth
+		 international conference on genetic algorithms
+		 (ICGA-2008) and the thirteenth annual genetic
+		 programming conference (GP-2008). ACM Order Number
+		 910081. Also known as \cite{1389395}",
+}
+
+@InProceedings{YTL08C,
+  author =	"Yow Tzu Lim and Pau-Chen Cheng and John Andrew Clark
+		 and Pankaj Rohatgi",
+  title =	"{P}olicy {E}volution with {G}rammatical {E}volution",
+  booktitle =	"{P}roceedings of the 7th {I}nternational {C}onference on
+		 {S}imulated {E}volution And {L}earning ({SEAL} '08)",
+  year = 	2008,
+  editor =	"Xiaodong Li and Michael Kirley and Mengjie Zhang and
+		 David G. Green and Victor Ciesielski and Hussein A.
+		 Abbass and Zbigniew Michalewicz and Tim Hendtlass and
+		 Kalyanmoy Deb and Kay Chen Tan and J{\"u}rgen Branke
+		 and Yuhui Shi",
+  volume =	"5361",
+  series =	"Lecture Notes in Computer Science",
+  pages =	"71--80",
+  address =	"Melbourne, Australia",
+  month =	 dec # " 7--10",
+  publisher =	"Springer",
+  keywords =	"genetic algorithms, genetic programming, Grammatical
+		 Evolution",
+  isbn13 =	"978-3-540-89693-7",
+  doi =  	"doi:10.1007/978-3-540-89694-4_8",
+  abstract =	"Security policies are becoming more sophisticated.
+		 Operational forces will often be faced with making
+		 tricky risk decisions and policies must be flexible
+		 enough to allow appropriate actions to be facilitated.
+		 Access requests are no longer simple subject access
+		 object matters. There is often a great deal of context
+		 to be taken into account. Most security work is couched
+		 in terms of risk management, but the benefits of
+		 actions will need to be taken into account too. In some
+		 cases it may not be clear what the policy should be.
+		 People are often better at dealing with specific
+		 examples than producing general rules. In this paper we
+		 investigate the use of Grammatical Evolution (GE) to
+		 attempt to infer Fuzzy MLS policy from decision
+		 examples. This approach couches policy inference as a
+		 search for a policy that is most consistent with the
+		 supplied examples set. The results show this approach
+		 is promising.",
+  bibsource =	"DBLP, http://dblp.uni-trier.de",
+  doi-url =	"http://dx.doi.org/10.1007/978-3-540-89694-4_8",
+}
+
+@InProceedings{AT07,
+  title =	"{I}nferring {H}igher {L}evel {P}olicies from {F}irewall {R}ules",
+  author =	"Alok Tongaonkar and Niranjan Inamdar and R. Sekar",
+  publisher =	"USENIX Association",
+  address =	"Berkeley, CA, USA",
+  year = 	2007,
+  booktitle =	"{LISA} '07: {P}roceedings of the 21st {L}arge {I}nstallation {S}ystem {A}dministration {C}onference",
+  location =	"Dallas, TX",
+  pages =	"17--26",
+  URL =  	"http://www.usenix.org/events/lisa07/tech/tongaonkar.html",
+}
+
+@Book{KD01,
+  author =	"Kalyanmoy Deb",
+  title =	"{M}ulti-{O}bjective {O}ptimization {U}sing {E}volutionary {A}lgorithms",
+  year = 	"2001",
+  isbn =	"978-0-471-87339-6",
+  address =	"Chichester, UK",
+  publisher =	"Wiley",
+}
+
+@Misc{DS02,
+  title =	"{SPECTRE}: {A} Tool for Inferring, Specifying and Enforcing Web-Security Policies",
+  author =	"David Scott and Richard Sharp",
+  year = 	"2002",
+  month =	jul # " 14",
+  oai =  	"oai:CiteSeerPSU:690919",
+  rights =	"unrestricted",
+  URL =  	"http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.57.9004",
+}
+
+
+@InProceedings{SB01,
+  author =       "Stefan Bleuler and Martin Brack and Lothar Thiele and 
+                 Eckart Zitzler",
+  title =        "{M}ultiobjective {G}enetic {P}rogramming: {R}educing {B}loat
+                 using {SPEA2}",
+  booktitle =    "Proceedings of the 2001 Congress on Evolutionary
+                 Computation CEC2001",
+  year =         "2001",
+  pages =        "536--543",
+  address =      "COEX, World Trade Center, 159 Samseong-dong,
+                 Gangnam-gu, Seoul, Korea",
+  publisher_address = "445 Hoes Lane, P.O. Box 1331, Piscataway, NJ
+                 08855-1331, USA",
+  month =        may # " 27--30",
+  organisation = "IEEE Neural Network Council (NNC), Evolutionary
+                 Programming Society (EPS), Institution of Electrical
+                 Engineers (IEE)",
+  publisher =    "IEEE Press",
+  keywords =     "genetic algorithms, genetic programming, SPEA, SPEA2,
+                 Pareto, external set",
+  ISBN =         "0-7803-6658-1",
+  URL =          "ftp://ftp.tik.ee.ethz.ch/pub/people/zitzler/BBTZ2001b.ps.gz",
+}
+
+@misc{PDM04,
+author = "Patrick Drew Mc{D}aniel",
+title = "{P}olicy {E}volution: {A}utonomic {E}nvironmental {S}ecurity",
+month = dec,
+year = 2004,
+location = "Software Engineering Research Center Showcase, USA",
+url = "http://www.kaf42.ru/data/PKI/PKI_BOOK_PART2/policy/serc-12-04.pdf",
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mission Specific Policy Inference %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@InProceedings{JS05,
+  title =	"{R}ole {M}ining with {ORCA}",
+  author =	"J{\"u}rgen Schlegelmilch and Ulrike Steffens",
+  booktitle =	"{SACMAT} 2005, 10th {ACM} {S}ymposium on {A}ccess {C}ontrol {M}odels and {T}echnologies",
+  month = 	jun # " 1--3",
+  location = 	"Stockholm, Sweden",
+  publisher =	"ACM",
+  year = 	2005,
+  editor =	"Elena Ferrari and Gail-Joon Ahn",
+  ISBN = 	"1-59593-045-0",
+  pages =	"168--176",
+  URL =  	"http://doi.acm.org/10.1145/1063979.1064008",
+}
+
+
+@InCollection{AAF02,
+  author =	"Alex Freitas",
+  title =	"A survey of evolutionary algorithms for data mining and knowledge discovery",
+  chapter =	"33",
+  pages =	"819--845",
+  publisher =	"Springer-Verlag",
+  year = 	"2002",
+  keywords =	"genetic algorithms, genetic programming",
+  booktitle =	"Advances in Evolutionary Computation",
+  editor =	"A. Ghosh and S. Tsutsui",
+  URL =  	"http://www.macs.hw.ac.uk/~dwcorne/RSR/freitas01survey.pdf",
+}
+
+@InProceedings{GLP04,
+  author =	"Gisele L. Pappa and Alex A. Freitas",
+  title =	"{T}owards a {G}enetic {P}rogramming {A}lgorithm for {A}utomatically {E}volving {R}ule {I}nduction {A}lgorithms",
+  month =	sep # " 20--24",
+  year = 	"2004",
+  pages =	"93--108",
+  keywords =	"genetic algorithms, genetic programming, data mining,
+		 rule induction, classification",
+  URL =  	"http://www.ke.informatik.tu-darmstadt.de/events/ECML-PKDD-04-WS/Proceedings/pappa.pdf",
+  publication_type = "inproceedings",
+  submission_id = "4571_1102851561",
+  booktitle =	"ECML/PKDD 2004 Proceedings of the Workshop W8 on
+		 Advances in Inductive Learning",
+  editor =	"Johannes Furnkranz",
+  address =	"Pisa, Italy",
+  refereed =	"yes",
+  keywords =	"genetic algorithms, genetic programming",
+}
+
+
+@Book{JRK99,
+  author =       "John R. Koza and David Andre and 
+                 Forrest H {Bennett III} and Martin Keane",
+  title =        "{G}enetic {P}rogramming {III}: {D}arwinian {I}nvention and
+                 {P}roblem {S}olving",
+  publisher =    "Morgan Kaufman",
+  year =         1999,
+  month =        apr,
+  keywords =     "genetic algorithms, genetic programming",
+  ISBN =         "1-55860-543-6",
+  URL =          "http://www.genetic-programming.org/gpbook3toc.html",
+}
+
+@InProceedings{KS08,
+  author = "Kirk Schloegel and Tom Markham and Walt Heimerdinger and Alberto Schaeffer-Filho and Morris Sloman and Emil Lupu Seraphin B. Calo and Jorge Lobo",
+  title = "{S}ecurity {P}olicy {A}utomation --- from {S}pecification to {D}evice {C}onfiguration",
+  booktitle = "{P}roceedings of the of 26th {A}rmy {S}cience {C}onference ({ASC})",
+  year = 2008,
+}
+
+@InCollection{AA06,
+  author =	"Ajith Abraham and Crina Grosan",
+  title =	"{E}volving {I}ntrusion {D}etection {S}ystems",
+  year = 	2006,
+  booktitle =	"{G}enetic {S}ystems {P}rogramming: {T}heory and {E}xperiences",
+  pages =	"57--80",
+  volume =	"13",
+  series =	"Studies in Computational Intelligence",
+  editor =	"Nadia Nedjah and Ajith Abraham and Luiza {de Macedo
+		 Mourelle}",
+  publisher =	"Springer",
+  address =	"Germany",
+  note = 	"Forthcoming",
+  email =	"ajith.abraham@ieee.org",
+  keywords =	"genetic algorithms, genetic programming",
+  ISBN = 	"3-540-29849-5",
+  URL =  	"http://falklands.globat.com/~softcomputing.net/ids-chapter.pdf",
+  abstract =	"An Intrusion Detection System (IDS) is a program that
+		 analyses what happens or has happened during an
+		 execution and tries to find indications that the
+		 computer has been misused. An IDS does not eliminate
+		 the use of preventive mechanism but it works as the
+		 last defensive mechanism in securing the system. We
+		 evaluate the performances of two Genetic Programming
+		 techniques for IDS namely Linear Genetic Programming
+		 (LGP) and Multi-Expression Programming (MEP). Results
+		 are then compared with some machine learning techniques
+		 like Support Vector Machines (SVM) and Decision Trees
+		 (DT). Empirical results clearly show that GP techniques
+		 could play an important role in designing real time
+		 intrusion detection systems.",
+  notes =	"http://www.springer.com/sgw/cda/frontpage/0,11855,5-146-22-92733168-0,00.html",
+}
+
+@InProceedings{MC95,
+  title =	"{A}pplying {G}enetic {P}rogramming to {I}ntrusion {D}etection",
+  author =	"Mark Crosbie and Eugene H. Spafford",
+  booktitle =	"{W}orking {N}otes for the {AAAI} {S}ymposium on {G}enetic
+		 {P}rogramming",
+  year = 	1995,
+  editor =	"E. V. Siegel and J. R. Koza",
+  pages =	"1--8",
+  address =	"MIT, Cambridge, MA, USA",
+  publisher_address = "445 Burgess Drive, Menlo Park, CA 94025, USA",
+  month =	"10--12 " # nov,
+  publisher =	"AAAI",
+  keywords =	"genetic algorithms, genetic programming",
+  URL =  	"http://www.aaai.org/Library/Symposia/Fall/fs95-01.php",
+  URL =  	"http://citeseer.ist.psu.edu/197480.html",
+  notes =	"AAAI-95f GP {\em Telephone:} 415-328-3123 {\em Fax:}
+		 415-321-4457 {\em email} info@aaai.org {\em URL:}
+		 http://www.aaai.org/",
+}
+
+@inproceedings{WD06,
+ author = "Wilson, Dominic and Kaur, Devindar",
+ title = "{U}sing {G}rammatical {E}volution for {E}volving {I}ntrusion {D}etection {R}ules",
+ booktitle = "ISP'06: Proceedings of the 5th WSEAS International Conference on Information Security and Privacy",
+ year = 2006,
+ isbn = "960-8457-56-4",
+ pages = "183--188",
+ location = "Venice, Italy",
+ publisher = "World Scientific and Engineering Academy and Society (WSEAS)",
+ address = "Stevens Point, Wisconsin, USA",
+ }
+
+@InProceedings{SS08,
+  title =	"{E}volving {I}ntrusion {D}etection {R}ules on {M}obile {A}d {H}oc
+		 {N}etworks",
+  author =	"\c{S}en, Sevil and Clark, John A.",
+ booktitle =	"{PRICAI} 2008: {T}rends in {A}rtificial {I}ntelligence, 10th
+		 {P}acific {R}im {I}nternational {C}onference on {A}rtificial
+		 {I}ntelligence",
+  location = "Hanoi, Vietnam",
+  publisher =	"Springer",
+  year = 	2008,
+  volume =	"5351",
+  editor =	"Tu Bao Ho and Zhi-Hua Zhou",
+  ISBN = 	"978-3-540-89196-3",
+  pages =	"1053--1058",
+  series =	"Lecture Notes in Computer Science",
+  URL =  	"http://dx.doi.org/10.1007/978-3-540-89197-0_106",
+}	
+
+@InProceedings{TW06,
+  author =       "Thomas Weise and Kurt Geihs",
+  title =        "{DGPF} --- {A}n {A}daptable {F}ramework for {D}istributed
+                 {M}ulti-{O}bjective {S}earch {A}lgorithms applied to the
+                 {G}enetic {P}rogramming of {S}ensor {N}etworks",
+  pages =        "157--166",
+  year =         2006,
+  type =         "Research Talk Paper",
+  affiliation =  "University of Kassel, FB-16, Distributed Systems
+                 Group, Wilhelmsh{\"o}her Allee 73, 34121 Kassel,
+                 Germany",
+  copyright =    "unrestricted",
+  abstract =     "We present DGPF, a framework providing
+                 multi-objective, auto-adaptive search algorithms with a
+                 focus on Genetic Programming. We first introduce a
+                 Common Search API, suitable to explore arbitrary
+                 problem spaces with different search algorithms. Using
+                 our implementation of Genetic Algorithms as an example,
+                 we elaborate on the distribution utilities of the
+                 framework which enable local, Master/Slave,
+                 Peer-To-Peer, and P2P/MS hybrid distributed search
+                 execution. We also discuss how heterogeneous searches
+                 consisting of multiple, cooperative search algorithms
+                 can be constructed. Sensor networks are distributed
+                 systems of nodes with scarce resources. We demonstrate
+                 how Genetic Programming based on our framework can be
+                 applied to create algorithms for sensor nodes that use
+                 these resources very efficiently.",
+  keywords =     "Genetic Programming, Genetic Algorithms, DGPF, Sensor
+                 Network, Sensor Node",
+  language =     "en",
+  booktitle =    "{P}roceedings of the {S}econd {I}nternational {C}onference on
+                 {B}ioinspired {O}ptimization {M}ethods and their {A}pplication,
+                 {BIOMA} 2006",
+  editor =       "Bogdan Filipi{\v{c}} and Jurij {\v{S}}ilc",
+  isbn13 =       "978-961-6303-81-1",
+  publisher =    "Jo{\v{z}}ef Stefan Institute",
+  month =        "9-10 " # oct,
+  address =      "Jo{\v{z}}ef Stefan International Postgraduate School,
+                 Ljubljana, Slovenia",
+  language =     "en",
+  URL =          "http://www.it-weise.de/documents/files/WG2006DGPFc.pdf",
+}
+
+@inproceedings{JAC00,
+ author = "Clark, John A. and Jacob, Jeremy L.",
+  title =	"{S}earching for a {S}olution: {E}ngineering {T}radeoffs and
+		 the {E}volution of {P}rovably {S}ecure {P}rotocols",
+ booktitle = "{SP} '00: {P}roceedings of the 2000 {IEEE} {S}ymposium on {S}ecurity and {P}rivacy",
+ year = 2000,
+ isbn = "0-7695-0665-8",
+ pages = "82--95",
+ publisher = "IEEE Computer Society",
+ address = "Washington, DC, USA",
+ }
+
+@Article{PM06,
+  author =	"Paul Massey and John A. Clark and Susan Stepney",
+  title =	"{H}uman-{C}ompetitive {E}volution of {Q}uantum {C}omputing
+		 {A}rtefacts by {G}enetic {P}rogramming",
+  journal =	"{E}volutionary {C}omputation",
+  year = 	2006,
+  volume =	"14",
+  number =	"1",
+  pages =	"21--40",
+  month =	"Spring",
+  note = 	"Best of GECCO 2004 special issue",
+  keywords =	"genetic algorithms, genetic programming, quantum
+		 computing",
+  URL =  	"http://www.mitpressjournals.org/doi/abs/10.1162/evco.2006.14.1.21",
+  doi =  	"doi:10.1162/106365606776022797",
+  size = 	"20 pages",
+  abstract =	"We show how Genetic Programming (GP) can be used to
+		 evolve useful quantum computing artefacts of increasing
+		 sophistication and usefulness: firstly specific quantum
+		 circuits, then quantum programs, and finally
+		 system-independent quantum algorithms. We conclude the
+		 paper by presenting a human-competitive Quantum Fourier
+		 Transform (QFT) algorithm evolved by GP.",
+  notes =	"\cite{massey:eqc:gecco2004}",
+  doi-url =	"http://dx.doi.org/10.1162/106365606776022797",
+}
+
+@InProceedings{PWS94,
+  author =	"P. W. Shor",
+  title =	"{A}lgorithms for {Q}uantum {C}omputation: {D}iscrete
+		 {L}ogarithms and {F}actoring",
+  pages =	"124--134",
+  ISBN = 	"0-8186-6580-7",
+  editor =	"Shafi Goldwasser",
+  booktitle =	"{P}roceedings of the 35th {A}nnual {S}ymposium on
+		 {F}oundations of {C}omputer {S}cience",
+  month =	nov,
+  publisher =	"IEEE Computer Society Press",
+  address =	"Los Alamitos, CA, USA",
+  year = 	1994,
+}
+
+@Article{PWC97,
+  title =	"{P}olynomial-{T}ime {A}lgorithms for {P}rime {F}actorization and
+		 {D}iscrete {L}ogarithms on a {Q}uantum {C}omputer",
+  author =	"Peter W. Shor",
+  pages =	"1484--1509",
+  journal =	"{SIAM} {J}ournal on {C}omputing",
+  month =	oct,
+  year = 	1997,
+  volume =	"26",
+  number =	"5",
+  siam-key =	"29317",
+  preliminary =  "focs::Shor1994",
+}
+
+
+@InProceedings{JCHC06,
+  author =       "Julio C. Hernandez-Castro and 
+                 Juan M. Estevez-Tapiador and Arturo Ribagorda-Garnacho and 
+                 Benjamin Ramos-Alvarez",
+  title =        "{W}heedham: {A}n {A}utomatically {D}esigned {B}lock {C}ipher by
+                 means of {G}enetic {P}rogramming",
+  booktitle =    "{P}roceedings of the 2006 {IEEE} {C}ongress on {E}volutionary
+                 {C}omputation",
+  year =         2006,
+  editor =       "Gary G. Yen and Lipo Wang and Piero Bonissone and 
+                 Simon M. Lucas",
+  pages =        "499--506",
+  address =      "Vancouver",
+  month =        "6-21 " # jul,
+  publisher =    "IEEE Press",
+  keywords =     "genetic algorithms, genetic programming",
+  ISBN =         "0-7803-9487-9",
+  size =         "8 pages",
+  abstract =     "we present a general scheme for the design of block
+                 ciphers by means of Genetic Programming. In this vein,
+                 we try to evolve highly nonlinear and efficient
+                 functions to be used for the key expansion and the
+                 F-function of a Feistel network. Following this scheme,
+                 we propose a new block cipher design called Wheedham,
+                 that operates on 512 bit blocks and keys of 256 bits,
+                 of which we offer its C code (directly translated from
+                 the GP Trees) and some preliminary security results.",
+  notes =        "WCCI 2006 - A joint meeting of the IEEE, the EPS, and
+                 the IEE.
+
+                 IEEE Catalog Number: 06TH8846D",
+}
+
+@article{JP08,
+ author = "Polim\'{o}n, Javier and Hern\'{a}ndez-Castro, Julio C. and Est\'{e}vez-Tapiador, Juan M. and Ribagorda, Arturo",
+ title = "{A}utomated {D}esign of a {L}ightweight {B}lock {C}ipher with {G}enetic {P}rogramming",
+ journal = "{I}nt. {J}. Know.-{B}ased {I}ntell. {E}ng. {S}yst.",
+ volume = "12",
+ number = "1",
+ year = 2008,
+ issn = "1327-2314",
+ pages = "3--14",
+ publisher = "IOS Press",
+ address = "Amsterdam, The Netherlands, The Netherlands",
+ }
+
+@InProceedings{DJW94,
+  title =	"{TEA}, a {T}iny {E}ncryption {A}lgorithm",
+  author =	"David J. Wheeler and Roger M. Needham",
+  pages =	"363--366",
+  booktitle =	"{F}ast {S}oftware {E}ncryption: {S}econd {I}nternational
+		 {W}orkshop",
+  editor =	"Bart Preneel",
+  series =	"Lecture Notes in Computer Science",
+  volume =	"1008",
+  year = 	1994,
+  month =	"14--16 " # dec,
+  address =	"Leuven, Belgium",
+  publisher =	"Springer-Verlag",
+}
+
+@INPROCEEDINGS{HC03,
+  author = "Hao Chen and John Clark and Jeremy Jacob",
+  title = "{A}utomated {D}esign of {S}ecurity {P}rotocols",
+  booktitle = "{P}roceedings of the 2003 {C}ongress on {E}volutionary {C}omputation",
+  year = 2003,
+  pages = "2181--2188",
+  publisher = "IEEE Press"
+}
+
+@INPROCEEDINGS{HC04,
+  author = "Hao Chen and John Clark and Jeremy Jacob",
+  title = "{S}ynthesising {E}fficient and {E}ffective {S}ecurity {P}rotocols",
+  booktitle = "{ARSPA} '04: {P}roceedings of the 1st {A}utomated {R}easoning for {S}ecurity
+    {P}rotocol {A}nalysis {W}orkshop",
+  year = 2004,
+  pages = "25--40"
+}
+
+@misc{ECJ97,
+author = "Sean Luke",
+title = "{ECJ} {A} {J}ava-based {E}volutionary {C}omputation {R}esearch {S}ystem",
+year = 1997,
+url = "http://cs.gmu.edu/~eclab/projects/ecj/",
+}
+
+@INPROCEEDINGS{IM09,
+    author = "Ian Molloy and Ninghui Li and Tiancheng Li and Ziqing Mao and Qihua Wang and Jorge Lobo",
+    title = "{E}valuating {R}ole {M}ining {A}lgorithms",
+    booktitle = "{P}roceedings of the 14th {ACM} {S}ymposium on {A}ccess {C}ontrol {M}odels and {T}echnologies ({SACMAT})",
+    year = 2009,
+    pages = "95--104",
+}
+
+@InProceedings{CR03,
+  author =	"Conor Ryan and R. Muhammad Atif Azad",
+  title =	"{S}ensible {I}nitialisation in {C}horus",
+  booktitle =	"{P}roceedings of the {S}ixth {E}uropean {C}onference on
+		 {G}enetic {P}rogramming ({E}uro{GP}-2003)",
+  editor =	"Conor Ryan and Terence Soule and Maarten Keijzer and
+		 Edward Tsang and Riccardo Poli and Ernesto Costa",
+  pages =	"394--403",
+  year = 	2003,
+  publisher =	"Springer Verlag",
+  ISBN = 	"3-540-00971-X",
+  address =	"Essex, UK",
+  date = 	"April 14-16, 2003",
+  notes =	"Lecture notes in Computer Science vol. 2610",
+  volume =	"2610",
+  series =	"LNCS",
+  URL =  	"http://link.springer.de/link/service/series/0558/papers/2610/26100394.pdf",
+}
+
+
+@techreport{MR08,
+  author = "Mark Read",
+  title = "{E}xplicable {B}oolean {F}unctions",
+  institution = "Department of Computer Science, The University of York, UK",
+  year = 2007,
+  month = may,
+  type = "MEng Final Year Project",
+}
+
+@inproceedings{JB09,
+ author = "Bonneau, Joseph and Anderson, Jonathan and Church, Luke",
+ title = "{P}rivacy {S}uites: {S}hared {P}rivacy for {S}ocial {N}etworks",
+ booktitle = "{SOUPS} '09: {P}roceedings of the 5th {S}ymposium on {U}sable {P}rivacy and {S}ecurity",
+ year = 2009,
+ isbn = "978-1-60558-736-3",
+ pages = "1--1",
+ location = "Mountain View, California",
+ doi = "http://doi.acm.org/10.1145/1572532.1572569",
+ publisher = "ACM",
+ address = "New York, NY, USA",
+ }
+
+@PhdThesis{RMAA03,
+  author =       "Raja Muhammad Atif Azad",
+  title =        "{A} {P}osition {I}ndependent {R}epresentation for {E}volutionary
+                 {A}utomatic {P}rogramming {A}lgorithms - {T}he {C}horus {S}ystem",
+  school =       "University of Limerick",
+  year =         2003,
+  address =      "Ireland",
+  month =        dec,
+  URL =          "http://www.cs.ucl.ac.uk/staff/W.Langdon/ftp/papers/azad_thesis.ps.gz",
+  size =         "212 pages",
+  keywords =     "genetic algorithms, genetic programming, Chorus
+                 System, Grammatical Evolution",
+  abstract =     "We describe a new position independent encoding
+                 system, Chorus, for grammar based Evolutionary
+                 Algorithms. This scheme is coarsely based on the manner
+                 in nature in which genes produce proteins that regulate
+                 the metabolic pathways of the cell. The phenotype is
+                 the behaviour of the cells metabolism, which
+                 corresponds to the development of the computer program
+                 in our case. In this procedure, the actual protein
+                 encoded by a gene is the same regardless of the
+                 position of the gene within the genome.
+
+                 We show that the Chorus system has a very convenient
+                 Regular Expression type schema notation that can be
+                 used to describe the presence of various phenotypic
+                 traits. This notation is used to demonstrate that
+                 massive areas of neutrality can exist in the search
+                 landscape, and the system is also shown to be able to
+                 dispense with large areas of the search space that are
+                 unlikely to contain useful solutions.
+
+                 The searching capability of the system is exemplified
+                 by its application on a number of proof of concept
+                 problems, where the system has shown comparable
+                 performance to Genetic Programming and Grammatical
+                 Evolution and, in certain cases, it has produced
+                 superior results.
+
+                 We also analyse the role of the crossover in the Chorus
+                 System and conclude by showing its application on a
+                 real world problem from the blood flow domain.",
+}
+
+
+@ARTICLE{RTR00,
+    author = {R. Tyrrell Rockafellar and Stanislav Uryasev},
+    title = {Optimization of Conditional Value-at-Risk},
+    journal = {Journal of Risk},
+    year = {2000},
+    volume = {2},
+    pages = {21--41}
+}
+
+@Book{BR57,
+  author =       "Bellman, Richard",
+  title =        "Dynamic Programming",
+  publisher =    "Princeton University Press",
+  year =         "1957",
+  address =   "Princeton, NJ, USA",
+  edition =   "1",
+}
+
+@book{CO05,
+ author = {Capp{\'e}, Olivier and Moulines, Eric and Ryden, Tobias},
+ title = {Inference in Hidden Markov Models (Springer Series in Statistics)},
+ year = {2005},
+ isbn = {0387402640},
+ publisher = {Springer-Verlag New York, Inc.},
+ address = {Secaucus, NJ, USA},
+} 
+
+@article{KRE60,
+    Author = {Kalman, Rudolph Emil},
+    Title = {A New Approach to Linear Filtering and Prediction Problems},
+    Journal = {Transactions of the ASME--Journal of Basic Engineering},
+    Volume = {82},
+    Number = {Series D},
+    Pages = {35--45},
+    Year = {1960}
+}
+
+@techreport{WG95,
+ author = {Welch, Greg and Bishop, Gary},
+ title = {An Introduction to the Kalman Filter},
+ year = {1995},
+ publisher = {University of North Carolina at Chapel Hill},
+ address = {Chapel Hill, NC, USA},
+} 
+
+@BOOK{BD12,
+author = {Barber, D.},
+title= {{Bayesian Reasoning and Machine Learning}},
+publisher = {{Cambridge University Press}},
+year = 2012}
+
+@book{RCP05,
+ author = {Robert, Christian P. and Casella, George},
+ title = {Monte Carlo Statistical Methods (Springer Texts in Statistics)},
+ year = {2005},
+ isbn = {0387212396},
+ publisher = {Springer-Verlag New York, Inc.},
+ address = {Secaucus, NJ, USA},
+}
+
+@article{GJ89,
+  title={Bayesian Inference in Econometric Models Using Monte Carlo Integration},
+  author={Geweke, John},
+  journal={Econometrica},
+  volume={57},
+  number={6},
+  pages={1317--1339},
+  year={1989}
+}
+
+@article{MN53,
+  author = "Nicholas Metropolis and Arianna W. Rosenbluth and Marshall N. Rosenbluth and Augusta H. Teller and Edward Teller",
+  title = "Equation of State Calculations by Fast Computing Machines",
+  journal = "Journal of Chemical Physics",
+  volume = "21",
+  pages = "1087-1092",
+  year = "1953"
+}
+
+@article{WKH70,
+ author = "W.K. Hastings",
+ title = "Monte Carlo samping methods using Markov chains and their applications",
+ journal = "Biometrika",
+ volume = "57",
+ pages = "97-109",
+ year = "1970",
+ doi ="10.1093/biomet/57.1.97"
+}
+
+@article{GS84,
+ author = {Geman, Stuart and Geman, Donald},
+ title = {Stochastic Relaxation, Gibbs Distributions, and the Bayesian Restoration of Images},
+ journal = {IEEE Trans. Pattern Anal. Mach. Intell.},
+ issue_date = {November 1984},
+ volume = {6},
+ number = {6},
+ month = nov,
+ year = {1984},
+ issn = {0162-8828},
+ pages = {721--741},
+ numpages = {21},
+ url = {http://dx.doi.org/10.1109/TPAMI.1984.4767596},
+ doi = {10.1109/TPAMI.1984.4767596},
+ acmid = {2286617},
+ publisher = {IEEE Computer Society},
+ address = {Washington, DC, USA},
+ keywords = {Annealing, Gibbs distribution, MAP estimate, Markov random field, image restoration, line process, relaxation, scene modeling, spatial degradation},
+} 
+

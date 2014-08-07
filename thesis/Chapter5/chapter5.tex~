@@ -1,0 +1,295 @@
+\chapter{Evaluation and conclusions}
+\graphicspath{{Chapter5/figures/}}
+\label{EvaluationAndConclusion}
+The work reported in previous chapters provides evidence to support
+the thesis hypothesis stated in
+Section~\ref{ThesisHypothesisAndContribution}, namely:
+\begin{quote}
+  Evolutionary algorithms~(EAs) have the potential to be an effective
+  means of determining the security policies that suit dynamic
+  challenging environments.
+\end{quote}
+This chapter reviews the work that has been done, evaluates the extent
+to which they justify the thesis hypothesis and concludes the thesis
+by addressing the directions for future work.
+
+\section{Evaluation}
+\label{Evaluation}
+In previous three chapters, We have detailed several experimentations
+that serves to support the thesis hypothesis from three different
+strands of research. We explored the potential of EAs in inferring
+optimal security policies, dynamically updating security policies with
+new decision examples and searching for policies with optimal trade
+offs between objectives using simulation runs. This section summarises
+the work completed in each strand of research and outlines the
+contributions and novelty of the work presented in this thesis.
+
+\subsection{Static policy inference}
+\label{Evaluation.StaticSecurityPolicyInference}
+Current security policy is often developed in a top-down
+approach. High-level security goals are first determined, after which
+they undergo a series of refinement processes to obtain the low-level
+executable rules. Although some work has been done in applying machine
+learning techniques to aid the policy refinement process, there is no
+previous work to my knowledge in the application of EAs or machine
+learning techniques in inferring security policies.
+
+Chapter~\ref{StaticSecurityPolicyInference} details the experiments in
+using EAs to infer security policies from decision examples. Here EAs
+is used as a tool to generalise a set of low-level examples to a set
+of high-level rules. Various simple security policies have been
+attempted and inferred successfully. These include the traditional MLS
+Bell-LaPadula policy model, the budgetised MLS policy model and the
+Fuzzy MLS policy model. Two different EAs, namely GP and GE are
+used. In all cases, the results show that a minimal amount of design
+effort and domain knowledge are required to infer the reference policy
+or a close approximator of it. The only requirements are to have a
+good fitness function and training examples that form a good
+representation of the target policy.
+
+The last part of the chapter presents how other machine techniques can
+be incorporated into the policy inference framework created. Fuzzy set
+concept is used as an example here. Multiple policies are learnt
+independently; each of which focuses on inferring a fuzzy rule for a
+particular class of decisions~(fuzzification). The ultimate output
+policy, which is an ensemble of all these policies, is formed using a
+weighted voting mechanism~(defuzzification). Various experiments have
+been carried out to examine different fuzzification and
+defuzzification techniques. The results show that these approaches can
+consistently infer policies that closely match with the original
+reference models used.
+
+\subsection{Dynamic policy inference}
+\label{Evaluation.DynamicSecurityPolicyInference}
+There will inevitably be times when unseen circumstances demand a
+decision during operation. In some cases the default automated
+response may be imperative; in other cases this may be
+ill-advised. Manual decisions made to override the default one
+essentially define a new policy. Furthermore, even if the optimal
+security policy can be developed or inferred automatically, it would
+eventually become suboptimal due to the changes in either the
+operational environment or security requirements, or both. Therefore, a
+security policy has to be able to continually change and be updated to
+suit the operational needs to maintain its optimality.
+
+Chapter~\ref{DynamicSecurityPolicyInference} details the experiments
+on dynamic security policy inference. As there is no dynamic security
+policy model available and therefore no decision example is available
+for us to work with, we designed a dynamic security policy model. This
+model is used to generate time varying decision examples for training
+and evaluation purposes.
+
+To infer this dynamic security policy model, two novel dynamic
+learning frameworks based upon MOEAs are designed: one that based on
+Fan's intuition~\cite{FW04} and DOO. In DOO, an $n$-objective
+optimisation problem is treated as a $2n$-objective optimisation
+problem by adding an opposing objective for each of the original
+objectives. With such a setting, DOO is able to maintain the diversity
+among the individuals in the population whilst optimising the intended
+objectives. This diversity can aid in preventing the population from
+premature convergence and allows the concept drift in the policy to be
+continually relearnt. The results show that these frameworks are very
+promising. Reasonably good approximators to the model are able to be
+inferred from the examples using these frameworks.
+
+\subsection{Mission-specific policy discovery}
+\label{Evaluation.MissionSpecificPolicyDiscovery}
+Chapter~\ref{MissionSpecificPolicyDiscovery} introduces the notion of
+mission-specific policy discovery. EAs are used to search for the
+security policies that can provide the optimal, or at least excellent,
+tradeoffs among security objectives for a specific mission. Here, EAs
+serve as an optimisation tool to synthesise the optimal policies, in
+terms of achieving the mission as well as security objectives without
+violating the constraints given.
+
+We demonstrate here how simulation can be used to obtain the fitnesses
+of the policy candidates that are used to guide the policy search. To
+evaluate the fitness of an individual~(policy) for a mission, the
+policy is first plugged into a simulated mission, then the simulated
+mission is executed and the outcome of it is measured. This is very
+different from the practice of fitting a policy a priori without the
+details of the specific mission being taken into account. This concept
+of ``mission-specific policy'' is entirely novel.
+
+Various EA baed techniques are used here to discover the optimal
+policies. These include GP/MOGP and DOO. In all cases, the results
+show that these techniques are able to discover the set of policies
+that are optimal for the mission of concern. By using MOGP (and MOEAs
+in general), tradeoffs between a variety of criteria can be
+explored. Such information can be valuable to policy makers to select
+and apply the optimal policy that best fits the current operation.
+
+\subsection{Thesis contributions}
+In summary, we demonstrate how:
+\begin{itemize}
+\item EAs can be used to infer static security policies from a set of
+  decision examples. Three different ways of representing security
+  policies and two different EAs are investigated. The results show
+  that this idea is feasible.
+\item the fuzzy set concept can be integrated into the policy
+  inference framework to improve the policy inference performance. The
+  idea is sufficiently generic to be applied to other classification
+  problems, provided that there is a partial ordering among the
+  classes.
+\item multi-objective evolutionary algorithms~(MOEAs) can be used to
+  infer dynamic security policies from a set of decision examples. Two
+  novel dynamic learning frameworks based upon MOEAs are developed:
+  one that is based on Fan's intuition and DOO. Both of them can be
+  used as general dynamic classification algorithms.
+\item an ensemble policy model can be constructed from multiple models
+  in a single EA run to achieve better performance. The improvement is
+  especially significant in the DOO setting.
+\item MOEAs can be used to infer a set of Pareto optimal policies that
+  fit a specific mission~(or at least a specific family of missions).
+\item simulation runs can be used in place of a set of decision
+  examples to provide feedback in evaluating the fitness of a policy
+  with respect to the specified high-level objectives.
+\item MOEAs can be used as a decision making tool where tradeoffs
+  between objectives exists. The Pareto front of the security policies
+  discovered using MOEAs can reveal useful information about the
+  relationship among different objectives, which may be difficult to
+  obtain otherwise. Such information provides useful insight for
+  policy makers to select and apply the optimal policy that fits the
+  needs of current operational environment on a case-by-case basis.
+\end{itemize}
+
+\section{Envisaged future work}
+Having discussed the contributions of the thesis, we now outline
+numerous possible directions for future work that have been identified
+during the course of this research.
+
+\subsection{Policy fusion}
+In dynamic coalitions, parties with different policies can come
+together to collaborate. Prior to the formation of dynamic coalitions,
+each party may have its own security policy. An interesting step
+forward would be to investigate how well EAs could be used to combine
+these security policies together. One possible way is to generate
+decision examples from both existing policies and use these examples
+as the training input for the policy inference framework. MOEAs can
+also be used to discover the Pareto optimal set of policy candidates,
+which are then chosen depending on the security requirements. However
+there are still issues that require further investigation. These
+include:
+\begin{itemize}
+\item Understanding how to deal with policies that consists of
+  different sets of decision-making factors, which may be measured
+  using different scales.
+\item Understanding what the implicit priorities that EAs have
+  assigned to the conflicting rules are, what the factors that
+  influence the priorities are and how to control these priorities,
+  etc.
+\end{itemize}
+
+\subsection{The robustness of a security policy}
+The framework proposed in this thesis has been shown to be effective
+in dynamically inferring the optimal policy. However, the optimality
+of a policy is not always the only factor of concern; the robustness
+in performance of a security policy in different environments may be
+equally important. This is especially so in a pervasive operating
+environment where the deployment of a new policy can be a difficult or
+expensive process. To incorporate this factor into the proposed
+framework, a way to quantify the robustness in performance of a
+security policy is required.
+%  One simple way to quantify the
+%  robustness in performance of a policy is defined as follows:
+%  \begin{enumerate}
+%  \item Split the decision examples in the training set into multiple
+%    subsets, possibly based on the time when the decision is made.
+%  \item Measure the performance of the security policy on the examples
+%    in each subset.
+%  \item The robustness in performance of the security policy can be
+%    estimated with the variance of the performance of the security
+%    policy over all the subsets. More robust security policy has
+%    smaller variance.
+%  \end{enumerate}
+
+This measure also provides a way to determine the invariant part of
+the optimal policies for different operational environments of
+concern. The determination of this invariant part is doubly useful:
+Firstly, it can serve as a template or testing target in the policy
+development process. Secondly, it can help to protect the security
+policy inference framework from poisoning attack, which attempts to
+mislead the inference process in the favour of the attacker by the
+injection of specially crafted decision examples.
+
+\subsection{Scalability with the training set size}
+Scalability is a subtle issue. We have addressed some aspects of this
+issue. For example, we have shown the method scales well with the size
+of the training set. In the experiments presented in
+Chapter~\ref{StaticSecurityPolicyInference}, we have increased the
+size of the training set from $100$ examples to $1000$ examples and
+the results still remain consistent. Obviously, the fitness evaluation
+time would increase; $1000$ examples take ten times longer than $100$
+examples to evaluate. This is unlike to be an issue in practice as the
+fitness evaluation of each individual can be executed in parallel if
+necessary. In Chapter~\ref{DynamicSecurityPolicyInference}, we have
+shown that DOO is able to evolve and update policies with decision
+examples in an incremental manner. However, there are still some
+issues remaining with these frameworks that need to be
+investigated. This includes searching for appropriate techniques to
+sample old decision examples and examining the generality of the DOO
+framework.
+
+\subsection{More complex security policies}
+The security policies used in this thesis are rather simple. This can
+be potentially an issue. However, note that these policies are either
+real-world policies or proposals from major research institutes for
+real world use. They are simple, but by no means ``toy''
+policies. Ultimately, we should strive for simple policies wherever is
+possible, but at the same time, we should also need to acknowledge
+that MANET policies may need legitimately to be much more
+complicated. To cope with complexity, instead of attempting to extract
+and discover the policies as a whole, we could simply target the areas
+that we need help. Humans produce security policies sequentially too,
+i.e., they consider in turn authentication policy, file access
+control, audit policy, etc. In practice, it is also often that there
+are some rules of thumbs and constraints that are dictated from on
+high. We do not need to extract these bits of a policy. Yet, there is
+still much to answer here, for example:
+\begin{itemize}
+\item Can EAs be used to evolve more complex policies or policies of
+  other types, e.g., obligation policies? If not, how can we divide
+  the security policies into smaller components in a systematic
+  manner?
+\item How to incorporate the constraints imposed from on high into
+  the policy inference framework to form a continuous learning loop
+  in an efficient manner? Should we take such constraints into
+  consideration in the evolution process? If so, how?
+\end{itemize}
+
+\subsection{More complex scenarios}
+The scenario used in Chapter~\ref{MissionSpecificPolicyDiscovery} is
+relatively simple. It has only one type of agent in each team and one
+type of information. A real test of this approach would be to embed it
+within a more realistic simulated scenario, with more sophisticated
+information types, and realistic consequence models. Note that the
+simulated scenario may be much more complex but we are really
+interested in some of the measurable properties, which may only be
+few. For example, how many properties would an operational commander
+be interested in feasibly ready trading off? The techniques proposed
+here should be able to scale well with it.
+
+\section{Closing remarks}
+\label{ClosingRemark}
+The work reported in this thesis demonstrates a considerable degree of
+originality supported by extensive experimentation. The case studies
+are necessarily limited.~(MANETs of the sorts we envisage do not
+really exist right now.) However, the results~(published at both
+optimisation and security venues) demonstrate that inference based
+approaches using evolutionary algorithms have very considerable
+promise. Everyone accepts that policy specification is currently
+difficult, and things are set to worsen as systems are deployed in
+ever more complex environments with increasing sophistication and
+subtlety of decision-making process. We recommend these approaches to
+the research community for further investigation.
+
+
+%%% ----------------------------------------------------------------------
+
+% ------------------------------------------------------------------------
+
+%%% Local Variables: 
+%%% mode: latex
+
+%%% TeX-master: "../thesis"
+%%% End: 

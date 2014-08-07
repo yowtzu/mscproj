@@ -1,0 +1,56 @@
+% Thesis Acknowledgements ------------------------------------------------
+
+
+%\begin{acknowledgementslong} %uncommenting this line, gives a different acknowledgements heading
+\begin{acknowledgements}      %this creates the heading for the acknowlegments
+  I would like to express my gratitude to all who have provided
+  support in accomplishing this thesis. I would like to thank my
+  Ph.D. supervisor, John A. Clark for the opportunity given to carry
+  out this research and also for his guidance, expertise and
+  encouragement during the course of this research. I would like to
+  thank John McDermid for his critical comments and suggestions given
+  in his role as the internal assessor.
+
+  I am grateful for having had the two internship opportunities and
+  one research visit at IBM T. J. Watson Research Center in Hawthorne,
+  NY, and be acquainted with many bright and nice people. They have
+  provided insightful feedback and suggestion on my works. In
+  particular, I would like to thank my manager Pankaj Rohatgi and my
+  mentor Pau Chen Cheng. They have not only guided me with their
+  expertise, but also trained me think critically through one to one
+  discussion and built my confidence in having my own idea and
+  presenting the idea to others. Many thanks are also due to Wei Fan
+  and Charu C. Aggarwal who had provided insignificant insight and
+  direction in the data stream mining domain and to Vugranam C.
+  Sreedhar, Charanjit S. Jutla and Suresh N. Chari in the security
+  domain.
+
+  I would like to thank the research members in my department,
+  especially Juan E. Tapiador, Sevil Sen, David R. White and Chen Hao
+  who has provided insightful discussion in my research. I would also
+  like to thank the support staffs, especially Mark Hewitt, Aaron
+  Turner and James Carter who has upkept the grid servers, on which my
+  experiments have been carried out. A special thank also goes to
+  Grace Shiao En Chng in spending her valuable time to proof read my
+  this thesis.
+
+  I would also like to express my appreciation to my parents Kong Woon
+  Lim and Ai Lim Chum, my sister Wan Sin Lim and my friend Ka Ki Lai
+  for their endless support and care in my personal life during the
+  course of my Ph.D. study. I would like to thank God Almighty, Who
+  has given me the strength and peace to work hard on this project.
+
+  Lastly, I am indebted to the US Army Research laboratory and the UK
+  Ministry of Defence for the provision of financial support work
+  under the Project 6: Trust and Risk Management in Dynamic Coalition
+  Environments in the International Technology Alliance in Network and
+  Information Sciences (ITA) Project.
+\end{acknowledgements}
+%\end{acknowledgmentslong}
+
+% ------------------------------------------------------------------------
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End: 

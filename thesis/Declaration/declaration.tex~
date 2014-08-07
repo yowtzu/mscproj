@@ -1,0 +1,70 @@
+% Thesis Dedictation ---------------------------------------------------
+
+\begin{declaration} 
+  The work submitted in this thesis is the result of my own
+  investigation. Work appearing here has appeared in print as follows:
+
+  \begin{itemize}
+\item Yow Tzu Lim, Pau Chen Cheng, John A. Clark, and Pankaj Rohatgi.
+\newblock IBM Research Report RC24442: Policy Evolution with Genetic
+  Programming.
+\newblock Technical report, 2007.
+
+\item Yow Tzu Lim, Pau Chen Cheng, John A. Clark, and Pankaj Rohatgi.
+\newblock Policy Evolution with Genetic Programming: A Comparison of Three
+  Approaches.
+\newblock In {\em 2008 IEEE World Congress on Computational
+  Intelligence}, Hong Kong, 1-6 June 2008. IEEE Computational Intelligence
+  Society, IEEE Press.
+
+\item Yow Tzu Lim, Pau Chen Cheng, Pankaj Rohatgi, and John A. Clark.
+\newblock {MLS} Security Policy Evolution with Genetic Programming.
+\newblock In {\em GECCO '08: Proceedings of the 10th annual conference on Genetic
+  and evolutionary computation}, pages 1571--1578, Atlanta, GA, USA, 12-16 July
+  2008. ACM.
+
+\item Yow Tzu Lim, Pau Chen Cheng, John A. Clark, and Pankaj Rohatgi.
+\newblock Policy Evolution with Grammatical Evolution.
+\newblock In {\em The Second Annual Conference of the International Technology
+  Alliance}, Adelphi, Maryland, USA, 2008.
+
+\item Yow Tzu Lim, Pau Chen Cheng, John A. Clark, and Pankaj Rohatgi.
+\newblock Policy Evolution with Grammatical Evolution.
+\newblock In {\em Proceedings of the 7th International Conference on Simulated Evolution And Learning (SEAL '08)}, volume 5361 of {\em Lecture Notes in Computer Science}, pages 71--80, Melbourne, Australia, December 7-10 2008. Springer.
+
+\item Yow Tzu Lim, John A. Clark, Pau Chen Cheng, and Juan E. Tapiador.
+\newblock Mission Specific Security Policy Discovery.
+\newblock In {\em The Third Annual Conference of the International Technology
+  Alliance}, Adelphi, Maryland, USA, 2009.
+
+\item Yow Tzu Lim, Pau Chen Cheng, John A. Clark, and Pankaj Rohatgi.
+\newblock IBM Research Report RC24865: Dynamic Security Policy Learning.
+\newblock Technical report, 2009.
+%  \item Y. T. Lim, J. A. Clark, P. Cheng, and J. E. Tapiador,
+%    ``Mission Specific Security Policy Discovery,'' submitted to IEEE
+%    Security \& Privacy Conference, Oakland, USA, 2010.
+  \end{itemize}
+
+  I am the primary author of all work reported in this thesis. Advice
+  on specific aspects of the work was provided by my Ph.D. supervisor,
+  John A. Clark and other co-authors.
+
+  The research was sponsored by US Army Research laboratory and the UK
+  Ministry of Defence and was accomplished under Agreement Number
+  W911NF-06-3-0001. The views and conclusions contained in this
+  document are those of the authors and should not be interpreted as
+  representing the official policies, either expressed or implied, of
+  the US Army Research Laboratory, the U.S. Government, the UK
+  Ministry of Defence, or the UK Government. The US and UK Governments
+  are authorised to reproduce and distribute reprints for Government
+  purposes notwithstanding any copyright notation hereon.
+
+\end{declaration}
+
+
+% ----------------------------------------------------------------------
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End: 

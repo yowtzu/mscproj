@@ -1,0 +1,1712 @@
+\chapter{Static Security Policy Inference}
+\graphicspath{{Chapter5/figures/}}
+\label{StaticSecurityPolicyInference}
+% In the early days a policy was a set of simple rules with a clear
+% intuitive motivation that could be formalised to good effect. MLS
+% Bell-LaPadula policy is a good example. However the world is now much
+% more complex. Subtle risk decisions may often need to be made. Thre is
+% often a great deal of context to be taken into account. People are not
+% always adept at expressing rationale for what they do. In some cases
+% it may not be clear what the policy should be. People are often better
+% at dealing with specific examples than producing general rules. This
+% chapter investigates how statements of policies can be derived
+% automatically from examples of decisions made using Evolutionary
+% Algorithms. This approach couches policy inference as a search over a
+% policy space for the policy that is most consistent with the supplied
+% training decision example. This allows us to automatically discover a
+% policy that may not formally have been documented, or else extract an
+% underlying set of requirements by interpreting user decisions to posed
+% ``what if'' scenarios.
+
+In computer systems, a security policy is essentially a set of rules
+specifying the way to secure a system for the present and the
+\emph{future}. Forming a security policy is a challenging task: the
+system may be inherently complex with many potentially conflicting
+factors. Traditionally, security policies have had a strong tendency
+to encode a static view of risk and how it should be managed (most
+typically in a pessimistic or conservative way) \cite{JPO04}. Such an
+approach will not suffice for many dynamic systems which operate in
+highly uncertain, inherently risky environments. In many military
+operations, for example, we cannot expect to predict all possible
+situations.
+
+Much security work is couched in terms of risk but in the real world
+there is benefit to be had. In military operations you may be prepared
+to risk a compromise of confidentiality if not doing so could cost
+lives. There is a need for operational flexibility in the
+decision-making process, yet we cannot allow recklessness.  Decisions
+need to be defensible and so must be made on some principled basis. It
+is very useful to be able to codify in what a ``principled basis''
+consists since this serves to document ``good practice'' and
+facilitates its propagation.
+
+% People are typically better at making specific decisions than in
+% providing abstract justification for their decisions.
+
+The above discussion has been couched in terms of human
+decision-making process. In some environments the required speed of
+system response may force an automated decision. Such automated
+decisions must also be made on a ``principled basis'', and some of
+these decisions may be very tricky.  Automated support must be
+provided with decision strategies or rules to apply.
+
+In this chapter we investigate how security policy rules can be
+extracted automatically from examples of decisions made in specified
+circumstances. This is an exercise in \emph{policy inference}. The
+automation aspect of the inference is doubly useful: automated
+inference techniques can discover rules that humans would miss; and
+policies can be dynamically inferred as new examples of tricky
+decisions become available. Thus the current policy can evolve to
+reflect the experience of the system.
+
+For example, if a human determines what the proper response should be
+made based upon the information available, either in real-time or post
+facto, a conclusion is drawn that similar responses should be given
+under similar circumstances. Essentially, we attempt to partition the
+decision space such that each partition is associated with a response
+that is commensurate with the risk vs. benefit tradeoff for that
+partition.
+
+In practice, different decision makers may come to different decisions
+in the same circumstances, particularly when the decision are
+tricky. Decision makers may use data that is not available to the
+inference engine to reach a decision, or else one decision maker may
+simply have a different appetite for risk. Any inference technique
+must be able to handle sets of decision examples that do not seem
+entirely consistent. Here we choose to use evolutionary algorithms as
+our inference techniques because they make rather weak assumptions on
+the solution space and therefore have the ability to search for
+solutions of unknown (or controlled) size and shape in vast,
+discontinuous solution spaces. Other data mining algorithms and
+heuristic search techniques are potentially applicable.
+
+This chapter documents some proof of concept experiments in using
+evolutionary algorithms to infer security policy models. All results
+suggest that policy inference using evolutionary algorithms are
+feasible.
+
+The rest of the chapter is organized as follows: Section
+\ref{sec:experimentalframework} starts with an overview on the
+experimental framework. Sections
+\ref{sec:expmlsblpolicy}--\ref{sec:expfuzzymlspolicy} detail the
+setups and results of various experiments in using Genetic Programming
+to infer various security policy models from decision examples, namely
+the MLS Bell-LaPadula model, Budgetised MLS model and Fuzzy MLS model.
+Section \ref{sec:radicalidea} shows how the fuzzy set concept can be
+incorporated to improve the inference ability. Section \ref{sec:ge}
+details the setups and results of experiments in inferring Fuzzy MLS
+policy model using an alternative grammar based evolutionary algorithm
+--- Grammatical Evolution. The final section concludes the chapter
+with a summary of results and identifies possible future work.
+
+\section{GP based Security Policy Inference Framework}
+\label{sec:experimentalframework}
+As most security policies can be represented as a set of \texttt{IF
+  $<$condition$>$ THEN $<$decision$>$} rules,
+we start with using Strongly typed Genetic Programming (STGP) to
+discover an expression for the condition corresponding to each
+possible decision. STGP ensures the closure property is
+satisfied. Each node is augmented with a type and a set of type rules
+is defined to specify how nodes in a tree can be connected with one
+another. For example, we may require that $\geq$ take two floating
+point children and return a boolean value. The population
+initialisation and evolutionary operations must obey the type rules and
+only well–typed individuals are maintained in the population.
+
+Each individual represents a candidate condition for an action. The
+leaf nodes are elements of the terminal set $T$.  These nodes can be
+either a variable that represents one of the decision-making factors
+or a constant. These nodes are joined together with operators which
+themselves are joined together with other operators recursively. The
+operators generally can be divided in to $3$ layers. The operators at
+the lowest level evaluates the child nodes and returns a value of the
+same type as them. The next layer are the logic relational operators
+such as $<$ or $\in$; such an operator compares two typed values and
+returns a boolean value. These boolean values are combined at the
+highest layer with the logical composition operators such as $AND$,
+$OR$ or $NOT$. The root node in a tree must evaluate to a Boolean. $3$
+well-typed individual examples of the condition for read access in MLS
+Bell-LaPadula policy model is depicted in Figure
+\ref{fig:IndividualExamples}.
+
+\begin{figure}[htbp]
+ \centering
+ \resizebox{\textwidth}{!}{
+  \begin{bundle}{\gpbox{AND}}\chunk{\begin{bundle}{\gpbox{OR}}\chunk{\begin{bundle}{\gpbox{$>$}}\chunk{\gpbox{sl}}\chunk{\gpbox{ol}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$=$}}\chunk{\gpbox{sl}}\chunk{\gpbox{ol}}\end{bundle}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{OR}}\chunk{\begin{bundle}{\gpbox{$\supset$}}\chunk{\gpbox{sc}}\chunk{\gpbox{oc}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$\equiv$}}\chunk{\gpbox{sc}}\chunk{\gpbox{oc}}\end{bundle}}\end{bundle}}\end{bundle}
+
+  \begin{bundle}{\gpbox{AND}}\chunk{\begin{bundle}{\gpbox{$<$}}\chunk{\gpbox{ol}}\chunk{\gpbox{sl}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$=$}}\chunk{\gpbox{sl}}\chunk{\gpbox{ol}}\end{bundle}}\end{bundle}
+
+  \begin{bundle}{\gpbox{OR}}\chunk{\begin{bundle}{\gpbox{$>$}}\chunk{\gpbox{sl}}\chunk{\gpbox{ol}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{OR}}\chunk{\begin{bundle}{\gpbox{OR}}\chunk{\begin{bundle}{\gpbox{AND}}\chunk{\begin{bundle}{\gpbox{$=$}}\chunk{\gpbox{ol}}\chunk{\gpbox{sl}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$>$}}\chunk{\gpbox{ol}}\chunk{\gpbox{ol}}\end{bundle}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$=$}}\chunk{\gpbox{ol}}\chunk{\gpbox{sl}}\end{bundle}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{OR}}\chunk{\begin{bundle}{\gpbox{$>$}}\chunk{\gpbox{ol}}\chunk{\gpbox{ol}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{AND}}\chunk{\begin{bundle}{\gpbox{$>$}}\chunk{\gpbox{ol}}\chunk{\gpbox{sl}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{AND}}\chunk{\begin{bundle}{\gpbox{AND}}\chunk{\begin{bundle}{\gpbox{AND}}\chunk{\begin{bundle}{\gpbox{$>$}}\chunk{\gpbox{ol}}\chunk{\gpbox{ol}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$>$}}\chunk{\gpbox{ol}}\chunk{\gpbox{sl}}\end{bundle}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$=$}}\chunk{\gpbox{ol}}\chunk{\gpbox{ol}}\end{bundle}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$=$}}\chunk{\gpbox{ol}}\chunk{\gpbox{sl}}\end{bundle}}\end{bundle}}\end{bundle}}\end{bundle}}\end{bundle}}\end{bundle}}
+\caption{Some examples of well-typed individuals. The leftmost individual resembles the condition for the read access in the MLS Bell-LaPadula policy, which is $(sl > ol ~ OR ~ sl = ol) ~ AND ~ (sc \supset oc ~ OR ~ sc \equiv oc)$. The other two are logically equivalent individuals. They resemble only the sensitivity aspect of this policy, which is $(sl > ol ~ OR ~ sl = ol)$.}
+ \label{fig:IndividualExamples}
+\end{figure}
+
+Using this representation, the security policy inference problem can
+be transformed into an $N$-class classification problem, in which $N$
+is the number of rules in the policy. STGP is used to search for the
+\texttt{$<$condition$>$} part of each rule. Therefore, the number of
+STGP runs increases linearly with the policy size. Having said that,
+this design approach can benefit from the multi-core processor
+revolution and executes searchs in parallel follows that each of these
+searches is independent from one another. With only $1$ processor, the
+binary decomposition method\footnote{Binary decomposition method
+  decomposes the $N$ classes classification problem into $N-1$ binary
+  classification problems.  The first classification problem is
+  $(c_{1}, {c_{1}}' \equiv P - c_{1})$, second problem is $(c_{2},
+  {c_{2}}' \equiv {c_{1}}' - c_{2})$, $N-1$ problem is $(c_{N-1},
+  {c_{N-1}}' \equiv {c_{N-2}}'- c_{N-1} \equiv c_{N})$ The $n^{th}$
+  binary classification problem can only be solved after the $n-1$
+  previous problems are solved. The algorithm is inherently
+  sequential.} can be employed to solve this problem in $N-1$ STGP
+runs.
+
+The initial population are generated randomly using the
+ramp-half-and-half method popularised by Koza \cite{JRK92}. This
+method takes the population size, minimum and maximum heights of the
+trees permitted in the population as inputs and generates
+approximately $50\%$ trees with maximum height while the other $50\%$
+trees have heights between the minimum and the maximum heights.
+
+The individual fitness is computed using decision examples in a
+training set. Each example is represented by a vector of variables
+which corresponding to the decision-making factors and the decision
+itself. The fitness of the individual is based on the number of
+decision examples that it agrees with. In an ideal world, it might be
+desirable to match all examples. However, it is often the case in
+practice that there are a few poor decisions and many good decisions
+are made. The system might be expected to evolve a policy that agrees
+with the majority. $100\%$ agreement is not essential. A lower degree
+of agreement may simply turn the spotlight on those specific
+individuals with decisions inconsistent with the inferred policy. In a
+sense, the fitness provides a measure of how well a candidate policy
+agrees with examined decisions, but also acts as anomaly detector. The
+accumulated total score after evaluating all examples becomes the
+fitness score of an individual. Depending on the problem, all matches
+(or mismatches) are not necessarily equal. The score given for a
+particular match or mismatch may have profound impact on the search
+process and the final result. Section \ref{sec:expfuzzymlspolicy}
+gives a good example.
+
+After the fitness calculation stage, a new generation of individuals
+is produced with the use of evolutionary operators. Individuals with
+higher fitness scores have better chances to be selected to pass their
+``gene'' (subtrees) to the next generation. Further crossover and
+mutation operators are applied probabilistically. The evolution
+process continues until an individual with a ``high enough'' fitness
+score is found or a preset number of generations have elapsed.
+
+\section{MLS Bell-LaPadula Policy Inference}
+\label{sec:expmlsblpolicy}
+\subsection{Read Access only}
+In the first experiment, we concentrate on the ``no read-up'' part of
+the MLS Bell-LaPadula security policy.  It is simple, unambiguous and
+serves to demonstrate some interesting properties of our method of
+inference. For a read access, $r$, the policy can be summarised as:
+\begin{align}
+  &\texttt{IF $sl \geq ol ~ AND ~ sc \supseteq oc$ THEN $r$ is \emph{allowed}} \\
+  &\texttt{IF $sl < ol ~ OR ~ sc \not\supseteq oc$ THEN $r$ is
+    \emph{denied}}
+  \label{eq:mlsdeny}
+\end{align}
+where $sl$ and $ol$ are subject and object sensitivity levels and $sc$
+and $oc$ are subject and object category sets. Since the decisions are
+binary \emph{allow/deny} decisions, the GP algorithm only needs to be
+run once to search for the condition for either \emph{allow} or
+\emph{deny}, the other condition can be simply obtained by logical
+negation. The condition for \emph{allow} is chosen to be the learning
+target in this experiment.
+
+The terminal set $T$ consists of four variables, namely $sl$, $ol$,
+$sc$ and $oc$ but no constant value. The $sl$ and $ol$ are positive
+integers and tagged with the type ``sensitivity'', for which $3$
+operators are defined: $=$, $<$ and $>$. The $\leq$ and $\geq$
+operators are intentionally omitted to make the search becomes more
+difficult. The $sc$ and $oc$ are sets and given the type ``category'',
+for which $3$ operators are defined: $\equiv$, $\subset$ and
+$\supset$. The $\subseteq$ and $\supseteq$ operators are not included
+for the same reason given above. Each category in $sc$ or $oc$ is
+represented by a positive integer. The target condition, $TC(sl, ol,
+sc, oc)$ to be learnt in this experiment is:
+\begin{equation}
+(sl > ol ~ OR ~ sl = ol) ~ AND ~ (sc \supset oc ~ OR ~ sc \equiv
+oc) \label{eq:TC}
+\end{equation}
+
+In each run of the experiment, the maximum value of sensitivity levels
+for $sl$ and $ol$, $SNS_{max}$ and the total number of categories,
+{$CAT_{max}$} are defined. 100 randomly generated examples are used as
+the training set. Each example $x$ is a vector with $5$ attributes:
+$sl_x$, $ol_x$, $sc_x$, $oc_x$ and $dec_x$. $sl_x$ and $ol_x$ are
+randomly chosen from $\{1 ~.. ~SNS_{max}\}$; elements of $sc_x $ and
+$oc_x$ are randomly chosen from $\{1~..~CAT_{max}\}$; and $dec_x$ is
+set to be either $1$ (\emph{allow}) or $0$ (\emph{deny}) in accordance
+with the MLS Bell-LaPadula policy. Thus, all decision examples here
+are correct as far as MLS Bell-LaPadula policy is concerned.
+
+The fitness of an individual (candidate policy), $fitness(i)$ is
+simply the sum of the matches between the decision made by the
+individual policy and the decision recorded in each example in the
+entire training set. Formally, let $d_{i,x}$ be the decision an
+individual $i$ made for an example $x$ with $True$ as $1$ and $False$
+as $0$. The $fitness(i)$ is then defined as follows:
+\begin{equation}
+ fitness(i) ~ = ~ \sum_{\forall~example~x} \left(d_{i,x} \equiv
+ dec_x \right) \label{eq:hitfitness}
+\end{equation}
+
+The experiment is carried out using the ECJ Framework v16 \cite{ECJ97}
+and the experimental setup is summarised in Table
+\ref{table:MLSExperimentSetup}. The default values defined in the ECJ
+framework are used for the unspecified parameters.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{|p{0.3\textwidth}|p{0.5\textwidth}|}
+    \hline
+    Objective                 &  Search for a logically equivalent condition of $TC$ in \eqref{eq:TC}, which is, $(sl > ol ~ OR ~ sl = ol) ~ AND ~ (sc \supset oc ~ OR ~ sc \equiv oc)$ \\
+    \hline
+    Terminal set $T$          & $sl, ol, sc, oc$                                          \\
+    \hline
+    Functional set  $F$       & $AND, OR, =, >, <, \equiv, \subset, \supset$                \\
+    \hline
+    Fitness function $f(i)$   & $\sum_{\forall~example~x} \left(d_{i,x} \equiv dec_x \right) $           \\
+    \hline
+    Number of generations     & 50 \\
+    \hline
+    Population size           & 1024 (default)\\
+    \hline
+    Population initialisation & Ramp-half-and-half method with the minimum and maximum tree heights set to be 2 and 6 respectively (default) \\
+    \hline
+    Evolutionary Operators ($P$)   & Crossover (0.9) and Reproduction (0.1) (default)\\
+    \hline
+    Maximum height of tree    & $17$ (default)\\
+    \hline
+  \end{tabular}
+\caption{The experimental setup summary of MLS Bell-LaPadula
+policy inference for read access.} \label{table:MLSExperimentSetup}
+\end{table}
+
+Initially $SNS_{max}$ and $CAT_{max}$ are set to be $5$. $10$ runs of
+the experiment, each with a training set generated with a different
+random seed, are carried out. In all cases, logically equivalent
+conditions of $TC$ in \eqref{eq:TC} can be learnt. Then we
+investigated the robustness of this inference technique as follows:
+\begin{itemize}
+\item scaling up $SNS_{max}$ and $CAT_{max}$;
+\item inclusion of ``wrong'' examples in the training set, i.e.,
+  inconsistent decision-making process;
+\item changing other parameters including population size and tree height.
+\end{itemize}
+
+\subsubsection{Scaling Up \texorpdfstring{$SNS_{max}$}{SNS} and \texorpdfstring{$CAT_{max}$}{CAT}}
+\label{sec:mlstrainingsetcoverage}
+The same experiment is repeated using $6$ different settings of
+$(SNS_{max},CAT_{max})$: $(10,5)$, $(20,5)$, $(30,5)$ and $(5,10)$,
+$(5,20)$, $(5,30)$. In the first $3$ settings, in which $SNS_{max}$ is
+scaled up to $30$, $TC$ can still be found. However, in the latter $3$
+settings, in which $CAT_{max}$ is scaled to $30$, the result changes;
+only weaker conditions $TC^{\prime}$ are found. More precisely, the
+conditions learnt using the $(5,10)$ setting are logically equivalent
+to $(sc \supset oc ~ OR ~ sc \equiv oc)$; the conditions learnt using
+the $(5, 20)$ setting are either logically equivalent to $(sc \supset
+oc ~ OR ~ sc \equiv oc)$ or simply $sc \supset oc$; and the conditions
+learnt using the $(5,30)$ setting are logically equivalent to $sc
+\supset oc$.
+
+Randomly generated category sets pose interesting problems from a
+training point of view. The probability of randomly generating a pair
+$(sc,oc)$ where $sc \equiv oc$ is small, $1/(2^{CAT_{max}})$ in
+fact. Thus the expected number of category equality examples in a
+sample of size $N$ is $N/(2^{CAT_{max}})$. Unless the system sees
+examples of how equality should be handled, it cannot be expected to
+infer how that specific condition should be handled.  Inference
+summarises rather than speculates. As usual, the training set
+characteristics are important. Experiments are carried out to validate
+this intuition. Examples are manually created to cover the equality
+case and the experiment is rerun with the same setting. The results
+agree with this intuition; logically equivalent conditions of $TC$ are
+learnt for settings with $CAT_{max}$ equals to $10$, $20$ and $30$.
+
+To further investigate the effect of training set coverage, $3$
+experiments with extreme settings are carried out. A training set with
+$9$ examples that cover all the possible combinations of $((sl, ol),
+(sc, oc))$ relationships in $TC$, namely $( >,=,< ) \times
+(\supset,\equiv,\subset )$ is used.  The learnt condition is logically
+equivalent to $TC$. At the other extreme, an experimental setup using
+all examples with \emph{deny} decision ($dec_{x} = 0$) yields the a
+logically equivalent condition of $False$. Conversely, if all examples
+in the training set are examples with \emph{allow} decision, then a
+logically equivalent condition of $True$ is learnt. Thus, a mixture of
+correct \emph{allow/deny} examples is required to evolve credible
+policies.
+
+\subsubsection{Inclusion of ``Wrong'' Examples}
+Here the experiment is repeated with the introduction of wrong
+examples in the training set. We first started to introduce $1\%$
+``wrong'' examples and then $10\%$, $20\%$, $25\%$ and $30\%$. In all
+cases, the conditions learnt are similar to those learnt with all
+correct examples. This is because the search for the condition is
+guided by the fitness function which is defined as the number of
+matches between decisions made by an individual and the ones encoded
+in examples. In order to have maximum fitness, the search will tend to
+model the correct examples (which are in the majority) and choose to
+be inconsistent with the others. This is encouraging because $100\%$
+agreement is not the actual goal as mentioned earlier. Highlighting
+anomalous behaviours is also important\footnote{The identification of
+  anomalies is not the focus of the research, but the ability to
+  identify such cases as a consequence of attempting inference is
+  clearly of some potential use. They either point to errant
+  behaviour, or else identify difficult situations where information
+  outside the model might have been useful in the decision making
+  process.}.
+
+\subsubsection{Parameter Changes}
+\label{sec:mlspopulationsize} \label{sec:mlstreeheight}
+Each experiment described so far is repeated using training set size
+consists of 500 and 1000 randomly generated examples. The conditions
+learnt in each experiment are very similar with the conditions learnt
+using only 100 examples.
+
+Additionally, each experiment is repeated with various population sizes: $50$,
+$100$, $500$ and $5000$. When the population size is $500$ or larger,
+logically equivalent conditions of $TC$ are learnt, and there is no
+significant difference in terms of the number of generations
+required. However, the execution time per generation does increase
+significantly due to the increase in the number of evolutionary operations
+performed. When the population size is set to be $50$ and $100$, the
+desired condition cannot be learnt sometimes.  Investigation is made
+on these populations using the GUI provided by ECJ. Diversity in the
+population is lost in early generations, i.e. premature convergence in
+the population occurs.
+
+To investigate the effect of tree size, the experiment is repeated
+with different maximum tree heights. In each experiment, the maximum
+tree height is set to be one less than that of the previous
+experiment; the first experiment has maximum tree height of $17$.  The
+target condition can not be learnt if the tree height is less than
+$4$, which is the minimum height to represent $TC$. The results also
+show that the number of generations needed to learn the condition
+increases as the maximum tree height used increases, because larger
+tree height implies larger search space.
+
+\subsection{Read and Write Access}
+The experiment is extended to include write access in the MLS
+Bell-LaPadula model. For a write access $w$, MLS Bell-LaPadula policy
+can be summarised as:
+\begin{align}
+  &\texttt{IF $sl \leq ol ~ AND ~ sc \subseteq oc$ THEN $w$ is \emph{allowed}}  \label{eq:mlsallowwrite}\\
+  &\texttt{IF $sl > ol ~ OR ~ sc \not\subseteq oc$ THEN $w$ is
+    \emph{denied}}
+ \label{eq:mlsdenywrite}
+\end{align}
+This is often known as the ``no write-down'' property (sometimes also
+known as the *-property).
+
+We introduce a variable $access$ denoting the type of requested access
+($read$ or $write$). The policy can be rewritten as follows:
+\begin{align}
+ &\texttt{IF ($access = read ~ AND ~ sl \geq ol ~ AND ~ sc \supseteq oc) ~ OR$} \nonumber \\
+ &\texttt{~~~($access = write ~ AND ~ sl \leq ol ~ AND ~ sc \subseteq oc)$} \nonumber \\
+ &\texttt{THEN $access$ is \emph{allowed}} 
+ \label{eq:mlsallowboth} \\
+ &\texttt{IF ($access = read ~ AND ~ (sl < ol ~ OR ~ sc \not\supseteq oc)) ~ OR$} \nonumber \\
+ &\texttt{~~~($access = write ~ AND ~ (sl > ol ~ OR ~ sc \not\subseteq oc))$} \nonumber \\
+ &\texttt{THEN $access$ is \emph{denied}}
+  \label{eq:mlsdenyboth}
+\end{align}
+This allows us to evolve the policy as a whole for read and write access.
+
+The experimental setup is very similar as before with only a few minor
+changes. Firstly, a new type, $access$ is introduced to the type set
+and the terminal set is expanded to include a new variable, $access$
+and two new terminals, $read$ and $write$; both of these have $access$
+as their types. Secondly, the function set is extended to include
+$\leq$, $\geq$, $\subseteq$ and $\supseteq$ operators. Thirdly, the
+training set size is increased to $500$ randomly generated examples
+with the equality cases guaranteed as described in Section
+\ref{sec:mlstrainingsetcoverage}.
+
+The target condition, $TC(access, sl, ol, sc, oc)$ to be learnt in this experiment is:
+\begin{align}
+ &(access = read ~ AND ~ sl \geq ol ~ AND ~ sc \supseteq oc) ~ OR \nonumber \\
+ &(access = write ~ AND ~ sl \leq ol ~ AND ~ sc \subseteq oc)
+\label{eq:TCboth}
+\end{align}
+All other parameter settings including the fitness function remain the
+same as before. The experimental setup is summarised in Table
+\ref{table:MLSExperimentSetup2}.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|p{0.3\textwidth}|p{0.5\textwidth}|}
+  \hline
+  Objective                               &        Search for a logically equivalent condition of $TC$ in \eqref{eq:TCboth}, which is $(access = read ~ AND ~ sl \geq ol ~ AND ~ sc \supseteq oc) ~ OR ~ (access = write ~ AND ~ sl \leq ol ~ AND ~ sc \subseteq oc)$  \\
+  \hline
+  Terminal set $T$                        &       $access, sl, ol, sc, oc$                                          \\
+  \hline
+  Functional set  $F$                     &       $AND, OR, =, >, <, \equiv, \subset, \supset, \geq, \leq, \subseteq, \supseteq$\\
+  \hline
+  Fitness function $f(i)$                 &       $\sum_{\forall~example~x} \left(d_{i,x} \equiv dec_x \right) $           \\
+  \hline
+  Number of generations                   &       50 \\
+  \hline
+  Population size                         &       1024 (default)\\
+  \hline
+Population initialisation               &       Ramp-half-and-half method with the minimum and maximum tree heights set to be 2 and 6 respectively (default) \\
+  \hline
+  Evolutionary Operators ($P$)   & Crossover (0.9) and Reproduction (0.1) (default)\\
+  \hline
+  Maximum height of tree                  &       $17$ (default)\\
+  \hline
+\end{tabular}
+\caption{The experimental setup summary of MLS Bell-LaPadula policy
+inference for read and write access.}
+\label{table:MLSExperimentSetup2}
+\end{table}
+
+Initially $SNS_{max}$ and $CAT_{max}$ are set to $5$. $10$ runs of the
+experiment, each with a training set generated with a different random
+seed, are carried out. In all cases, logically equivalent of $TC$ in
+\eqref{eq:TCboth} can be learnt. We now investigate the robustness of
+this inference technique as before.
+
+\subsubsection{Scaling Up \texorpdfstring{$SNS_{max}$}{SNS} and \texorpdfstring{$CAT_{max}$}{CAT}}
+\label{sec:mlstrainingsetcoverageboth} The $SNS_{max}$ and $CAT_{max}$
+scaled up in the similar fashion as in previous experiment using $6$
+different settings of $(SNS_{max},CAT_{max})$: $(10,5)$, $(20,5)$,
+$(30,5)$ and $(5,10)$, $(5,20)$, $(5,30)$. As the training set used
+covers the category equality cases, a logical equivalent of $TC$ in
+\eqref{eq:TCboth} is learnt in all cases.
+
+\subsubsection{Inclusion of ``Wrong'' Examples}
+As in previous experiments, we introduced $1\%$, $10\%$, $20\%$,
+$25\%$ and $30\%$ ``wrong'' examples. In all cases, the conditions
+learnt are similar with those learnt with all correct examples. With
+$30\%$ wrong examples, the number of successful runs decreases to 7
+out of the 10 runs. Investigation of the best individuals in
+unsuccessful runs shows that these individuals generally represent
+slightly weaker or stronger conditions, $TC\prime$. Some of these
+individuals after boolean simplification are shown as follows:
+\begin{align}
+ &(access = read ~ AND ~ sl \geq ol ~ AND ~ sc \supseteq oc) ~ OR \nonumber \\
+ &(access = write ~ AND ~ sl \leq ol ~ AND ~ sc \subseteq oc) ~ OR \nonumber \\
+ &(sc = oc)
+\end{align}
+\begin{align}
+ &(access = read ~ AND ~ sl > ol ~ AND ~ sc \supset oc) ~ OR \nonumber \\
+ &(access = write ~ AND ~ sl < ol ~ AND ~ sc \supseteq oc)
+\label{eq:TCbothweak}
+\end{align}
+Having said that, the number of examples these individuals agree
+with is more than $450$ ($90\%$ and above) examples.
+
+\subsubsection{Parameter Changes}
+\label{sec:mlspopulationsizeboth}
+\label{sec:mlstreeheightboth}
+Each experiment described so far is repeated using training set with
+1000 randomly generated examples. In all cases, the logically
+equivalent conditions of $TC$ are learnt.
+
+Additionally, this experiment is repeated with population sizes of
+$50$, $100$, $500$ and $5000$.  When the population size is $500$ or
+larger, logical equivalent of $TC$ can be learnt, and there is no
+significant difference in terms of the number of generations
+required. However, the execution time per generation does increase
+significantly due to the increase in the number of evolutionary
+operations performed. When the population size is set to be $50$ and
+$100$, the desired condition cannot be learnt sometimes. Investigation
+is made on these populations and using the GUI provided by
+ECJ. Diversity in the population is lost in the early generations,
+i.e. premature convergence in the population occurs.
+
+In investigating the effect of tree size, it is found that $TC$ can
+not be learnt if the tree height is less than $5$. This is obvious as
+this is minimum tree height necessary to represent $TC$. As the tree
+height increases, the number of generations needed to learn the
+condition increases because larger tree height implies larger search
+space.
+
+\section{Budgetised MLS Policy Inference}
+\label{sec:expmlsbudgetpolicy}
+In this experiment, we designed a new risk based policy with intuition
+drawn from \cite{PCC07, JPO04}. For a read access $r$, Budgetised MLS
+policy is as follows:
+% \begin{eqnarray}
+%  &&\texttt{IF $access = read$ AND ($pos(sl \geq ol)$ + $\#(oc \setminus sc)) \leq offer$) OR} \nonumber \\
+%  &&\texttt{$access = write$ AND ($pos(sl \leq ol$ + $\#(sc \setminus oc)) \leq offer$)} \nonumber \\
+%  &&\texttt{ THEN $access$ is \emph{allowed}} \\
+%  &&\texttt{IF $access = read$ AND ($pos(sl \geq ol)$ + $\#(oc \setminus sc)) > offer$) OR} \nonumber \\
+%  &&\texttt{$access = write$ AND ($pos(sl \leq ol$ + $\#(sc \setminus oc)) < offer$)} \nonumber \\
+%  &&\texttt{THEN $access$ is \emph{denied}}
+% \end{eqnarray}
+\begin{align}
+ &\texttt{IF $pos(ol - sl)~ + ~\#(oc \setminus sc)) \leq offer$ THEN $r$ is \emph{allowed}} \\
+ &\texttt{IF $pos(ol - sl) + \#(oc \setminus sc)) > offer$ THEN $r$ is \emph{denied}}
+\end{align}
+where $pos(x)$ returns $x$ if $x >= 0$ or $0$ if $x < 0$; $x \setminus
+y$ is the set difference between set $x$ and set $y$; $\#(x)$ is the
+cardinality of the set $x$ and $offer$ is the amount the requester is
+willing to pay for the requested access. The target condition $TC$ for
+this experiment becomes
+\begin{equation}
+  pos(ol - sl) + \#(oc \setminus sc) \leq offer
+\label{eq:TCBudget}
+\end{equation}
+
+The experimental setup is similar to the previous experiment except
+with the addition of 8 operators ($pos$, $\#$, $\setminus$, $+$, $-$,
+$*$, $/$, $exp$) and is summarised in Table
+\ref{table:MLSBudgetExperimentSetup}.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|p{0.3\textwidth}|p{0.5\textwidth}|}
+  \hline
+  Objective                               &       Search for a logically equivalent condition of $TC$ in \eqref{eq:TCBudget}, which is $pos(ol - sl) + \#(oc \setminus sc) \leq offer$ \\
+  \hline
+  Terminal set $T$                        &       $sl, ol, sc, oc , offer$                                          \\
+  \hline
+  Functional set  $F$                     &       $AND, OR, =, >, <, \equiv, \subset, \supset, \geq, \leq, \subseteq, \supseteq, pos, \#, \setminus\, +, -, *, /, exp$\\
+  \hline
+  Fitness function $f(i)$                 &       $\sum_{\forall~example~x} \left(d_{i,x} \equiv dec_x \right) $           \\
+  \hline
+  Number of generations                   &       50 \\
+  \hline
+  Population size                         &       1024 (default)\\
+  \hline
+  Population initialisation               &       Ramp-half-and-half method with the minimum and maximum tree heights set to be 2 and 6 respectively (default) \\
+  \hline
+  Evolutionary Operators ($P$)   & Crossover (0.9) and Reproduction (0.1) (default)\\
+  \hline
+  Maximum height of tree                  &       $17$ (default)\\
+  \hline
+\end{tabular}
+\caption{The experimental setup summary of Budgetised MLS
+policy inference for read access.}
+\label{table:MLSBudgetExperimentSetup}
+\end{table}
+
+The results show that $TC$ can be learnt in all cases. The
+investigation on the robustness of this inference technique by scaling
+up $SNS_{max}$ and $CAT_{max}$, inclusion of ``wrong'' examples in the
+training set, changing other parameters produces similar results as in
+previous experiments. The only difference is the minimum tree size
+required now is increased to $8$ due to the complexity.
+
+\section{Fuzzy MLS Policy Inference}
+\label{sec:expfuzzymlspolicy} 
+Up to this point, we have only considered binary decision policies. In
+this experiment, we attempt to infer policies that have more than two
+decisions, beyond the \emph{allow} and \emph{deny} binary decision
+model. The Fuzzy MLS security policy model presented in Section
+\ref{FuzzyMLSModel} is used as the learning target. This policy uses
+the risk based rationale of the MLS Bell-LaPadula policy to compute a
+\emph{quantified risk estimate} by quantifying the ``gap'' between a
+subject's label and an object's label in an MLS system. Quantified
+risk estimates are numbers and therefore could be used to build a risk
+scale (cf. Figure \ref{fig:FuzzyMLSModel}). This risk scale is divided
+into multiple bands. Each band is associated with a decision. The risk
+in the bottom band is considered low enough so the decision is simply
+\emph{allow} whereas the risk in the top band is considered too high
+so the decision is \emph{deny}. Each band between the top and bottom
+is associated with a \emph{allow decision with different risk
+  mitigation measures}.
+
+The Fuzzy MLS model defines risk as the expected value of damage
+caused by unauthorised disclosure of information in
+\eqref{eq:risk}. This definition is restated as follows for ease of
+referencing:
+\begin{equation*}
+  \text{risk} = \text{value of damage, } V \times \text{probability of incurring the damage, } P 
+\end{equation*}
+The value of damage is estimated from the sensitivity level of the
+object and is defined to be $a^{ol}$. The probability of incurring the
+damage is estimated by quantifying two ``gaps'': one between the
+sensitivity levels of the subject and the object and the other between
+the category sets of the subject and the object. For simplicity, this
+experiment only looks at the sensitivity levels and assumes the
+categories sets are the same\footnote{Therefore the gap between
+  categories sets is $0$.}. The probability of incurring the damage is
+thus defined as a sigmoid function as follows:
+\begin{equation*}
+  P(sl, ol) = \frac{1}{1 ~ + ~ exp(-k(TI(sl, ol) - mid))}
+\end{equation*}
+where $TI(sl,ol)$ is called the \emph{temptation index} which
+indicates how much the subject with sensitivity $sl$ is tempted to
+leak information with sensitivity level $ol$; it is defined as
+follows:
+\begin{displaymath}
+  TI(sl, ol) =\frac{a^{(ol - sl)}}{M - ol}
+\end{displaymath}
+The intuition for $P(sl, ol)$ and $TI(sl, ol)$ can be found in
+\cite{PCC07}. In our experiments, the settings for $a$, $k$, $mid$ and
+$M$ are $a = 10$, $k = 3$, $mid = 4$, $M = 11$.
+
+Since there is no discussion on the way to partition the scale into
+risk bands in \cite{PCC07}, the following formula is defined to map a
+risk number to a risk band:
+\begin{equation}
+band(risk(sl,ol)) =  min(\lfloor log_{10}(risk(sl,ol))\rfloor,~N-1)
+% N)
+ \label{eq:log}
+\end{equation}
+where $N$ is the number of bands desired on the scale and the function
+$risk(sl, ol)$ is defined in \cite{PCC07} (cf. Section
+\ref{RiskComputation}). Base-$10$ logarithms are used to compute the
+order of magnitude of risk as the band number.  Since each band is
+associated with a decision, a risk band number computed using
+\eqref{eq:log} represents a possible decision in the policy. In our
+experiments, $N = 10$ is used.
+
+\subsection{Training and Evaluation Method}
+\label{sec:trainingset}
+In order to generate the data required for training and testing
+purposes, $SNS_{max}$ is set to be $10$. A data set is generated,
+consisting of the $100$ possible $(sl_n,ol_n, band_n)$ examples, where
+$sl$ and $ol$ are integers in $[0, 9]$ and $band$ is calculated using
+\eqref{eq:log}. In other words, all the examples used are assumed to
+be correct. As the number of data is limited, the leave-one-out cross
+validation evaluation method (LOOCV) is used to evaluate the
+performance.
+
+In the traditional hold-out evaluation method, the data set is
+separated into $2$ sets, the training set and the testing set. The
+model is learnt using the data in the training set and then is
+evaluated using the data in the testing set. This method has the merit
+of computationally cheap. However, the method wastes a lot of data and
+its evaluation can have a high variance depending on how the data is
+split.
+
+$k$-fold cross validation can be used to improve the hold-out
+method. Instead of $2$ sets, the data set is split into $k$
+subsets. The hold-out method is then repeated for $k$ times, each
+using data in $k-1$ subsets as the training set and the data in the
+remaining one as the testing set. The evaluation is done using the
+average performance across all $k$ trials. The method is less
+sensitive to the way data is split and therefore resulting a smaller
+variance in the evaluation. However, the training process has to be
+repeated for $k$, which can be costly. LOOCV takes $k$-fold cross
+validation to its extreme, with $k$ equal to the number of data in the
+set. The evaluation obtained using LOOCV is very good but extremely
+expensive to compute, especially in evolutionary algorithms.
+
+Using this data set, various experiments that attempts to infer the
+Fuzzy MLS policy in different ways are carried out and
+evaluated. These experiments are described in detail in the following
+sections. As EAs are stochastic in nature, the evolution process in each
+run may vary depending on the random seed used. To evaluate the
+performance, each experiment is repeated $10$ times with different
+random seeds. The performance is evaluated by two criteria:
+\begin{enumerate}
+\item The median LOOCV error rate of the best individuals in the $100$
+  runs. The best individual in a run is the one with the lowest error
+  rate in the last generation of the run. The median is used instead
+  of mean as it does not assume that the error rate distribution will
+  have suitably normal distribution. This follows that the confidence
+  interval based on the standard deviation of mean is no longer
+  valid. The $95\%$ confidence interval of the median is calculated
+  using the Thompson-Savur formula presented in \cite{MH73} instead.
+\item The median of the average distances between all the predicted
+  bands of the best individuals and the target bands encoded in all
+  the examples in the data set in the $10$ runs.
+\end{enumerate}
+These measurements indicate the quality of the security policy that
+can be learnt in each experiment.
+
+% $SNS_{max}$ is set to be $10$. An example $x$ in a training set is a
+% triple $(sl_x, ol_x, band_x)$, where $band_x =
+% band(risk(sl_x,ol_x))$. The training sets and testing sets described
+% here are used throughout all $3$ experiments described in this paper
+% to allow consistent comparison. Each example $x$ in the training and
+% testing sets is a $(sl_x, ol_x, band_x)$ triple, where $band_x$ is
+% calculated using (\ref{eq:log}). In other words, all the examples used
+% are assumed to be correct.
+
+% $3$ different training sets are used in each experiment. The first
+% training set consists of all possible $100$ $(sl,ol)$ pairs where $sl$
+% and $ol$ are integers in $[0, 9]$. This optimal setting lends itself
+% to act as the control. The second and third sets consist of $100$ and
+% $500$ randomly generated $(sl,ol)$ pairs where $sl$ and $ol$ are also
+% integers in $[0, 9]$. Unlike in the control, these two sets would have
+% incomplete coverage and uneven distribution of examples over risk
+% bands.
+
+% After going through the evolution process, the best individual in the
+% population is selected to test against two sets of examples. The first
+% set is same as the first $100$-example training set.  This testing set
+% provides a good indication on how much ``knowledge'' has been acquired
+% by the approach employed in a fixed number of generations.  The second
+% testing set consists of $100$ randomly generated $(sl, ol)$ pairs
+% where $sl$ and $ol$ are \emph{real numbers} in $[0.0, 9.0]$.
+% Therefore, most of these examples are unseen yet similar to training
+% examples.  This set provides a good measure on how much the acquired
+% knowledge can be applied for unseen cases.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\subsection{\texttt{IF-THEN} Rules Inference based Approach}
+\label{sec:ifthen}
+In the first experiment, we continue to employ the same view as in
+previous experiments: security policy is a set of \texttt{IF
+  $<$condition$>$ THEN $<$action$>$} rules. As the risk scale is
+divided into $10$ bands, each is associated with a decision action,
+$10$ STGP runs are required to search for conditions for all the
+bands. The target condition for band $j$, $TC_j$ to be learnt is:
+\begin{equation}
+TC_j(sl, ol)~=~(band(risk(sl,ol))~\equiv~j)
+\label{eq:TCIfThen}
+\end{equation}
+This experiment serves as a good illustration of the $N$-classes
+classification problem discussed in Section
+\ref{sec:experimentalframework} in which each class corresponds to a
+band.
+
+%\subsubsection{Individual representation}
+% %\label{sec:exp2individualrepresentation}
+% As each individual reassembles the condition expression in the
+% \texttt{IF-THEN} rules, the root node in a tree must evaluate to a
+% Boolean. At the highest (nearest to the root) layer, there are
+% composition operators, $AND$, $OR$ and $NOT$. The second layer
+% consists of logic relational operators such as $<$ or $=$. The next
+% layer consists of arithmetic operators such as $+$ or $sin$ and the
+% leaf nodes at the bottom layer are elements of the terminal set
+% $T$. Thus, no boolean nodes can have real numbers as their
+% ancestors. Strongly Typed Genetic Programming (STGP) \cite{DJM95} is
+% used to ensure this structure. Figure \ref{fig:IndividualExample}
+% shows an example of well-typed individual.
+
+% \begin{figure}[htbp]
+%  \centering
+%   \resizebox{!}{10mm}{
+%    \begin{bundle}{\gpbox{OR}}\chunk{\begin{bundle}{\gpbox{OR}}\chunk{\begin{bundle}{\gpbox{$<$}}\chunk{\begin{bundle}{\gpbox{$*$}}\chunk{\begin{bundle}{\gpbox{$*$}}\chunk{\gpbox{ol}}\chunk{\gpbox{0.3884}}\end{bundle}}\chunk{\gpbox{ol}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$/$}}\chunk{\gpbox{ol}}\chunk{\gpbox{ol}}\end{bundle}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$<$}}\chunk{\gpbox{ol}}\chunk{\begin{bundle}{\gpbox{$max$}}\chunk{\begin{bundle}{\gpbox{$-$}}\chunk{\gpbox{ol}}\chunk{\gpbox{sl}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$ceil$}}\chunk{\gpbox{0.8239}}\end{bundle}}\end{bundle}}\end{bundle}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$<$}}\chunk{\begin{bundle}{\gpbox{$-$}}\chunk{\begin{bundle}{\gpbox{pow}}\chunk{\gpbox{ol}}\chunk{\begin{bundle}{\gpbox{$-$}}\chunk{\begin{bundle}{\gpbox{$*$}}\chunk{\begin{bundle}{\gpbox{$*$}}\chunk{\gpbox{ol}}\chunk{\gpbox{0.3884}}\end{bundle}}\chunk{\gpbox{ol}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$+$}}\chunk{\gpbox{sl}}\chunk{\gpbox{sl}}\end{bundle}}\end{bundle}}\end{bundle}}\chunk{\gpbox{0.4489}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{$floor$}}\chunk{\gpbox{ol}}\end{bundle}}\end{bundle}}\end{bundle}
+%  }
+%  \caption{An example of the well-typed individual.}
+% \label{fig:IndividualExample}
+% \end{figure}
+
+We use only float typed nodes in this experiment to avoid the overhead
+in checking the type conformance of the nodes in STGP. We assume that
+an individual represents $True$ if its evaluated value is $1$ and
+$False$ if its evaluated value is $0$. Individuals with any other
+evaluated value is assumed to be invalid and therefore are assigned
+with the lowest possible fitness to increase their chance to be
+eliminated in the evolution process. The terminal set $T$ consists of
+$sl$, $ol$ and Ephemeral Random Constants (ERCs)\footnote{An Ephemeral
+  Random Constant (ERC) is a constant whose value is randomly
+  generated during its creation.}, which take real values in $[-10.0,
+10.0]$. The function set $F$ consists of $+$, $-$, $\times$,
+$\div$\footnote{$x \div y~=~\begin{cases}x/y & \mbox{if } y \neq 0 \\
+    1 & \mbox{otherwise}\end{cases}$} ,
+$protectedlog_{10}(x)$\footnote{$protectedlog_{10}(x)~=~\begin{cases}log_{10}(|x|)&
+    \mbox{if } x \neq 0 \\ 0 & \mbox{otherwise}\end{cases}$},
+$\exp(x)$, $pow(x,y)$, $\max(x, y)$, $\min(x, y)$, $ceil(x)$,
+$floor(x)$, $\sin(x)$ and $\cos(x)$.
+
+%\subsubsection{Fitness evaluation}
+For all valid individuals, different fitness scores are given to
+different kinds of decisions made by an individual according to the
+following four principles. In the search for the condition of band
+$j$, $TC_j$, let $d_{i,x}$ be the decision made by $i$ for an example
+$x$, then:
+\begin{itemize}
+\item For a correct decision, \emph{award more} if
+  \begin{itemize}
+  \item the risk is higher for security concerns; i.e., award more for
+    a larger $j$.
+  \item the decision is \emph{true positive} (hits the target); i.e.,
+    award more when $band_x \equiv j$. This will overcome the effect
+    that relative few positive examples are in band $j$ when $j \ne
+    0$.
+  \end{itemize}
+\item For an incorrect decision, \emph{punish more} if
+  \begin{itemize}
+  \item the decision is \emph{false positive} ($d_{i,x} \equiv True$
+    and $band_x \ne j$) and is \emph{more off the target}; i.e.,
+    punish more as $\mid j - band_x \mid$ becomes
+    larger. Additionally, for security concerns, punish more if this
+    false positive decision \emph{underestimates the risk}; i.e.,
+    punish more if $band_x > j$.
+  \item the decision is \emph{false negative} ($d_{i,x} \equiv False$
+    and $band_x = j$) when the risk is higher for security concerns;
+    i.e., punish more for a larger $j$.
+  \end{itemize}
+\end{itemize}
+
+Using these principles, the fitness function is changed to be:
+\begin{align}
+  fitness_j(i) &= \sum_{\{ x | band_x \equiv j\}} w_{tp}\{d_{i,x} \equiv True \} ~ + ~ \sum_{\{ x | band_x \not\equiv j\}} w_{tn}\{d_{i,x} \equiv False\} \nonumber \\
+  &- \sum_{\{ x | band_x \not\equiv j\}} w_{fp}\{d_{i,x} \equiv True
+  \} ~ - ~ \sum_{\{ x | band_x \equiv j\}} w_{fn}\{d_{i,x} \equiv
+  False \} \label{eq:weightedfitnessfunction}
+\end{align}
+where
+\begin{align}
+  w_{tp} &= j + 1, \nonumber \\
+  w_{tn} &= (j+1)/10, \nonumber \nonumber \\
+  w_{fp} &= \begin{cases}
+    band_x - j  & \mbox{if $band_x > j$,} \\
+    (j - band_x) / 2 & \mbox{if $band_x < j$,}
+  \end{cases} \nonumber \\
+  w_{fn} &= j + 1 \nonumber
+\end{align}
+
+When two or more $TCs$ are evaluated to $True$, the highest band with
+$TC \equiv True$ is selected for security concerns. Formally, if $TC_j
+\equiv True$ and $TC_k \equiv True$ and $j > k$, then band $j$ instead
+of band $k$ is used. Additionally, if there is no $TC$ evaluated to $True$,
+the highest band is used again for the same reason. In a future
+run-time deployment of our inference approach it would be possible to
+involve human interaction. An alert would be given to the security
+administrator and the administrator would decide which band an input
+should be mapped to. Then, this decision can be used as a new training
+example.
+
+The experiment setup is summarised in Table \ref{table:exp2setup}.
+This experiment is carried out using the ECJ Framework v18
+\cite{ECJ97} and the default values are used for unmentioned
+parameters.
+
+\begin{table}[htbp]
+\centering
+\begin{minipage}{0.8\textwidth}
+\begin{tabular}{|p{0.375\textwidth}|p{0.625\textwidth}|}
+  \hline
+  Objective                               &       Search for the equivalent functions of $TC_j$ in for all bands, i.e., Search for $\forall j \in [0,9], TC_j$ in \eqref{eq:TCIfThen}\\
+  \hline
+  Terminal set $T$                        &       $sl$, $ol$, $ERC \in [-10.0, 10.0]$\\
+%$\{ sl, ol\} \cup \{r|-1.0 < r < 1.0 \} \cup \{TRUE, FALSE\}$\\
+  \hline
+  Function set  $F$                     & $+$, $-$,
+  $\times$,
+  $\div$\footnote{$x \div y~=~\begin{cases}x/y & \mbox{if } y \neq 0 \\
+      1 & \mbox{otherwise}\end{cases}$} ,
+  $protectedlog_{10}(x)$\footnote{$protectedlog_{10}(x)~=~\begin{cases}log_{10}(|x|)&
+      \mbox{if } x \neq 0 \\ 0 & \mbox{otherwise}\end{cases}$},
+  $\exp(x)$, $pow(x,y)$, $\max(x, y)$, $\min(x, y)$, $ceil(x)$,
+  $floor(x)$, $\sin(x)$, $\cos(x)$\\
+  \hline
+  Fitness function $f_j(i)$               &       \eqref{eq:weightedfitnessfunction}\\
+  \hline
+  Number of generations                   &       500 \\
+  \hline
+  Population size                         &       1024 (default)\\
+  \hline
+  Population initialisation               &       Ramp-half-and-half method with the minimum and maximum tree heights set to be 2 and 6 respectively (default) \\
+  \hline
+  Evolutionary Operators ($P$)   & Crossover (0.9) and Reproduction (0.1) (default)\\
+  \hline
+  Maximum height of tree                  &       $17$ (default)\\
+  \hline
+\end{tabular}
+\end{minipage}
+\caption{The experimental setup summary of Fuzzy MLS policy inference using the \texttt{IF-THEN} rules inference approach.}
+\label{table:exp2setup}
+\end{table}
+
+\subsection{Regression based Approaches}
+\label{sec:exp1}
+In the second experiment, we view a policy as a function that maps a
+set of decision-making factors to a decision. In the Fuzzy MLS model,
+this mapping function is the composition band and risk function in
+\eqref{eq:log}. GP is used to search for an equivalent function of
+this composition function. This is essentially an exercise of symbolic
+regression based upon the decision examples. The experimental setup is
+exactly the previous experiment except the fitness functions used.
+
+Two different fitness functions are attempted. In first fitness
+function, two principles are used to determine the score for a
+decision made by an individual. For an example $x$ and an individual
+$i$, if $i$ evaluates $x$ to be in band $j$, then:
+% ($j$ is $i(x)$ rounded to the nearest integer), then:
+\begin{itemize}
+\item For a correct decision, \emph{reward more} the higher the risk
+  band; i.e., reward higher $j$ more than lower $j$. (We care more
+  about higher risk bands)
+\item For an incorrect decision, \emph{punish more} the more the
+  decision deviates from the target; i.e., punish more as $|band_x -
+  j|$ becomes larger. Additionally, punish \emph{under-estimation} of the
+  risk band more than over-estimation of it; i.e., punish more if
+  $band_x > j$.
+\end{itemize}
+
+Based upon these principles, the fitness of an individual $i$,
+$fitness(i)$ is defined as follows:
+\begin{equation}
+fitness(i) = \sum_{\forall~example~x} score(x) 
+\label{eq:exp1fitnessfunction}
+\end{equation}
+where
+\begin{align*}
+score(x) =
+\begin{cases} 
+  band_x + 1 & \text{if }j \equiv band_x \text{,} \\
+  -(band_x - j) & \text{if }band_x > j \text{,} \\
+  -(j - band_x)/2 & \text{if }band_x < j \\
+\end{cases}\\
+\end{align*}
+
+The second fitness function is set to be inversely proportional to the
+sum of squared differences between the value an individual evaluated
+to with the correct band encoded in the examples. Formally, let $j_x$
+be the value an individual $i$ evaluates an example $x$ to, the
+fitness of an individual $i$, $fitness(i)$ is defined as follows:
+\begin{equation}
+  fitness(i) = \dfrac{1}{1 + \sum_{\forall~example~x} (band_x - j_x)^2}
+\label{eq:sumofdifferencesfitnessfunction}
+\end{equation}
+The sum of squared differences is added with $1$ before inversion to
+avoid division by zero and therefore the fitness of an perfect
+individual now becomes $1$.
+
+As in previous experiment, the learnt function might not be perfect;
+sometimes the function might map a particular $(sl, ol)$ pair to a
+value that is out of band range. When this happens, we assume that all
+out-of-range values represent the highest band, i.e., in our case, any
+value not in the range $[0,9]$ is assumed to be $9$. This is
+consistent with the usual attitude to security which favours
+over-estimation of risk rather than under-estimation. An alternative
+implementation which involves human decision-making process as
+described in Section \ref{sec:ifthen} can also be used instead. Then,
+this decision can be used as a new training example.
+
+The experiment setup is summarised in Table
+\ref{table:exp1setup}. This experiment is carried out using the ECJ
+Framework v18 \cite{ECJ97} and the default values are used for
+unmentioned parameters.
+
+\begin{table}[htbp]
+\centering
+\begin{minipage}{0.8\textwidth}
+\begin{tabular}{|p{0.375\textwidth}|p{0.625\textwidth}|}
+  \hline
+Objective                               &       Search for the nearest equivalent function of $band(risk(sl,ol))$ in \eqref{eq:log}\\
+\hline
+  Terminal set $T$                        &       $sl$, $ol$, $ERC \in [-10.0, 10.0]$\\
+%$\{ sl, ol\} \cup \{r|-1.0 < r < 1.0 \} \cup \{TRUE, FALSE\}$\\
+  \hline
+  Function set  $F$                     & $+$, $-$,
+  $\times$,
+  $\div$\footnote{$x \div y~=~\begin{cases}x/y & \mbox{if } y \neq 0 \\
+      1 & \mbox{otherwise}\end{cases}$} ,
+  $protectedlog_{10}(x)$\footnote{$protectedlog_{10}(x)~=~\begin{cases}log_{10}(|x|)&
+      \mbox{if } x \neq 0 \\ 0 & \mbox{otherwise}\end{cases}$},
+  $\exp(x)$, $pow(x,y)$, $\max(x, y)$, $\min(x, y)$, $ceil(x)$,
+  $floor(x)$, $\sin(x)$, $\cos(x)$\\
+%      $\{+, -, *, /, exp, log, sin, cos$ $max, min, ceil, floor\} \cup \{AND, OR, =, >, <\}$\\
+  \hline
+  Fitness function $f_j(i)$               &       \eqref{eq:exp1fitnessfunction} and \eqref{eq:sumofdifferencesfitnessfunction}\\
+  \hline
+  Number of generations                   &       500 \\
+  \hline
+  Population size                         &       1024 (default)\\
+  \hline
+  Population initialisation               &       Ramp-half-and-half method with the minimum and maximum tree heights set to be 2 and 6 respectively (default) \\
+  \hline
+  Evolutionary Operators ($P$)                 &       Crossover (0.9), Reproduction (0.1)\\
+  \hline
+  Maximum height of tree                  &       $17$ (default)\\
+  \hline
+\end{tabular}
+\end{minipage}
+\caption{The experimental setup summary of Fuzzy MLS policy inference using the regression approach.}
+\label{table:exp1setup}
+\end{table}
+
+\subsection{Fuzzy Set Ensembles based Approaches}
+\label{FuzzyPolicyEnsembles}
+\label{sec:radicalidea}
+In the third experiment, we aim to provide some degree of smoothing to
+our search space by adopting a fuzzy-inspired approach. We shall seek
+for each target band $j$ a fuzzy membership function $M_{j}(sl,ol)$,
+whose response reflects the likelihood of a given risk should be
+assigned that band. Later, we shall use these band membership
+functions to determine the most appropriate band for given input
+$(sl,ol)$.
+
+Considering how human beings learn, a person usually will not be able
+to hit the target on the first attempt. Instead, it is more likely his
+performance would gradually improve over time; i.e., \emph{the
+  distance} to the target is \emph{gradually shortened}. Along the
+learning process, knowledge on those which are not the target, such as
+their distances to the target, is acquired. We argue that the
+knowledge about the target and the non-targets is all useful in
+addressing the issue mentioned above.
+
+In all experiments presented so far, each decision is treated as
+single discrete set. The use of distance knowledge is implicitly
+encoded in the fitness function.  For example, the fitness function in
+Experiment $2$ in \eqref{eq:sumofdifferencesfitnessfunction} uses the
+sum of the squared differences between the predicted bands and actual
+bands to calculate the score.
+
+In this proposal, each class is treated as a fuzzy set and the
+distance knowledge is used to compute fuzzy set memberships. The
+learning targets are the fuzzy set membership functions for the
+classes. Here, the emphasis is placed on solving $N$-classes
+classification problem where a total order relationship exists among
+the classes. The risk bands classification problem in a Fuzzy MLS
+policy discussed in Section \ref{sec:expfuzzymlspolicy} is a good
+example and will be used to illustrate this proposal.
+
+\subsubsection{Fuzzification}
+To guide the learning of fuzzy set membership function for band $j$,
+$M_j(sl,ol)$, the \emph{target membership} for each of the $10$ bands
+in the band $j$ fuzzy set is first defined. Essentially, these $10$
+pre-defined points characterise the shape and location of the $M_j$
+curve. The learning process becomes a \emph{curve fitting} exercise to
+search for a curve that best fits the $10$ points, using all the
+examples in the training set. Curve fitting is naturally more tolerant
+of incomplete coverage in the training set because it uses
+\emph{interpolation} and \emph{extrapolation} to compensate for the
+``missing points''. It is also more resilient to a few out-liars in
+the training set.
+
+Furthermore, the fuzzy membership range is changed to $[-1.0, 1.0]$
+with $0.0$ represents full membership. This is different from the
+traditional fuzzy membership range, $[0.0, 1.0]$ with $1.0$ to
+represents full membership. The expansion on the negative ranges
+allows the information about the direction (left or right to the
+target band) to be encoded. For example, for $M_5(sl, ol)$, target
+membership for each band, starting from band $0$, can be defined as:
+\begin{displaymath}
+  [-0.5, -0.4, -0.3, -0.2, -0.1,~0.0,~0.1,~0.2,~0.3,~0.4]
+\end{displaymath}
+Band $5$ has membership $0$. The target memberships for other $M_{j
+  \ne 5}$ can be defined similarly. With all $10$ membership functions
+learnt, one can determine the band of an input by feeding the input to
+all $10$ functions and computing the band number by examining the $10$
+membership values returned by these functions. For example, if each
+membership value indicating that ``the distance between the input and
+my band places the input close to band $5$'', then with very high
+confidence we can say the input belongs to band $5$. This is analogous
+to examine the input from $10$ different perspectives to draw the
+final conclusion, which is more likely to be accurate than examining
+the input from one perspective.
+
+Two experiments with different pre-defined target memberships are
+carried out to validate this concept. In the first setup the $10$
+target memberships for $M_j$ are defined as:
+\begin{equation}
+  M_j(k) \equiv (k - j)/10
+\label{eqn:TriangleMembershipFunction}
+\end{equation}
+where $k$ is integer from $0$ to $9$. This is like mapping a
+traditional triangle fuzzy membership function, which has the range
+$[0,1]$ and $M_j(j) \equiv 1$ as the tip of the triangle, to a
+straight-line membership function with the range $[-1,1]$ and $M_j(j)
+\equiv 0$.  Figure \ref{fig:TriangleMembershipFunction} shows the
+target membership curves for all $10$ bands using
+\eqref{eqn:TriangleMembershipFunction}.  In the second setup,
+bell-shaped Gaussian distribution curves are mapped in a similar
+fashion and Figure \ref{fig:GaussianMembershipFunction} shows the
+membership curves for all $10$ bands.
+
+\begin{figure}[htbp]
+ \centering
+  \includegraphics[width=0.8\textwidth]{Linear}
+  \caption{The linear (modified triangle) membership functions,
+    $M_{linear}$ for of all the bands.}
+ \label{fig:TriangleMembershipFunction}
+\end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[width=0.8\textwidth]{Gaussian}
+ \caption{The curve (modified Gaussian distribution) membership
+   functions, $M_{Gaussian}$ for of all the bands.}
+ \label{fig:GaussianMembershipFunction}
+\end{figure}
+
+\subsubsection{Defuzzification}
+After all $10$ membership functions are learnt and feeding an input $x
+\equiv (sl_x, ol_x)$ to these functions, we need a
+\emph{defuzzification} mechanism to map all $10$ values returned by
+these functions to a risk band number.  Three voting based
+defuzzification algorithms which use the information about the
+direction and distance to determine the target band have been
+designed. The target band is predicted by adding the estimated
+distance (calculated from the output value and rounded to an integer)
+to the band of the membership function. Votes are then given to the a
+small range of bands around the predicted target band. The difference
+between these algorithms lie in the weighting of the votes.
+
+
+% : One (Algorithm
+% \ref{algo:defuzzification1}) that uses the direction knowledge only
+% \cite{YTL07A} and the five other (Algorithm
+% \ref{algo:defuzzification2}--\ref{algo:defuzzification6}) that use
+% both the direction and distance knowledge in slightly different ways.
+
+% Algorithm \ref{algo:defuzzification1} only uses the information about
+% the direction to determine the the target band. Assuming all the
+% membership functions have been reasonably well learnt, an output value
+% of near zero would imply the the target band is same as the band of
+% the membership function and therefore a vote is given to this
+% band. Othewrise, if the output value is positive, it means the target
+% band is greater than the band of the membership function and therefore
+% votes are given to each of these bands and vice versa.
+
+% \begin{algorithm}[htbp]
+% % %\dontprintsemicolon
+% \caption{Direction based defuzzification.}
+%  \emph{initialise an array $v[10]$ with all elements set to $0$}\;
+%  \ForAll{example $x$}{
+%   \ForAll{band $j$}{
+%    \uIf{$M_j(sl_x, ol_x)~>~0.05$}{
+%     \ForAll{$k > j$}{
+%      $v[k] \leftarrow v[k] + 1$\;
+%     }
+%    }\uElseIf{$M_j(sl_x, ol_x)~<~-0.05$}{
+%     \ForAll{$k < j$}{
+%      $v[k] \leftarrow v[k] + 1$\;
+%     }
+%    }\Else{
+%      $v[j] \leftarrow v[j] + 1$\;
+%    }
+%   }
+%  }
+%  \emph{choose $v[i]$ with the maximum value}\;
+%  \emph{outputs $i$ as the risk band number}\;
+%  \
+%\label{algo:defuzzification1}
+%\end{algorithm}
+
+Algorithm \ref{algo:defuzzification2} forces the predicted target band
+ to be in the range of $[0,9]$. Votes are then given in the
+following ways. $3$ votes to the predicted target band, $2$ votes to
+the nearest neighbour band and $1$ vote to the second nearest
+neighbour band, i.e., the nearest neighbour band on the other side of
+the predicted target band.
+
+\begin{algorithm}[htbp]
+%\dontprintsemicolon
+\caption{A direction and distance based defuzzification.}
+ \emph{initialise an array $v[10]$ with all elements set to $0$}\;
+ \ForAll{example $x$}{
+  \ForAll{band $j$}{
+    \uIf{$M_j(sl_x, ol_x)~>~0.05$}{
+    $p \leftarrow j + M_j(x)*10$\;
+    $k \leftarrow min(\lfloor p + 0.5 \rfloor, 9)$\;
+    $v[k] \leftarrow v[k] + 3$\;
+    \eIf{$k > p$}{
+     $v[k-1] \leftarrow v[k-1] + 2$\;
+     $v[k+1] \leftarrow v[k+1] + 1$\;
+    }{
+     $v[k-1] \leftarrow v[k-1] + 1$\;
+     $v[k+1] \leftarrow v[k+1] + 2$\;
+    }
+   }\uElseIf{$M_j(sl_x, ol_x)~<~-0.05$}{
+    $p \leftarrow j + M_j(x)*10$\;
+    $k \leftarrow max(\lceil p - 0.5 \rceil, 0)$\;
+    $v[k] \leftarrow v[k] + 3$\;
+    \eIf{$k < p$}{
+     $v[k+1] \leftarrow v[k+1] + 2$\;
+     $v[k-1] \leftarrow v[k-1] + 1$\;
+    }{
+     $v[k+1] \leftarrow v[k+1] + 1$\;
+     $v[k-1] \leftarrow v[k-1] + 2$\;
+    }
+   }\Else{
+     $v[j] \leftarrow v[j] + 3$\;
+     $v[j+1] \leftarrow v[j+1] + 1$\;
+     $v[j-1] \leftarrow v[j-1] + 1$\;
+   }
+  }
+ }
+ \emph{choose $v[i]$ with the maximum value}\;
+ \emph{outputs $i$ as the risk band number}\;
+ \
+\label{algo:defuzzification2}
+\end{algorithm}
+
+Algorithm \ref{algo:defuzzification3} is very similar to Algorithm
+\ref{algo:defuzzification2}, except in the following ways. Firstly,
+the predicted target band is no longer forced to be in the range of
+$[0,9]$. Secondly, votes with equal weight are given to the nearest
+neighbour bands on both side of the predicted target band. Thirdly,
+the weighting of the votes is inspired from the standard Gaussian
+Distribution, in which $0.3829250$ vote is given to the predicted
+target band, $0.2417300$ vote is given to the nearest neighbour band
+on each side and $0.0605975$ vote is given to the second nearest
+neighbour band on each side.
+
+\begin{algorithm}[htbp]
+%\dontprintsemicolon
+  \caption{A direction and distance based defuzzification.}
+  \emph{initialise an array $v[10]$ with all elements set to $0$}\;
+  $GaussianConst = \{0.382925,~0.241730,~0.0605975\}$\;
+  \ForAll{example $x$}{
+    \ForAll{band $j$}{
+      $p \leftarrow j + M_j(x)*10$\;
+      $k \leftarrow \lfloor p + 0.5 \rfloor$\;
+      $v[k] \leftarrow v[k] + 3$\;
+      \If{$0 \leq k \leq 9$}{
+        $v[k] \leftarrow v[k] + GaussianConst[0]$\;
+      }
+      \uIf{$0 \leq k+1 \leq 9$}{
+        $v[k+1]  \leftarrow v[k+1] + GaussianConst[1]$\;
+      }\ElseIf{$0 \leq k \leq 9$} {
+        $v[k]  \leftarrow v[k] + GaussianConst[1]$\;
+      }
+      \uIf{$0 \leq k-1 \leq 9$}{
+        $v[k-1]  \leftarrow v[k-1] + GaussianConst[1]$\;
+      }\ElseIf{$0 \leq k \leq 9$}{
+        $v[k]  \leftarrow v[k] + GaussianConst[1]$\;
+      }
+      \uIf{$0 \leq k+2 \leq 9$}{
+        $v[k+2] \leftarrow v[k+2] + GaussianConst[2]$\;
+      }\uElseIf{$0 \leq k+1 \leq 9$}{
+        $v[k+1] \leftarrow v[k+1] + GaussianConst[2]$\;
+      }\ElseIf{$0 \leq k \leq 9$}{
+        $v[k] \leftarrow v[k] + GaussianConst[2]$\;
+      }
+      \uIf{$0 \leq k-2 \leq 9$}{
+        $v[k-2] \leftarrow v[k-2] + GaussianConst[2]$\;
+      }\uElseIf{$0 \leq k-1 \leq 9$}{
+        $v[k-1] \leftarrow v[k-1] + GaussianConst[2]$\;
+      }\ElseIf{$0 \leq k \leq 9$}{
+        $v[k] \leftarrow v[k] + GaussianConst[2]$\;
+      }
+    }
+  }
+ \emph{choose $v[i]$ with the maximum value}\;
+ \emph{outputs $i$ as the risk band number}\;
+ \
+\label{algo:defuzzification3}
+\end{algorithm}
+
+Algorithm \ref{algo:defuzzification4} attempts to simplify these
+algorithms. The estimated distance is first calculated as before but
+it is not rounded to an integer. This algorithm then gives votes to
+the upper bound and lower bound of the predicted target band, with the
+weighting of these votes are inversely proportional to the distance.
+
+\begin{algorithm}[htbp]
+%\dontprintsemicolon
+\caption{A direction and distance based defuzzification.}
+ \emph{initialise an array $v[10]$ with all elements set to $0$}\;
+  \ForAll{example $x$}{
+    \ForAll{band $j$}{
+      $p \leftarrow j + M_j(x)*10$\;
+      $j \leftarrow \lfloor p \rfloor$\;
+      $k \leftarrow \lceil p \rceil$\;
+      \uIf{$0 \leq j \leq 9$ and $0 \leq k \leq 9$}{
+        $v[j] \leftarrow v[j] + k - p$\;
+        $v[k] \leftarrow v[k] + p - j$\; 
+      }
+      \uElseIf{$0 \leq k \leq 9$}{
+        $v[k] \leftarrow v[k] + 1$\;
+      }\ElseIf{$0 \leq j \leq 9$} {
+        $v[j] \leftarrow v[j] + 1$\;
+      }
+    }
+  }
+ \emph{choose $v[i]$ with the maximum value}\;
+ \emph{outputs $i$ as the risk band number}\;
+ \
+\label{algo:defuzzification4}
+\end{algorithm}
+
+\subsubsection{Individual Representation and Fitness Evaluation}
+The same terminal and function sets as in previous two experiments are
+used here. This follows that the structures of the individuals remain
+similar with the ones in previous experiments. However, what each
+individual represents varies from one experiment to another. In this
+experiment, each individual resembles the membership function for the
+band in question whereas each individual in Experiment $1$ resembles
+the condition of a particular band and each individual in Experiment
+$2$ resembles a function corresponding to the policy as a whole.
+
+The fitness function is the sum of squared differences between the
+predicted membership and the predefined target membership. More
+formally, let $M_{j,i}$ represent an individual $i$ in the search for
+the membership function for band $j$, the individual fitness,
+$fitness_j(i)$ is defined as follows:
+\begin{equation}
+fitness_j(i) = \dfrac{1}{1 + \sum_{\forall~example~x}\left(M_{j,i}(sl_x, ol_x) - M_j(band_x)\right)^2 }
+\label{eq:exp3fitnessfunctionNormal}
+\end{equation}
+
+The experiment setup is summarised in Table
+\ref{table:exp3setup}. This experiment is carried out using the ECJ
+Framework v18 \cite{ECJ97} and the default values are used for
+unmentioned parameters.
+
+\begin{table}[htbp]
+\centering
+\begin{minipage}{0.8\textwidth}
+\begin{tabular}{|p{0.375\textwidth}|p{0.625\textwidth}|}
+  \hline
+  Objective                               &       Search for the fuzzy membership functions for all bands, $\forall j \in [0,9], M_j$ characterised by the examples in the training set\\
+  \hline
+  Terminal set $T$                        &       $sl$, $ol$, $ERC \in [-10.0, 10.0]$\\
+%$\{ sl, ol\} \cup \{r|-1.0 < r < 1.0 \} \cup \{TRUE, FALSE\}$\\
+  \hline
+  Function set  $F$                     & $+$, $-$,
+  $\times$,
+  $\div$\footnote{$x \div y~=~\begin{cases}x/y & \mbox{if } y \neq 0 \\
+      1 & \mbox{otherwise}\end{cases}$} ,
+  $protectedlog_{10}(x)$\footnote{$protectedlog_{10}(x)~=~\begin{cases}log_{10}(|x|)&
+      \mbox{if } x \neq 0 \\ 0 & \mbox{otherwise}\end{cases}$},
+  $\exp(x)$, $pow(x,y)$, $\max(x, y)$, $\min(x, y)$, $ceil(x)$,
+  $floor(x)$, $\sin(x)$, $\cos(x)$\\
+%      $\{+, -, *, /, exp, log, sin, cos$ $max, min, ceil, floor\} \cup \{AND, OR, =, >, <\}$\\
+  \hline
+  Fitness function $f_j(i)$               &       \eqref{eq:exp3fitnessfunctionNormal}\\
+  \hline
+  Number of generations                   &       500 \\
+  \hline
+  Population size                         &       1024 (default)\\
+  \hline
+  Population initialisation               &       Ramp-half-and-half method with the minimum and maximum tree heights set to be 2 and 6 respectively (default) \\
+  \hline
+  Evolutionary Operators ($P$)                 &       Crossover (0.9), Reproduction (0.1)\\
+  \hline
+  Maximum height of tree                  &       $17$ (default)\\
+  \hline
+\end{tabular}
+\end{minipage}
+\caption{The experimental setup summary of Fuzzy MLS policy inference using the fuzzy set ensembles approach.}
+\label{table:exp3setup}
+\end{table}
+
+\subsection{Grammatical Evolution Approaches}
+\label{sec:ge}
+In this experiment, Grammatical Evolution (GE) is used to exemplify
+that other evolutionary algorithms can also be used to search for
+security policy. Experiment $2$ presented in Section \ref{sec:exp1} is
+repeated here with minimal changes. A policy is viewed as a function
+that maps a set of decision-making factors to a decision and GE is
+used to search for this function. The BNF grammar that describes the
+search space is defined as follows:
+\begin{align*}
+  N = &\{\texttt{<expr>},~\texttt{<sub\_expr>},~\texttt{<unary\_op>},~\texttt{<binary\_op>},\\
+  &~\texttt{<var>},~\texttt{<const>},~\texttt{<digit>}\}\\
+  T = &\{\texttt{sin},~\texttt{cos},~\texttt{exp},~\texttt{protectedLog10},~\texttt{ceil},~\texttt{floor},,~\texttt{-},\\
+  &~\texttt{add},~\texttt{minus},~\texttt{multiply}.~\texttt{protectedDiv},~\texttt{min},~\texttt{max},\\
+  &~\texttt{sl},~\texttt{ol},~\texttt{.},~\texttt{0},~\texttt{1},~\texttt{2},~\texttt{3},~\texttt{4},~\texttt{5},~\texttt{6},~\texttt{7},~\texttt{8},~\texttt{9}\}\\
+  S = &\texttt{<expr>}
+\end{align*}
+and $P$ consists of a set of production rules as follows:
+\begin{alltt}
+<expr>      ::= <unary_op>(<expr>) | <binary_op>(<expr>, <expr>)
+             |  <sub_expr>
+<sub_expr>  ::= <var> | <const>
+<unary_op>  ::= sin | cos | exp | protectedLog10 | ceil | floor | -
+<binary_op> ::= add | minus | multiply | protectedDiv | min | max 
+<var>       ::= sl | ol
+<const>     ::= <digit>.<digit><digit>
+<digit>     ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+\end{alltt}
+
+The primitive operators are wrapped as a function call to prevent any
+bias being introduced among the operators. All functions work as
+specified in the ANSI C standard \texttt{<math.h>} library except
+$min(x,y)$\footnote{$min(x,y)~=~\begin{cases}x & \mbox{if } x < y \\
+    y & \mbox{otherwise}\end{cases}$},
+$max(x,y)$\footnote{$max(x,y)~=~\begin{cases}x & \mbox{if } x > y \\
+    y & \mbox{otherwise}\end{cases}$},
+$protectedDiv(x,y)$\footnote{$protectedDiv(x,y)~=~\begin{cases}x/y &
+    \mbox{if } y \neq 0 \\ 1 & \mbox{otherwise}\end{cases}$} and
+$protectedLog(x)$\footnote{$protectedLog10(x)~=~\begin{cases}log_{10}(|x|)
+    & \mbox{if } x \neq 0 \\ 0 &
+    \mbox{otherwise}\end{cases}$}. Instead of using Ephemeral Random
+Constant (ERC)\footnote{An ERC is a number in which its value is
+  initialised randomly and remains constant once initialised}, the
+\texttt{<const>} and \texttt{<digit>} rules are used to generate
+random constant in the range of $(-10,10)$. Generating random constant
+in such a fashion enables random number to partake in the evolutionary
+process.
+
+The evolutionary operators used are crossover and mutation with
+probabilities of $P_{crossover} = 0.9$ and $P_{mutation} 0.01$. Two
+different implementations of crossover operator, namely, one-point
+crossover and effective crossover, are investigated. One-point
+crossover randomly chooses a point on each of the two selected
+individuals and swap all data beyond that point whereas effective
+crossover restricts the chosen crossover point in the range of
+effective length of each individual (the portion of an individual that
+is actually used to select the rules).
+
+Two different ways of initialising the population of individuals are
+investigated: random initialisation and sensible initialisation. The
+former takes two parameters, $Length_{min}$ and $Length_{max}$, and
+produces a population of individuals with lengths evenly distributed
+over a range $[Length_{min}, Length_{max}]$ initialised with random
+values. The settings of $Length_{min} = 15$ and $Length_{max} = 25$
+are used here. The latter method takes two parameters, $Height_{min}$
+and $Height_{max}$, and produces a population of individuals that
+corresponding to programs with derivative trees of the size between a
+range $[Height_{min}, Height_{max}]$. The settings of $Height_{min} =
+1$ and $Height_{max} = 10$ are used here. The population size is set
+to be $1024$ in both cases.
+
+The steady state genetic algorithm is used in as the search algorithm
+to evolve the linear individual with of $25\%$ replacement rate
+(default), i.e., the percentage of the population that are replaced at
+each iteration. The roulette wheel selection scheme is used as the
+selection scheme in which the probability for an individual to be
+selected is directly proportional to its fitness.
+
+As in previous experiments, the learnt function might not be perfect;
+sometimes the function might map a particular $(sl, ol)$ pair to a
+value that is out of band range. The policy resolution used in
+Experiment $2$ is reused here, i.e., all out-of-range output values
+are assumed to be $9$.
+
+The experiment is carried out using the libGE-0.26 and GAlib v2.4.7
+with all the parameter settings remain to be default values unless
+specified otherwise. The experimental setup is summarised in Table
+\ref{table:experimentalsetup}.
+
+\begin{table}[htbp]
+\centering
+\begin{minipage}{0.8\textwidth}
+\begin{tabular}{|p{0.375\textwidth}|p{0.625\textwidth}|}
+  \hline
+  Objective                               &       Search for the nearest equivalent function of $band(risk(sl,~ol))$ in \eqref{eq:log} \\
+  \hline
+  Terminal set $T$                       &       $sl$, $ol$, $.$, $0$, $1$, $2$, $3$, $4$, $5$, $6$, $7$, $8$, $9$\\
+
+  \hline
+  Function set  $F$                     & $add(x,y)$, $minus(x,y)$, $multiply(x,y)$, $protectedDiv(x,y)$\footnote{$protectedDiv(x,y)~=~\begin{cases}x/y & \mbox{if } y \neq 0 \\
+      1 & \mbox{otherwise}\end{cases}$} ,
+  $protectedLog_{10}(x)$\footnote{$protectedLog_{10}(x)~=~\begin{cases}log_{10}(|x|)&
+      \mbox{if } x \neq 0 \\ 0 & \mbox{otherwise}\end{cases}$},
+  $\exp(x)$, $pow(x,y)$, $\max(x, y)$, $\min(x, y)$, $ceil(x)$,
+  $floor(x)$, $\sin(x)$, $\cos(x)$\\
+  \hline
+  Fitness function $f_j(i)$               &       \eqref{eq:exp1fitnessfunction} and \eqref{eq:sumofdifferencesfitnessfunction}\\
+  \hline
+  Number of generations                   &       500 \\
+  \hline
+  Population size                         &       1024 (default)\\
+  \hline
+  Population initialisation & 1. Random initialisation which creates a population of individuals with variable lengths
+  between $[15,25]$ \\ & 2. Sensible initialisation which creates a population individuals that map grammar rules to derivative trees with maximum height of $10$\\
+  \hline
+  Evolutionary Operators ($P$)                 & a. One-point crossover ($0.9$), Bit-level mutation ($0.01$)\\
+                                               & b. Effective crossover ($0.9$), Bit-level mutation ($0.01$)\\ 
+  \hline
+\end{tabular}
+\end{minipage}
+\caption{The experimental setup summary of Fuzzy MLS policy inference using Grammatical Evolution approaches.}
+\label{table:experimentalsetup}
+\end{table}
+
+\section{Experimental Results and Evaluations}
+\label{sec:result}
+%changed
+Each experiment is repeated $100$ times using different random
+seeds. The median of the policy performances are reported in Table
+\ref{table:GPResult}. Median is used here instead of mean as the
+distribution of the performance metric being measured is unknown. This
+follows that the confidence interval based upon standard deviation of
+mean is no longer valid. Instead, the $95\%$ confidence interval of
+the median is calculated using the Thompson-Savur formula presented in
+\cite{MH73}.
+
+The results in all GP based experiments but the regression approach
+with the weighted fitness function suggest that the target policy can
+be learnt reasonably well. The experiments using regression approach
+with the mean square error function and fuzzy set ensembles approaches
+perform much better than the \texttt{IF-THEN} rules
+approach. Analysis on the output of the experiment
+using\texttt{IF-THEN} rules approach reveals that there are numerous
+unusual cases such that some $(sl, ol)$ pairs with $(high, low)$
+values are mapped to band $9$.  This suggests that the policy
+resolution mechanism has taken place. In other words, policies learnt
+are incomplete. This necessarily pessimistic policy resolution
+mechanism degrades the performance significantly.
+
+In the experiment using regression approach with the weighted fitness
+function, analysis on the result reveals that the population in many
+runs prematurely converge and stuck at local optimums at a very early
+stage. The two common local optimums found are the function that maps
+every possible input pairs to $ol$ and a constant function that maps
+every possible input pairs to band $0$.
+
+The experiments using fuzzy set ensembles approaches consistently
+perform very well in all $6$ settings ($2$ fuzzification algorithms
+$\times$ $3$ defuzzification algorithms). The Triangle fuzzification
+algorithm performs slightly better compare to the Gaussian
+fuzzification algorithm in all cases. This can be due to the fact that
+the defuzzification algorithm makes the assumption that the distance
+from the target increases linearly in respect to the membership
+value. This is not the case in Gaussian fuzzification algorithm. A
+possible further work is to design a compatible defuzzification
+algorithm using both distance and direction for Gaussian fuzzification
+algorithm.
+
+\begin{sidewaystable}[htbp]
+ \centering
+\newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
+\begin{tabular}{| c | c | c |}\hline
+  \multirow{2}{*}{Experiment}                  & Median Error Rate with $95\%$  & Median Distance with $95\%$ \\
+                                               & Confidence Interval / $\%$     & Confidence Interval / band  \\ \hline
+  \texttt{IF-THEN} Rules                       & 0.3200 (0.3100, 0.3300)        & 1.4200 (1.3500, 1.4700)   \\ 
+%  \texttt{IF-THEN} Rules Ensemble        & 0.1900 (0.1900, 0.2100)        & 0.5600 (0.5272, 0.6200)   \\ \hline
+  Regression with weighted fitness function    & 0.5300 (0.5200, 0.5400)        & 1.6250 (1.5900, 1.6500)   \\
+  Regression with mean square error            & 0.1600 (0.1500, 0.1700)        & 0.2100 (0.1990, 0.2400)   \\ 
+%  Triangle Fuzzifiation with Defuzzifier 1     & 0.4350 (0.4200, 0.4510)        & 0.5750 (0.5481, 0.6000) \\ 
+%  Gaussian Fuzzification with Defuzififer 1    & 0.4900 (0.4700, 0.5000)        & 0.7050 (0.6700, 0.7300) \\
+  Triangle Fuzzification with Defuzzifier 1    & 0.1600 (0.1490, 0.1600)        & 0.1800 (0.1700, 0.1900) \\ 
+  Gaussian Fuzzification with Defuzzifier 1    & 0.1600 (0.1600, 0.1700)        & 0.2600 (0.2490, 0.2800) \\
+  Triangle Fuzzification with Defuzzifier 2    & 0.1400 (0.1300, 0.1500)        & 0.1700 (0.1600, 0.1800) \\ 
+  Gaussian Fuzzification with Defuzzifier 2    & 0.1500 (0.1400, 0.1510)        & 0.2300 (0.2100, 0.2400) \\
+  Triangle Fuzzification with Defuzzifier 3    & 0.1500 (0.1400, 0.1600)        & 0.1900 (0.1800, 0.1900) \\
+  Gaussian Fuzzification with Defuzzifier 3    & 0.1500 (0.1390, 0.1600)        & 0.2400 (0.2300, 0.2600) \\ \hline
+
+  % Triangle with Defuzzifier 1 Ensemble   & 0.1550 (0.0406, 0.0078)        & 0.1600 (0.0256, 0.0228)   \\
+  % Triangle with Defuzzifier 2 Ensemble   & 0.1050 (0.0050, 0.0206)        & 0.1150 (0.0150, 0.0106)   \\
+  % Triangle with Defuzzifer 3             & 0.1400 (0.0000, 0.0100)        & 0.1700 (0.0000, 0.0100)   \\
+  % trialgne                   Ensemble    & 0.1200 (0, 0.0128)       & 0.12 (0, 0.0156)                   \\
+  % Triangle              Ensemble         & 0.11   (0.01,0.02)       & 0.11 (0.01, 0.0256)    \\
+  % Triangle Ensemble & 0.12 (0.0128, 0.01) & 0.1250 (0.0178,
+  % 0.0078)\\ \hline
+  % Gaussian with Ensemble                 & 0.1550 (0.0150, 0.015) & 0.24 (0.0239 0.0300) \\
+  % Ensemble                               & 0.09 (0.02, 0.01)      & 0.14  (0.0328, 0.01) \\
+  % Gaussian 3                             & 0.15 (0.01, 0.01)      &   0.23 (0.01, 0.0110) \\
+  % Ensemble 3                             & 0.09 (0.0028, 0.03)    & 0.1150 (0.025, 0.0106) \\
+  % Ensemble 4                             & 0.09 (0.0156, 0.0128)  & 0.10 ( 0.0156, 0.0228) \\
+  % Ensemble 5 & 0.06 (0.0028, 0.0156) & 0.0750 (0.0078, 0.0289) \\
+  % \hline & & & 0 & 1 & 2 & $\geq3$ & \\ \hline
+  % \multirow{6}{*}{Symbolic Regression} & \multirow{2}{*}{1} & 1 &
+  % 62.3 & 9.6 & 6.0 & 22.1 & 1.248 \\ \cline{3-8} & & 2 & 43.6 & 20.7
+  % & 7.3 & 28.4 & 1.703 \\ \cline{2-8} & \multirow{2}{*}{2} & 1 &
+  % 71.9 & 8.0 & 4.2 & 15.9 & 0.895 \\ \cline{3-8} & & 2 & 52.3 & 21.0
+  % & 5.7 & 21.0 & 1.411 \\ \cline{2-8} & \multirow{2}{*}{3} & 1 &
+  % 63.2 & 10.7 & 5.7 & 20.4 & 1.203 \\ \cline{3-8} & & 2 & 38.5 &
+  % 29.5 & 7.5 & 24.5 & 1.667 \\ \hline
+
+% \multirow{6}{*}{\texttt{IF-THEN} Rules} & \multirow{2}{*}{1} & 1 & 88.1 & 0.4 & 0.7 & 10.8 & 0.797 \\ \cline{3-8}
+% &  & 2 & 48.1 & 19.0 & 5.5 & 27.4 & 1.831 \\ \cline{2-8}
+% & \multirow{2}{*}{2} & 1 & 82.7 & 3.7 & 2.3 & 11.3 & 0.746 \\ \cline{3-8}
+% &  & 2 & 52.7 & 20.9 & 5.4 & 21.0 & 1.500 \\ \cline{2-8}
+% & \multirow{2}{*}{3} & 1 & 93.8 & 0.4 & 0.0 & 5.8 & 0.348 \\ \cline{3-8}
+% &  & 2 & 49.6 & 20.9 & 4.5 & 25.0 & 1.824 \\ \hline
+% %%%%%
+% \multirow{6}{*}{Mapped triangle (D)} & \multirow{2}{*}{1} & 1 & 50.7 & 26.4 & 11.5 & 11.4 & 0.868 \\ \cline{3-8}
+% &  & 2 & 40.5 & 33.0 & 13.1 & 13.4 & 1.076 \\ \cline{2-8}
+% & \multirow{2}{*}{2} & 1 & 56.3 & 23.9 & 9.2 & 10.6 & 0.826 \\ \cline{3-8}
+% &  & 2 & 45.0 & 31.7 & 8.6 & 14.7 & 1.056 \\ \cline{2-8}
+% & \multirow{2}{*}{3} & 1 & 53.9 & 23.5 & 11.1 & 11.5 & 0.863 \\ \cline{3-8}
+% &  & 2 & 43.4 & 36.6 & 10.9 & 9.1 & 0.921 \\ \hline
+% \multirow{6}{*}{Mapped Gaussian curve (D)} & \multirow{2}{*}{1} & 1 & 63.9 & 20.6 & 8.3 & 7.2 & 0.620 \\ \cline{3-8}
+% &   & 2 & 51.8 & 29.7 & 12.7 & 5.8 & 0.757 \\ \cline{2-8}
+% & \multirow{2}{*}{2} & 1 & 56.9 & 20.9 & 14.4 & 7.8 & 0.772 \\ \cline{3-8}
+% &  & 2 & 41.8 & 25.4 & 18.9 & 13.9 & 1.173  \\ \cline{2-8}
+% & \multirow{2}{*}{3} & 1 & 71.4 & 19.4 & 6.7 & 2.5 & 0.414 \\ \cline{3-8}
+% &  & 2 & 60.1 & 24.2 & 9.2 & 6.5 & 0.638 \\ \hline
+% %%%%
+% \multirow{6}{*}{Mapped triangle} & \multirow{2}{*}{1} & 1 & 91.6 & 4.8 & 1.0 & 2.6 & 0.178 \\ \cline{3-8}
+% &  & 2 & 62.2 & 23.5 & 3.6 & 10.7 & 0.781 \\ \cline{2-8}
+% & \multirow{2}{*}{2} & 1 & 76.0 & 13.3 & 3.6 & 7.1 & 0.514 \\ \cline{3-8}
+% &  & 2 & 62.1 & 23.9 & 4.8 & 9.2 & 0.634 \\ \cline{2-8}
+% & \multirow{2}{*}{3} & 1 & 78.5 & 10.8 & 2.5 & 8.2 & 0.535 \\ \cline{3-8}
+% &  & 2 & 58.8 & 27.3 & 3.4 & 10.5 & 0.782 \\ \hline
+% \multirow{6}{*}{Mapped Gaussian curve} & \multirow{2}{*}{1} & 1 & 65.5 & 14.4 & 9.6 & 10.5 & 0.696 \\ \cline{3-8}
+% &   & 2 & 52.6 & 18.8 & 12.7 & 15.9 & 1.013 \\ \cline{2-8}
+% & \multirow{2}{*}{2} & 1 & 62.6 & 14.6 & 9.2 & 13.6 & 0.916 \\ \cline{3-8}
+% &  & 2 & 47.9 & 17.6 & 11.9 & 22.6 & 1.492 \\ \cline{2-8}
+% & \multirow{2}{*}{3} & 1 & 65.4 & 14.5 & 9.0 & 11.1 & 0.707 \\ \cline{3-8}
+% &  & 2 & 50.3 & 19.7 & 12.3 & 17.7 & 1.097 \\ \hline
+\end{tabular}
+\caption{The experimental result summary of the learnt policies using Genetic Programming.}
+\label{table:GPResult} 
+\end{sidewaystable}
+
+% In GE based experiment, the performance in terms of the sum of
+% differences between the band of the best individual of each generation
+% evaluated to and the band encoded in each of the $100$ examples in the
+% training set is shown in Figure \ref{fig:testingset1graph} and
+% \ref{fig:testingset2graph} respectively.
+
+% \begin{figure}[htbp]
+%  \centering
+% \includegraphics[width=0.8\textwidth]{testingset1}
+ % RiskScale.png: 0x41 pixel, 0dpi, 0.00x-6209185.50 cm, bb=
+%  \caption{The average over 10 runs of the sum of absolute differences between the band of best individual in each generation evaluated to and the band encoded in each of the 100 examples in Testing Set 1}
+% \label{fig:testingset1graph}
+% \end{figure}
+
+%\begin{figure}[htbp]
+% \centering
+% \includegraphics[width=0.8\textwidth]{testingset2}
+%% % RiskScale.png: 0x41 pixel, 0dpi, 0.00x-6209185.50 cm, bb=
+% \caption{The average over 10 runs of the sum of absolute differences between the band of best individual in each generation evaluated to and the band encoded in each of the 100 examples in Testing Set 2}
+% \label{fig:testingset2graph}
+%\end{figure}
+
+The experimental results using GE are summarised in Table
+\ref{table:GEResult}. Similar conclusion can be drawn here; the
+fitness function plays a crucial role in determining the quality of
+the output policies. The policies evolved with the mean square error
+function outperform the ones evolved using weighted fitness functions
+in all cases. However, the uses of effective crossover and sensible
+initialisation provide very limited performance gain.
+
+In comparison to the results obtained using GP with similar parameter
+settings, the performance of GE is worse than GP. Analysis on the
+result reveals that the population in many runs prematurely converge
+and stuck at a local optimum that maps every possible input pairs to
+$ol$. Having said that, the size of the best policies (which are
+essentially derivative trees) found in GE is much more smaller
+compared to the ones found in GP in terms of the number nodes. This
+can be explained by the fact that conforming to a grammar is
+relatively more difficult than conforming to the type correctness
+imposed in GP. One example of best policy evolved using GE in one of
+the many runs is $min\left(ol,~ol * \dfrac{-ol} {e^{sl} *
+    \frac{0.87/0.03} {\lfloor 0.97 - \lfloor -sl \rfloor \rfloor + ol
+      - e^{ol}}}\right)$.
+
+
+\begin{sidewaystable}[htbp]
+ \centering
+\newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
+\begin{tabular}{| c | c | c | c | c |}\hline
+  \multirow{2}{*}{Experiment} & Population  & Crossover  & Median Error Rate with $95\%$ & Median Distance with $95\%$ \\
+                              & Initialisation & Operator   & Confidence Interval / $\%$    & Confidence Interval / band  \\
+  \hline
+  Weighted                    & Random         & Ineffective & 0.5200 (0.5100, 0.5210)       & 1.6000 (1.5700, 1.6200)   \\ 
+  Weighted                    & Random         & Effective   & 0.5150 (0.5100, 0.5200)       & 1.6000 (1.5690, 1.6300)   \\ 
+  Weighted                    & Sensible       & Ineffective & 0.4650 (0.4600, 0.4710)       & 1.3850 (1.3490, 1.4200)   \\ 
+  Weighted                    & Sensible       & Effective   & 0.4500 (0.4500, 0.4600)       & 1.3500 (1.3200, 1.3800)   \\ 
+  Mean Square Error           & Random         & Ineffective & 0.4400 (0.4300, 0.4510)       & 0.8500 (0.8190, 0.8810)   \\ 
+  Mean Square Error           & Random         & Effective   & 0.4400 (0.4300, 0.4500)       & 0.7750 (0.7400, 0.8200)   \\ 
+  Mean Square Error           & Sensible       & Ineffective & 0.4250 (0.4100, 0.4400)       & 0.8300 (0.7871, 0.8600)   \\
+  Mean Square Error           & Sensible       & Effective   & 0.4200 (0.4100, 0.4400)       & 0.7800 (0.7600, 0.8000)   \\ 
+  \hline
+\end{tabular}
+\caption{the experimental result summary of the learnt policies using
+  Grammatical Evolution.}
+\label{table:GEResult} 
+\end{sidewaystable}
+
+\section{Conclusion and Future Work}
+\label{sec:conclusion5}
+This chapter presents some experiments that have been carried out to
+validate our proposal --- inferring security policy from decision
+examples using evolutionary algorithms. It begins by presenting the
+experiment of inferring the MLS Bell-LaPadula model, a simple security
+policy model that only provides two possible decisions, namely allow
+or deny, to an information request. It then presents the experiments
+of inferring the Fuzzy MLS model, a risk based security policy model
+that is able to provide more than two decisions.
+
+Three different ways of representing the security policy and the use
+of two different evolutionary algorithms are demonstrated. The results
+show that the inference process is largely independent of many
+parameters, but the fitness function used does play a crucial role. It
+also showed how the fuzzy set ensembles approaches can be easily
+integrated to the policy inference framework to enhance the inference
+ability, yet it remains an interesting research topic in the ways of
+defining the optimal underlying target fuzzy memberships.
+
+For dynamic environment, the ability of inferring policy from examples
+alone is not sufficient. The inferred learnt policy will eventually
+become suboptimal over time as the operational requirements
+change. The policy needs to be updated continually to maintain its
+optimality. Next chapter demonstrates how multi-objective evolutionary
+algorithms can be used to achieve this goal.
+

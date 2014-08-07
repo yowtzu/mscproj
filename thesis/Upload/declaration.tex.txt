@@ -1,0 +1,55 @@
+% Thesis Dedictation ---------------------------------------------------
+
+\begin{declaration} 
+  The work submitted in this thesis is the result of Yow Tzu Lim's own
+  investigation. Work appearing here has appeared in print as follows:
+  \begin{itemize}
+  \item Y. T. Lim, P. C. Cheng, J. A. Clark, and P. Rohatgi, ``IBM
+    Research Report RC24442: Policy Evolution with Genetic
+    Programming,'' 2007.
+  \item Y. T. Lim, P. C. Cheng, J. A. Clark, and P. Rohatgi, ``Policy
+    Evolution with Genetic Programming: A Comparison of Three
+    Approaches,'' in 2008 IEEE World Congress on Computational
+    Intelligence, Hong Kong, 2008.
+  \item Y. T. Lim, P. C. Cheng, P. Rohatgi, and J. A. Clark, ``MLS
+    Security Policy Evolution with Genetic Programming,'' in GECCO
+    '08: Proceedings of the 10th annual conference on Genetic and
+    evolutionary computation, Atlanta, GA, USA, 2008, pp. 1571-1578.
+  \item Y. T. Lim, P. C. Cheng, J. A. Clark, and P. Rohatgi, ``Policy
+    Evolution with Grammatical Evolution,'' in The Second Annual
+    Conference of the International Technology Alliance, Adelphi,
+    Maryland, USA, 2008.
+  \item Y. T. Lim, P. C. Cheng, J. A. Clark, and P. Rohatgi, ``Policy
+    Evolution with Grammatical Evolution,'' in Proceedings of the 7th
+    International Conference on Simulated Evolution And Learning (SEAL
+    ?08), Melbourne, Australia, 2008, pp. 71-80.
+  \item Y. T. Lim, P. C. Cheng, P. Rohatgi, J. A. Clark, ``Dynamic
+    Security Policy Learning,'' 1st ACM Workshop on Information
+    Security Governance (WISG) 2009), Held in conjunction with the
+    16th ACM Conference on Computer and Communications Security (ACM
+    CCS 2009), 2009.
+  \item Y. T. Lim, P. C. Cheng, J. A. Clark, and P. Rohatgi, ``IBM
+    Research Report RC24865: Dynamic Security Policy Learning,'' 2009.
+  \item Y. T. Lim, J. A. Clark, P. Cheng, and J. E. Tapiador,
+    ``Mission Specific Security Policy Discovery,'' submitted to IEEE
+    Security \& Privacy Conference, Oakland, USA, 2010.
+  \end{itemize}
+
+  Research was sponsored by US Army Research laboratory and the UK
+  Ministry of Defence and was accomplished under Agreement Number
+  W911NF--06--3--0001. The views and conclusions contained in this
+  document are those of the authors and should not be interpreted as
+  representing the official policies, either expressed or implied, of
+  the US Army Research Laboratory, the U.S. Government, the UK
+  Ministry of Defense, or the UK Government. The US and UK Governments
+  are authorized to reproduce and distribute reprints for Government
+  purposes notwithstanding any copyright notation hereon.
+\end{declaration}
+
+
+% ----------------------------------------------------------------------
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End: 

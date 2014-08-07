@@ -1,0 +1,342 @@
+\chapter{Introduction}
+\graphicspath{{Chapter1/figures/}}
+\label{Introduction}
+Security is intrinsically concerned with risk; however in current
+practice, security is managed in terms of fixed, rigid security
+policies. There is a growing acceptance that the current security
+mechanisms are not appropriate for future network systems, for
+example, mobile ad-hoc networks (MANETs). This problem has recently
+received increasing attention in the research community.
+
+Current security policy development often begins with a set of
+high-level rules that capture the security goals and then looks at the
+policy refinement problem. There is a pre-determined notion of risk
+management encoded in the security policy. However, formulating an
+optimal security policy in itself is difficult as there are many
+factors which need to be considered, some of which are in
+conflict. Often, the tradeoffs among these factors are made by the
+security administrators based on their experiences and intuitions.
+
+The interaction between the security administrators and the decision
+makers is often able to elicit, at best, a partial description of
+security policy. These stakeholders may well be able to give specific
+decisions to specific instances of authorisation requests but may not
+always be adept at generalising these decisions to a security policy,
+especially when the complexities of MANETs are taken into account. The
+matter is further complicated by the fact that the operational benefit
+as well as risk must eventually be taken into account. There is
+currently no coherent way forward on this issue. Ideally, what we need
+are techniques that allow security policy elicitation from examples in
+a principled manner.  It is very useful to be able to codify what a
+``principled basis'' consists of since this serves to document ``good
+practice'' and facilities its propagation. Thus we ask the question:
+can techniques be found to allow inference of security policy?
+
+Inevitably, unpredictable circumstances that demand decisions will
+arise during operation. In some cases an automated response may be
+imperative; in other cases these may be ill advised. Manual decisions
+made to override the default ones, in a sense, redefine the underlying
+policy. (It is an acceptance that the policy is not suited to all
+circumstance, and in particular, not suited to the current one.) This
+matter is further complicated in highly dynamic operational
+environments like MANETs, where the risk factors are constantly
+changing. A new requirement is thus needed in security policy: the
+security policy has to be able to change and adapt to the operational
+needs or else circumvented in creative ways (often referred to as
+``workarounds''). The current approach to this problem is the manual
+creation of exceptions to policies by granting the required permission
+to the users to meet operational needs. This process can be tedious
+and time consuming. Worse, the exceptions granted are often never
+revoked when they should be. Sometimes, information is also classified
+at a lower sensitivity level to facilitate information sharing. The
+security policy is thus being tweaked and used in such a way as to fit
+the operational needs. A more principled and conceptually clear
+approach taking this requirement into account would therefore be
+advantageous.
+
+The security requirements may differ on a case-by-case basis. Recent
+research \cite{JPO04} has provided excellent articulation of why
+pre-canned one-size-fits-all security policies and mechanisms are
+inappropriate to many modern day operations. Many more abstract
+frameworks for access control systems are being proposed to cope with
+the realities of modern systems. An example of these is the
+risk-budget based approach. In this approach, users are given risk
+budgets that they can spend to access information. Riskier accesses
+cost more. We believe such approaches raise several issues: what
+initial budgets should be given?  Should we allow an unfettered free
+market?  If not, then what constraints should we impose? Should there
+be minimum costs associated with specific accesses?
+
+We can see that the risk-budget based approach is not a single policy;
+it is really a policy family. Each policy instance constrains
+operations in its own way and affects operational behaviour and
+effectiveness. The question arises: for a specific mission (with all
+its nuances and characteristics), which of this vast family of
+policies will lead to the best overall results? Currently there is no
+way of knowing. Such a policy must be \emph{found} rather than
+specified without investigation and finding a policy would appear to
+be a computationally hard task. This shifts the emphasis away from
+specifying and refining a one-size-fits-all policy towards searching a
+policy that has beneficial and acceptable outcomes from a family of
+policies. We believe this is entirely novel.
+
+This problem resonates elsewhere. Current governments use
+macroeconomic levers (such as setting interest and taxation rates) to
+achieve overall economic goals. The economy is a complex system with
+emergent properties and there is often no agreement amongst economists
+about the consequences of particular choices of system parameters.
+Different countries also have different sorts of economy: there is no
+one policy fit for all. This is precisely the situation we are in for
+military operations. The goals and capabilities of organizations and
+missions will vary, as will capabilities and staffing
+characteristics. Why would we expect a one-size-fits-all security
+policy to satisfy our needs and which allows us to make appropriate
+risk decisions in all cases? Parts of a given security policy may
+apply across settings but some notion of mission or organizational
+specificity needs to be taken into account. We observe that it may be
+difficult to determine the effect a particular economics based policy
+may have on attaining mission goals.
+
+As an alternative scenario, consider the proliferation of social
+networking websites and the privacy issues that arise with regards to
+the information published. Coming up with a default privacy policy to
+suit all users is inherently difficult; yet simply providing fine
+grained controls that allow users to set their preferences is neither
+sufficient nor realistic to solve the problem either \cite{JB09}. The
+process of specifying who is allowed to access which information can
+be cumbersome and becomes a usability nightmare. Consequently, users
+are unlikely to use these privacy controls even if they are made
+available to them. As discussed earlier, the task is difficult and not
+straightforward. Even if the users were dedicated in spending time to
+set up their custom privacy policy, they might not be adept in doing
+so.
+
+% A recent proposal \cite{JB09} to overcome these problems is to have
+% pre-packaged privacy policies, designed by experts, so users can
+% choose whichever suits them best. We attempt to push this idea one
+% step further, and propose to automatically \emph{discover} these
+% pre-packaged policies. 
+\section{Technical Approach}
+\label{TechnicalApproaches}
+Our approach to evolution is a radical one. Authorisation to carry out
+particular actions is usually given before an action is carried
+out. However, operational needs may well require that local decisions
+be taken that are subsequently subject to review. Thus security
+management may say ``yes, you were in a tough situation and that was
+acceptable''. The policy change can be understood as a \emph{control
+  problem}, with security management giving feedback to define and
+redefine the acceptable envelope.
+
+We shall investigate interactions between real-time decision making
+and security management control actions. We shall investigate how
+policy may be automatically inferred from specific positive and
+negative authorisation examples. This will allow a specific set of
+decision to be generalised into an applicable security policy. Thus,
+if management authorises a specific instance (either in real-time, or
+post facto) in which the underlying policy does not, we might
+reasonably conclude there are many difficult but similar examples that
+might also be authorised. Similar, wider constrains would seem to
+follow for refusals. What should those wider relaxations or
+restrictions be? We propose to investigate a variety of inference
+techniques. A developed inference system could generate policy rules
+and then pose interest instances to confirm or contradict
+generalisation. We would envisage that there would be limit on how far
+or how fast that system policy can evolve without security management
+intervention.
+
+Essentially, we are seeking learning techniques to partition the
+risk-decision space, with each partition defining an appropriate
+risk-related response, e.g., yes, no, may be, etc.. A presented vector
+of risk-related information (associated with a request) will be
+categorised in order to determine the appropriate response. There are
+considerably flexibility available in the way we may choose to
+recognise and codify appropriateness of yes/no/may be responses.
+Traditionally, security policies are generally developed on the basis
+of human reviewable rules of one form or another. This seems rather
+restrictive; there are many instances where relaxing the requirement
+of human comprehensibility enables more effective solution. For
+example, bio-inspired techniques (evolutionary algorithms and
+artificial immune systems) can outperform traditional techniques in
+many engineering domains.
+
+In this thesis, we propose a deviation of the traditional approaches.
+We shall investigate the means to determine an optimal, or at least
+excellent, policy for initial system configuration and also the means
+to adapt it in the light of changing circumstances using evolutionary
+algorithms (EAs).
+
+EAs are heuristic optimisation techniques that draw loose inspiration
+of the natural selection process from the biological world. The
+optimisation process is guided by a fitness function that measures the
+success of a particular solution to the problem in question. EAs make
+very weak assumptions on the solution space and therefore have the
+ability to search for solutions of unknown (or controlled) size and
+shape in vast, discontinuous solution spaces.
+
+In each experiment, we first generate decision examples from a known
+security policy. We then attempt to use the learning technique to
+infer the original policy using these examples as training input. The
+inferred policy is evaluated by comparing it with the original
+policy. We started with some simple binary decision policies, e.g.,
+MLS Bell-LaPadula policy and budgetised MLS policy and then continued
+on with policy with multi-decision, e.g., Fuzzy MLS model. We also
+investigated and compared the inference performance of using various
+different learning techniques. To investigate how well the learning
+techniques can mould and spare the policy to adapt with new decsion
+criteria with new decision examples, we also designed a simple, yet
+non-trivial policy that varies with time. This time-varying policy has
+two purposes: generating training decision examples and serving as the
+benchmark against which the security policies learnt are
+evaluated. Lastly, we also showed how simulation runs can be used in
+place of a set of decision examples to learn the optimal security policy.
+
+The expected gain from this research is the exploration of solutions
+for the steps of eliciting and automating the evolution of security
+policies, based on operational decision making. A coordinated approach
+will be proposed for both security policy elicitation by example
+applicable during development phase, policy evolution and maintenance
+during operations as shown in Figure \ref{fig:policylife}. Strengths
+and weaknesses of different approaches will be assessed and
+recommendations made for further development.
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[width=0.8\textwidth]{PolicyLife}
+ \caption{Security Policy Life Cycle}
+ \label{fig:policylife}
+\end{figure}
+
+\section{Thesis Hypothesis and Contributions}
+\label{ThesisHypothesisAndContribution}
+%This thesis aims to explore the possibility of using evolutionary
+%algorithms to infer the near optimal security policy prior to deployment and
+%during operation of mobile ad-hoc network systems. The inferred
+%policy has to be dynamic such that it can detect and respond to the
+%changes in the operational environment in real-time to maintain its
+%optimality.
+
+% If EAs are found to be feasible candidate for inferring policies,
+% other techniques that impose more assumptions and constraints are
+% deemed to be able to achieve comparable, if not better performance.
+
+Formally, the hypothesis of the thesis is stated as follows:
+\begin{quote}
+  Evolutionary algorithms (EAs) have the potential to be an effective 
+  means of determining the security policies that suit challenging
+  environments, as typified by mobile ac-hoc networks (MANETs).
+\end{quote}
+By effective we mean the ability to determine an optimal or near
+optimal security policy that fits the needs of the mission in its
+operational
+environment. %By efficient we mean the ability to determine the
+%effective security policy before it becomes obsolete due to the
+%changes in operational needs.
+
+In this thesis, I demonstrate:
+\begin{itemize}
+\item how EAs can be used to infer static security policies from a set
+  of decision examples. Three different ways of representing security
+  policies and two different EAs are investigated. In all cases, the
+  results show that this idea is feasible.
+\item how the fuzzy set concept can be integrated into the policy
+  inference framework to improve the policy inference performance. The
+  idea is sufficiently generic to be applied to other classification
+  problems, provided that there is a partial ordering among the
+  classes.
+%\item Design a dynamic security policy model. Currently there are no
+%  available decision examples that change with time for us to work
+%  with. This model is designed to generate such decision examples
+%  which can be used for training as well as evaluation purposes.
+\item how multi-objective evolutionary algorithms (MOEAs) can be used
+  to infer dynamic security policies from a set of decision
+  examples. Two novel dynamic learning frameworks based upon MOEAs are
+  developed and both are sufficiently generic to be used as general
+  dynamic classification algorithms.
+\item how EAs can be used to infer the (near) optimal policies that
+  fit a specific mission (or at least a specific family of
+  missions).%, instead of a one-size-fits-all general notion of policy.
+\item how MOEAs can be used to infer a set of Pareto optimal policies.
+\item how simulation runs can be used in place of a set of decision
+  examples to provide feedback in evaluating the fitness of a policy
+  with respect to the specified high-level objectives.
+\item how the Pareto front of the security policies discovered using
+  MOEAs can reveal useful information about the relationship among
+  different objectives, which may be difficult to obtain
+  otherwise. Such information provides useful insight for
+  policy makers to select and apply the optimal policy that fits the
+  needs of current operational environment on a case-by-case basis.
+%\item how evolved policies can reveal useful information on the
+%  relationship among different decision factors. This information is
+%  useful for policy makers to verify, improve or even replace the
+%  existing policy if necessary depending on circumstances.
+\end{itemize}
+
+\section{Thesis Organization}
+\label{sec:ThesisOrganization}
+The subsequent chapters of this thesis are organized as follows:
+\begin{description}
+\item[Chapter \ref{ComputerSecurity}] presents the fundamental
+  computer security concepts which are related to this thesis. It
+  begins with a brief introduction to security objectives and security
+  risk analysis. It then presents the concept of dynamic coalitions,
+  with an emphasis placed on MANETs and the challenges they impose on
+  the current security mechanisms.
+\item[Chapter \ref{SecurityPolicyModels}] firstly reviews some
+  influential security policies and models. It then presents some
+  recently proposed risk-budget based models which aim to provide more
+  flexibility and discusses the top-down policy hierarchical
+  development model which enables policy composition and
+  refinement. The chapter concludes with an identification of those
+  research issues in security policy development which we will attempt
+  to address in this thesis.
+% \item[Chapter \ref{SecurityPolicyAndAccessControl}] reviews how
+%   risk are being used to guide the decision making process. It first
+%   presents the FuzzyMLS model, a flexible risk based security policy
+%   model by applying the fuzzy logic concepts on the traditional multi
+%   level security (MLS) system. Next, it presents the JASON risk budget
+%   based security policy model which shows how risk in accessing
+%   information can be managed and distributed across organizations
+%   using economy concepts. Lastly, it reviews some common web based
+%   reputation systems which show how reputation can be used to estimate
+%   the risk to guide the decision making process.
+\item[Chapter \ref{LearningTechniques}] introduces the learning
+  techniques used in this thesis. The first part introduces EAs ---
+  beginning with a brief introduction to the common features shared
+  among all EAs, followed by the concept of MOEAs. It then details two
+  EAs used in this thesis, namely Genetic Programming (GP) and
+  Grammatical Evolution (GE). The second part introduces the fuzzy
+  expert systems.
+\item[Chapter \ref{StaticSecurityPolicyInference}] details the
+  experiments in using EAs to infer static security policies from a
+  set of training decision examples. Three different ways of
+  representing the policies and the use of two different EAs are
+  demonstrated. The chapter concludes with the experiment which
+  integrates the fuzzy set concept into the policy inference framework
+  in order to improve the performance.
+\item[Chapter \ref{DynamicSecurityPolicyInference}] begins with the
+  design of a time-varying, risk-budget based security policy
+  model. This model is used to generate decision examples that are to
+  be used for training as well as evaluation purposes. It then details
+  the experiments carried out in using MOEAs to continually infer the
+  dynamic policy from the generated decision examples, i.e., evolves
+  and adapts a policy as new decision examples are obtained.
+\item[Chapter \ref{MissionSpecificPolicyDiscovery}] presents the
+  experiment which uses MOEAs to discover the (near) optimal policies
+  that fits a specific mission (or at least a specific family of
+  missions). The experiment also shows how simulation runs can be used
+  in place of a set of decision examples in evaluating the fitness of a
+  policy with respect to the specified high-level objectives.
+\item[Chapter \ref{EvaluationAndConclusion}] concludes the thesis by
+  evaluating the degree to which the hypothesis has been justified and
+  outlines potential work for the future.
+%\item[Appendix \ref{Appendix}] contains miscellaneous examples of
+%  policies produced in the experiments.
+\end{description}
+
+%%% ----------------------------------------------------------------------
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End: 

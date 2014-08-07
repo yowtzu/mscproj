@@ -1,0 +1,705 @@
+\chapter{Mission Specific Policy Discovery}
+\graphicspath{{Chapter7/figures/}}
+\label{MissionSpecificPolicyDiscovery}
+Recent research \cite{JPO04} has provided excellent articulation of
+why pre-canned one-size-fits-all security policies and mechanisms are
+inappropriate for many modern day operations and more abstract
+frameworks for access control systems are being proposed to cope with
+the realities of modern systems. An example is given by the
+risk-budget based approach \cite{JPO04}. In this approach, users are
+given risk budgets that they can spend to access information. Riskier
+accesses cost more. Such approaches are indeed interesting but raise
+several issues: what initial budgets should be given? Should we allow
+an unfettered free market? If not, then what constraints should be
+imposed? Should there be minimum costs associated with specific
+accesses?
+
+
+We can readily see that this problem resonates elsewhere. Current
+governments use macroeconomic levers (such as setting interest and
+taxation rates) to achieve overall economic goals. The economy is a
+complex system with emergent properties and there is often no
+agreement amongst economists about the consequences of particular
+choices of system parameters.  Different countries also have different
+sorts of economy: there is no one policy fit for all. This is
+precisely the situation we are in for military operations. The goals
+and capabilities of organizations and missions will vary, as will
+capabilities and staffing characteristics. Why would we expect a
+one-size-fits-all security policy to satisfy our needs and which
+allows us to make good risk decisions in all cases? Parts of a given
+security policy may apply across settings but some notion of mission
+or organizational specificity needs to be taken into account. We
+observe that it may be difficult to determine the effect a particular
+economics based policy may have on attaining mission goals.
+
+
+As an alternative scenario, consider the proliferation of social
+networking websites and the privacy issues that arise with regards to
+the information published. Coming up with a default privacy policy to
+suit all users is inherently difficult; yet simply providing fine
+grained controls that allow users to set their preferences is neither
+sufficient nor realistic to solve the problem either \cite{JB09}. The
+process of specifying who is allowed to access which information can
+be cumbersome and becomes a usability nightmare. Consequently, users
+are unlikely to use these privacy controls even if they are made
+available to them. As discussed earlier, the task is difficult. Even
+if the users were willing to spend time to set up their custom privacy
+policy, they might not be adept in doing so.
+
+A recent proposal \cite{JB09} to overcome these problems is to have
+pre-packaged privacy policies, designed by experts, so users can
+choose whichever suits them best. We attempt push this idea one step
+further, and propose to automatically \emph{discover} these
+pre-packaged policies. In this work we use EAs, but this is merely a
+design choice and other machine-learning techniques may be more
+convenient in other applications. We will investigate whether models
+of operational benefit and risk can be used to learn the optimal, or
+at least excellent, policies. This shifts the emphasis away from
+specifying and refining a one-size-fits-all policy towards searching
+for a policy that has beneficial and acceptable outcomes from a family
+of policies. We believe this is entirely novel.
+
+In this chapter we use a risk-budget based policy family as an
+\emph{example} only; it is a means to an end and stands as a proxy for
+any policy family from which we seek an instance best suited to the
+needs of a specific mission (or a specific family of missions). We
+employ the same techniques --- Genetic Programming (GP) and
+Multi-objective Genetic Programming (MOGP) to search over the space of
+policies, get feedback on the consequences of a particular policy, and
+home in on the optimal policies. GP and MOGP have been shown to be
+effective in searching the optimal policies using decision examples in
+previous chapters. Other constraint solving or heuristic guided search
+approaches are potentially applicable. The crux of the overall
+approach is that we need some notion of \emph{feedback} to indicate
+how well a particular policy instance performs. Feedback can be
+obtained by static analysis, by numerical analysis (e.g., if we were
+couch aspects of system behaviour as properties of Markov state
+transition graphs), or else by simulation. We choose to use simulation
+in this chapter to demonstrate the feasibility of our idea. Simulation
+is a highly flexible way to obtain feedback. It is of a particular use
+when the complexiity of the system under examination prevents
+trackable mathematical analysis.
+
+The rest of the chapter is organized as follows. In Section
+\ref{sec:Scenario} we introduce an operational scenario with a clear
+benefit and risk tradeoff in accessing information. Section
+\ref{sec:Experiments} presents various proof-of-concept experiments to
+support our claims and Section \ref{sec:Results} discusses the
+results. Finally, Section \ref{sec:Conclusion} concludes the chapter
+summarising our main contributions and pointing out some potential
+avenues for future research.
+
+\section{Scenario: Travelling across a Battlefield}
+\label{sec:Scenario}
+We present an operational scenario where there is clear benefit from
+obtaining information and clear nasty consequences from allowing too
+free access to it. The scenario is a battlefield with two teams of
+agents, blue and red. The battlefield is a $100 \times 100$ two
+dimentional grid. Blue agents aim to travel from an initial location,
+$L_{init}$ to a destination location, $L_{des}$, seeking to restrict
+casualties but also aiming for a quick traversal. Certain elements of
+the grid are in the hands of red forces and straying alone into an
+occupied grid position will lead to the liquidation of the agent and
+the compromise of all information it has had access to. At each time
+step, blue agents can request further information about its vicinity,
+e.g., the location of other agents. It is assumed here that the amount
+of risk budget required for accessing the same piece of information
+under the same circumstance costs the same. In other words, all blue
+agents are assumed to have the same levels of trustworthiness. Red
+agents attempt to prevent blue agents from achieving their objective
+by chasing and destroying any blue agent they see.
+
+It is decidedly not the purpose of this task to determine how agents
+can best use the information they obtain. Rather, we assume there is
+\emph{some chosen mechanism for using it, and the goal is to find the
+  policy that then provides the best result}. It is possible that many
+of the same techniques we propose here could, mutatis mutandis, be
+used to search for an information use strategy, but we do not intend
+to address that issue here. We shall concentrate solely on the
+security policy instance discovery.
+
+\subsection{Movement Strategy}
+\label{sec:MovementStrategy}
+At each time step, an agent can choose to move in any of the $8$
+different directions to a neighbouring square: North (N), East (E),
+West (W), South (S), North East (NE), North West (NW), South East (SE)
+and South West (SW), or else remain at its current (C) square. The
+decision-making process and movement of all agents are synchronous. At
+each time step, each agent decides where to move next based upon what
+he can perceive about the environment without knowing what decisions
+others make. Then, all agents move simultaneously based upon the
+decisions they have made. Two or more agents may end up occupying the
+same grid position. What an agent can perceive is defined in terms of
+its sight distance, i.e., the distance an agent can see from its
+position. The Manhattan distance is used as the distance metric. The
+default sight distance of blue agents and red agents in this scenario
+are set to $1$ and $2$ unit of squares respectively, i.e., blue agent
+can only see who is in each of the squares that are adjacent to
+it. Additionally, the grid map does not wrap around at its edges and
+thus the choices of movement direction are more restrictive when an
+agent is at the edge of the map.
+
+
+\subsubsection{Local Information of Agents}
+Each agent is associated with several matrices in order to formally
+define its movement strategy. These matrices are the distance gradient
+matrix ($G$), the knowledge matrix ($K$) and several direction
+selection matrices ($DSMs$).
+
+The distance gradient matrix $G$ stores the distances of all squares
+in the map from the destination square. Each element $g_{x,y}$ in $G$
+represents the distance between the square with coordinate $(x,y)$ and
+the destination location, $L_{des}$ on the grid map. The matrix is
+commonly used by all agents.
+
+The knowledge matrix $K$ stores the knowledge a blue agent has
+acquired about the map so far. Each element $k_{x,y}$ in $K$
+represents the perceived risk associated with the square with the
+coordinate $(x,y)$. At each time step $t$, a blue agent $p$ updates
+its knowledge matrix, $K_{p,t}$ to account for the risk arising due
+to any red agent $q$ that it can see from its current
+position. Formally, the update of $K_{p,t}$ can be written as:
+\begin{equation}
+  K_{p,t}~=~\alpha K_{p,t-1}~+~(1-\alpha)U_{p,t}
+\label{eq:KFunction}
+\end{equation}
+where $\alpha$ is the relative weight of the previous knowledge
+acquired and $U$ is the update matrix. In this scenario, $\alpha$ is
+set to be $0$, i.e., blue agents have no memory about their
+past. Thus, \eqref{eq:KFunction} is simplified to $K_{p,t} =
+U_{p,t}$. A simple $U_{p,t}$ is chosen such that each element
+$u_{x,y}$ in $U_{p,t}$ is as follows:
+\begin{equation}
+u_{x,y}~=~\sum_{i=1}^{\#q} \mathit{sightRange}_{i} - \mathit{distance}(x, y, x_{i}, y_{i}) + 1
+\end{equation}
+where $q$ is each red agent in the sight of blue agent $p$.
+
+The $DSM$ is a $3 \times 3$ matrix. Each element in $DSM$ represents
+the likelihood of a movement direction an agent chooses at each time
+step. For example, the central element, $d_{1,1}$ represents the
+likelihood of an agent choosing to remain at its current position
+whereas $d_{1,2}$ represents the likelihood of an agent choosing to
+move to the east. Therefore, each element of $DSM$ can be indexed
+using the movement direction each element represents as depicted in
+Figure \ref{fig:DSMIndexes}. Additionally, the elements corresponding
+to movement directions that lead to invalid locations, i.e., locations
+that are not on the map, are always set to $0$.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tabular}{| c | c | c | p{1cm} | c | c | c |}
+    \cline{1-3}             \cline{5-7}
+    0,0 & 0,1 & 0,2 &       & NW & N & NE \\
+    \cline{1-3}             \cline{5-7}
+    1,0 & 1,1 & 1,2 &       & W  & C & E  \\
+    \cline{1-3}             \cline{5-7}
+    2,0 & 2,1 & 2,2 &       & SW & S & SE \\
+    \cline{1-3}             \cline{5-7}
+  \end{tabular}
+  \caption{The dual indexing mode in DSM.}
+  \label{fig:DSMIndexes}
+\end{figure}
+
+
+\subsubsection{Movement Strategy of Red Agents}
+As shown in Figure \ref{fig:wargame}, the initial locations of all red
+agents are randomly distributed within a square-doughnut shaped patrol
+region defined in terms of $3$ parameters: the centre, $c$, the inner
+diameter $d_{in}$ and the outer diameter $d_{out}$. In this scenario,
+$c = L_{des}$, $d_{in} = 5$ and $d_{out} = 10$ are used.
+
+Initially, each red agent randomly move within the patrol region. When
+a red agent sees a blue agent, it begins to chase the blue agent. This
+pursuit ends after a finite amount of time steps or as soon as the
+blue agent is killed. The red agent then returns again to the patrol
+region using the shortest possible path and starts randomly moving
+within the region as before.
+
+More formally, a red agent can be in one of the following $3$ states:
+Patrol (initial state), Chase and Return. The transition between
+states takes no time.
+
+In the Patrol state, if a red agent does not see any blue agent, each
+element $e_{d}$ in its $DSM$ is set to $1/{N}$, in which $d$ is the
+movement direction that will result it remains in the patrol region
+and $N$ is the total number of such directions. All other elements are
+set to $0$. Otherwise, the red agent randomly sets its chasing target
+to one of the blue agent it sees, sets its chasing step to $10$ and
+transits to the Chase state.
+% if it sees any blue agent.
+
+In the Chase state, a red agent has the element $e_{d}$ in its $DSM$
+set to $1$, $d$ being the direction of the target blue agent. All
+other elements in its $DSM$ are set to zero. Its chasing step is then
+decremented. It transits to the Return state if its chasing step runs
+out or its chasing target is killed or escaped.
+
+In the Return state, a red agent has its element $e_{d}$ in $DSM$ set
+to $1$, $d$ being the direction of the centre of the patrol region as
+seen from its current location. All other elements are set to $0$. In
+other words, an agent in this state will return to the patrol region
+using the shortest path and ignore any blue agent it sees on its
+way. Once a red agent arrives the patrol region, it transits to the
+Patrol state.
+
+
+\subsection{Movement Strategy of Blue Agents}
+The initial locations of all blue agents are randomly distributed
+within a distance between $0$ and $d_{start}$ from a position
+$L_{init}$. In this scenario, $d_{start}$ is set to $7$. At each time
+step, every blue agent attempts to move towards its destination
+gradually while seeking to avoid being killed by the red agents on the
+way. Once a blue agent arrives at the destination, the agent is
+considered to have achieved its goal and ``disappears'' from the map.
+
+Formally, a blue agent can be in one of the following $2$ states:
+Progress (initial state) and Arrive.
+
+In the Progress state, a blue agent makes its decision as to where to move
+based upon the following factors:
+\begin{enumerate}
+\item the destination location, $L_{des}$ --- it should move towards
+  destination over time to accomplish its objective.
+\item the location of red agents --- it should try to avoid being seen
+  by any red agent and thus reducing the risk of being killed.
+\end{enumerate}
+These factors are independently calculated using two $DSM$s, namely
+$DSM_{des}$ and $DSM_{risk}$, and then aggregated using:
+\begin{equation}
+  DSM_{final}~=~{\beta}DSM_{des}~+~{(1-\beta)}DSM_{risk}
+\label{eq:DSMSummation}
+\end{equation}
+where $\beta$ is the relative weight of each $DSM$. In our scenario,
+both $DSM$s have equal weight, i.e., $\beta = 0.5$. The direction that
+a blue agent will choose to move is the one with the highest element
+value in $DSM_{final}$. If there is more than one direction has the
+same highest element value, a random choice is made among them.
+
+To build $DSM_{des}$, we extract a $3 \times 3$ submatrix, $G_{sub}$
+from the distance gradient matrix $G$. The submatrix to be extracted
+by an agent $j$ is formed by the elements corresponding to the current
+square where $j$ resides and its $8$ neighbouring squares. If any of
+these squares are off the map, the element is set to $0$ and marked as
+invalid. For each of the valid element, $x$, the following operations
+are performed:
+\begin{enumerate}
+\item $calculateRelativeDifference(x)$ --- set $x$ to be the absolute
+  difference its current value from the largest value in $G_{sub}$.
+  \item $plusOne(x)$ --- add $1$ to $x$.
+  \item $power(x, n)$ --- raise $x$ to the power of $n$. Larger values
+    of $n$ amplify the difference and thus increase the selection bias
+    toward element $x$ with higher value. Here, $n = 1$ is used, i.e.,
+    $x$ is unchanged.
+  \item $normalise(x)$ --- $x$ is normalised by dividing it by the sum
+    of all the valid elements.
+\end{enumerate}
+
+$DSM_{risk}$ is built in a similar way as $DSM_{des}$ except it uses
+$K$ as its source matrix (the matrix it extracts the element values
+from) and the parameter $n$ in $power(x, n)$ operation is set to $2$.
+
+An example of this scenario is graphically shown in Figure
+\ref{fig:wargame}. The red agents randomly move in the patrol region
+(the white square-doughnut shaped region) with its centre at the
+destination (the red square at the middle of the region). The blue
+agents are moving from their initial positions (region around the
+small white square at the left) to the destination. The intensity of
+the red background colour corresponds to the value in the distance
+gradient matrix.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\textwidth]{ScreenShot}
+  \caption{The simulated battlefield grid map.}
+  \label{fig:wargame}
+\end{figure}
+
+
+\section{Risk-budget based Security Policy}
+\subsection{Integrating the Security Policy  into the Scenario}
+To integrate the risk-budget based policy into the scenario, a fixed
+amount of risk budget is assigned to each blue agent at the start. At
+any time step, a blue agent can opt to purchase extra information
+about its vicinity in the hope to reduce the risk of being
+killed. This leads to two questions: Firstly, what information is
+available for a blue agent to request? Secondly, when can a blue agent
+raise the information access request?
+
+In the real world, information would be available at different levels
+of granularity. Higher granularity information costs more.  Here the
+simulation is kept simple. Only one type of information is available
+to request --- the locations of all agents at the distance of $2$
+squares from the current location of the agent. It follows that the
+cost of the information is not a matter anymore and therefore is
+simply set to $1$ unit.
+
+There is no straightforward answer to the second question. Instead of
+defining a fixed strategy when a blue agent can raise the information
+access request, it is decided to let them to raise the request at
+every time step and its the job for the policy to decide whether to
+grant or deny the request based upon the status of the agent who
+raises the request. If the policy grants a request of an agent, the
+cost of the accessed information is charged against the budget of the
+agent, the information is annotated onto the knowledge matrix, $K$ of
+the agent, and then the $DSM$s of the agent are
+recalculated. Otherwise, nothing happens.
+
+The movement strategy of a blue agent in the Progress state with the
+security policy integrated is summarised in Algorithm
+\ref{algo:BlueStrategy}:
+\begin{algorithm}
+\dontprintsemicolon
+\caption{The movement strategy of blue agents.}
+\ForEach{agents in BLUE team}{
+  calculate $DSM_{des}$ using Gradient Distance Matrix, $G$\;
+  calculate $DSM_{risk}$ using Knowledge Matrix, $K$\;
+  calculate $DSM_{final}$ with \eqref{eq:DSMSummation}\;
+  $decision~=$ requestInformation(agent, policy)\;
+  \If{$decision$}{
+    update $K$ with new information\;
+    recalculate $DSM_{risk}$ using updated $K$\;
+    recalculate $DSM_{final}$ with \eqref{eq:DSMSummation}\;
+  }
+  move to the direction with the highest value element in $DSM_{final}$\; 
+}
+\label{algo:BlueStrategy}
+\end{algorithm}
+
+\subsection{Risk Policy Structure and Parameters}
+\label{sec:RiskBasedSecurityPolicyInference}
+The security policy makes the decision for an information access
+request based upon the following factors:
+\begin{enumerate}
+ \item the elapsed operation time, $\mathit{currentTime}$.
+ \item the price and granularity of the information requested. In this
+   scenario, as there is only one type of information and therefore
+   this factor can be omitted safely without loss of generality.
+ \item the remaining risk budget of the agent who raises the request,
+   $\mathit{remainingBudget}$.
+ \item the current risk of the agent who raises the request,
+   $\mathit{currentRisk}$. In this scenario, this depends solely on
+   the number enemy agents in its vicinity.
+ \item the estimated future risk of the agent who raises the request,
+   $\mathit{futureRisk}$. In this scenario, this risk is estimated
+   using the distance from its current location to the destination.
+\end{enumerate}
+
+Given the scenario described above, we would like to search for an
+optimal instance in the policy space parametrised by these factors for
+blue agents. Optimality can have different meanings. In this context,
+an optimal policy is one that minimises the number of blue agent
+casualties as well as minimises the operation completion time (the
+time that the last agent is killed or arrived at the destination)
+given a fixed amount of risk budget. These two objectives can be in
+conflict with one another, e.g., minimising the operation time can be
+achieved by denying all information requests from the blue agents so
+to increase their chance of being killed. MOGP that is capable to
+search for the Pareto optimal set of solutions is used here.
+
+
+\section{Experimental Setup}
+\label{sec:Experiments}
+\subsection{Problem Representation}
+\label{sec:representation}
+In order to search for the optimal policies using EAs, each individual
+in the evolving population encodes a policy candidate. A policy $P$
+grants an information access to an agent iff $P(\mathit{riskFactor})
+\geq 0$ where $\mathit{riskFactor}$ is a tuple of $\langle
+\mathit{currentTime}, \mathit{remainingBudget}, \mathit{currentRisk},
+\mathit{futureRisk} \rangle$ and the constraint that
+$\mathit{remainingBudget} \geq 0$. The terminal set $T$ consists of
+all the risk factors and a set of Ephemeral Random Constants
+(ERC),\footnote{Ephemeral Random Constant (ERC) is a constant in which
+  its value is randomly generated during its creation.}, which takes a
+real value between $[-1, -1)$.  The function set $F$ comprises $+$,
+$-$, $\times$, $\div$\footnote{$x \div y~=~\begin{cases}\frac{x}{y}&
+    \mbox{if } y \neq 0 \\ 1 & \mbox{otherwise}\end{cases}$} ,
+$protectedln(x)$\footnote{$protectedln(x)~=~\begin{cases}ln(|x|)&
+    \mbox{if } x \neq 0 \\ 0 & \mbox{otherwise}\end{cases}$},
+$pow(x,y)$, $exp(x)$, $max(x,y)$, $min(x,y)$, $sin(x)$ and $cos(x)$.
+
+To measure the fitness of a policy, the policy is executed by all blue
+agents in $10$ scenarios described in Section
+\ref{sec:Scenario}. These $10$ scenarios are used repeatedly
+throughout the evaluation process, i.e., all policies in all
+generations are evaluated using the same $10$ scenarios. Each scenario
+is initialised using a different random seed and consists of $50$ blue
+agents and $150$ red agents. At the end of each scenario, the
+performance measure is recorded; the mean of the $10$ measures is used
+as the performance measure.
+
+As the aim of these experiments is to demonstrate the validity and
+potential of EAs as a robust means of locating the optimal policies,
+no parameter tuning was attempted.
+
+\subsection{Minimising Casualty Toll of Blue Agents}
+The objective of the first experiment is to search for the optimal
+policy that minimises the casualty of the blue agents. The fitness
+function, $f_{dead}$ can be formed in a pretty straightforward
+way. Let $N$ be the number of scenarios used, the fitness of a policy
+$x$ is:
+\begin{align}
+  f_{dead}(x)&=~\sum_{i=1}^{N} \frac{no.~of~blue~agents~killed~in~run~i}{N * no.~of~blue~agents~in~one~run}\nonumber\\
+            &=~fraction~of~blue~agents~killed~over~all~runs
+\end{align}
+
+Sometimes, the fitness function might not be so easily formed, perhaps
+due to cost or other difficulties in measuring it. In such cases, an
+approximation function can be used instead. In the second experiment,
+fitness function, $f_{msd}$ which minimises the mean square distance
+between the final location of each agent and the destination is
+used. Let $N$ be the number of missions used and $M$ be the initial
+number of blue agents, $L_{final}^j$ be the final location of blue
+agent $j$ (the location of a killed blue agent is the square where it
+was killed), the fitness of a policy $x$ is:
+\begin{equation}
+  f_{msd}(x)~=~\sum_{i=1}^{N} \sum_{j=1}^{M}\frac{distance(L_{final}^j, L_{des})^2~of~run~i}{N * max(gridWidth, gridHeight)}
+\end{equation}
+
+In both experiments, crossover and reproduction operators are used to
+modify individuals in the population at each generation with
+probabilities of $0.9$ and $0.1$ respectively.
+
+\subsection{Minimising Casualty Toll and Mission Completion Time}
+In the third experiment, the objective is to search for the set of
+policies that is optimal in two criteria: minimal casualty toll of
+blue agents and minimal mission completion time. The search is carried
+out using the Strength Pareto Evolutionary Algorithm 2 (SPEA2)
+implementation of MOGP.
+
+To use MOGP-SPEA2, the fitness function of each objective must be
+defined. To measure casualty toll, $f_{dead}$ defined previously is
+used. To measure the mission completion time, $f_{time}$ is defined as
+follows:
+\begin{equation}
+  f_{time}(x)~=~\sum_{i=1}^{N} \frac{completion~time~of~run~i}{N * max~completion~time~of~one~run}
+\end{equation}
+where $N$ is the number of missions are used and the $max$
+$completion$ $time$ $of$ $one$ $run$ is set to be $100$.
+
+In this experiment, crossover and then mutation are applied to
+individuals in the population at each generation with probability of
+$1.0$.
+
+\subsection{Summary}
+All the experiments are carried out using ECJ 18 \cite{ECJ97} with the
+SPEA2 module is obtained from the ECJ 19 CVS repository
+\url{http://dev.java.net/}\footnote{The reason is that there is a
+  major revision on the module in version 19 to improve clarity and
+  fix some minor bugs found in previous versions.}.  The default
+parameter files, \texttt{koza.params} and \texttt{spea2.params} are
+used unless specified otherwise. The experimental setups are
+summarised in Table \ref{table:ExpSetup}.
+
+\begin{table}[htbp]
+  \centering
+\begin{minipage}{0.8\textwidth}
+\begin{tabular}{|p{0.375\textwidth}|p{0.625\textwidth}|}
+  \hline
+  Objective         &       Search for the optimal policy for a specified set of $10$ missions \\
+  \hline
+  Terminal set $T$ &       $\mathit{currentTime}$, $\mathit{remainingBudget}$, $\mathit{currentRisk}$, $\mathit{futureRisk}$, $ ERCs \in [-1.0, 1.0)$\\
+  \hline
+  Function set $F$ &       $+$, $-$,
+  $\times$, $\div$\footnote{$x \div y~=~\begin{cases}\frac{x}{y}&
+      \mbox{if } y \neq 0 \\ 1 & \mbox{otherwise}\end{cases}$} ,
+  $protectedln(x)$\footnote{$protectedln(x)~=~\begin{cases}ln(|x|)&
+      \mbox{if } x \neq 0 \\ 0 & \mbox{otherwise}\end{cases}$},
+  $pow(x,y)$, $exp(x)$, $max(x,y)$, $min(x,y)$, $sin(x)$,
+  $cos(x)$\\
+% $+, -, \times, \div, min, max, sin, cos, exp, \mathit{protectedLn}$\\
+  \hline
+  Fitness functions  &       Experiments 1 and 2 minimise the casualty of the blue agents using two different fitness functions, $f_{dead}$ and $f_{msd}$.\\
+  &       Experiment 3 minimises the casualty toll of the blue agents  and the operation time using MOGP-SPEA2. The fitness functions used for the two objectives are $f_{dead}$ and $f_{time}$ respectively.\\
+  \hline
+  Evolutionary operators & Crossover, Mutation and Reproduction \\
+  \hline
+  Number of generations                   & 100 \\
+  \hline
+  Population size              & 256 \\
+  \hline
+  Archive size                & 32 \\
+  \hline
+\end{tabular}
+\end{minipage}
+\caption{The experimental setup summary of discovering the optimal mission specific policies.}
+\label{table:ExpSetup}
+\end{table}
+
+
+\section{Experimental Results and Evaluations}
+\label{sec:Results}
+To evaluate the performance of the optimised policies found, $3$
+baseline policy models, $\mathit{NoAccess}$, $\mathit{FullAccess}$ and
+$\mathit{RandomAccess}$ are created. $\mathit{NoAccess}$ and
+$\mathit{FullAccess}$ models are simple: they deny and grant,
+respectively, all access requests. Assuming that having more
+information will always help an agent in making a more informed
+decisions in choosing the movement direction, these models essentially
+define the lower and upper bound of the achievable
+performance. However, as it will be shown later, the experimental
+result suggests that this assumption is not true; agents can use the
+new information in a wrong way that can deteriorate their
+performance. In $\mathit{RandomAccess}$ model, the decision of an
+access request depends on the availability of the current remaining
+budget hold by the agent who raises the request. If the agent has
+sufficient budget to pay for the access, the access request is granted
+or denied with equal probability. Otherwise, the access request is
+simply denied. This model serves as the baseline model for a given
+initial budget of each agent.
+
+In each experiment, four different initial risk budget allocation
+settings, i.e., $10$, $20$, $40$ and $\infty$ units of risk are
+allocated to each blue agent for each mission, are attempted. Each
+setting is repeated $10$ times using a different random seed and the
+performance of each optimised policy is summarised in Table
+\ref{table:result7}. The median is used here instead of mean as the
+distribution of the performance metric used in each experiment is
+unknown. This follows that the confidence interval based upon standard
+deviation of mean is no longer valid. Instead, the $95\%$ confidence
+interval of the medians are calculated using the Thompson-Savur
+formula presented in \cite{MH73}. In all cases, the results suggest
+that a policy can be optimised with a large margin for the $10$
+specified missions.
+
+\begin{table}[htbp]
+  \centering
+\newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
+\newcommand{\mr}[3]{\multirow{#1}{#2}{#3}}
+\begin{tabular}{| c | c | c | c | c |}
+\hline
+\mr{2}{*}{Budget} & \mc{4}{|c|}{Median blue agent casualty toll with $95\%$ confidence intervals / $\%$ } \\
+\cline{2-5}
+                  & Random         & $f_{dead}$ & $f_{msd}$ & MOGP\\
+\hline
+$\mathit{NoAccess}$    &   55.6 (55.6, 55.6) &  -           & -            & -            \\
+10                     &   59.7 (58.0, 60.6) & 42.0 (41.0, 43.4) & 47.5 (44.0, 48.6) & 42.5 (41.6, 44.2) \\
+20                     &   57.7 (56.6, 58.6) & 33.5 (31.0, 35.2) & 40.0 (38.2, 42.8) & 35.9 (34.0, 37.2) \\
+40                     &   50.7 (49.8, 53.6) & 23.3 (21.8, 26.0) & 27.3 (26.0, 28.6) & 25.0 (24.0, 25.8) \\
+$\infty$               &   51.4 (50.2, 52.4) & 23.7 (22.8, 24.8) & 24.1 (22.0, 28.2) & 23.6 (23.0, 23.8) \\
+$\mathit{FullAccess}$  &   31.6 (31.6, 31.6) &  -           & -            & -            \\
+\hline
+\end{tabular}
+\caption{The experimental result summary on the performances of the optimal policies with respect to the casualty toll of blue agents found using GP. In the MOGP experiments, the results shown are the performances of the optimal policies with minimal casualty toll of blue agents without taking into account the mission completion time.}
+\label{table:result7}
+\end{table}
+
+The optimal policies found in Experiments $1$ and $2$ perform
+significant better than the unoptimised $\mathit{RandomAccess}$
+policies. Optimisation in Experiment $2$ (using $f_{msd}$) has a
+relative smaller improvement when the risk budgets available are
+limited. Further investigation reveals that this is due to the bias
+difference in the two fitness functions used. The search using
+$f_{msd}$ gives preference to a policy that leads each agent to be as
+close as possible to the destination \emph{without} considering if the
+agent ever reaches its destination. This bias effect is more obvious
+when the initial risk budget is low and insufficient. As the initial
+budget increases, the performance difference becomes less. Indeed, in
+the case we set the initial budget to be $\infty$, the difference
+between the optimal policies found using $f_{dead}$ and $f_{msd}$ is
+statistically insignificant.
+
+The result also contradicts our initial intuitive assumption that
+using extra information is always beneficial. For example, in
+Experiment $1$, the $\mathit{RandomAccess}$ policy performs worse than
+the $\mathit{NoAccess}$ policy when the initial budget of each blue
+agent is set to $10$ or $20$. In the same experiment, an optimised
+policy outperforms the $\mathit{FullAccess}$ policy when the initial
+budgets allocated to each blue agent is set to $40$. In other words,
+the agent has to use the information at the right time to gain benefit
+from it.
+ 
+In the multi-objective experiments, the output of each run is a set of
+non-dominated policies that attempts to approximate the real Pareto
+optimal Set of policies. The result from one experimental run of each
+initial budget settings is shown in Figure \ref{fig:run1}. In each
+graph, the leftmost point corresponds to the policy instance that
+results in the lowest blue agent casualties whereas the lowest point
+corresponds to the policy instance that results in the minimal mission
+completion time. The points in between represent all other
+non-dominated policy instances. All other experimental runs produce
+similar results.
+
+The results of $10$ runs for all initial budget settings are shown in
+Figure \ref{fig:paretofront}. The non-dominated policies found in one
+run can be dominated by the non-dominated policies found in other runs
+as EAs are stochastic in nature. The resulting policies depend on the
+initial populations and random seeds used. However, policies found in
+all runs are not very far away from the Pareto front approximation
+formed by the non-dominated policies of all runs. This suggests that
+this approximation is very likely to be the real achievable Pareto
+front.
+
+\begin{figure}[htbp]
+  \centering
+    \begin{tabular}{cc}
+      \resizebox{70mm}{!}{\includegraphics{run1budget500.eps}} &
+      \resizebox{70mm}{!}{\includegraphics{run1budget1000.eps}} \\
+      \resizebox{70mm}{!}{\includegraphics{run1budget2000.eps}} &
+      \resizebox{70mm}{!}{\includegraphics{run1budget0.eps}} \\
+    \end{tabular}
+    \caption{The non-dominated solutions in $1$ run using different initial budgets.}
+    \label{fig:run1}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{ParetoFront}
+  \caption{The Pareto optimal solutions set.}
+  \label{fig:paretofront}
+\end{figure}
+
+By observing the Pareto fronts of the solutions formed, one can
+immediately see that the increase in the amount of initial budget
+reduces the blue agent casualties but not the mission completion
+time. This information can be very useful in practice. For example,
+one might wish to have a policy that can complete the mission within
+$50$ time steps. Based on the results, this is unachievable no matter
+what initial budget is given. On the other hand, given a fixed initial
+budget or mission completion time, one could select the optimal policy
+from the front that provides the optimal outcome.
+
+The results in multi-objective experiments are also compared to those
+obtained in single objective experiments. This is done by comparing
+the median performances of the optimal policies in terms of minimal
+blue agent casualty in each initial budget settings. The results show
+that the optimal policies found in both approach have similar
+performance.
+
+The setting of $40$ units of risk per blue agent for each mission is
+sufficient to accomplish the set of $10$ missions optimally in terms
+of minimal blue agent casualty; additional budget does not help. To
+search for the minimal initial budget required to achieve the same
+optimal performance, one can simply make this as an additional
+objective.
+
+\section{Conclusion and Future Work}
+\label{sec:Conclusion}
+This chapter argues that traditional ways of developing security
+policies are difficult and often unable to achieve their goal ---
+creating a policy that is optimal in terms of some given
+objectives. We attempt to shift the emphasis away from specifying and
+refining a policy towards searching a policy that has beneficial and
+acceptable outcomes from a family of policies. This idea is entirely
+novel.
+
+In this chapter we have used a risk-budget based policy family as an
+example; it is a means to an ends and stands as a proxy for any policy
+family from which we seek an instance that best suited to the need of
+a specific mission. We use Genetic Programming (GP), a kind of tree
+based EA to search for the policy. We also showed how Multi-objective
+Genetic Programming (MOGP) can be used to search for the Pareto
+optimal set of policies with conflicting objectives. MOGP (and MOEAs
+in general) also has the merit of deferring the weight assignment that
+defines the relative importance of each objective after the set of
+Pareto optimal solutions are discovered. This often makes the weight
+assignment task easier as the set of Pareto optimal solutions can
+unfold the relationship between the objectives.
+
+One possible avenue of research is to investigate the possibility to
+extend the heuristic search concept to other parameters used in the
+simulation. This includes the movement strategy, number of agents,
+risk budget allocation, etc. In addition, the current scenario is
+relatively simple. Only one type of information and all agents have
+the same level of trustworthiness are considered. These assumptions
+can be relaxed in the future to make the scenario more realistic.

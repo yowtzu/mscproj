@@ -1,0 +1,45 @@
+
+% Thesis Abstract -----------------------------------------------------
+
+
+%\begin{abstractslong}    %uncommenting this line, gives a different abstract heading
+\begin{abstracts}        %this creates the heading for the abstract page
+  As computer system size and complexity grow, formulating effective
+  policies require more sophistication. There are many risk factors
+  need to be considered, some of which may be in conflict.
+  Inevitably, unpredictable circumstances that demand decisions will
+  arise during operation. In some cases an automated response may be
+  imperative; in other cases these may be ill-advised.  Manual
+  decisions made to override the default ones, in a sense, redefining
+  the underlying policy. This matter is further complicated in highly
+  dynamic operational environments like mobile ad-hoc networks, in
+  which the risk factors may be changing continually. Thus, security
+  policies must be able to change and adapt to the operational needs.
+
+  This study investigates the potential of evolutionary algorithms as
+  a tool in determining the optimal security policies that suit such
+  environments. This thesis reviews some fundamental concepts in
+  related domains. It presents three applications of evolutionary
+  algorithms in solving problems that are of direct relevance. These
+  include the inference of security policies from decision examples,
+  the dynamic adaptation of security policies and the optimisation of
+  security policies for a specific set of missions. The results show
+  that the inference approaches based on evolutionary algorithms are
+  very promising. These approaches are also sufficiently generic to be
+  used as general dynamic classification algorithms.
+
+  The thesis concludes with an evaluation on the work done, the extent
+  to which the work justify the thesis hypothesis and some possible
+  directions on how evolutionary algorithms can be applied to address
+  a wider range of relevant problems on the domain of concern.
+\end{abstracts}
+%\end{abstractlongs}
+
+
+% ----------------------------------------------------------------------
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End: 

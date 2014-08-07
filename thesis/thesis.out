@@ -1,0 +1,49 @@
+\BOOKMARK [0][]{chapter.1}{1 Introduction}{}% 1
+\BOOKMARK [1][]{section.1.1}{1.1 Technical Approach}{chapter.1}% 2
+\BOOKMARK [1][]{section.1.2}{1.2 Thesis hypothesis}{chapter.1}% 3
+\BOOKMARK [1][]{section.1.3}{1.3 Thesis organisation}{chapter.1}% 4
+\BOOKMARK [0][]{chapter.2}{2 Monte Carlo Methods}{}% 5
+\BOOKMARK [1][]{section.2.1}{2.1 Bayesian Inference}{chapter.2}% 6
+\BOOKMARK [1][]{section.2.2}{2.2 Perfect Monte Carlo}{chapter.2}% 7
+\BOOKMARK [1][]{section.2.3}{2.3 Rejection sampling}{chapter.2}% 8
+\BOOKMARK [1][]{section.2.4}{2.4 Importance sampling}{chapter.2}% 9
+\BOOKMARK [1][]{section.2.5}{2.5 Sequential Monte Carlo}{chapter.2}% 10
+\BOOKMARK [2][]{subsection.2.5.1}{2.5.1 Hidden Markov Models}{section.2.5}% 11
+\BOOKMARK [2][]{subsection.2.5.2}{2.5.2 Kalman Filter}{section.2.5}% 12
+\BOOKMARK [2][]{subsection.2.5.3}{2.5.3 Sequential Important Sampling \(SIS\)}{section.2.5}% 13
+\BOOKMARK [2][]{subsection.2.5.4}{2.5.4 Optimal Proposal Distribution}{section.2.5}% 14
+\BOOKMARK [2][]{subsection.2.5.5}{2.5.5 Sequential Importance Resampling \(SIR\)}{section.2.5}% 15
+\BOOKMARK [3][]{subsubsection.2.5.5.1}{2.5.5.1 Resample-Move Algorithm}{subsection.2.5.5}% 16
+\BOOKMARK [2][]{subsection.2.5.6}{2.5.6 Effective sample size \(ESS\)}{section.2.5}% 17
+\BOOKMARK [2][]{subsection.2.5.7}{2.5.7 Rao-blackwellised \(Marginal\) Important sampling}{section.2.5}% 18
+\BOOKMARK [1][]{section.2.6}{2.6 Conclusion}{chapter.2}% 19
+\BOOKMARK [0][]{chapter.3}{3 Portfolio optimisation}{}% 20
+\BOOKMARK [1][]{section.3.1}{3.1 Technical Approach}{chapter.3}% 21
+\BOOKMARK [1][]{section.3.2}{3.2 Portfolio Optimisation}{chapter.3}% 22
+\BOOKMARK [1][]{section.3.3}{3.3 Portfolio Optimisation as a Stochastic Control Problem}{chapter.3}% 23
+\BOOKMARK [1][]{section.3.4}{3.4 Technical Approach}{chapter.3}% 24
+\BOOKMARK [1][]{section.3.5}{3.5 Objective in portfolio optimisation}{chapter.3}% 25
+\BOOKMARK [1][]{section.3.6}{3.6 Technical approach}{chapter.3}% 26
+\BOOKMARK [1][]{section.3.7}{3.7 Problem formulation}{chapter.3}% 27
+\BOOKMARK [1][]{section.3.8}{3.8 Numerical example on stationary oscillating wave}{chapter.3}% 28
+\BOOKMARK [2][]{subsection.3.8.1}{3.8.1 Period length performance}{section.3.8}% 29
+\BOOKMARK [2][]{subsection.3.8.2}{3.8.2 Increasing the power}{section.3.8}% 30
+\BOOKMARK [1][]{section.3.9}{3.9 Different reference signals}{chapter.3}% 31
+\BOOKMARK [1][]{section.3.10}{3.10 Discussion and possible extension}{chapter.3}% 32
+\BOOKMARK [1][]{section.3.11}{3.11 Possible parallel computation at different phases}{chapter.3}% 33
+\BOOKMARK [1][]{section.3.12}{3.12 Evidence for the thesis and future work}{chapter.3}% 34
+\BOOKMARK [1][]{section.3.13}{3.13 Conclusions}{chapter.3}% 35
+\BOOKMARK [0][]{chapter.4}{4 Evaluation and conclusions}{}% 36
+\BOOKMARK [1][]{section.4.1}{4.1 Evaluation}{chapter.4}% 37
+\BOOKMARK [2][]{subsection.4.1.1}{4.1.1 Static policy inference}{section.4.1}% 38
+\BOOKMARK [2][]{subsection.4.1.2}{4.1.2 Dynamic policy inference}{section.4.1}% 39
+\BOOKMARK [2][]{subsection.4.1.3}{4.1.3 Mission-specific policy discovery}{section.4.1}% 40
+\BOOKMARK [2][]{subsection.4.1.4}{4.1.4 Thesis contributions}{section.4.1}% 41
+\BOOKMARK [1][]{section.4.2}{4.2 Envisaged future work}{chapter.4}% 42
+\BOOKMARK [2][]{subsection.4.2.1}{4.2.1 Policy fusion}{section.4.2}% 43
+\BOOKMARK [2][]{subsection.4.2.2}{4.2.2 The robustness of a security policy}{section.4.2}% 44
+\BOOKMARK [2][]{subsection.4.2.3}{4.2.3 Scalability with the training set size}{section.4.2}% 45
+\BOOKMARK [2][]{subsection.4.2.4}{4.2.4 More complex security policies}{section.4.2}% 46
+\BOOKMARK [2][]{subsection.4.2.5}{4.2.5 More complex scenarios}{section.4.2}% 47
+\BOOKMARK [1][]{section.4.3}{4.3 Closing remarks}{chapter.4}% 48
+\BOOKMARK [0][]{section.4.3}{References}{}% 49
