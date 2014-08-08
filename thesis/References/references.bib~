@@ -3311,7 +3311,7 @@ url = "http://cs.gmu.edu/~eclab/projects/ecj/",
  author = {Welch, Greg and Bishop, Gary},
  title = {An Introduction to the Kalman Filter},
  year = {1995},
- publisher = {University of North Carolina at Chapel Hill},
+ institution = {University of North Carolina at Chapel Hill},
  address = {Chapel Hill, NC, USA},
 } 
 
@@ -3379,3 +3379,50 @@ year = 2012}
  keywords = {Annealing, Gibbs distribution, MAP estimate, Markov random field, image restoration, line process, relaxation, scene modeling, spatial degradation},
 } 
 
+@article{HM52,
+  title={Portfolio Selection},
+  author={Markowitz, Harry},
+  journal={The journal of finance},
+  volume={7},
+  number={1},
+  pages={77--91},
+  year={1952},
+  publisher={Wiley Online Library}
+}
+
+@TECHREPORT{NK11,
+  AUTHOR =        {N. Kantas, P. Del Moral and R. Vinter},
+  TITLE =         {Particle methods for Stochastic Regulation: towards an application for power scheduling},
+  INSTITUTION =   {Department of Electrical and Electronic Engineering, Imperial Colege, London},
+  MONTH =         {March},
+  YEAR  =         {2011}
+}
+
+@ARTICLE{MF14,
+  title = {Continuous time mean-variance portfolio optimization through the mean field approach},
+  author = {Markus Fischer and Giulia Livieri},
+  year = 2014,
+  url = {http://www.math.unipd.it/~fischer/Arbeiten/MeanVarianceOpt.pdf}
+}
+
+@Article{CA10,
+  author={Christophe Andrieu and Arnaud Doucet and Roman Holenstein},
+  title={{Particle Markov chain Monte Carlo methods}},
+  journal={Journal of the Royal Statistical Society Series B},
+  year=2010,
+  volume={72},
+  number={3},
+  pages={269-342},
+  month={},
+  keywords={},
+  abstract={ Markov chain Monte Carlo and sequential Monte Carlo methods have emerged as the two main tools to sample from high dimensional probability distributions. Although asymptotic convergence of Markov chain Monte Carlo algorithms is ensured under weak assumptions, the performance of these algorithms is unreliable when the proposal distributions that are used to explore the space are poorly chosen and/or if highly correlated variables are updated independently. We show here how it is possible to build efficient high dimensional proposal distributions by using sequential Monte Carlo methods. This allows us not only to improve over standard Markov chain Monte Carlo schemes but also to make Bayesian inference feasible for a large class of statistical models where this was not previously so. We demonstrate these algorithms on a non-linear state space model and a Lévy-driven stochastic volatility model. Copyright (c) 2010 Royal Statistical Society.},
+  url={http://ideas.repec.org/a/bla/jorssb/v72y2010i3p269-342.html}
+}
+
+@ARTICLE{BJ13,
+  title = {On the Right Track: Measuring Tracking Efficiency in ETFs},
+  author = {Ben Johnson and  Hortense Bioy and Alastair Kellett and Lee Davidson},
+  month = {February},
+  year = 2013,
+  url = {http://media.morningstar.com/uk/MEDIA/Research_Paper/Morningstar_Report_Measuring_Tracking_Efficiency_in_ETFs_February_2013.pdf}
+}

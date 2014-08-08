@@ -1,7 +1,7 @@
 %input macros (i.e. write your own macros file called MacroFile1.tex)
 %\include{Macros/MacroFile1}
 
-\documentclass[oneside,11pt]{CUEDthesisPSnPDF}
+\documentclass[oneside,12pt]{CUEDthesisPSnPDF}
 
 \ifpdf
     \pdfinfo { /Title  (Portfolio Optimisation with Sequential Monte Carlo)
@@ -84,7 +84,7 @@
 %\newcommand{\delete}[1]{{\textcolor{magenta}{\sout{#1}}}}
 %\newcommand{\ignore}[1]{}
 
-
+\DeclareMathOperator*{\E}{\mathbb{E}}
 \begin{document}
 
 %\language{english}
@@ -136,7 +136,7 @@
 \include{Chapter2/chapter2}
 %\include{Chapter3/chapter3}
 \include{Chapter4/chapter4}
-\include{Chapter5/chapter5}
+%\include{Chapter5/chapter5}
 
 %\bibliographystyle{Classes/CUEDbiblio}
 %\bibliographystyle{Classes/jmb}

@@ -1,86 +1,109 @@
 \chapter{Monte Carlo Methods}
 \graphicspath{{Chapter2/figures/}}
 \label{ch:mcmethods}
-This chapter reviews some fundamental concept in Monte Carlo method that are related to this thesis. It begins with a brief introduction to basic methods such as perfect Monte Carlo sampling, rejection sampling, importance sampling. It then details two common Markov Chain Monte Carlo (MCMC) techniques, namely Metropolis-Hastings and Gibbs Sampling. Lastly, it introduces the Sequential Monte Carlo (SMC) technique used in this thesis.
+Monte Carlo Methods have achieved significant success in its aplication to various domains in the last few decades. This chapter reviews some fundamental concept in Monte Carlo method that are related to this thesis. It first begins with a summary on the main concept of Bayesian inference. It then discusses some  basic Monte Carlo methods such as perfect Monte Carlo sampling, rejection sampling, importance sampling. Lastly, it details the Sequential Monte Carlo (SMC) techniquesthat is used to do portfolio optimisation, along with various enhancement made to the framework.
 
 \section{Bayesian Inference}
-In Bayesian inference framework, each unknown parameter in the model is assumed to be random variable and is  associated with prior distribution that characterises the initial belief. The inference process is merely updating the belief with new observable evidence in a systematic fashion using Bayes theorem.
+In Bayesian inference framework, each unknown parameter in the model is assumed to be random variable and is associated with a prior distribution that characterises the initial belief. The inference process is merely about updating the belief with new observable evidence in a systematic fashion using Bayes theorem.
 
-Formally, let $M$ be the Bayes model of interest, $\theta$ be the set of parameters of the model, $p(\theta \mid M)$ be the prior distribution (initial belief) and $p(x \mid \theta, M)$ be the probability of observing an observation $x$ given the model, then posterior distribution (updated belief) is given as follows:  
+Formally, let $M$ be the Bayes model of interest, $\theta$ be the set of parameters of the model, $p\left(\theta \mid M\right)$ be the prior distribution (initial belief) and $p(x \mid \theta, M)$ be the likelihood (probability of observing an observation $x$ given the model) then posterior distribution (updated belief) is given as follows:  
 \begin{align}
   p(\theta \mid x , M) &= \frac{p(x \mid \theta , M)~p(\theta \mid M)}{p(x \mid M)} \nonumber \\
                    &\propto p(x \mid \theta , M)~p(\theta \mid M) \label{eq:bayes} \\
   \text{posterior} &\propto \text{likelihood} \times \text{prior}
 \end{align}
 
-This problem formulation is elegant, but there remains some subtle issues in practice. One particular issue is about the calculation of the normalisation constant $p(x \mid M)$ in \eqref{eq:bayes}, which requires us to have the ability to carry out the following integral analytically:
+This problem formulation is elegant, but there remains some subtle issues in practice. One particular issue is about the calculation of the normalisation constant $p(x \mid M)$ in \eqref{eq:bayes}, which demands us to be able to carry out the following integral  analytically:
 \begin{equation}
   p(x \mid M) = \int p(x \mid \theta, M) p(\theta \mid M)~d\theta
 \end{equation}
-, which is often infeasible\footnote{Traditionally, the need of normalisation constant is often circumvented by making use of conjugate prior (the choices of certain prior distributions that yield posterior distributions from the same family) in an analytical fashion.}.
+This is often infeasible. A often way to circumvent this requirement is by making use of conjugate prior that yields posterior distributions from the same family in an analytical fashion.
 
-Instead of a closed form solution, the Method Carlo methods offer a numerical solution in estimating the integral using sampling technique. The need of calculating integral that does not posess analytic solution also arises in the marginalisation process of nuisance parameters, calculating expectation of a function, etc..
+Instead of a closed form solution, the Method Carlo methods offer a numerical solution in estimating the integral using sampling technique. The need of calculating integral that does not posess analytic solution also arises in the marginalisation process of nuisance parameters, calculating expectation of a function, etc.
 
 \section{Perfect Monte Carlo}
 Consider the calculation the expectation of a function, $I$ of the following form:
 \begin{equation}
-  I = E[f(x)] = \int f(x)p(x)~dx
+  I = \E_p[f(x)] = \int f(x)p(x)~dx
 \label{eq:expectation}
 \end{equation}
-assuming we are able to sample $N$ independent and identically distributed (i.i.d.) points of $x$ from $p(\cdot)$, denote these as $\{x^{(i)}\}$ where $i$ is from $1 \ldots N$, a Monte Carlo estimate of $I$ using the the point masses of the samples is:
+Assuming we are able to sample $N$ independent and identically distributed (i.i.d.) samples of $x$ from $p(\cdot)$, denote these as $\{x^{(i)}\}$ where $i \in \{1 \ldots N\}$, a Monte Carlo estimate of $I$ using the the point masses of the samples is:
 \begin{equation}
   \hat{I} = \frac{1}{N} \sum^N_{i=1} f(x^{(i)})
 \end{equation}
-One can view this approximation as a discretisation of the continuous distribution with \emph{random} support. This estimate has been shown to be unbiased and converge almost surely to be unbiased and converge almost surely to $I$ as $N \rightarrow \infty$ by the Law of Large number.
+This approximation can be informally described as discretization of the continuous distribution with \emph{random} support. This estimate has been shown to be unbiased and converge almost surely to be unbiased and converge almost surely to $I$ as $N \rightarrow \infty$ by the Law of Large number \cite{RCP05}. 
 
 Morever, if the variance of $f(\cdot)$ is bounded ($\sigma^2_f < \infty$), then the following central limit theorem holds:
 \begin{equation}
   \sqrt{N}(\hat{I} - I) \Longrightarrow N(0, \sigma^2_f)
 \end{equation}
-as $N \rightarrow \infty$, where $\Longrightarrow$ denotes convergence in distribution. It is important to note that the converengence rate of $\frac{1}{\sqrt{N}}$ is independent of the dimensions of $x$. This is in constrast with any determinstic method that has a rate that decreases a the integral dimension increases \cite{RCP05}. This is the main advantage of Monte Carlo integration.
+as $N \rightarrow \infty$, where $\Longrightarrow$ denotes convergence in distribution \cite{AD09}. The key point to note here is this converengence rate of $\frac{1}{\sqrt{N}}$ is independent of the dimensions of $x$. This is in constrast with any determinstic method that has a rate that decreases as the integral dimension increases \cite{RCP05}. This is the main advantage of Monte Carlo integration.
 
 \section{Rejection sampling}
-However, it is not always possible to sample directly from the distribution $p(\cdot)$. Suppose we can find an instrumental distribution, $q(\cdot)$, that is easy to sample from and has the property such that $cq(x)$ dominates $p(x)$ for all $x$, i.e., $cq(x) \geq p(x) \geq 0$ for all $x$, then to get a random sample from $p(\cdot)$, we can first sample from $q(\cdot)$ instead and accept the sample with acceptance probability $\alpha(x)=\dfrac{p(x)}{cq(x)}$. If the sample is rejected, repeat the process until success. The algorithm is summarised in Algorithm \ref{algo:rejectionsampling}.
+However, it is not always possible to sample directly from the distribution $p(\cdot)$. Suppose we can find an instrumental distribution (a.k.a. proposal distribution), $q(\cdot)$, that is easy to sample from and has the property such that $cq(x)$ dominates $p(x)$ for all $x$, i.e., $cq(x) \geq p(x) \geq 0$ for all $x$, then to get a random sample from $p(\cdot)$, we can first sample from $q(\cdot)$ instead and accept the sample with acceptance probability $\alpha(x)=\dfrac{p(x)}{cq(x)}$. If the sample is rejected, repeat the process until success. This algorithm is summarised in Algorithm \ref{algo:rejectionsampling}.
 
 \begin{algorithm}
 \caption{Rejection Sampling}\label{algo:rejectionsampling}
 \begin{algorithmic}[1]
 \Function{RejectionSampling}{n}
-\State $r = [\ ]$
+\State $\mathcal{X} = \{\ \}$
 \Repeat
   \State sample $x \sim q(\cdot)$
-  \State sample $u \sim {\cal U}(0,1)$
+  \State sample $u \sim \mathcal{U}(0,1)$
   \If {$u \leq \dfrac{p(x)}{cq(x)}$}
-    \State $r \gets [r,x]$
+    \State $\mathcal{X} \gets \mathcal{X} \cup \{x\}$
   \EndIf
-\Until{len(r)=n}
+\Until{len($\mathcal{X}$)=n}
+\State return $\mathcal{X}$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
-One could easily see that the optimal choice of instrumental distribution, $q^*$, is that one minimize the space bounded by $cq(x)$ subject to the constraint that it still dominates the target density $p(x)$. As the dimension of $x$ increases, this algorithm becomes very ineffecient because the acceptance ratio that is defined as the ratio of two embedded spaces tends towards zero and therefore many generated examples would be rejected. 
+Looking at the acceptance ratio formula, it is not difficult to see that the optimal instrumental distribution, $q^*$, is the one that minimizes the space bounded by $cq(x)$ subject to the constraint that it still dominates the target density $p(x)$. As the dimension of $x$ increases, this algorithm becomes very ineffecient because the acceptance ratio whic is essentially defined as the ratio of two embedded spaces tends towards zero. Therefore, many generated examples would be rejected. 
 
 \section{Importance sampling}
 \label{sec:IS}
-Instead of making a binary accept-reject decision on each sample, the main idea behinds important sampling is to weight each sample $x$ based on how well the sample from the instrumental distribution, $q(\cdot)$, resembles the target distribution, $p(\cdot)$. More formally, assume we have an instrumental distribution, $q(\cdot)$, that is easy to sample from which has support that includes $p(\cdot)$, we can re-write \eqref{eq:expectation} as:
+Instead of making a binary accept-reject decision on each sample, the key concept in important sampling is assign weighting to each sample (obtained from the instrumental distribution, $q(\cdot)$) based on how well the sample resembles the target distribution, $p(\cdot)$. More formally, assume we have an instrumental distribution, $q(\cdot)$ that has support that includes $p(\cdot)$, we can re-write \eqref{eq:expectation} as:
 \begin{align}
   I &= \int f(x)\dfrac{p(x)}{q(x)}q(x)~dx \nonumber \\
-    &= \int f(x)w(x)q(x)~dx
+    &= \int f(x)w(x)q(x)~dx \nonumber \\
+    &= \E_q[f(x)w(x)]
 \end{align}
-where $w(x)=\dfrac{p(x)}{q(x)}$, which is commonly referred as the importance weight. This reformulation leads to the following Monte Carlo estimate of $I$:
+where $w(x)$ is commonly referred as the importance weight. This reformulation leads to the following Monte Carlo estimate of $I$:
 \begin{align}
-  \hat{I} &= \dfrac{\frac{1}{N} \sum^N_{i=1} w(x^{(i)})f(x^{(i)})}{\frac{1}{N} \sum^N_{j=1} w(x^{(j)})} \nonumber \\ 
-          &= \sum^N_{i=1} \tilde{w}(x^{(i)}) f(x^{(i)}) \label{eq:is}
+  \hat{I} &= \dfrac{\frac{1}{N} \sum^N_{i=1} \tilde{w}(x^{(i)})f(x^{(i)})}{\frac{1}{N} \sum^N_{j=1} \tilde{w}(x^{(j)})} \nonumber \\ 
+          &= \sum^N_{i=1} \dfrac{\tilde{w}(x^{(i)})}{\sum^N_{j=1} \tilde{w}(x^{(j)})} f(x^{(i)}) \nonumber \\
+          &= \sum^N_{i=1} \hat{w}(x^{(i)}) f(x^{(i)})  \label{eq:is} 
 \end{align}
-where $\tilde{w}(x^{(i)})=\dfrac{w(x^{(i)})}{\sum^N_{j=1}w(x^{(j)})}$ is the normalised importance weight. This estimate is biased as it consists of the ratio of two estimates, yet it is still asymtoptically consistent.
+where $\tilde{w}(x^{(i)}) = \dfrac{p(x^{(i)})}{q(x^{(i)})}$ and $\hat{w}(x^{(i)})  = \dfrac{\tilde{w}(x^{(i)})}{\sum^N_{j=1} \tilde{w}(x^{(j)})}$ are referred to as unnormalised and normalised importance weight respectively \cite{CO05}. This estimate is biased as it consists of the ratio of two estimates, yet it is still asymtoptically consistent.
 
-To obtain samples from the target distribution, $p(\cdot)$, an additional resampling step can be introduced. In the first step, we sample a sample set of size $M$, ${\tilde{x}^{(i)}}_{0 \leq i \leq N}$ from the instrumental distribution, each of whcih is associated with a weight $\tilde{w}(x^{(i)})$ as discussed. In the resampling step, a sample set of $N$, ${\tilde{x}^{(i)}}_{0 \leq i \leq N}$ is draw from this intermediate set with the weightings taken into account. 
+To obtain samples from the target distribution, $p(\cdot)$, an additional resampling step can be introduced. In the first step, we draw a set of samples $\{\tilde{x}^{(i)}\}$ from the instrumental distribution and compute their associated normalised importance weights, $\hat{w}(\tilde{x}^{(i)})$. In the resampling step, we draw the final sample set, $\{x^{(i)}\}$ from this intermediate set of samples by taking into the importance weights. This algorithm is summarised in Algorithm \ref{algo:importancesampling}
 
-There are many ways of implementing the resampling stage. A simple direct implementation would be select the sample from the intermediate stage according to a Multinomial distribution with with the success probability parameter set to the weighting vector, $\tilde{w}(x^{(i)})_{0 \leq i \leq N}$, i.e., the chance of a sample point being replicated is proportional to its weightings. Note that this resampling step introduces extra variance to the estimators, but it is crucial in the sequential scheme that we shall look in the following section to avoid sampling degeneracy over time.
+There are many ways of implementing the resampling stage. A simple direct implementation is to select the sample from the intermediate stage according to a Multinomial distribution with the success probability parameter set to the vector of normalised weights, $\hat{w}(x^{(i)})$, i.e., the chance of a sample point being replicated is proportional to its weight. This resampling step however introduces extra variance to the estimators, yet this can be a crucial step in the sequential scheme that we shall look in the following section to avoid sampling degeneracy over time.
+
+\begin{algorithm}
+\caption{Importance Sampling}\label{algo:importancesampling}
+\begin{algorithmic}[1]
+\Function{ImportanceSampling}{n}
+\State $\tilde{\mathcal{X}} = \{\ \}$
+\Repeat
+  \State sample $\tilde{x} \sim q(\cdot)$
+  \State $\tilde{\mathcal{X}} \gets \tilde{X} \cup \{\tilde{x}\}$
+\Until{len($\tilde{X}$)=n}
+\State calculate importance weights, $\hat{w}(\tilde{x}^{(i)})  = \dfrac{\tilde{w}(\tilde{x}^{(i)})}{\sum^N_{j=1} \tilde{w}(\tilde{x}^{(j)})}$
+\State $X = \{\ \}$
+\Repeat
+  \State resample $x$ from $\tilde{\mathcal{X}}$ (taking into account the importance weights)
+  \State $\mathcal{X} \gets \mathcal{X} \cup \{x\}$
+\Until{len($\mathcal{X}$)=n}
+\State return $\mathcal{X}$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 \section{Sequential Monte Carlo}
 \label{sec:SMC}
-Even if we were able to sample exactly from the target distribution $\pi_n(x_{1:n})$, the minimal computational complexity of the sampling scheme would be at least linear in $n$. Sequential Monte Carlo (SMC) techniques provides a way to obtain samples for each sequential time step in a fixed computational complexity time in Hidden Markov Models (HMMs). We shall briefly some background on HMMs in the next section that is necessary to understand SMC. Refer \cite{CO05} for further details of inference techniques for HMMs in general. 
+To motivate why Sequential Monte Carlo is useful, consider a target distribution of interest $p(x_{1:n})$, and for simplicity, assuming we can sample directly from the distribution $p(x_{1:n})$, the minimal computational complexity of the sampling scheme would be at least linear in $n$. Sequential Monte Carlo (SMC) provides a way to obtain samples for each sequential time step in a \emph{fixed} amount of computational time in Hidden Markov Models (HMMs). We shall begin with a brieft introduction on HMMs that is cruicial to understand SMC in the next section. Refer \cite{CO05} for further details of inference techniques for HMMs in general. 
 
 \subsection{Hidden Markov Models}
 HMMs can be seen as a class of models that consist of two related processes: an underlying Markov process, $X_t$, which is the target process of interest, and a observable process, $Y_t$, which its state can be measured and therefore provides some information about $X_t$. Moreover, it is assumed that these two processes have conditional independence properties as shown using the graphical model representation in Figure \ref{fig:HMM}. These properties can be summarised as follows:
@@ -95,22 +118,20 @@ where $f(x_t \mid x_{t-1})$ is the transition density and $g(y_t \mid x_t)$ is t
 \caption{Hidden Markov Models}
 \label{fig:HMM}
 \end{figure}
-It is worth emphasizing here that this model is designed to capture systems that evolve from one state to another over time, generating observation after each state move. The inference problem is typically about estimating the state(s) in \emph{real-time} given the observations. This imposes an implicit requirement from the computation perspective that the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
+
+At this point, it is worth emphasizing here that HMMs are designed to capture systems that evolve from one state to another over time, generating observation after each state move. The inference problem is typically about estimating the state(s) in \emph{real-time} given the observations. This imposes an implicit requirement from the computation perspective that the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
 
 Arguably, the most common inference problem in HMMs is the smoothing distribution, $p(x_{1:t} \mid y_{1:t})$, that is estimating the states $x_{1:t}$ based on the sequence of observations up to time $t$, $y_{1:t}$. Using Bayes rules, we can write the density of the distribution of interest as follows:
 \begin{align}
     p(x_{1:t} \mid y_{1:t}) &\propto p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t) \nonumber \\
                             &= p(x_{1:t} \mid y_{1:t-1})f(x_t \mid x_{t-1})g(y_t \mid x_t)
 \end{align}
-This recursion is often re-written into two separate steps: the prediction step (the estimation of distribution of $t$ states given only $t-1$ states):
-\begin{equation}
-  p(x_{1:t} \mid y_{1:t-1}) = p(x_{1:t-1} \mid y_{1:t-1})f(x_t \mid x_{t-1}) \nonumber \\
-\end{equation}
-and the update step (the correction of the predicted distribution taking into account the new observation as follows:
-\begin{equation}
-  p(x_{1:t} \mid y_{1:t}) = \dfrac{p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)}{\int p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)~dx_{1:t}}
-\end{equation}
-Moreover, the estimate of any smoothing distribution $p(x_{j:k} \mid y_{1:t})$ where $j \leq k \leq l)$ can be obtained by integrating out $x$ that are not interested in as follows:
+This recursion is often re-written into two separate steps: the prediction step (the estimation of distribution of $t$ states given only $t-1$ states) and the update step (the correction of the predicted distribution taking into account the new observation) as follows:
+\begin{align}
+  p(x_{1:t} \mid y_{1:t-1}) &= p(x_{1:t-1} \mid y_{1:t-1})f(x_t \mid x_{t-1}) \nonumber \\
+  p(x_{1:t} \mid y_{1:t})   &= \dfrac{p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)}{\displaystyle\int p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)~dx_{1:t}}
+\end{align}
+Moreover, the estimate of any other smoothing distribution $p(x_{j:k} \mid y_{1:t})$ where $(j \leq k \leq l)$ can be obtained by integrating out $x$ that are not interested in as follows:
 \begin{equation}
   p(x_{j:l} \mid y_{1:t}) = \int p(x_{1:t} \mid y_{1:t}) dx_{1:j, l+1:t}
 \label{eq:smoothing}
@@ -123,7 +144,7 @@ Another distribution of interest is  the prediction distribution, that is the es
 \end{equation}
 Therefore, any prediction density can be obtained by simply integrating out the variables of not interest from the above equation.
 
-While the problem of distribution estimations as discussed appears to be simple, but the problem is in fact far from being resolved in practice. The integral appear in the above equations are often intractable and can only be estimated except in the a very specific setting discussed below.
+While the distribution estimation problem may appear to be simple, it is in fact far from being resolved in practice. The integral appear in the above equations are often intractable and can only be estimated except in the very specific setting discussed below.
 
 \subsection{Kalman Filter}
 In the linear Gaussian setting in which the transition density and likelihood are each a Gaussian distribution with center lied at a point of a linear combination of the known conditional variables, $u_t$ of the following form:
@@ -204,11 +225,42 @@ To trading off these two competing requirements, one possible way to monitor the
 A possible implementation is that resampling step is only triggered if the $ESS_t$ faill below certain threshold at time $t$, say $N/2$. See \cite{} for detail discussion on ESS.
 
 \subsection{Rao-blackwellised (Marginal) Important sampling}
+In practice, many models may not be entirely Gaussian. Some states may be linear and Gaussian, conditionally upon the other states. The naive way to model this is to use SMC to model all the states. A better approach would be making use of the Gaussian properties. The states are split into two categories: the linear Gaussian states and the non-linear states. Then, the Kalman Filter which is optimal and possess a closed form solution can be used to model the linear Gaussian states and the SMC can be to model the non-linear states. This marginalisation setting will yield estimates with smaller variances. 
+
+To illustrate this, let consider the a simple conditional linear Gaussian Model, in which we have:
+\begin{align}
+  x^N_t  &\sim f(x^N_t \mid x^N _{0:t-1})
+  x^L_t  &= A(x^N_t) x^L_{t-1} + u^L_t
+  y_t    &= B(x^N_t) x^L_t + v^L_t
+\end{align}
+where $A$ and $B$ are appropriate matrices and $u^L_t \sim N(0, C_u)$ and $v^L_t\sim N(0, C_v)$ independently. In this model, conditioning the non-linear states $x^N_{0:t}$ and observations $y_{0:t}$, the linear states are jointly Gaussian, with its mean and covariances can be calculated using Kalman filter recursion presented earlier. To obtain the posterior distribution of the non-linear states, we marginalise the linear states as follows:
+\begin{equation}
+  p(x^N_{0:t} \mid y_{0:t}) = \int p(x^L_{0:t}, x^N_{0:t} \mid y_{0:t})~dx^L_{0:t}
+\end{equation}
+SMC is then run on this non-linear states. The resulting algorithm is very similar, except to allow the marginalised system is no longer Markovian and therefore the update rules are changed slightly to be the following:
+\begin{align}
+  p(x_{1:t} \mid y_{1:t-1}) &= p(x_{1:t-1} \mid y_{1:t-1})f(x_t \mid x_{t-1}) \nonumber \\
+  p(x_{1:t} \mid y_{1:t}) = \dfrac{p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)}{\int p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)~dx_{1:t}}
+\end{align}
+and the posterior density for hte linear part can be apprximated as follows:
+\begin{equation}
+  p(x^N_t \mid y_{0:t}) \approx \sum^N_{i=1} w^{(i)}_t p(x^L_t \mid x^N_{0:t}, y_{0:t})
+\end{equation}
+where the conditional densities $p(x^L_t \mid x^N_{0:t}, y_{0:t})$ is again calculated using Kalman filtering recursion. The algorithm is shown in X.
+
+The discussion has been focused on linear Gaussian model. Some generalisation are possible for this basic model. The simplest extension to this is to allow matrices $A$, $B$ to depeond on time and any elements of nonlinear stat sequence $x_{0:t}$. This does not require change of formula. There is another important class model is the discrete state-space HMM m, in which the states are discrete. The discrete state values can be marginalised using HMM forward algorithm insead of Kalman filter. See \cite{} for further detail.
 
 \section{Conclusion}
 This chapter presents a review of Monte Carlo method, with a particular focus on Sequential Monte Carlo method that is used extensively in this thesis for portfolio optimisation. It begins to describe traditional Monte Carlo sampling techniques. It then introduce a simple SMC algorithm, and couple of extensions that have been proposed to improve the performance of the algorithm. Lastly, the chapter presents a simple concrete example, in which SMC is used to estimate the filtering and smoothing distribution for the problem in question.
 
-It is worth nothing the algorithm is not restricted to sequential filtering problem. For example, it has been established that it is possible to use SMC within MCMC framework (pMCMC, where p stands for particle) \cite{pMCMC} to solve other problems. In the next chapter, we will show Sequential Monte Carlo is used as a maximiser to search for a optimal strategy for a portfolio, given a multiplicative reward function.
+It is worth nothing the algorithm is not restricted to sequential filtering problem. For example, it has been established that it is possible to use SMC within MCMC framework (pMCMC, where p stands for particle) \cite{CA10} to solve other problems. In the next chapter, we will show Sequential Monte Carlo is used as a maximiser to search for a optimal strategy for a portfolio, given a multiplicative reward function.
+
+
+
+
+
+
+
 
 \endinput
 \section{Markov chain Monte Carlo (MCMC)}
