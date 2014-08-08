@@ -40,12 +40,12 @@ Morever, if the variance of $f(\cdot)$ is bounded ($\sigma^2_f < \infty$), then 
 as $N \rightarrow \infty$, where $\Longrightarrow$ denotes convergence in distribution \cite{AD09}. The key point to note here is this converengence rate of $\frac{1}{\sqrt{N}}$ is independent of the dimensions of $x$. This is in constrast with any determinstic method that has a rate that decreases as the integral dimension increases \cite{RCP05}. This is the main advantage of Monte Carlo integration.
 
 \section{Rejection sampling}
-However, it is not always possible to sample directly from the distribution $p(\cdot)$. Suppose we can find an instrumental distribution (a.k.a. proposal distribution), $q(\cdot)$, that is easy to sample from and has the property such that $cq(x)$ dominates $p(x)$ for all $x$, i.e., $cq(x) \geq p(x) \geq 0$ for all $x$, then to get a random sample from $p(\cdot)$, we can first sample from $q(\cdot)$ instead and accept the sample with acceptance probability $\alpha(x)=\dfrac{p(x)}{cq(x)}$. If the sample is rejected, repeat the process until success. This algorithm is summarised in Algorithm \ref{algo:rejectionsampling}.
+However, it is not always possible to sample directly from the distribution $p(\cdot)$. Suppose we can find an instrumental distribution (a.k.a. proposal distribution), $q(\cdot)$, that is easy to sample from and has the property such that $cq(x)$ dominates $p(x)$ for all $x$, i.e., $cq(x) \geq p(x) \geq 0$ for all $x$, then to get a random sample from $p(\cdot)$, we can first sample from $q(\cdot)$ instead and accept the sample with acceptance probability $\alpha(x)=\dfrac{p(x)}{cq(x)}$. If the sample is rejected, repeat the process until success. This algorithm is summarised in Algorithm \ref{algo:rejectionsampling}\footnote{The set notation is used here, despite it is actually a collection that allows duplicates. Therefore, the $\cup$ operation is really joining two collections together}.
 
 \begin{algorithm}
 \caption{Rejection Sampling}\label{algo:rejectionsampling}
 \begin{algorithmic}[1]
-\Function{RejectionSampling}{n}
+\Function{RejectionSampling}{N}
 \State $\mathcal{X} = \{\ \}$
 \Repeat
   \State sample $x \sim q(\cdot)$
@@ -53,7 +53,7 @@ However, it is not always possible to sample directly from the distribution $p(\
   \If {$u \leq \dfrac{p(x)}{cq(x)}$}
     \State $\mathcal{X} \gets \mathcal{X} \cup \{x\}$
   \EndIf
-\Until{len($\mathcal{X}$)=n}
+\Until{len($\mathcal{X}$)=N}
 \State return $\mathcal{X}$
 \EndFunction
 \end{algorithmic}
@@ -84,18 +84,18 @@ There are many ways of implementing the resampling stage. A simple direct implem
 \begin{algorithm}
 \caption{Importance Sampling}\label{algo:importancesampling}
 \begin{algorithmic}[1]
-\Function{ImportanceSampling}{n}
+\Function{ImportanceSampling}{N}
 \State $\tilde{\mathcal{X}} = \{\ \}$
 \Repeat
   \State sample $\tilde{x} \sim q(\cdot)$
   \State $\tilde{\mathcal{X}} \gets \tilde{X} \cup \{\tilde{x}\}$
-\Until{len($\tilde{X}$)=n}
+\Until{len($\tilde{X}$)=N}
 \State calculate importance weights, $\hat{w}(\tilde{x}^{(i)})  = \dfrac{\tilde{w}(\tilde{x}^{(i)})}{\sum^N_{j=1} \tilde{w}(\tilde{x}^{(j)})}$
 \State $X = \{\ \}$
 \Repeat
   \State resample $x$ from $\tilde{\mathcal{X}}$ (taking into account the importance weights)
   \State $\mathcal{X} \gets \mathcal{X} \cup \{x\}$
-\Until{len($\mathcal{X}$)=n}
+\Until{len($\mathcal{X}$)=N}
 \State return $\mathcal{X}$
 \EndFunction
 \end{algorithmic}
@@ -108,8 +108,8 @@ To motivate why Sequential Monte Carlo is useful, consider a target distribution
 \subsection{Hidden Markov Models}
 HMMs can be seen as a class of models that consist of two related processes: an underlying Markov process, $X_t$, which is the target process of interest, and a observable process, $Y_t$, which its state can be measured and therefore provides some information about $X_t$. Moreover, it is assumed that these two processes have conditional independence properties as shown using the graphical model representation in Figure \ref{fig:HMM}. These properties can be summarised as follows:
 \begin{align}
-   p(x_t \mid x_{1:t-1}) &= f(x_t \mid x_{t-1})   \nonumber \\
-   p(y_t \mid x_{1:t}, y_{1:t-1}) &= g(y_t \mid x_{t}) 
+   p(x_t \mid x_{0:t-1}) &= f(x_t \mid x_{t-1})   \nonumber \\
+   p(y_t \mid x_{0:t}, y_{0:t-1}) &= g(y_t \mid x_{t}) 
 \end{align}
 where $f(x_t \mid x_{t-1})$ is the transition density and $g(y_t \mid x_t)$ is the likelihood. 
 \begin{figure}
@@ -119,42 +119,43 @@ where $f(x_t \mid x_{t-1})$ is the transition density and $g(y_t \mid x_t)$ is t
 \label{fig:HMM}
 \end{figure}
 
-At this point, it is worth emphasizing here that HMMs are designed to capture systems that evolve from one state to another over time, generating observation after each state move. The inference problem is typically about estimating the state(s) in \emph{real-time} given the observations. This imposes an implicit requirement from the computation perspective that the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
+This class of models are designed to model evolving systems that output some observable events over time, which depends on the internal state of the system in a online manner. This imposes an implicit requirement on computation perspective: the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
 
-Arguably, the most common inference problem in HMMs is the smoothing distribution, $p(x_{1:t} \mid y_{1:t})$, that is estimating the states $x_{1:t}$ based on the sequence of observations up to time $t$, $y_{1:t}$. Using Bayes rules, we can write the density of the distribution of interest as follows:
+Arguably, the most common inference problem in HMMs is the smoothing distribution, $p(x_{0:t} \mid y_{0:t})$, that is estimating the states $x_{0:t}$ based on the sequence of observations up to time $t$, $y_{0:t}$. Using Bayes rules, we can write the density of the distribution of interest as follows:
 \begin{align}
-    p(x_{1:t} \mid y_{1:t}) &\propto p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t) \nonumber \\
-                            &= p(x_{1:t} \mid y_{1:t-1})f(x_t \mid x_{t-1})g(y_t \mid x_t)
+    p(x_{0:t} \mid y_{0:t}) &\propto p(x_{0:t} \mid y_{0:t-1}) g(y_t \mid x_t) \nonumber \\
+                            &= p(x_{0:t} \mid y_{0:t-1})f(x_t \mid x_{t-1})g(y_t \mid x_t)
 \end{align}
-This recursion is often re-written into two separate steps: the prediction step (the estimation of distribution of $t$ states given only $t-1$ states) and the update step (the correction of the predicted distribution taking into account the new observation) as follows:
+This recursion is often re-written into two separate steps: the prediction step (the estimation of distribution of all states up to time $t$ given only states up to time $t-1$) and the update step (the correction of the predicted distribution taking into account the new observation) as follows:
 \begin{align}
-  p(x_{1:t} \mid y_{1:t-1}) &= p(x_{1:t-1} \mid y_{1:t-1})f(x_t \mid x_{t-1}) \nonumber \\
-  p(x_{1:t} \mid y_{1:t})   &= \dfrac{p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)}{\displaystyle\int p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)~dx_{1:t}}
+  p(x_{0:t} \mid y_{0:t-1}) &= p(x_{0:t-1} \mid y_{0:t-1})f(x_t \mid x_{t-1}) \nonumber \\
+  p(x_{0:t} \mid y_{0:t})   &= \dfrac{p(x_{0:t} \mid y_{0:t-1}) g(y_t \mid x_t)}{\displaystyle\int p(x_{0:t} \mid y_{0:t-1}) g(y_t \mid x_t)~dx_{0:t}}
 \end{align}
-Moreover, the estimate of any other smoothing distribution $p(x_{j:k} \mid y_{1:t})$ where $(j \leq k \leq l)$ can be obtained by integrating out $x$ that are not interested in as follows:
+
+Moreover, the estimate of any other smoothing distribution $p(x_{j:k} \mid y_{1:t})$ where $(0 \leq 	j \leq k \leq l \leq t)$ can be obtained by integrating out $x_i$ that are not interested in as follows:
 \begin{equation}
-  p(x_{j:l} \mid y_{1:t}) = \int p(x_{1:t} \mid y_{1:t}) dx_{1:j, l+1:t}
+  p(x_{j:l} \mid y_{1:t}) = \int p(x_{1:t} \mid y_{1:t}) dx_{1:j-1, l+1:t}
 \label{eq:smoothing}
 \end{equation}
-One particular smoothing distribution of interest is the final marginal distribution $p(x_t \mid y_{1:t})$, which is often referred to as the filtering distribution.
+A common smoothing distribution of interest is the marginal distribution at time $t$, $p(x_t \mid y_{1:t})$, which is also referred to as the filtering distribution.
 
-Another distribution of interest is  the prediction distribution, that is the estimation of the distribution of any unseen \emph{future} state based on the sequence of observations up to time. If we let $j = 1$ and $l \geq n$ in \eqref{eq:smoothing}, we obtain the following equation:
+Another distribution of interest is  the prediction distribution, that is the estimation of the distribution of any unseen \emph{future} states using only all observations up to current time. If we let $j = 1$ and $l \geq t$ in \eqref{eq:smoothing}, we obtain the following equation:
 \begin{equation}
-  p(x_{j:l} \mid y_{1:t}) = p(x_{j:t} \mid y_{1:t}) \prod^k_{i=t+1} f(x_i \mid x_{i-1})
+  p(x_{j:l} \mid y_{1:t}) = p(x_{j:t} \mid y_{1:t}) \prod^l_{i=t+1} f(x_i \mid x_{i-1})
 \end{equation}
 Therefore, any prediction density can be obtained by simply integrating out the variables of not interest from the above equation.
 
-While the distribution estimation problem may appear to be simple, it is in fact far from being resolved in practice. The integral appear in the above equations are often intractable and can only be estimated except in the very specific setting discussed below.
+While the distribution estimation problem may appear to be simple, it is in fact far from being resolved in practice. The integral appear in the above equations are often intractable and can only be estimated except in the very specific setting as discussed below.
 
 \subsection{Kalman Filter}
-In the linear Gaussian setting in which the transition density and likelihood are each a Gaussian distribution with center lied at a point of a linear combination of the known conditional variables, $u_t$ of the following form:
+In the linear Gaussian setting in which the transition density and likelihood are Gaussian distributions with center lied at a point of a linear combination of the known conditional variables, $u_t$ of the following form:
 \begin{align}
   f_t(x_t \mid x_{t-1}, u_t) &= N(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
   g_t(y_t \mid x_t, u_t)    &= N(C_t(u_t) x_t, D_t(u_t)D_t(u_t)^T)
 \end{align}
-where $A_t$, $B_t$, $C_t$, $D_t$ are appropriate known matrix or vector operations, that may depend on the given conditional variable $u_t$.
+where $A_t$, $B_t$, $C_t$, $D_t$ are known matrix or vector operations, which of each may depend on the given conditional variable $u_t$.
 
-Using the properties of Gaussian distribution, the integral can be resolved analytically. This leads the widely used \emph{Kalman Filter} \cite{KRE60}, which has the following recursive solution as follows:
+Using the properties of Gaussian distribution, the integral involved can be resolved analytically. This leads to the widely used \emph{Kalman Filter} \cite{KRE60} that has the following recursive solution as follows:
 \begin{align}
   \mu_{t \mid t -1} &= A_{t}(u_t)(\mu_{t-1 \mid t-1})X_{t-1} + F_t(u_t) \\
   \Sigma_{t \mid t -1} &= A_{t}(u_t)\Sigma_{t -1 \mid t -1}A_{t}(u_t)^T +  B_t(u_t)B_t(u_t)^T \\
@@ -163,31 +164,50 @@ Using the properties of Gaussian distribution, the integral can be resolved anal
   \mu_{t \mid t} &=   \mu_{t \mid t -1} +   \Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1}(y_t - t_{t \mid t-1}) \\
   \Sigma_{t \mid t} &=  \Sigma_{t \mid t -1} -\Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1} C_{t}(u_t)\Sigma_{t \mid t -1}
 \end{align}
-where  $\mu_{t \mid t -1}$ and $\Sigma_{t \mid t -1}$ are the predicted mean and covariance of the state $x_t$, $y_{t \mid t-1}$ and $S_t$ are the mean and covariance of the measurement at time $t$ and $\mu_{t \mid t}$ and $\Sigma_{t \mid t}$ are the estimated mean and covariance of the state $x_t$ after seeing the observation $y_t$.
+where  $\mu_{t \mid t -1}$ and $\Sigma_{t \mid t -1}$ are the predicted mean and co-variance matrix of the state $x_t$, $y_{t \mid t-1}$ and $S_t$ are the mean and co-variance matrix of the measurement at time $t$ and $\mu_{t \mid t}$ and $\Sigma_{t \mid t}$ are the estimated mean and co-variance matrix of the state $x_t$ after seeing the observation $y_t$.
 
-There are various extensions have been developed to this approach. For example, the Extended Kalman Filter (EKF) which uses Taylor Series expansion to linearise at the conditional variables locally, Unscentend Kalman Filter, etc. Refer \cite{WG95} for further details.
+There are various extensions have been developed on top of this approach. For example, the Extended Kalman Filter (EKF) which uses Taylor Series expansion to linearize at the conditional variables locally \cite{WG95}, Unscentend Kalman Filter which further extend the idea in EKF by using a minal set of carefully chosen sample points \cite{EW01}, etc.
 
 \subsection{Sequential Important Sampling (SIS)}
-In more general setting, here is however no analytical solution for this estimation problem. Sequential Monte Carlo provides a systematic way to approximate the solution to this estimation problem. Assuming that it is possible to decompose the selected importance distribution in the following form:
+In more general setting, there is however no analytical solution for this estimation problem. Sequential Monte Carlo provides a systematic way to approximate the solution to this estimation problem. Assuming that it is possible to decompose the selected importance distribution in the following form:
 \begin{align}
-	q_n(x_{1:t}) &= q_n(x_{1:t-1}) q_n(x_t \mid x_{1:t-1}) \nonumber \\
-	             &= q_1(x_1) \prod^n_{i=2} q_i(x_i \mid x_{1:t-1})
+	q_t(x_{0:t}) &= q_t(x_{0:t-1}) q_t(x_t \mid x_{1:t-1}) \nonumber \\
+	             &= q_0(x_0) \prod^t_{i=1} q_i(x_i \mid x_{0:t-1})
 \end{align}
-we can then obtain sample of ${X_{1:n}} \sim q_n(x_{1:t-1})$ at time $t$ by first sample $X_1 \sim q_1$ at time $1$ then $X_i \sim q_i(x_i \mid x_{1:t-1})$ for time $i$ from $2 \ldots n$. The corresonding weights associated to each sample $X_{1:n}$ can also calculated in a similar recursion fashion using the following decomposition:
+then it is possible to obtain sample ${X_{0:t}} \sim q_t(x_{0:t})$ by first sampling $X_0 \sim q_0(\cdot)$ at time $0$ and then $X_i \sim q_i(x_i \mid x_{0:t-1})$ for time $i$ from $1 \ldots t$. The corresonding weights associated to each sample $X_{0:t}$ can also calculated in a similar recursion fashion using the following decomposition:
 \begin{align}
-  w_n(x_{1:t}) &= \frac{p_t(x_{1:t})}{q_t(x_{1:t})} \nonumber \\
-               &= \frac{p_{t-1}(x_{1:t-1})}{q_{t-1}(x_{1:t-1})} \frac{p_t(x_{1:t})}{p_{t-1}(x_{1:t-1})q_n(x_t \mid x_{1:t-1})} \label{eq:w} \\
-  &= w_1(x_1) \prod^n_{i=2} \frac{p_i(x_{1:i})}{p_{i-1}(x_{1:i-1})q+n(x_i \mid x_{1:i-1})} \nonumber \\
-  &= w_1(x_1) \prod^n_{i=2} \alpha_k(x_{1:i})
+  w_t(x_{0:t}) &= \frac{p_t(x_{0:t})}{q_t(x_{0:t})} \nonumber \\
+               &= \frac{p_{t-1}(x_{0:t-1})}{q_{t-1}(x_{0:t-1})} \frac{p_t(x_{0:t})}{p_{t-1}(x_{0:t-1})q_t(x_t \mid x_{0:t-1})} \label{eq:w} \\
+  &= w_0(x_0) \prod^t_{i=1} \frac{p_i(x_{0:i})}{p_{i-1}(x_{0:i-1})q_t(x_i \mid x_{0:i-1})} \nonumber \\
+  &= w_0(x_0) \prod^t_{i=1} \alpha_i(x_{0:i})
 \end{align}
-where $\alpha_k(x_{1:i})$  is often referred to as incremental importance weight function. This algorithm is summarised in X.
+where $\alpha_t(x_{0:t})$  is often referred to as incremental importance weight function. This algorithm is summarised in Algorithm \ref{algo:sis}.
+
+\begin{algorithm}
+\caption{Sequential Importance Sampling}\label{algo:sis}
+\begin{algorithmic}[1]
+\Function{ImportanceSampling}{N, T}
+\State Set $t \gets 0$
+\State For $i \in 1:N$, sample $x^{(i)}_0 \sim q(x_0 \mid y_0)$
+\State For $i \in 1:N$, calculate the importance weights $x^{(i)}_0 = \dfrac{p(x_0)g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}$
+\State For $i \in 1:N$, normalise the importance weights $w^{(i)}_0 = \dfrac{w^{(i)}}{\sum^N_{i=1} w^{(i)}_0}$
+\State Set $t \gets t + 1$
+\While{$t \leq T$}
+  \State For $i \in 1:N$, sample $x^{(i)}_0 \sim q(x_0 \mid y_0)$
+  \State For $i \in 1:N$, calculate the importance weights $x^{(i)}_0 = \dfrac{p(x_0)g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}$
+  \State For $i \in 1:N$, normalise the importance weights $w^{(i)}_0 = \dfrac{w^{(i)}}{\sum^N_{i=1} w^{(i)}_0}$
+  \State Set $t \gets t + 1$
+\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 \subsection{Optimal Proposal Distribution}
 While SIS is attractive, it is nothing but a specialised version of importance sampling introduced earlier in \ref{sec:IS}. As the state space increases with the number of time step $t$. Direct importance sampling on a state space with increasing size is not efficient. The weights of the samples start to degenerate quickly, in the sense that the weights start to concentrate on only a small number of samples, i.e., many of the samples have negligible weights and therefore rendered useless in estimating the expectation. It can be shown that the importance weights will increase with every iteration, and therefore the quality of the estimators will decrease over time \cite{}. 
 
 To alleviate this weight degeneracy issue, we can rewrite \eqref{eq:w} as follows:
 \begin{align}
- w_n(x_{1:t}) &= \frac{p_{t-1}(x_{1:t-1})}{q_{t-1}(x_{1:t-1})} \frac{p_t(x_{1:t})}{p_{t-1}(x_{1:t-1})q+n(x_t \mid x_{1:t-1})} \nonumber \\
+ w_n(x_{0:t}) &= \frac{p_{t-1}(x_{1:t-1})}{q_{t-1}(x_{1:t-1})} \frac{p_t(x_{1:t})}{p_{t-1}(x_{1:t-1})q+n(x_t \mid x_{1:t-1})} \nonumber \\
               &= 1+1
 \label{eq:w2}
 \end{align}
