@@ -45,16 +45,16 @@ However, it is not always possible to sample directly from the distribution $p(\
 \begin{algorithm}
 \caption{Rejection Sampling}\label{algo:rejectionsampling}
 \begin{algorithmic}[1]
-\Function{RejectionSampling}{n}
-\State $\mathcal{X} = \{\ \}$
+\Function{RejectionSampling}{N}
+\State $\mathcal{X} = \{\ \}$.
 \Repeat
-  \State sample $x \sim q(\cdot)$
-  \State sample $u \sim \mathcal{U}(0,1)$
-  \If {$u \leq \dfrac{p(x)}{cq(x)}$}
-    \State $\mathcal{X} \gets \mathcal{X} \cup \{x\}$
+  \State sample $x \sim q(\cdot)$.
+  \State sample $u \sim \mathcal{U}(0,1)$.
+  \If {$u \leq \dfrac{p(x)}{cq(x)}$}.
+    \State $\mathcal{X} \gets \mathcal{X} \cup \{x\}$.
   \EndIf
-\Until{len($\mathcal{X}$)=n}
-\State return $\mathcal{X}$
+\Until{len($\mathcal{X}$)=N}.
+\State return $\mathcal{X}$.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -84,19 +84,19 @@ There are many ways of implementing the resampling stage. A simple direct implem
 \begin{algorithm}
 \caption{Importance Sampling}\label{algo:importancesampling}
 \begin{algorithmic}[1]
-\Function{ImportanceSampling}{n}
+\Function{ImportanceSampling}{N}
 \State $\tilde{\mathcal{X}} = \{\ \}$
 \Repeat
-  \State sample $\tilde{x} \sim q(\cdot)$
-  \State $\tilde{\mathcal{X}} \gets \tilde{X} \cup \{\tilde{x}\}$
-\Until{len($\tilde{X}$)=n}
-\State calculate importance weights, $\hat{w}(\tilde{x}^{(i)})  = \dfrac{\tilde{w}(\tilde{x}^{(i)})}{\sum^N_{j=1} \tilde{w}(\tilde{x}^{(j)})}$
-\State $X = \{\ \}$
+  \State sample $\tilde{x} \sim q(\cdot)$.
+  \State $\tilde{\mathcal{X}} \gets \tilde{X} \cup \{\tilde{x}\}$.
+\Until{len($\tilde{X}$)=N}.
+\State calculate importance weights, $\hat{w}(\tilde{x}^{(i)})  = \dfrac{\tilde{w}(\tilde{x}^{(i)})}{\sum^N_{j=1} \tilde{w}(\tilde{x}^{(j)})}$.
+\State $\mathcal{X} = \{\ \}$.
 \Repeat
-  \State resample $x$ from $\tilde{\mathcal{X}}$ (taking into account the importance weights)
-  \State $\mathcal{X} \gets \mathcal{X} \cup \{x\}$
-\Until{len($\mathcal{X}$)=n}
-\State return $\mathcal{X}$
+  \State sample $x$ from $\tilde{\mathcal{X}}$ according to the importance weights, $\hat{w}$.
+  \State $\mathcal{X} \gets \mathcal{X} \cup \{x\}$.
+\Until{len($\mathcal{X}$)=N}.
+\State return $\mathcal{X}$.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -121,15 +121,17 @@ where $f(x_t \mid x_{t-1})$ is the transition density and $g(y_t \mid x_t)$ is t
 
 This class of models are designed to model evolving systems that output some observable events over time, which depends on the internal state of the system in a online manner. This imposes an implicit requirement on computation perspective: the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
 
-Arguably, the most common inference problem in HMMs is the smoothing distribution, $p(x_{0:t} \mid y_{0:t})$, that is estimating the states $x_{0:t}$ based on the sequence of observations up to time $t$, $y_{0:t}$. Using Bayes rules, we can write the density of the distribution of interest as follows:
+Arguably, the most common inference problem in HMMs is the smoothing distribution, $p(x_{0:t} \mid y_{0:t})$, that is estimating the states $x_{0:t}$ based on the sequence of observations up to time $t$, $y_{0:t}$. Using Bayes rules, we can write the density of the distribution of interest in the recursion form as follows:
 \begin{align}
-    p(x_{0:t} \mid y_{0:t}) &\propto p(x_{0:t} \mid y_{0:t-1}) g(y_t \mid x_t) \nonumber \\
-                            &= p(x_{0:t} \mid y_{0:t-1})f(x_t \mid x_{t-1})g(y_t \mid x_t)
+    p(x_{0:t} \mid y_{0:t}) &= \dfrac{p(x_{0:t}, y_{0:t})}{p(y_{0:t})} \nonumber \\
+                            &= \dfrac{p(x_{0:t-1}, y_{0:t-1})f(x_t \mid x_{t-1}) g(y_t \mid x_t)}{p(y_{0:t})} \nonumber \\ 
+                            &= p(x_{0:t-1} \mid y_{0:t-1})\dfrac{f(x_t \mid x_{t-1}) g(y_t \mid x_t)}{p(y_t \mid y_{0:t-1})} 
 \end{align}
 This recursion is often re-written into two separate steps: the prediction step (the estimation of distribution of all states up to time $t$ given only states up to time $t-1$) and the update step (the correction of the predicted distribution taking into account the new observation) as follows:
 \begin{align}
   p(x_{0:t} \mid y_{0:t-1}) &= p(x_{0:t-1} \mid y_{0:t-1})f(x_t \mid x_{t-1}) \nonumber \\
-  p(x_{0:t} \mid y_{0:t})   &= \dfrac{p(x_{0:t} \mid y_{0:t-1}) g(y_t \mid x_t)}{\displaystyle\int p(x_{0:t} \mid y_{0:t-1}) g(y_t \mid x_t)~dx_{0:t}}
+  p(x_{0:t} \mid y_{0:t})   &= \dfrac{p(x_{0:t} \mid y_{0:t-1}) g(y_t \mid x_t)}{p(y_t\
+ \mid y_{0:t-1})}
 \end{align}
 
 Moreover, the estimate of any other smoothing distribution $p(x_{j:k} \mid y_{1:t})$ where $(0 \leq 	j \leq k \leq l \leq t)$ can be obtained by integrating out $x_i$ that are not interested in as follows:
@@ -148,6 +150,7 @@ Therefore, any prediction density can be obtained by simply integrating out the 
 While the distribution estimation problem may appear to be simple, it is in fact far from being resolved in practice. The integral appear in the above equations are often intractable and can only be estimated except in the very specific setting as discussed below.
 
 \subsection{Kalman Filter}
+\label{sec:KF}
 In the linear Gaussian setting in which the transition density and likelihood are Gaussian distributions with center lied at a point of a linear combination of the known conditional variables, $u_t$ of the following form:
 \begin{align}
   f_t(x_t \mid x_{t-1}, u_t) &= N(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
@@ -160,121 +163,254 @@ Using the properties of Gaussian distribution, the integral involved can be reso
   \mu_{t \mid t -1} &= A_{t}(u_t)(\mu_{t-1 \mid t-1})X_{t-1} + F_t(u_t) \\
   \Sigma_{t \mid t -1} &= A_{t}(u_t)\Sigma_{t -1 \mid t -1}A_{t}(u_t)^T +  B_t(u_t)B_t(u_t)^T \\
   S_t &=  C_{t}(u_t)\Sigma_{t \mid t -1}C_{t}(u_t)^T +  D_t(u_t)D_t(u_t)^T \\
-  y_{t \mid t-1} &=  C_{t}(u_t)  \mu_{t \mid t -1} + G_t(u_t) \\
-  \mu_{t \mid t} &=   \mu_{t \mid t -1} +   \Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1}(y_t - t_{t \mid t-1}) \\
+  y_{t \mid t-1} &=  C_{t}(u_t)  \mu_{t \mid t-1} + G_t(u_t) \\
+  \mu_{t \mid t} &=   \mu_{t \mid t -1} +   \Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1}(y_t - y_{t \mid t-1}) \\
   \Sigma_{t \mid t} &=  \Sigma_{t \mid t -1} -\Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1} C_{t}(u_t)\Sigma_{t \mid t -1}
 \end{align}
 where  $\mu_{t \mid t -1}$ and $\Sigma_{t \mid t -1}$ are the predicted mean and co-variance matrix of the state $x_t$, $y_{t \mid t-1}$ and $S_t$ are the mean and co-variance matrix of the measurement at time $t$ and $\mu_{t \mid t}$ and $\Sigma_{t \mid t}$ are the estimated mean and co-variance matrix of the state $x_t$ after seeing the observation $y_t$.
 
-There are various extensions have been developed on top of this approach. For example, the Extended Kalman Filter (EKF) which uses Taylor Series expansion to linearize at the conditional variables locally \cite{WG95}, Unscentend Kalman Filter which further extend the idea in EKF by using a minal set of carefully chosen sample points \cite{EW01}, etc.
+There are various extensions have been developed on top of this approach. For example, the Extended Kalman Filter (EKF) which uses Taylor Series expansion to linearize at the conditional variables locally \cite{WG95}, Unscentend Kalman Filter which further extend the idea in EKF by only using a minimal set of well chosen samples \cite{EW01}, etc.
 
 \subsection{Sequential Important Sampling (SIS)}
-In more general setting, there is however no analytical solution for this estimation problem. Sequential Monte Carlo provides a systematic way to approximate the solution to this estimation problem. Assuming that it is possible to decompose the selected importance distribution in the following form:
+\label{sec:SIS}
+In more general setting, there is however no analytical solution for this estimation problem. Sequential Monte Carlo provides a systematic way to approximate the solution to this estimation problem. Assuming that it is possible to decompose the selected importance distribution into recursion form as follows:
 \begin{align}
-	q_t(x_{1:t}) &= q_t(x_{0:t-1}) q_t(x_t \mid x_{1:t-1}) \nonumber \\
-	             &= q_1(x_0) \prod^t_{i=1} q_i(x_i \mid x_{0:t-1})
+	q_{0:t}(x_{0:t} \mid y_{0:t}) &= q_{0:t-1}(x_{0:t-1} \mid y_{0:t-1}) q_t(x_t \mid x_{t-1}, y_t) \nonumber \\
+	             &= q_0(x_0 \mid y_0) \prod^t_{i=1} q_i(x_i \mid x_{i-1}, y_{i})
+\label{eq:q}
 \end{align}
-then it is possible to obtain sample ${X_{0:t}} \sim q_t(x_{0:t})$ at time $t$ by first sample $X_0 \sim q_0(\cdot)$ at time $0$ and then $X_i \sim q_i(x_i \mid x_{1:t-1})$ for time $i$ from $1 \ldots t$. The corresonding weights associated to each sample $X_{1:t}$ can also calculated in a similar recursion fashion using the following decomposition:
+then it is possible to obtain sample ${x_{0:t}}$ by first sampling $x_0 \sim q_0(\cdot)$ at time $0$ and then $x_i \sim q_i(x_i \mid x_{i-1}, y_i)$ for all time $i$ from $1$ to $t$. The corresponding weights associated to each sample $x_{0:t}$ can also be decomposed into recursion form as follows:
 \begin{align}
-  w_t(x_{1:t}) &= \frac{p_t(x_{1:t})}{q_t(x_{1:t})} \nonumber \\
-               &= \frac{p_{t-1}(x_{1:t-1})}{q_{t-1}(x_{1:t-1})} \frac{p_t(x_{1:t})}{p_{t-1}(x_{1:t-1})q_t(x_t \mid x_{1:t-1})} \label{eq:w} \\
-  &= w_1(x_1) \prod^n_{i=2} \frac{p_i(x_{1:i})}{p_{i-1}(x_{1:i-1})q_t(x_i \mid x_{1:i-1})} \nonumber \\
-  &= w_1(x_1) \prod^n_{i=2} \alpha_t(x_{1:i})
+  \tilde{w_t} &= \dfrac{p_{0:t}(x_{0:t} \mid y_{0:t})}{q_{0:t}(x_{0:t} \mid y_{0:t})} \nonumber \\
+              &= \dfrac{p_{0:t-1}(x_{0:t-1} \mid y_{0:t-1})}{q_{0:t-1}(x_{0:t-1} \mid y_{0:t-1})} \dfrac{p_{0:t}(x_{0:t} \mid y_{0:t})}{p_{0:t-1}(x_{0:t-1} \mid y_{0:t-1})q_t(x_t \mid x_{0:t-1}, y_t)} \nonumber \\
+              &= \tilde{w}_{t-1} \dfrac{p_{0:t}(x_{0:t} \mid y_{0:t})}{p_{0:t-1}(x_{0:t-1} \mid y_{0:t-1})q_t(x_t \mid x_{0:t-1}, y_t)} \nonumber \\
+              &\propto \tilde{w}_{t-1} \dfrac{f_t(x_t \mid x_{t-1})g_t(y_y \mid x_t)}{q_t(x_t \mid x_{t-1}, y_t)} \label{eq:w} \\
+              &\propto \tilde{w}_0 \prod^t_{i=1} \alpha_i(x_{i})          
+%  &= w_0(x_0) \prod^t_{i=1} \frac{p_i(x_{0:i})}{p_{i-1}(x_{0:i-1})q_t(x_i \mid x_{0:i-1})} \nonumber \\
 \end{align}
-where $\alpha_t(x_{1:i})$  is often referred to as incremental importance weight function. This algorithm is summarised in Algorithm \ref{algo:sis}.
+where $\alpha_t(x_{t})$  is often referred to as incremental importance weight function. This is the key concept in SIS.
+
+Using these weighted samples $\{(x^{(i)}_{0:t}, \tilde{w}^{(i)}_t)\}_{1 \leq i \leq N}$, it is possible to estimate any function $f$ defined on the space using the self normalised importance sampling estimator in the same way as \eqref{eq:is} as follows:
+\begin{align}
+  \hat{f}(x_{0:t}) &= \sum^N_{i=1} \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{j=1}\tilde{w}^{(j)}_t} f(x^{(i)}_{0:t}) \nonumber \\
+   &= \sum^N_{i=1} \hat{w}^{(i)} f(x^{(i)}_{0:t})
+\end{align}
+The SIS is summarised in Algorithm \ref{algo:sis}.
 
 \begin{algorithm}
 \caption{Sequential Importance Sampling}\label{algo:sis}
 \begin{algorithmic}[1]
-\Function{SequentialImportanceSampling}{n}
-\State $\tilde{\mathcal{X}} = \{\ \}$
-\Repeat
-  \State sample $\tilde{x} \sim q(\cdot)$
-  \State $\tilde{\mathcal{X}} \gets \tilde{X} \cup \{\tilde{x}\}$
-\Until{len($\tilde{X}$)=n}
-\State calculate importance weights, $\hat{w}(\tilde{x}^{(i)})  = \dfrac{\tilde{w}(\tilde{x}^{(i)})}{\sum^N_{j=1} \tilde{w}(\tilde{x}^{(j)})}$
-\State $X = \{\ \}$
-\Repeat
-  \State resample $x$ from $\tilde{\mathcal{X}}$ (taking into account the importance weights)
-  \State $\mathcal{X} \gets \mathcal{X} \cup \{x\}$
-\Until{len($\mathcal{X}$)=n}
-\State return $\mathcal{X}$
+\Function{SequentialImportanceSampling}{N, T}
+\State Set $t \gets 0$.
+\State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
+\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
+\begin{equation*}
+ \tilde{w}^{(i)}_0 = \dfrac{p(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}
+\end{equation*}
+\State For $i \in 1, \ldots, N$, normalize the importance weight:
+\begin{equation*}
+\hat{w}^{(i)}_0 = \dfrac{\tilde{w}^{(i)}_0}{\sum^N_{i=1} \tilde{w}^{(i)}_0}
+\end{equation*}
+\State Set $t \gets t + 1$.
+\While{$t \leq T$}
+\State For $i \in 1, \ldots, N$, sample $x^{(i)}_t \sim q(x^{(i)}_t \mid y^{(i)}_{t-1}, x^{(i)}_{t-1})$.
+\State For $i \in 1, \ldots, N$, set $x^{(i)}_{0:t} \gets (x^{(i)}_{0:t-1}, x^{(i)}_t)$.
+\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
+\begin{equation*}
+ \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{f_t(x^{(i)}_t \mid x^{(i)}_{t-1})g_t(y_t \mid x^{(i)}_t)}{q_t(x^{(i)}_t \mid x^{(i)}_{t-1})}
+\end{equation*}
+\State For $i \in 1, \ldots, N$, normalize the importance weight:
+\begin{equation*}
+\hat{w}^{(i)}_t = \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{i=1} \tilde{w}^{(i)}_t}
+\end{equation*}
+\EndWhile
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
 \subsection{Optimal Proposal Distribution}
-While SIS is attractive, it is nothing but a specialised version of importance sampling introduced earlier in \ref{sec:IS}. As the state space increases with the number of time step $t$. Direct importance sampling on a state space with increasing size is not efficient. The weights of the samples start to degenerate quickly, in the sense that the weights start to concentrate on only a small number of samples, i.e., many of the samples have negligible weights and therefore rendered useless in estimating the expectation. It can be shown that the importance weights will increase with every iteration, and therefore the quality of the estimators will decrease over time \cite{}. 
+While SIS is attractive, it is nothing but a specialised version of importance sampling introduced earlier in Section \ref{sec:IS}. As the state space increases with the number of time step $t$, direct importance sampling on a state space that is increasing in size is not very efficient. The weights of the samples will degenerate over time, in the sense that the weights start to concentrate on only a small number of samples. Consequently, many samples will have negligible weights and do not contribute much in the estimating the expectation. See \cite{JAM10} for a step-by-step illustration. The weight degeneracy issue cause the quality of the estimator degrades over time.
 
-To alleviate this weight degeneracy issue, we can rewrite \eqref{eq:w} as follows:
-\begin{align}
- w_n(x_{1:t}) &= \frac{p_{t-1}(x_{1:t-1})}{q_{t-1}(x_{1:t-1})} \frac{p_t(x_{1:t})}{p_{t-1}(x_{1:t-1})q+n(x_t \mid x_{1:t-1})} \nonumber \\
-              &= 1+1
-\label{eq:w2}
-\end{align}
-Looking at \eqref{eq:w2}, it is obvious that the proposal distribution, $q_{t+1}$ that minimise the variance of the importance weight, $w_n(x_{1:t})$ takes the following form:
+To alleviate this issue, looking at \eqref{eq:w}, it is obvious that the variance of importance weight can be minimised by using a proposal distribution of the following form:
 \begin{equation}
- q_{t+1}(x+1 \mid x_{t-1} \propto f_{t+1}(x_{t+1} \mid
+ q_{t}(x_{t} \mid x_{t-1}, y_t) \propto f_{t}(x_{t} \mid x_{t-1}) g_{t}(y_{t} \mid x_t)
 \end{equation}
 This is often referred to as the optimal proposal distribution.
 
-In general, it is not always possible to sample from this optimal proposal distribution. Yet, the knowledge of its form can be used to guide the design of a reasonable good proposal distribution, which can be sampled from. Using a better proposal distribution reduces the amount of variance introduced, but does not totally eliminate degeneracy problem.
+In general, it is not always possible to sample from this optimal proposal distribution. Yet, the knowledge of its form can be helpful in designing a reasonable good proposal distribution, which one can sample from. Better
+proposal reduces the amount of variance introduced, but it does not eliminate the weight degeneracy problem in general.
 
 \subsection{Sequential Importance Resampling (SIR)}
-The variance in importance weight accumulates over iterations. This suggests a possible solution is to ``reset'' the weights associated to the samples somehow during the iterations. Sequential Importance Resampling (SIR) introduces an additional resampling step to SIS step in a similar fashsion as discussed in Section \ref{sec:IS}. After resampling, the weight of each samples are reset to be equal, i.e., $\frac{1}{N}$. This algorithm is summarised in X.
+The variance in importance weight accumulates over iterations. This suggests a possible solution is to ``reset'' the weights associated to the samples somehow during the iterations. Sequential Importance Resampling (SIR) introduces an additional resampling step to SIS step in a similar fashsion as discussed in Section \ref{sec:IS}. After resampling, the weight of each samples are reset to be equal, i.e., $\frac{1}{N}$.
 
-Besides the simpliest multinomial resampling scheme, many different resampling schemes have been proposed in the literature. For example, stratified resampling \cite{} as the name suggested splitting the samples in stratums to ensure the good coverage on the resulting sample set, residual resampling \cite{} that has an effect in reducing the variance of the weights, etc. See \cite{} for further details on the comparison of these sampling schemes.
+Besides the simpliest multinomial resampling scheme, many different resampling schemes have been proposed in the literature. For example, stratified resampling \cite{KG96} as the name suggested splitting the samples into stratums to ensure the good coverage on the resulting sample set, residual resampling \cite{JSL98} which is able to decrease the variance of the weights due to resampling, etc. See \cite{DR05} for further details on the comparison of these sampling schemes.  The SIR algorithm is now summarised in Algorithm \ref{algo:sir}.
 
-However, resampling is not a silver bullet for sampling imporishment. Essentially, resampling provides a mechanism to eliminate low weight samples to give way to replicate \emph{copies} of high weight samples. This allows all samples to participate and contribute to forma  good estimation of the distribution of interest. This is obvious for the case of estimating filtering distribution and predictive distribution.
-
-Over time, this replication reduces the number of distinct values available for previous time steps. The start of the trajectory will eventually become the same. This phenomena is known as sample impoverishment. This is a fundamental weakness of SMC, in which the history of the path is not re-written. The lose of diversity in the sample set will have a negative impact when it comes to estimating snoothing distribution.
-
-\subsubsection{Resample-Move Algorithm}
-To counteract this sample impoverishment, Resample-Move Algorithm \cite{} is proposed to introduce some perturbance to the samples (so to diversify them) without changing the distribution they represent. This is accomplished by using MCMC steps with a Markov Kernel, $K$ that is invariant to the target distribution.
-
-In the original paper, this is done in a way by introducing an additional MCMC ``move'' step to each sample after resampling step according to a Markov kernel that is invariant to the target distribution. This algorithm is summarised in X.
-
-This does not entirely solve the smoothing distribution estimation problem. To apply Markov Kernels with invariant distribution corresponding to the smoothing distribution, the space that Markov kernel is defined has to increase at each iteration. This implies the computation time increases linearly with time. Moreover, fast mixing high dimension Markov kernel in itself is not easy to design. In practice, one could use a sliding windows approach, in which MCMC Kernels which diversify the samples of the previous $n$ time step at each iteration. This has a \emph{fixed} additional cost to each iteration.
+\begin{algorithm}
+\caption{Sequential Importance Resampling}\label{algo:sir}
+\begin{algorithmic}[1]
+\Function{SequentialImportanceResampling}{N, T}
+\State Set $t \gets 0$.
+\State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
+\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
+\begin{equation*}
+ \tilde{w}^{(i)}_0 = \dfrac{p(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}
+\end{equation*}
+\State For $i \in 1, \ldots, N$, normalize the importance weight:
+\begin{equation*}
+\hat{w}^{(i)}_0 = \dfrac{\tilde{w}^{(i)}_0}{\sum^N_{i=1} \tilde{w}^{(i)}_0}
+\end{equation*}
+\State Set $t \gets t + 1$.
+\While{$t \leq T$}
+\State For $i \in 1, \ldots, N$, sample $x^{(i)}_t \sim q(x^{(i)}_t \mid y^{(i)}_{t-1}, x^{(i)}_{t-1})$.
+\State For $i \in 1, \ldots, N$, set $x^{(i)}_{0:t} \gets (x^{(i)}_{0:t-1}, x^{(i)}_t)$.
+\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
+\begin{equation*}
+ \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{f_t(x^{(i)}_t \mid x^{(i)}_{t-1})g_t(y_t \mid x^{(i)}_t)}{q_t(x^{(i)}_t \mid x^{(i)}_{t-1})}
+\end{equation*}
+\State For $i \in 1, \ldots, N$, normalize the importance weight:
+\begin{equation*}
+\hat{w}^{(i)}_t = \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{i=1} \tilde{w}^{(i)}_t}
+\end{equation*}
+\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ x^{(i)}_t \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{\tilde{x}^{(i)}_{t,0:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$
+\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 \subsection{Effective sample size (ESS)}
 Resampling step induces additional Monte Carlo variance to the weights. Yet, this step is necessary to avoids accumulation of estimation variance on weights over time and therefore result in a more stable approximation to the filtering and preditive distribution.
 
-To trading off these two competing requirements, one possible way to monitor the effective sample size (ESS) which provides a measure on the quality of the weighted samples. Two possible estimation are as follows:
+To trading off these two competing requirements, one possible way to monitor the effective sample size (ESS) which provides a measure on the quality of the weighted samples which can be estimated as follows:
 \begin{equation}
   ESS \approx \dfrac{1}{E[w^2]} \approx \dfrac{\left(\sum^N_{i=0} w_i \right)^2}{\sum^N_{i=0}w_i^2}
 \end{equation}
-A possible implementation is that resampling step is only triggered if the $ESS_t$ faill below certain threshold at time $t$, say $N/2$. See \cite{} for detail discussion on ESS.
+A possible implementation is that resampling step is only triggered if the $ESS_t$ fall below certain threshold at time $t$, say $\frac{N}{2}$. See \cite{JAM10} for detail discussion on ESS.
 
-\subsection{Rao-blackwellised (Marginal) Important sampling}
+\subsection{Resample-Move Algorithm}
+However, resampling is not a silver bullet for sampling imporishment. Essentially, resampling provides a mechanism to eliminate low weight samples to give way to replicate \emph{copies} of high weight samples. This allows all samples to participate and contribute to the distribution estimation. This is obvious beneficial for the case of estimating filtering distribution and predictive distribution. Over time, this replication result in decrease in the number of distinct samples for previous time steps. Eventually, the start of the sample trajectory will become the same. This problem is known as sample impoverishment. This is a fundamental weakness of SMC, in which the sample path history is never re-written. This lose of diversity in the sample set will have a negative impact when it comes to estimating snoothing distribution. 
+
+To counteract this sample impoverishment, Resample-Move Algorithm \cite{BC01} is proposed to introduce some perturbance to the samples (so to diversify them) without changing the distribution they represent. This is accomplished by using MCMC steps with a Markov Kernel, $K$ that is invariant to the target distribution, $p(\cdot)$. In the original paper, this is achieved by simply introducing an additional MCMC ``move'' step to each sample after the resampling step using a kernel $K$  that is invariant to the target distribution. This Resample-Move algorithm is summarised in Algorition \ref{algo:rm}.
+
+This does not entirely solve the smoothing distribution estimation problem. To apply Markov Kernels with invariant distribution corresponding to the smoothing distribution, the space that Markov kernel is defined has to increase at each iteration. This implies the computation time increases linearly with time. Moreover, fast mixing high dimension Markov kernel in itself is not easy to design. In practice, one could use a sliding windows approach, in which MCMC Kernels which diversify the samples of the previous $n$ time step at each iteration. This has a \emph{fixed} additional cost to each iteration.
+
+\begin{algorithm}
+\caption{Resample-Move Algorithm}\label{algo:rm}
+\begin{algorithmic}[1]
+\Function{ResampleMoveAlgorithm}{N, T}
+\State Set $t \gets 0$.
+\State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
+\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
+\begin{equation*}
+ \tilde{w}^{(i)}_0 = \dfrac{p(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}
+\end{equation*}
+\State For $i \in 1, \ldots, N$, normalize the importance weight:
+\begin{equation*}
+\hat{w}^{(i)}_0 = \dfrac{\tilde{w}^{(i)}_0}{\sum^N_{i=1} \tilde{w}^{(i)}_0}
+\end{equation*}
+\State Set $t \gets t + 1$.
+\While{$t \leq T$}
+\State For $i \in 1, \ldots, N$, sample $x^{(i)}_t \sim q(x^{(i)}_t \mid y^{(i)}_{t-1}, x^{(i)}_{t-1})$.
+\State For $i \in 1, \ldots, N$, set $x^{(i)}_{0:t} \gets (x^{(i)}_{0:t-1}, x^{(i)}_t)$.
+\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
+\begin{equation*}
+ \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{f_t(x^{(i)}_t \mid x^{(i)}_{t-1})g_t(y_t \mid x^{(i)}_t)}{q_t(x^{(i)}_t \mid x^{(i)}_{t-1})}
+\end{equation*}
+\State For $i \in 1, \ldots, N$, normalize the importance weight:
+\begin{equation*}
+\hat{w}^{(i)}_t = \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{i=1} \tilde{w}^{(i)}_t}
+\end{equation*}
+\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ x^{(i)}_t \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{\tilde{x}^{(i)}_{t,0:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$
+\State \textbf{Move:} For $i \in 1, \ldots, N$, sample $x^{(i)}_{t,0:t} \sim K_t(\cdot)$, where $K_t$ is $p_t$-invariant.
+\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Marginalised SMC}
 In practice, many models may not be entirely Gaussian. Some states may be linear and Gaussian, conditionally upon the other states. The naive way to model this is to use SMC to model all the states. A better approach would be making use of the Gaussian properties. The states are split into two categories: the linear Gaussian states and the non-linear states. Then, the Kalman Filter which is optimal and possess a closed form solution can be used to model the linear Gaussian states and the SMC can be to model the non-linear states. This marginalisation setting will yield estimates with smaller variances. 
 
-To illustrate this, let consider the a simple conditional linear Gaussian Model, in which we have:
+To illustrate this, let consider the a simple conditional linear Gaussian Model introduced earlier in Section \ref{sec:KF} with the model dynamic spedicfied as follows:
 \begin{align}
-  x^N_t  &\sim f(x^N_t \mid x^N _{0:t-1})
-  x^L_t  &= A(x^N_t) x^L_{t-1} + u^L_t
-  y_t    &= B(x^N_t) x^L_t + v^L_t
+  p_t(u_t \mid u_{t-1}) &= \textrm{(any given form)} \\
+  p_t(x_t \mid x_{t-1}, u_t) &= N(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
+  p_t(y_t \mid x_t, u_t)    &= N(C_t(u_t) x_t, D_t(u_t)D_t(u_t)^T)
 \end{align}
-where $A$ and $B$ are appropriate matrices and $u^L_t \sim N(0, C_u)$ and $v^L_t\sim N(0, C_v)$ independently. In this model, conditioning the non-linear states $x^N_{0:t}$ and observations $y_{0:t}$, the linear states are jointly Gaussian, with its mean and covariances can be calculated using Kalman filter recursion presented earlier. To obtain the posterior distribution of the non-linear states, we marginalise the linear states as follows:
-\begin{equation}
-  p(x^N_{0:t} \mid y_{0:t}) = \int p(x^L_{0:t}, x^N_{0:t} \mid y_{0:t})~dx^L_{0:t}
-\end{equation}
-SMC is then run on this non-linear states. The resulting algorithm is very similar, except to allow the marginalised system is no longer Markovian and therefore the update rules are changed slightly to be the following:
-\begin{align}
-  p(x_{1:t} \mid y_{1:t-1}) &= p(x_{1:t-1} \mid y_{1:t-1})f(x_t \mid x_{t-1}) \nonumber \\
-  p(x_{1:t} \mid y_{1:t}) = \dfrac{p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)}{\int p(x_{1:t} \mid y_{1:t-1}) g(y_t \mid x_t)~dx_{1:t}}
-\end{align}
-and the posterior density for hte linear part can be apprximated as follows:
-\begin{equation}
-  p(x^N_t \mid y_{0:t}) \approx \sum^N_{i=1} w^{(i)}_t p(x^L_t \mid x^N_{0:t}, y_{0:t})
-\end{equation}
-where the conditional densities $p(x^L_t \mid x^N_{0:t}, y_{0:t})$ is again calculated using Kalman filtering recursion. The algorithm is shown in X.
+where $A_t$, $B_t$, $C_t$, $D_t$ and $F_t$ are known matrix or vector operations.
 
-The discussion has been focused on linear Gaussian model. Some generalisation are possible for this basic model. The simplest extension to this is to allow matrices $A$, $B$ to depeond on time and any elements of nonlinear stat sequence $x_{0:t}$. This does not require change of formula. There is another important class model is the discrete state-space HMM m, in which the states are discrete. The discrete state values can be marginalised using HMM forward algorithm insead of Kalman filter. See \cite{} for further detail.
+At any time $t$, the full posterior distribution of this model can be factorised as follows:
+\begin{equation}
+  p(u_{0:t}, x_{0:t} \mid y_{0:t}) = p(x_{0:t} \mid u_{0:t}, y_{0:t}) p(u_{0:t} \mid y_{0:t})
+\end{equation}
+Looking at the right hand side of the equation, the first term follows Gaussian distribution, and therefore can be computed optimally using Kalman Filter. For the second term, we can rewrite it into the following recursion form as follows:
+\begin{align}
+p(u_{0:t} \mid y_{0:t}) &\propto p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_{0:t} \mid y_{0:t-1}) \nonumber \\
+&=  p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1}) p(u_{0:t-1} \mid y_{0:t-1}) \nonumber \\
+&=  p(u_{0:t-1} \mid y_{0:t-1}) p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{t-1}, y_{0:t-1}) 
+\end{align}
+
+Assuming that it is possible to decompose the selected importance distribution into recursion form as follows:
+\begin{align}
+	q_{0:t}(x_{0:t} \mid y_{0:t}) &= q_{0:t-1}(x_{0:t-1} \mid y_{0:t-1}) q_t(x_t \mid x_{t-1}, y_t) \nonumber \\
+	q_{0:t}(u_{0:t} \mid y_{0:t}) &= q_{0:t-1}(u_{0:t-1} \mid y_{0:t-1}) q_t(u_t \mid u_{0:t-1}, y_{0:t}) 
+\label{eq:q2}
+\end{align}
+then the associated unnormalised weight of each sample can be derived in a similar fashion as given in Section\ref{sec:SIS} into the recursion form as follows:
+\begin{equation}
+   \tilde{w}_t  = \tilde{w}_{t-1} \dfrac{p_t(u_t \mid u_{t-1})p_t(y_t \mid u_{0:t}, y_{0:t-1})}{q_t(u_t \mid u_{0:t-1}, y_{0:t})}
+   \label{eq:wsmsc}
+\end{equation}
+Compare to \eqref{eq:q}, the main difference here is that $p(u_t \mid u_{0:t-1}, y_{0:t-1}) p(u_{0:t-1} \mid y_{0:t-1})$ depends on the whole path space from time $0$ up to $t$. The full Marginalised SMC is summarised in Algorithm \ref{algo:msmc}.
+
+\begin{algorithm}
+\caption{Marginalised Sequential Monte Carlo}\label{algo:msmc}
+\begin{algorithmic}[1]
+\Function{MarginalisedSequentialMonteCarlo}{N, T}
+\State Set $t \gets 0$.
+\State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
+\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
+\begin{equation*}
+ \tilde{w}^{(i)}_0 = \dfrac{p(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}
+\end{equation*}
+\State For $i \in 1, \ldots, N$, normalize the importance weight:
+\begin{equation*}
+\hat{w}^{(i)}_0 = \dfrac{\tilde{w}^{(i)}_0}{\sum^N_{i=1} \tilde{w}^{(i)}_0}
+\end{equation*}
+\State Set $t \gets t + 1$.
+\While{$t \leq T$}
+\State For $i \in 1, \ldots, N$, sample $u^{(i)}_t \sim q(u^{(i)}_t \mid y^{(i)}_{t-1}, u^{(i)}_{t-1})$.
+\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
+\begin{equation*}
+   \tilde{w}_t  = \tilde{w}_{t-1} \dfrac{p_t(u_t \mid u_{t-1})p_t(y_t \mid u_{0:t}, y_{0:t-1})}{q_t(u_t \mid u_{0:t-1}, y_{0:t})}
+\end{equation*}
+where
+\begin{equation}
+  p(y_t \mid u^{(i)}_{0:t}, y_{1:t-1}) \sim N(y_{t \mid t-1},S_t)
+\end{equation}
+with $y_{t \mid t-1}$ and $S_t$ are updated with Kalman Filter:
+\begin{align}
+  \mu_{t \mid t -1} &= A_{t}(u_t)(\mu_{t-1 \mid t-1})X_{t-1} + F_t(u_t) \\
+  \Sigma_{t \mid t -1} &= A_{t}(u_t)\Sigma_{t -1 \mid t -1}A_{t}(u_t)^T +  B_t(u_t)B_t(u_t)^T \\
+  S_t &=  C_{t}(u_t)\Sigma_{t \mid t -1}C_{t}(u_t)^T +  D_t(u_t)D_t(u_t)^T \\
+  y_{t \mid t-1} &=  C_{t}(u_t)  \mu_{t \mid t-1} + G_t(u_t) \\
+  \mu_{t \mid t} &=   \mu_{t \mid t -1} +   \Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1}(y_t - y_{t \mid t-1}) \\
+  \Sigma_{t \mid t} &=  \Sigma_{t \mid t -1} -\Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1} C_{t}(u_t)\Sigma_{t \mid t -1}
+\end{align}
+\State For $i \in 1, \ldots, N$, normalize the importance weight:
+\begin{equation*}
+\hat{w}^{(i)}_t = \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{i=1} \tilde{w}^{(i)}_t}
+\end{equation*}
+\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ x^{(i)}_t \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{\tilde{x}^{(i)}_{t,0:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$
+\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+The discussion has been focused on linear Gaussian model. There is another important class model is the discrete state-space HMMs, in which the model states are discrete. In scuh a model, HMM forward algorithm \cite{LRR89} can be used to marginalise these discrete states. See \cite{CO05} for further detail.
 
 \section{Conclusion}
-This chapter presents a review of Monte Carlo method, with a particular focus on Sequential Monte Carlo method that is used extensively in this thesis for portfolio optimisation. It begins to describe traditional Monte Carlo sampling techniques. It then introduce a simple SMC algorithm, and couple of extensions that have been proposed to improve the performance of the algorithm. Lastly, the chapter presents a simple concrete example, in which SMC is used to estimate the filtering and smoothing distribution for the problem in question.
+This chapter presents a review of Monte Carlo method, with a particular focus on Sequential Monte Carlo method that is used extensively in this thesis for portfolio optimisation. It begins to describe traditional Monte Carlo sampling techniques. It then introduce a simple SMC algorithm, and couple of extensions that have been proposed to improve the performance of the algorithm.
 
-It is worth nothing the algorithm is not restricted to sequential filtering problem. For example, it has been established that it is possible to use SMC within MCMC framework (pMCMC, where p stands for particle) \cite{CA10} to solve other problems. In the next chapter, we will show Sequential Monte Carlo is used as a maximiser to search for a optimal strategy for a portfolio, given a multiplicative reward function.
+It is worth nothing SMC is not restricted to sequential filtering problem. For example, it has been established that it is possible to use SMC within MCMC framework (pMCMC, where p stands for particle) \cite{CA10} to solve other problems. In the next chapter, we will show Sequential Monte Carlo is used as a maximiser to search for a optimal strategy for a portfolio, given a multiplicative reward function.
 
 
 

@@ -3426,3 +3426,456 @@ year = 2012}
   year = 2013,
   url = {http://media.morningstar.com/uk/MEDIA/Research_Paper/Morningstar_Report_Measuring_Tracking_Efficiency_in_ETFs_February_2013.pdf}
 }
+
+bibliography.bib
+
+@article{cappe:godsill:moulines:2007,
+  title = {{An Overview of Existing Methods and Recent Advances in Sequential Monte Carlo}},
+  author = {Cappe, O. and Godsill, S.J. and Moulines, E.},
+  journal = {PROCEEDINGS-IEEE},
+  volume = {95},
+  number = {5},
+  pages = {899},
+  year = {2007},
+  publisher = {IEEE INSTITUTE OF ELECTRICAL AND ELECTRONICS},
+  url = {tracking-secure/reference_materials/OverviewSMCCappeGodsillMoulines2007.pdf}
+}
+@article{doucet:godsill:andrieu:2000,
+  title = {{On sequential Monte Carlo sampling methods for Bayesian filtering}},
+  author = {Doucet, A. and Godsill, S. and Andrieu, C.},
+  journal = {Statistics and Computing},
+  volume = {10},
+  number = {3},
+  pages = {197--208},
+  year = {2000},
+  publisher = {Springer},
+  url = {tracking-secure/reference_materials/SMCsamplingmethodsforBayesianFilteringDoucGodAnd2000.pdf}
+}
+@article{pang:li:godsill:2008,
+  title = {{Models and Algorithms for Detection and Tracking of Coordinated Groups}},
+  author = {Pang, S.K. and Li, J. and Godsill, S.J.},
+  journal = {Aerospace Conference, 2008 IEEE},
+  pages = {1--17},
+  year = {2008},
+  url = {tracking-secure/reference_materials/ModelsAlgoTrackingCoordinatedGroupsPangLiGodsill2008.pdf}
+}
+@article{pitt:shephard:1999,
+  title = {{Filtering Via Simulation: Auxiliary Particle Filters.}},
+  author = {Pitt, M. and Shephard, N. and Nuffield College Oxford},
+  journal = {Journal of the American Statistical Association},
+  volume = {94},
+  number = {446},
+  pages = {590--591},
+  year = {1999},
+  publisher = {American Statistical Association},
+  url = {tracking-secure/reference_materials/AuxiliaryParticleFilterPittShephard1999.pdf}
+}
+@unpublished{green:robins:rapley:2008,
+  title = {Real-time Biological Source Term Estimation Using Adaptive Sampling of {UV} Fluorescence {LIDAR} Data},
+  author = {Green, N. and Robins, P. and Rapley, V.},
+  year = {2008},
+  month = {September},
+  pages = {5 pp.-},
+  note = {Unpublished manuscript},
+  url = {tracking-secure/reference_materials/GreenRobinsRapley2008.pdf}
+}
+@article{robins:thomas:2005,
+  title = {Non-linear Bayesian {CBRN} source term estimation},
+  author = {Robins, P. and Thomas, P.},
+  journal = {Information Fusion, 2005 8th International Conference on},
+  year = {2005},
+  month = {July},
+  volume = {2},
+  pages = { 8 pp.-},
+  doi = {10.1109/ICIF.2005.1591980},
+  url = {tracking-secure/reference_materials/RobinsThomas2005.pdf}
+}
+@webpage{www:celltracker,
+  author = {Shen, H.},
+  note = {Retrieved on September 23, 2008},
+  title = {{C}ell{T}racker software website, \url{http://dbkgroup.org/celltracker/}},
+  url = {http://dbkgroup.org/celltracker/},
+  year = {2008}
+}
+@article{vaswani:2008:pfmtpap,
+  author = {Vaswani, N.},
+  title = {Particle Filtering for Large Dimensional State Spaces with Multimodal Observation Likelihoods},
+  year = {2008},
+  journal = {IEEE Trans. Signal Processing},
+  note = {to appear},
+  url = {tracking-secure/reference_materials/Vaswani2008pfmtpap.pdf}
+}
+@article{vaswani:2008:contour,
+  author = {Vaswani, N. and Rathi, Y. and Yezzi, A. and Tannenbaum, A.},
+  title = {{PF-MT} with an Interpolation Effective Basis for Tracking Local Contour Deformations},
+  year = {2008},
+  journal = {IEEE Trans. Image Processing},
+  note = {Accepted with mandatory minor revisions},
+  url = {tracking-secure/reference_materials/Vaswani2008contour.pdf}
+}
+@techreport{johannesson:2004,
+  title = {{Dynamic Bayesian Models via Monte Carlo-An Introduction with Examples}},
+  author = {Johannesson, G. and Hanley, B. and Nitao, J.},
+  year = {2004},
+  institution = {UCRL-TR-207173, Lawrence Livermore National Lab., Livermore, CA (US)},
+  url = {tracking-secure/reference_materials/Johannesson2004.pdf}
+}
+@article{gning:2008,
+  title = {Evolving networks for group object motion estimation},
+  author = {Gning, A. and Mihaylova, L. and Maskell, S. and Pang, S.K. and Godsill, S.},
+  journal = {Proc. of IET Seminar on Target Tracking and Data Fusion: Algorithms and Applications, Birmingham, UK},
+  pages = {99--106},
+  year = {2008},
+  url = {tracking-secure/reference_materials/Gning2008.pdf}
+}
+@article{gning:2008b,
+  title = {Ground Target Group Structure and State Estimation with Particle Filtering},
+  author = {Gning, A. and Mihaylova, L. and Maskell, S. and Pang, S.K. and Godsill, S.},
+  journal = {Proc. of the 11th International Conf. on Information Fusion, Cologne, Germany},
+  pages = {1176--1183},
+  year = {2008},
+  url = {tracking-secure/reference_materials/Gning2008b.pdf}
+}
+@webpage{www:celltracer,
+  author = {Wang, Q. and  You, L. and West, M.},
+  note = {Retrieved on September 30, 2008},
+  title = {{C}ell{T}racer software website, \url{http://www.stat.duke.edu/research/software/west/celltracer/}},
+  url = {http://www.stat.duke.edu/research/software/west/celltracer/},
+  year = {2008}
+}
+
+@article{peters:fan:sisson:2008,
+  title = {{On sequential Monte Carlo, partial rejection control and approximate
+  Bayesian computation}},
+  author = {Peters, G. W. and Fan, Y. and Sisson, S. A.},
+  journal = {Technical Report},
+  year = {2008},
+  publisher = {University of New South Wales},
+  url = {tracking-secure/reference_materials/PetersFanSisson2008.pdf}
+}
+@article{sisson:fan:tanaka:2007,
+  title = {Sequential Monte Carlo without Likelihoods}},
+  author = {Sisson S. A. and Fan, Y. and Tanaka, M. M.},
+  journal = {PROCEEDINGS-National Academy of Sciences},
+  volume = {104},
+  number = {6},
+  pages = {1760-1765},
+  year = {2007},
+  publisher = {The National Academy of Sciences USA},
+  url = {tracking-secure/reference_materials/Sisson_etal.pdf}
+}
+@article{Pillow:etal:2008,
+  title = {Spatio-temporal correlations and visual signalling in a complete neuron
+population.}},
+  author = {Pillow, J. W., Fan, Y., and Shelens, J., and Paninski, L., and Sher, A., and
+Litke, A. M., and Chichilmisky, E. J., and Simoncelli, E. P. },
+  journal = {Nature},
+  volume = {454},
+  pages = {995-999},
+  year = {2008},
+  url = {tracking-secure/reference_materials/PillowSimoncelli08.pdf}
+}
+@article{Vogelstein:etal:2008,
+  title = {Spike inference from calsium imaging using sequential Monte Carlo methods}},
+  author = { Vogelstein, J. T., and Watson, B. O., and Packer, A. M., and Yuste, R., and
+ Jedynak, B., and Paninski, L. },
+  journal = {in preparation},
+  year = {2008},
+  url = {tracking-secure/reference_materials/BJ08.pdf}
+}
+@article{Paninski:2004,
+  title = {Maximum likelihood estimation of cascade
+point-process neural encoding models.}},
+  author = {Paninski, L. },
+  journal = {Network: Computation in Neural Systems },
+  volume = {15},
+  pages = {243-262},
+  year = {2004},
+  url = {tracking-secure/reference_materials/PillowSimoncelli08.pdf}
+}
+
+@article{OC07,
+  title = {{An Overview of Existing Methods and Recent Advances in Sequential Monte Carlo}},
+  author = {Cappe, O. and Godsill, S.J. and Moulines, E.},
+  journal = {PROCEEDINGS-IEEE},
+  volume = {95},
+  number = {5},
+  pages = {899},
+  year = {2007},
+  publisher = {IEEE INSTITUTE OF ELECTRICAL AND ELECTRONICS},
+  url = {tracking-secure/reference_materials/OverviewSMCCappeGodsillMoulines2007.pdf}
+}
+
+@article{AD00,
+  title = {{On sequential Monte Carlo sampling methods for Bayesian filtering}},
+  author = {Doucet, A. and Godsill, S. and Andrieu, C.},
+  journal = {Statistics and Computing},
+  volume = {10},
+  number = {3},
+  pages = {197--208},
+  year = {2000},
+  publisher = {Springer},
+  url = {tracking-secure/reference_materials/SMCsamplingmethodsforBayesianFilteringDoucGodAnd2000.pdf}
+}
+
+@article{AD09,
+  title={A tutorial on particle filtering and smoothing: Fifteen years later},
+  author={Doucet, Arnaud and Johansen, Adam M},
+  journal={Handbook of Nonlinear Filtering},
+  volume={12},
+  pages={656--704},
+  year={2009},
+  publisher={Oxford, UK: Oxford University Press}
+}
+
+@article{pang:li:godsill:2008,
+  title = {{Models and Algorithms for Detection and Tracking of Coordinated Groups}},
+  author = {Pang, S.K. and Li, J. and Godsill, S.J.},
+  journal = {Aerospace Conference, 2008 IEEE},
+  pages = {1--17},
+  year = {2008},
+  url = {tracking-secure/reference_materials/ModelsAlgoTrackingCoordinatedGroupsPangLiGodsill2008.pdf}
+}
+@article{pitt:shephard:1999,
+  title = {{Filtering Via Simulation: Auxiliary Particle Filters.}},
+  author = {Pitt, M. and Shephard, N. and Nuffield College Oxford},
+  journal = {Journal of the American Statistical Association},
+  volume = {94},
+  number = {446},
+  pages = {590--591},
+  year = {1999},
+  publisher = {American Statistical Association},
+  url = {tracking-secure/reference_materials/AuxiliaryParticleFilterPittShephard1999.pdf}
+}
+@unpublished{green:robins:rapley:2008,
+  title = {Real-time Biological Source Term Estimation Using Adaptive Sampling of {UV} Fluorescence {LIDAR} Data},
+  author = {Green, N. and Robins, P. and Rapley, V.},
+  year = {2008},
+  month = {September},
+  pages = {5 pp.-},
+  note = {Unpublished manuscript},
+  url = {tracking-secure/reference_materials/GreenRobinsRapley2008.pdf}
+}
+@article{robins:thomas:2005,
+  title = {Non-linear Bayesian {CBRN} source term estimation},
+  author = {Robins, P. and Thomas, P.},
+  journal = {Information Fusion, 2005 8th International Conference on},
+  year = {2005},
+  month = {July},
+  volume = {2},
+  pages = { 8 pp.-},
+  doi = {10.1109/ICIF.2005.1591980},
+  url = {tracking-secure/reference_materials/RobinsThomas2005.pdf}
+}
+@webpage{www:celltracker,
+  author = {Shen, H.},
+  note = {Retrieved on September 23, 2008},
+  title = {{C}ell{T}racker software website, \url{http://dbkgroup.org/celltracker/}},
+  url = {http://dbkgroup.org/celltracker/},
+  year = {2008}
+}
+@article{vaswani:2008:pfmtpap,
+  author = {Vaswani, N.},
+  title = {Particle Filtering for Large Dimensional State Spaces with Multimodal Observation Likelihoods},
+  year = {2008},
+  journal = {IEEE Trans. Signal Processing},
+  note = {to appear},
+  url = {tracking-secure/reference_materials/Vaswani2008pfmtpap.pdf}
+}
+@article{vaswani:2008:contour,
+  author = {Vaswani, N. and Rathi, Y. and Yezzi, A. and Tannenbaum, A.},
+  title = {{PF-MT} with an Interpolation Effective Basis for Tracking Local Contour Deformations},
+  year = {2008},
+  journal = {IEEE Trans. Image Processing},
+  note = {Accepted with mandatory minor revisions},
+  url = {tracking-secure/reference_materials/Vaswani2008contour.pdf}
+}
+@techreport{johannesson:2004,
+  title = {{Dynamic Bayesian Models via Monte Carlo-An Introduction with Examples}},
+  author = {Johannesson, G. and Hanley, B. and Nitao, J.},
+  year = {2004},
+  institution = {UCRL-TR-207173, Lawrence Livermore National Lab., Livermore, CA (US)},
+  url = {tracking-secure/reference_materials/Johannesson2004.pdf}
+}
+@article{gning:2008,
+  title = {Evolving networks for group object motion estimation},
+  author = {Gning, A. and Mihaylova, L. and Maskell, S. and Pang, S.K. and Godsill, S.},
+  journal = {Proc. of IET Seminar on Target Tracking and Data Fusion: Algorithms and Applications, Birmingham, UK},
+  pages = {99--106},
+  year = {2008},
+  url = {tracking-secure/reference_materials/Gning2008.pdf}
+}
+@article{gning:2008b,
+  title = {Ground Target Group Structure and State Estimation with Particle Filtering},
+  author = {Gning, A. and Mihaylova, L. and Maskell, S. and Pang, S.K. and Godsill, S.},
+  journal = {Proc. of the 11th International Conf. on Information Fusion, Cologne, Germany},
+  pages = {1176--1183},
+  year = {2008},
+  url = {tracking-secure/reference_materials/Gning2008b.pdf}
+}
+@webpage{www:celltracer,
+  author = {Wang, Q. and  You, L. and West, M.},
+  note = {Retrieved on September 30, 2008},
+  title = {{C}ell{T}racer software website, \url{http://www.stat.duke.edu/research/software/west/celltracer/}},
+  url = {http://www.stat.duke.edu/research/software/west/celltracer/},
+  year = {2008}
+}
+
+@article{peters:fan:sisson:2008,
+  title = {{On sequential Monte Carlo, partial rejection control and approximate
+  Bayesian computation}},
+  author = {Peters, G. W. and Fan, Y. and Sisson, S. A.},
+  journal = {Technical Report},
+  year = {2008},
+  publisher = {University of New South Wales},
+  url = {tracking-secure/reference_materials/PetersFanSisson2008.pdf}
+}
+@article{sisson:fan:tanaka:2007,
+  title = {Sequential Monte Carlo without Likelihoods}},
+  author = {Sisson S. A. and Fan, Y. and Tanaka, M. M.},
+  journal = {PROCEEDINGS-National Academy of Sciences},
+  volume = {104},
+  number = {6},
+  pages = {1760-1765},
+  year = {2007},
+  publisher = {The National Academy of Sciences USA},
+  url = {tracking-secure/reference_materials/Sisson_etal.pdf}
+}
+@article{Pillow:etal:2008,
+  title = {Spatio-temporal correlations and visual signalling in a complete neuron
+population.}},
+  author = {Pillow, J. W., Fan, Y., and Shelens, J., and Paninski, L., and Sher, A., and
+Litke, A. M., and Chichilmisky, E. J., and Simoncelli, E. P. },
+  journal = {Nature},
+  volume = {454},
+  pages = {995-999},
+  year = {2008},
+  url = {tracking-secure/reference_materials/PillowSimoncelli08.pdf}
+}
+@article{Vogelstein:etal:2008,
+  title = {Spike inference from calsium imaging using sequential Monte Carlo methods}},
+  author = { Vogelstein, J. T., and Watson, B. O., and Packer, A. M., and Yuste, R., and
+ Jedynak, B., and Paninski, L. },
+  journal = {in preparation},
+  year = {2008},
+  url = {tracking-secure/reference_materials/BJ08.pdf}
+}
+@article{Paninski:2004,
+  title = {Maximum likelihood estimation of cascade
+point-process neural encoding models.}},
+  author = {Paninski, L. },
+  journal = {Network: Computation in Neural Systems },
+  volume = {15},
+  pages = {243-262},
+  year = {2004},
+  url = {tracking-secure/reference_materials/PillowSimoncelli08.pdf}
+}
+
+
+@INPROCEEDINGS{EW01,
+    author = {Eric A. Wan and Rudolph Van Der Merwe},
+    title = {The Unscented Kalman Filter},
+    booktitle = {Kalman Filtering and Neural Networks},
+    year = {2001},
+    pages = {221--280},
+    publisher = {Wiley}
+}
+
+@article{JAM10,
+  title={Monte Carlo Methods},
+  author={Johansen, Adam M and Evers, Ludger and Whiteley, N},
+  journal={Lecture Notes},
+  volume={200},
+  year={2010}
+}
+
+@article{GNJ93,
+    abstract = {{An algorithm, the bootstrap filter, is proposed for implementing
+recursive Bayesian filters. The required density of the state vector is
+represented as a set of random samples, which are updated and propagated
+by the algorithm. The method is not restricted by assumptions of
+linearity or Gaussian noise: it may be applied to any state transition
+or measurement model. A simulation example of the bearings only tracking
+problem is presented. This simulation includes schemes for improving the
+efficiency of the basic algorithm. For this example, the performance of
+the bootstrap filter is greatly superior to the standard extended Kalman
+filter}},
+    author = {Gordon, N. J. and Salmond, D. J. and Smith, A. F. M.},
+    booktitle = {Radar and Signal Processing, IEE Proceedings F},
+    citeulike-article-id = {1815463},
+    citeulike-linkout-0 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=210672},
+    day = {06},
+    institution = {Defence Res. Agency, Farnborough},
+    issn = {0956-375X},
+    journal = {Radar and Signal Processing, IEE Proceedings F},
+    keywords = {bayesian, bootstrap, carlo, filter, mcl, monte, particle},
+    month = apr,
+    number = {2},
+    pages = {107--113},
+    posted-at = {2007-10-24 14:51:29},
+    priority = {2},
+    publisher = {IET},
+    title = {{Novel approach to nonlinear/non-Gaussian Bayesian state estimation}},
+    url = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=210672},
+    volume = {140},
+    year = {1993}
+}
+
+@INPROCEEDINGS{DR05, 
+author={Douc, R. and Cappe, O.}, 
+booktitle={Image and Signal Processing and Analysis, 2005. ISPA 2005. Proceedings of the 4th International Symposium on}, 
+title={Comparison of resampling schemes for particle filtering}, 
+year={2005}, 
+month={Sept}, 
+pages={64-69}, 
+keywords={Monte Carlo methods;particle filtering (numerical methods);signal sampling;bootstrap filter algorithm;multinomial resampling approach;particle filtering;resampling schemes;residual methods;sequential Monte Carlo methods;stratified methods;Computational modeling;Density functional theory;Filtering;Filters;Image processing;Monte Carlo methods;Signal processing;Signal processing algorithms;Sliding mode control;State estimation}, 
+doi={10.1109/ISPA.2005.195385}, 
+ISSN={1845-5921},}
+
+
+@ARTICLE{JSL98,
+    author = {Jun S. Liu and Rong Chen},
+    title = {Sequential Monte Carlo Methods for Dynamic Systems},
+    journal = {Journal of the American Statistical Association},
+    year = {1998},
+    volume = {93},
+    pages = {1032--1044}
+}
+
+
+
+
+@article{KG96,
+author = {Kitagawa, Genshiro},
+title = {Monte Carlo Filter and Smoother for Non-Gaussian Nonlinear State Space Models},
+journal = {Journal of Computational and Graphical Statistics},
+volume = {5},
+number = {1},
+pages = {1-25},
+year = {1996},
+doi = {10.1080/10618600.1996.10474692},
+URL = { 
+        http://www.tandfonline.com/doi/abs/10.1080/10618600.1996.10474692
+},
+eprint = { 
+        http://www.tandfonline.com/doi/pdf/10.1080/10618600.1996.10474692   
+}
+}
+
+@incollection{BC01,
+year={2001},
+isbn={978-1-4419-2887-0},
+booktitle={Sequential Monte Carlo Methods in Practice},
+series={Statistics for Engineering and Information Science},
+editor={Doucet, Arnaud and de Freitas, Nando and Gordon, Neil},
+doi={10.1007/978-1-4757-3437-9_6},
+title={RESAMPLE-MOVE Filtering with Cross-Model Jumps},
+url={http://dx.doi.org/10.1007/978-1-4757-3437-9_6},
+publisher={Springer New York},
+author={Berzuini, Carlo and Gilks, Walter},
+pages={117-138},
+language={English}
+}
+
+
+
