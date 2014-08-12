@@ -41,8 +41,6 @@
 \usepackage{ifthen}
 \usepackage{ifpdf}
 
-\DeclareMathOperator*{\E}{\mathbb{E}}
-
 %Bibliography
 %uncomment next line to change bibliography name to references for Book document class
 \renewcommand{\bibname}{References}
@@ -140,13 +138,13 @@
 \setlength{\hoffset}{0.00cm}
 \setlength{\voffset}{0.00cm}
 
-\setlength{\evensidemargin}{0.96cm}
+\setlength{\evensidemargin}{0.26cm}
 %\setlength{\oddsidemargin}{-0.54cm}
 \setlength{\topmargin}{1mm}
 \setlength{\headheight}{1cm}
 \setlength{\headsep}{1.00cm}
 \setlength{\textheight}{22.84cm}
-\setlength{\textwidth}{15.5cm}
+\setlength{\textwidth}{15cm}
 \setlength{\marginparsep}{1mm}
 \setlength{\marginparwidth}{2cm}
 \setlength{\footskip}{1cm}

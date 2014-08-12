@@ -132,11 +132,11 @@
 
 \mainmatter
 
-\input{Chapter1/chapter1}
-\input{Chapter2/chapter2}
+\include{Chapter1/chapter1}
+\include{Chapter2/chapter2}
 %\include{Chapter3/chapter3}
-\input{Chapter4/chapter4}
-%\include{Chapter5/chapter5}
+\include{Chapter4/chapter4}
+\include{Chapter5/chapter5}
 
 %\bibliographystyle{Classes/CUEDbiblio}
 %\bibliographystyle{Classes/jmb}
