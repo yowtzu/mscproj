@@ -28,7 +28,7 @@
 \else
    \LoadClass[pdftex, a4paper]{book}
 \fi
-
+\usepackage{blkarray}
 \usepackage{amssymb}
 \usepackage{graphics}
 \usepackage{fancyhdr}

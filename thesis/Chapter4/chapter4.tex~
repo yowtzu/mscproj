@@ -56,18 +56,21 @@ where the expectation is taken with respect to the whole path of the Markov Chai
 \begin{equation}
   u^*_{1:T} = \arg\max_{u_{1:T}} J(u_{1:T};y^{ref}_{1:t};x_0)
 \end{equation}
+assuming the maximum is indeed attainable and well defined. This reward resembles closely the risk sensitive control formulation described in \cite{}. However, the problem here has a slightly different structure due to the actual distribution used in the expectation. The absence of an explicit risk sensitivy constant and the presece of $y^{ref}$ as an explicity set reference rathr than an actual observation of th state. Neverthe less, a risk sensitivty constant could still be added through $D_n$, $L_n$ if necessary.
 
 \subsection{Problem formulation}
-Under the Bayesian inference framework, we treat the control inputs as random variables that admit a prior distribution. Assuming the sequenc
-
-The key point to note is that for the model becomes a linear Gussian model for a given $u_t$, which allows us to solve $x_t$ analytically using Kalman Filter algorithm.
-
-Under the realm of Bayesian inference framework, we treat $U$ as a random variable and admit a probability distribution. The objective is to compute the marginal posterior distribution density $p(u_{0:t} \mid y_{0:t}$.
-
-This desntiy function can be derived as follows:
+Under the realm of Bayesian inference framework, we treat the control inputs $u$ as random variables that admit a prior distribution. We will further assume the sequence of control $u_n$ is a Markov process with transition distribution $f_t(u_i \mid u_{i-1}$. The objective is to compute the marginal posterior distribution density $p(u_{0:t} \mid y^{ref}_{0:t}$. This posterior desntiy function can be derived as follows:
 \begin{align}
-  -1+1
+p(u_{0:t} \mid y^{ref}_{0:t}) &\propto p(u_{0:t}) p(y^{ref}_{0:t} \mid u_{0:t}) \\
+&= \prod^t_{i=1} p(y^{ref} \mid y^{ref}_{0:i-1}, u_{0:i}) f(u_i \mid u_{i-1})
 \end{align}
+
+\begin{align}
+p(u_{0:t} \mid y_{0:t}) &\propto p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_{0:t} \mid y_{0:t-1}) \nonumber \\
+&=  p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1}) p(u_{0:t-1} \mid y_{0:t-1}) \nonumber \\
+&=  p(u_{0:t-1} \mid y_{0:t-1}) p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{t-1}, y_{0:t-1})
+\end{align}
+
 We can solve this equation using SMC by consider the pair etc.
 
 However, a more efficient algorithm can be derived by considering the following factorisation:
@@ -81,15 +84,9 @@ Note that density $P(x_{0:t} \mid u_{0:t}, y_{1:t}$ is Gaussian mixture model, w
 \end{equation}
 This can be resolved using SMC by using particles to do this.
 
-
-\section{Problem formulation}
-
 Assume for the time being that the control inputs are set as U1:n = u1:n and remain fixed. Recall {Xn}n0 and {Yn}n1 are assumed to be stochastic processes obeying a Markov transition density fn(xn|xn1,un) and a conditionally independent likelihood density gn(yn|xn,un) respectively. Given any observed y1:n realisation, inference about the states X1:n may be based on the following posterior density
 
-
-show the algorithm
-
-
+show the algorithm 
 \section{Numerical example on stationary oscillating wave}
 We will consider a simple linear Gaussian state space model as presented earlier as \eqref{eq:gaussianmodel}, with $A_t=B_t=C_t=D_t=I$, $F_t{u_t}=u_t$, $G_t{u_t}=0$, $Xi = 0$, $u=0$. This model can be re-written as follows:
 \begin{align}
@@ -122,6 +119,60 @@ Given the initial result looks promising, we attempt to investigate with the fol
 \end{enumerate}
 
 \section{Discussion and possible extension}
+
+\section{Tracking DAX Index}
+In this section, we attempt to use the presented algorithm to track the financial index using real-world data. We shall look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. We choose to work on the DAX Index for pragmatic reason. It is one of the major world indices that is tracked by funds, small number of constituents and data accesibility\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index. It was later found some of the data is available. Having said that, the preliminary results concur with the findings we have with DAX Index discussed here.}. For further detail on DAX Index methodology, refer \cite{DAX14}.
+
+In the first experiment, we define a simple hypothetical sub-index, $DAX4$ consists of four constituents from the DAX Index with highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the $DAX4$ index level is calculated as the simple weighted average of the close prices adjusted for dividends and splits downloaded from Yahoo Finance as follows:
+\begin{equation}
+  y = \sum_{s \in \mathcal{S}} w_s x_s
+\end{equation}
+where $y$ is the index level, $\mathcal{S}$ consists of the four stocks, $w_s$ the price of a stock $s$, $w_s$ is the weight of stock $s$. The weights of these four stocks are assigned to be $0.4$, $0.3$, $0.2$ and $0.1$ respectively. The adjusted close prices of each stock along with the calculated index level are shown in Figure \ref{fig:adjclose}.
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[width=\textwidth]{adjclose}
+ \caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+ \label{fig:adjclose}
+\end{figure}
+
+The portfolio optimisation problem is formulated as such $y$ is viewed as the target reference level that a portfolio manager attempt to replicate as close as possible by changing his position of his portfolio consists of the constituent stocks in $\mathcal{S}$, at the same time, minimize the trasaction cost incurred in position changes.
+
+To solve this problem using the SMC algorithm proposed,  the following state space modelling is used:
+\begin{align}
+  X_t &= X_{t-1} + F_t(U_t) + \mu_t + \Sigma_t \\
+  Y_t &= C_t(U_t)^{T}X_t
+\end{align}
+where $X_t$ is the vector of stock prices at time $t$ modelled with arithmetic Brownian Motion, $U_t$ is the vector of control input at time $t$ that represents the position we have for each stock, $\mu_t$ and $\Sigma_t$ are the vector of estimated mean and the estimated covariance matrix of stock returns and $Y_t$ is the index level at time $t$. The values of $\mu_t$ and $Sigma_t$ are estimated using Exponential Weighted Moving Average (EWMA) with the decay rate, $\lambda$, set to $0.94$ as described JP Morgan's RiskMetrics\cite{RM96}, which can be written down in a nice recursion form as follows:
+\begin{align}
+  \mu_t &= \lambda r_{t} + (1-\lambda) \mu_{t-1} \\
+  \Sigma_t &= \lambda \sigma_{t} + (1-\lambda) \Sigma_{t-1} 
+\end{align}
+It is obvious from these equations that the EWMA estimate value depends on all previous estimates. To ensure the estimate are correct, a half year warm up period is used from 1st July 2013.
+
+It is worth to re-iterate here that this model is just a means to an end to demonstrate the key idea of thesis how SMC can be used for portfolio optimisation. There are more sophisticated models, e.g., Geometric Brownian Motion with drift, Jump diffusion model, etc.
+
+Given the above model, we can write the utility we attempt to maximise as follows:
+\begin{equation}
+1 + 1
+\end{equation}
+One can interpret the model as follows:
+
+\subsection{Result and discussion}
+Various setting are attempted and repeated $n$ times, We tried and repeated couple of settings $T x L x $
+
+The resulting $Y$ and $u$ are summaried in figure x.
+
+As sho, we can see that the method is effective etc.
+
+\subsection{Extension}
+Tracking the full index, the results are shown here
+
+\section{Model Control Predictive}
+Instead, we use this idea.
+
+
+\subsection{Result}
 
 \endinput
 

@@ -3297,6 +3297,15 @@ url = "http://cs.gmu.edu/~eclab/projects/ecj/",
  address = {Secaucus, NJ, USA},
 } 
 
+@INPROCEEDINGS{LRR89,
+    author = {Lawrence R. Rabiner},
+    title = {A tutorial on hidden Markov models and selected applications in speech recognition},
+    booktitle = {PROCEEDINGS OF THE IEEE},
+    year = {1989},
+    pages = {257--286},
+    publisher = {}
+}
+
 @article{KRE60,
     Author = {Kalman, Rudolph Emil},
     Title = {A New Approach to Linear Filtering and Prediction Problems},
@@ -3429,7 +3438,7 @@ year = 2012}
 
 bibliography.bib
 
-@article{cappe:godsill:moulines:2007,
+@article{C007,
   title = {{An Overview of Existing Methods and Recent Advances in Sequential Monte Carlo}},
   author = {Cappe, O. and Godsill, S.J. and Moulines, E.},
   journal = {PROCEEDINGS-IEEE},
@@ -3594,17 +3603,6 @@ point-process neural encoding models.}},
   url = {tracking-secure/reference_materials/PillowSimoncelli08.pdf}
 }
 
-@article{OC07,
-  title = {{An Overview of Existing Methods and Recent Advances in Sequential Monte Carlo}},
-  author = {Cappe, O. and Godsill, S.J. and Moulines, E.},
-  journal = {PROCEEDINGS-IEEE},
-  volume = {95},
-  number = {5},
-  pages = {899},
-  year = {2007},
-  publisher = {IEEE INSTITUTE OF ELECTRICAL AND ELECTRONICS},
-  url = {tracking-secure/reference_materials/OverviewSMCCappeGodsillMoulines2007.pdf}
-}
 
 @article{AD00,
   title = {{On sequential Monte Carlo sampling methods for Bayesian filtering}},
@@ -3877,5 +3875,18 @@ pages={117-138},
 language={English}
 }
 
+@misc{DAX14,
+title = {Factsheet DAX},
+howpublished = {Websites},
+month = june,
+year = 2014,
+URL = "http://www.dax-indices.com/EN/MediaLibrary/Document/Factsheets/Factsheet_DAX.pdf"
+}
 
-
+@book{RM96,
+  title={Riskmetrics(TM): Technical Document},
+  author={J.P. Morgan and Reuters and Reuters Limited},
+  url={http://books.google.co.uk/books?id=mPF8mgEACAAJ},
+  year={1996},
+  publisher={Morgan Guaranty Trust Company of New York}
+}

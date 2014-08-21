@@ -138,13 +138,13 @@
 \setlength{\hoffset}{0.00cm}
 \setlength{\voffset}{0.00cm}
 
-\setlength{\evensidemargin}{0.26cm}
+\setlength{\evensidemargin}{0.46cm}
 %\setlength{\oddsidemargin}{-0.54cm}
 \setlength{\topmargin}{1mm}
 \setlength{\headheight}{1cm}
 \setlength{\headsep}{1.00cm}
 \setlength{\textheight}{22.84cm}
-\setlength{\textwidth}{15cm}
+\setlength{\textwidth}{14.5cm}
 \setlength{\marginparsep}{1mm}
 \setlength{\marginparwidth}{2cm}
 \setlength{\footskip}{1cm}
