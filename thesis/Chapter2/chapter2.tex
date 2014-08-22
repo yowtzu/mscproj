@@ -327,6 +327,7 @@ This does not entirely solve the smoothing distribution estimation problem. To a
 \end{algorithm}
 
 \subsection{Marginalised SMC}
+\label{sec:msmc}
 In practice, many models may not be entirely Gaussian. Some states may be linear and Gaussian, conditionally upon the other states. The naive way to model this is to use SMC to model all the states. A better approach would be making use of the Gaussian properties. The states are split into two categories: the linear Gaussian states and the non-linear states. Then, the Kalman Filter which is optimal and possess a closed form solution can be used to model the linear Gaussian states and the SMC can be to model the non-linear states. This marginalisation setting will yield estimates with smaller variances. 
 
 To illustrate this, let consider the a simple conditional linear Gaussian Model introduced earlier in Section \ref{sec:KF} with the model dynamic spedicfied as follows:

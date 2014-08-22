@@ -3878,7 +3878,7 @@ language={English}
 @misc{DAX14,
 title = {Factsheet DAX},
 howpublished = {Websites},
-month = june,
+month = jun,
 year = 2014,
 URL = "http://www.dax-indices.com/EN/MediaLibrary/Document/Factsheets/Factsheet_DAX.pdf"
 }
@@ -3889,4 +3889,15 @@ URL = "http://www.dax-indices.com/EN/MediaLibrary/Document/Factsheets/Factsheet_
   url={http://books.google.co.uk/books?id=mPF8mgEACAAJ},
   year={1996},
   publisher={Morgan Guaranty Trust Company of New York}
+}
+
+@book{WR90,
+  title={Risk-sensitive optimal control},
+  author={Whittle, P.},
+  isbn={9780471926221},
+  lccn={89028165},
+  series={Wiley-Interscience series in systems and optimization},
+  url={http://books.google.co.uk/books?id=NvAZAQAAIAAJ},
+  year={1990},
+  publisher={Wiley}
 }

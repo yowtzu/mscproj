@@ -388,12 +388,12 @@ where
 \end{equation}
 with $y_{t \mid t-1}$ and $S_t$ are updated with Kalman Filter:
 \begin{align}
-  \mu_{t \mid t -1} &= A_{t}(u_t)(\mu_{t-1 \mid t-1})X_{t-1} + F_t(u_t) \\
-  \Sigma_{t \mid t -1} &= A_{t}(u_t)\Sigma_{t -1 \mid t -1}A_{t}(u_t)^T +  B_t(u_t)B_t(u_t)^T \\
-  S_t &=  C_{t}(u_t)\Sigma_{t \mid t -1}C_{t}(u_t)^T +  D_t(u_t)D_t(u_t)^T \\
-  y_{t \mid t-1} &=  C_{t}(u_t)  \mu_{t \mid t-1} + G_t(u_t) \\
-  \mu_{t \mid t} &=   \mu_{t \mid t -1} +   \Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1}(y_t - y_{t \mid t-1}) \\
-  \Sigma_{t \mid t} &=  \Sigma_{t \mid t -1} -\Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1} C_{t}(u_t)\Sigma_{t \mid t -1}
+  \mu_{t \mid t -1} &= A_{t}(u_t)(\mu_{t-1 \mid t-1})X_{t-1} + F_t(u_t) \nonumber \\
+  \Sigma_{t \mid t -1} &= A_{t}(u_t)\Sigma_{t -1 \mid t -1}A_{t}(u_t)^T +  B_t(u_t)B_t(u_t)^T \nonumber\\
+  S_t &=  C_{t}(u_t)\Sigma_{t \mid t -1}C_{t}(u_t)^T +  D_t(u_t)D_t(u_t)^T \nonumber\\
+  y_{t \mid t-1} &=  C_{t}(u_t)  \mu_{t \mid t-1} + G_t(u_t) \nonumber\\
+  \mu_{t \mid t} &=   \mu_{t \mid t -1} +   \Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1}(y_t - y_{t \mid t-1}) \nonumber\\
+  \Sigma_{t \mid t} &=  \Sigma_{t \mid t -1} -\Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1} C_{t}(u_t)\Sigma_{t \nonumber \mid t -1}
 \end{align}
 \State For $i \in 1, \ldots, N$, normalize the importance weight:
 \begin{equation*}

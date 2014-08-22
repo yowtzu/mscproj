@@ -123,7 +123,7 @@ In SMC algorithm, this can be easily estimated using the particle as follows:
 \end{equation}
 As long as the support of the proposal density include the support of $(u^{(i)}_{0:t} \mid y^{ref}_{0:t})$, this estimate converge asymptotically to the MAP estimate, $\tilde{u}^*_{0:t}$ as $N \to \infty$. A better estimate can be obtained by embedding the Viterbi strategy as discussed in \cite{SG01}, but this comes with a computational cost that is quadratic in terms of the number of particles.
 
-\section{Numerical example on stationary oscillating wave}
+\section{Example 1: Tracking stationary oscillating wave}
 \label{sec:exp1}
 We will consider a simple linear Gaussian state space model as presented earlier as \eqref{eq:model}, with $A_t=B_t=C_t=D_t=I$, $F_t{u_t}=u_t$, $G_t{u_t}=0$, $Xi = 0$, $u=0$. This model can be re-written as follows:
 \begin{align}
@@ -135,34 +135,23 @@ with $W_t, V_t \sim \mathcal{N}(0,I)$, and the target reference set to be an osc
 
 We examine the algorithm with the proposal density $q_t(\cdot)$ set to be the same Markov transition density $f_t(\cdot)$ with the following settings:
 \begin{enumerate}
-\item Different time period length: 5, 10 and 20.
-\item Different number of particle: 100, 500, 1000, 5000 and 10000
-\item Effective sampling size: Enabled or Disabled.
+\item Different time period length, $T$: 5, 10 and 20.
+\item Different number of particles, $N$: 100, 500, 1000, 5000 and 10000.
+\item Effective sampling size, $ESS$: Enabled or Disabled.
 \item MCMC with random walk proposal: Enabled or Disabled.
 \item Different $\gamma$ setting: Constant function of $1$, $50$, $100$, $500$, $1000$ and increasing function of time $t$,  $10t$, $50t$ and $100t$. 
 \end{enumerate}
 
+\subsection{Results and discussion}
 In Figure \ref{fig:exp1loglike}, we present the box plots for log likelihood. In Figure 2, we plot and the particile population take fromm one run of each case, but this time we only show the results for $N=10000$.
- 
-\subsection{Period length performance}
+
 We extend the time step to be $90$ and $250$ steps and looks at the corresponding performance. Due to the increase of time step, it makes sense to have more particles to track them and also look at the performance of performance of different order of $\gamma$. Based on the same metric, the results are summarised in Figure X.
  
-\subsection{Increasing the power}
- 
-\section{Different reference signals}
-Given the initial result looks promising, we attempt to investigate with the following more complicated reference signals:
-\begin{enumerate}
-\item reference signal treding osccilating wave ---
-\item two un-correlated bi-variate signals ---
-\item two correlated bi-variate signals ---
-\item ten different signals ---
-\end{enumerate}
- 
-\section{Discussion and possible extension}
- 
-\section{Tracking DAX Index}
+
+
+\section{Example: Tracking the DAX Index}
 \label{sec:exp2}
-In this section, we attempt to use the presented algorithm to track the financial index using real-world data. We shall look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. We choose to work on the DAX Index for pragmatic reason. It is one of the major world indices that is tracked by funds, small number of constituents and data accesibility\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index. It was later found some of the data is available. Having said that, the preliminary results concur with the findings we have with DAX Index discussed here.}. For further detail on DAX Index methodology, refer \cite{DAX14}.
+Given the initial result looks promising, we attempt to investigate the use of the same algorithm to track the financial index using real-world data. We shall look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. We choose to work on the DAX Index for pragmatic reason. It is one of the major world indices that is tracked by funds, small number of constituents and data accesibility\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index. It was later found some of the data is available. Having said that, the preliminary results concur with the findings we have with DAX Index discussed here.}. For further detail on DAX Index methodology, refer \cite{DAX14}.
  
 In the first experiment, we define a simple hypothetical sub-index, $DAX4$ consists of four constituents from the DAX Index with highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the $DAX4$ index level is calculated as the simple weighted average of the close prices adjusted for dividends and splits downloaded from Yahoo Finance as follows:
 \begin{equation}
