@@ -3901,3 +3901,15 @@ URL = "http://www.dax-indices.com/EN/MediaLibrary/Document/Factsheets/Factsheet_
   year={1990},
   publisher={Wiley}
 }
+
+@ARTICLE{SG01,
+title = {Maximum a Posteriori Sequence Estimation Using Monte Carlo Particle Filters},
+author = {Godsill, Simon and Doucet, Arnaud and West, Mike},
+year = {2001},
+journal = {Annals of the Institute of Statistical Mathematics},
+volume = {53},
+number = {1},
+pages = {82-96},
+keywords = {Bayesian estimation; filtering; Monte Carlo methods; non-linear non-Gaussian state space model; maximum a posteriori estimation; particle filter; smoothing},
+url = {http://EconPapers.repec.org/RePEc:spr:aistmt:v:53:y:2001:i:1:p:82-96}
+}

@@ -133,16 +133,18 @@ We will consider a simple linear Gaussian state space model as presented earlier
 \end{align}
 with $W_t, V_t \sim \mathcal{N}(0,I)$, and the target reference set to be an oscillating wave: $y_t = \cos(0.2 \pi t + 0.3)$. This toy example is first introduced in \cite{NK11}. It serves two purposes here. Firstly, it provides a simple example to verify our implementation\footnote{Strictly speaking, testing only increases confidence but  does not prove no bug.} Secondly, it severs as good benchmark for the following experiments in which we attempt to apply the same algorithm for more complicated reference signals and models.
 
-We examine the algorithm with the proposal density $q_t(\cdot)$ set to be the same Markov transition density $f_t(\cdot)$ with the following settings:
+We examine the algorithm with the proposal density $q_t(\cdot)$ set to be the same Markov transition density $f_t(\cdot)$ with a \emph{all} combinations of following settings:
 \begin{enumerate}
 \item Different time period length, $T$: 5, 10 and 20.
 \item Different number of particles, $N$: 100, 500, 1000, 5000 and 10000.
 \item Effective sampling size, $ESS$: Enabled or Disabled.
 \item MCMC with random walk proposal: Enabled or Disabled.
-\item Different $\gamma$ setting: Constant function of $1$, $50$, $100$, $500$, $1000$ and increasing function of time $t$,  $10t$, $50t$ and $100t$. 
+\item Different $\gamma$ settings: Constant function of $1$, $50$, $100$, $500$, $1000$ and increasing function of time $t$,  $10t$, $50t$ and $100t$. 
 \end{enumerate}
 
 \subsection{Results and discussion}
+Looking the log-likelihood of $\pi$ obtained, the effective 
+
 In Figure \ref{fig:exp1loglike}, we present the box plots for log likelihood. In Figure 2, we plot and the particile population take fromm one run of each case, but this time we only show the results for $N=10000$.
 
 We extend the time step to be $90$ and $250$ steps and looks at the corresponding performance. Due to the increase of time step, it makes sense to have more particles to track them and also look at the performance of performance of different order of $\gamma$. Based on the same metric, the results are summarised in Figure X.

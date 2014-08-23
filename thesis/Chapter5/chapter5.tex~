@@ -3,7 +3,7 @@
 \label{EvaluationAndConclusion}
 The work reported in previous chapters provides evidence to support
 the thesis hypothesis stated in
-Section~\ref{ThesisHypothesisAndContribution}, namely:
+Section, namely:
 \begin{quote}
   Evolutionary algorithms~(EAs) have the potential to be an effective
   means of determining the security policies that suit dynamic
@@ -34,7 +34,7 @@ learning techniques to aid the policy refinement process, there is no
 previous work to my knowledge in the application of EAs or machine
 learning techniques in inferring security policies.
 
-Chapter~\ref{StaticSecurityPolicyInference} details the experiments in
+Chapter  details the experiments in
 using EAs to infer security policies from decision examples. Here EAs
 is used as a tool to generalise a set of low-level examples to a set
 of high-level rules. Various simple security policies have been
@@ -72,7 +72,7 @@ operational environment or security requirements, or both. Therefore, a
 security policy has to be able to continually change and be updated to
 suit the operational needs to maintain its optimality.
 
-Chapter~\ref{DynamicSecurityPolicyInference} details the experiments
+
 on dynamic security policy inference. As there is no dynamic security
 policy model available and therefore no decision example is available
 for us to work with, we designed a dynamic security policy model. This
@@ -81,7 +81,7 @@ and evaluation purposes.
 
 To infer this dynamic security policy model, two novel dynamic
 learning frameworks based upon MOEAs are designed: one that based on
-Fan's intuition~\cite{FW04} and DOO. In DOO, an $n$-objective
+Fan's intuition and DOO. In DOO, an $n$-objective
 optimisation problem is treated as a $2n$-objective optimisation
 problem by adding an opposing objective for each of the original
 objectives. With such a setting, DOO is able to maintain the diversity
@@ -94,7 +94,7 @@ inferred from the examples using these frameworks.
 
 \subsection{Mission-specific policy discovery}
 \label{Evaluation.MissionSpecificPolicyDiscovery}
-Chapter~\ref{MissionSpecificPolicyDiscovery} introduces the notion of
+Chapter introduces the notion of
 mission-specific policy discovery. EAs are used to search for the
 security policies that can provide the optimal, or at least excellent,
 tradeoffs among security objectives for a specific mission. Here, EAs
@@ -216,13 +216,13 @@ injection of specially crafted decision examples.
 Scalability is a subtle issue. We have addressed some aspects of this
 issue. For example, we have shown the method scales well with the size
 of the training set. In the experiments presented in
-Chapter~\ref{StaticSecurityPolicyInference}, we have increased the
+Chapter  we have increased the
 size of the training set from $100$ examples to $1000$ examples and
 the results still remain consistent. Obviously, the fitness evaluation
 time would increase; $1000$ examples take ten times longer than $100$
 examples to evaluate. This is unlike to be an issue in practice as the
 fitness evaluation of each individual can be executed in parallel if
-necessary. In Chapter~\ref{DynamicSecurityPolicyInference}, we have
+necessary. In Chapterwe have
 shown that DOO is able to evolve and update policies with decision
 examples in an incremental manner. However, there are still some
 issues remaining with these frameworks that need to be
@@ -258,7 +258,7 @@ still much to answer here, for example:
 \end{itemize}
 
 \subsection{More complex scenarios}
-The scenario used in Chapter~\ref{MissionSpecificPolicyDiscovery} is
+The scenario used in Chapter is
 relatively simple. It has only one type of agent in each team and one
 type of information. A real test of this approach would be to embed it
 within a more realistic simulated scenario, with more sophisticated
@@ -273,13 +273,9 @@ here should be able to scale well with it.
 \label{ClosingRemark}
 The work reported in this thesis demonstrates a considerable degree of
 originality supported by extensive experimentation. The case studies
-are necessarily limited.~(MANETs of the sorts we envisage do not
-really exist right now.) However, the results~(published at both
-optimisation and security venues) demonstrate that inference based
-approaches using evolutionary algorithms have very considerable
-promise. Everyone accepts that policy specification is currently
-difficult, and things are set to worsen as systems are deployed in
-ever more complex environments with increasing sophistication and
+are necessarily limited given the limited amount of time frame.  However, the results
+ demonstrate that portfolio optimisation
+approaches using Sequential Monte Carlo techniques have very considerable promise. Everyone accepts that portfolio optimisation is difficult, and things are to worsen as the marketfinancial become more complex environments with increasing sophistication and
 subtlety of decision-making process. We recommend these approaches to
 the research community for further investigation.
 
