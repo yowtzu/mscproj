@@ -132,7 +132,7 @@ In SMC algorithm, this can be easily estimated as follows:
 \end{equation}
 As long as the support of the proposal density include the support of $(u^{(i)}_{0:t} \mid y^{ref}_{0:t})$, this estimate converge asymptotically to the $\tilde{u}^*_{0:t}$ as $N \to \infty$. A better estimate can be obtained by embedding the Viterbi strategy as discussed in \cite{SG01}, but this comes with a computational cost that is quadratic in terms of the number of samples.
 
-To add diversity to the population samples, the Resample-Move step described in Section \ref{sec:rm} which perturb the samples but leaving the distribution it represents unchanged. This is achieved by using a MCMC kernel which is invariant to the target density.
+To add diversity to the population samples, the Resample-Move step (see Section \ref{sec:rm}) can be added. This step perturbs the samples yet leave the distribution the samples represent unchanged by using a MCMC kernel that is invariant in density.
 
 \section{Example 1: Tracking stationary oscillating wave}
 \label{sec:exp1}
