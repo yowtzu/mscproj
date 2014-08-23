@@ -56,7 +56,7 @@ With this model, the optimisation objective is to search for a sequence of contr
 \begin{equation}
   J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t - G_t(u_t) \vert\vert^2_{(D_t(u_t)D_t(u_t)^T)^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right]
 \end{equation}
-where the expectation is taken with respect to the whole path of the Markov Chain $\{X_t\}$, starting with $X_0 = x_0$,  i.e., $E_{x_0}[\phi(X_{1:t})] = \displaystyle\int \phi(X_{1:T}) \prod f_t(x_t \mid x_{t-1})~dx_{1:t}$, with $D_t$ and $L_t$ are assumed to be known. The corresponding optimal open loop policy is:
+where the expectation is taken with respect to the whole path of the Markov Chain $\{X_t\}_{t \geq 0}$, starting with $X_0 = x_0$,  i.e., $E_{x_0}[\phi(X_{1:t})] = \displaystyle\int \phi(X_{1:T}) \prod f_t(x_t \mid x_{t-1})~dx_{1:t}$, with $D_t$ and $L_t$ are assumed to be known. The corresponding optimal open loop policy is:
 \begin{equation}
   u^*_{1:T} = \arg\max_{u_{1:T}} J(u_{1:T};y^{ref}_{1:T};x_0)
 \label{eq:optcontrol}
@@ -64,9 +64,13 @@ where the expectation is taken with respect to the whole path of the Markov Chai
 with the assumption that the maximum is attainable. This reward function is closely related to the risk sensitive control discussed in \cite{WR90}, with slightly difference. This reward function is absence of an explicty risk sensitive constant and assume the presence of $y^{ref}_{1:T}$ as the reference target instead of the observable states. Nevertheless, a risk sensitivity constant could still be introduced through $D_n$ and $L_n$ if necessary.
 
 \subsection{Problem formulation}
-Under the realm of Bayesian inference framework, we treat the control inputs $u$ as random variables that admit a prior distribution. We will further assume the sequence of control $u_n$ is a Markov process with transition distribution $p(u_i \mid u_{i-1})$. The objective is to compute the marginal posterior distribution density $p(u_{0:t} \mid y^{ref}_{0:t})$ by standard marginisation the distribution $p(x_{0:t}, u_{0:t} \mid y_{0:t})$ which statisfies the following recursive equation:
+Under the realm of Bayesian inference framework, we treat the control inputs $u$ as random variables that admit a prior distribution. We also assume here that the sequence of control $u_n$ is a Markov process with transition distribution $p(u_t \mid u_{t-1})$. The objective is to compute the marginal posterior distribution density:
+\begin{equation}
+ \pi_t(u_{0:t}) = p(u_{0:t} \mid y^{ref}_{0:t})
+\end{equation} 
+by standard marginisation the distribution $p(x_{0:t}, u_{0:t} \mid y_{0:t})$ which in itself statisfies the following recursive equation:
 \begin{align}
-  p(x_{0:t}, u_{0:t} \mid y_{0:t}) = p(x_{0:t-1}, u_{0:t-1} \mid y_{0:t-1}) \frac{p(y_t \mid x_t, u_t)p(x_t, u_t \mid x_{t-1}, u_{t-1})}{p(y_t \mid y_{1:t-1})}
+  p(x_{0:t}, u_{0:t} \mid y_{0:t}) = p(x_{0:t-1}, u_{0:t-1} \mid y_{0:t-1}) \frac{p(y_t \mid x_t, u_t)p(x_t, u_t \mid x_{t-1}, u_{t-1})}{p(y_t \mid y_{0:t-1})}
 \end{align}
  
 % This posterior desntiy function can be derived as follows:
@@ -81,17 +85,18 @@ Under the realm of Bayesian inference framework, we treat the control inputs $u$
 %&=  p(u_{0:t-1} \mid y_{0:t-1}) p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{t-1}, y_{0:t-1})
 %\end{align}
  
-One straight-forward way to approximate the recursion is directly apply SMC algorithm by consider the hidden states is a sequence of paired states $\{(X_t, Y_t)\}_{t \geq 0}$. A better approach be using the Marginalised SMC approach (see Section \ref{sec:msmc} for detail), which splits the states into the linear Gaussian states and the non-linear states. Then, he Kalman Filter which is optimal and possess a closed form solution can be used to model the linear Gaussian states and the SMC can be to model the non-linear states. This marginalisation setting often yields estimates with smaller variances.
+One straight-forward way to approximate the recursion is directly apply SMC algorithm by consider the hidden states is a sequence of paired states $\{(X_t, Y_t)\}_{t \geq 0}$. A better approach be using the Marginalised SMC approach (see Section \ref{sec:msmc} for detail), which splits the states into the linear Gaussian states and the non-linear states. Then, the Kalman Filter can be used to model the linear Gaussian states and the SMC can be to model only the non-linear states. This marginalisation setting often yields estimates with smaller variance.
 
-In this problem, by considering the following factorisation:
+To use Marginalised SMC for this problem, we consider the following factorisation:
 \begin{equation}
   p(x_{0:t}, u_{0:t} \mid y_{1:t}) = p(x_{0:t} \mid u_{0:t}, y_{1:t}) p(u_{0:t} \mid y_{1:t})
 \end{equation}
-we can see that given the density $p(u_{0:t} \mid y_{1:t})$, the density $p(x_{0:t} \mid u_{0:t}, y_{1:t})$ is Gaussian mixture model, which can be computed analytically using Kalman Filter. The density $p(u_{0:t} \mid y_{1:t})$ which itself is not linear has the following recursion form:
+we can see that given $p(u_{0:t} \mid y_{1:t})$, $p(x_{0:t} \mid u_{0:t}, y_{1:t})$ is simply a Gaussian mixture model, which can be computed optimally with Kalman Filter. The density $p(u_{0:t} \mid y_{1:t})$ that is not linear Gaussian has the following recursion form as shown in \eqref{eq:msmc}:
 \begin{equation}
-  p(u_{0:t} \mid y_{1:t}) = p(u_{0:t-1} \mid y_{0:t-1 })  \frac{p(y_t \mid y_{0:t-1}, u_{0:t}) p(u_{t} \mid u_{0:t-1})}{p(y_{t} \mid y_{0:t-1})} 
+%  p(u_{0:t} \mid y_{1:t}) = p(u_{0:t-1} \mid y_{0:t-1 })  \frac{p(y_t \mid y_{0:t-1}, u_{0:t}) p(u_{t} \mid u_{0:t-1})}{p(y_{t} \mid y_{0:t-1})} 
+p(u_{0:t} \mid y_{1:t}) = p(u_{0:t-1} \mid y_{0:t-1}) p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1})
 \end{equation}
-which can be approximated with SMC algorithm. The Marginalised SMC algorithm is summarised in Algorithm \ref{algo:msmc}.
+which can be approximated with standard SMC algorithm. The Marginalised SMC algorithm is summarised in Algorithm \ref{algo:msmc}.
  
 \subsection{MAP estimation for the control sequence}
 Based on the model defined in \eqref{eq:model}, the conditional likelihood density of the model is:
@@ -100,28 +105,34 @@ Based on the model defined in \eqref{eq:model}, the conditional likelihood densi
 \end{equation}
 and using the standard Kalman recursion discussed in Section \ref{sec:KF}, the posterior distribution $p(y^{ref}_t \mid y^{ref}_{t-1}, u_{0:t})$ is given as follows:
 \begin{equation}
-  p(y^{ref}_t \mid y^{ref}_{t-1}, u_{0:t}) \propto \exp\left( -\dfrac{1}{2} \vert\vert u_t - u_{t-1} \vert\vert^2_{S_t(u_{0:t})^{-1}}\right)
+  p(y^{ref}_t \mid y^{ref}_{t-1}, u_{0:t}) \propto \exp\left( -\dfrac{1}{2} \vert\vert y^{ref}_t - y_{t \mid t-1}(u_{0:t}) \vert\vert^2_{S_t(u_{0:t})^{-1}}\right)
 \end{equation}
-where $m_t$ and $S_t$ are the predictive mean and covariance matrix of the recursive likelihood. By assuming the Markov transition density for $u_t$ to be:
+where $y_{t \mid t-1}$ and $S_t$ are the mean and covariance matrix of the measurement at time $t$ obtained in the Kalman Filter recursion.
+
+By assuming the Markov transition density for $u_t$ to be:
 \begin{equation}
   p(u_{t} \mid u_{t-1}) \propto  \exp\left( -\dfrac{1}{2} \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right)
 \label{eq:mctrans}
 \end{equation}
-, the maximum a posteriori (MAP) estimate of $U_{0:t}$ is given to be:
+the Maximum a Posteriori (MAP) estimate of $U_{0:T}$ is given to be:
 \begin{equation}
-  \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} p(u_{0:t} \mid y^{ref}_{0:t})
+  \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} \pi_n(u_{0:t})
 \label{eq:map}
 \end{equation}
-which essentially specifies the model that best explains the reference $y^{ref}_{0:t}$ as the output sequence from the general set of models defined in \eqref{eq:model}. With the assumption \ref{eq:mctrans}, there is a duality that the optimal control defined in \eqref{eq:optcontrol} and the MAP estimate defined in \eqref{eq:map} are the same. See \cite{NK11} for detail proof. Moreover, following the monotonicity of the transformation $p(\cdot)^\gamma$, the mode of $p(\cdot)^\gamma$ is the same for all $\gamma > 0$. The main difference is that it is easier to sample closer to the mode when $\gamma > 1$ because the density has sharper peak and vice versa. Putting all these together, we have the follows:
+which essentially specifies the model that best explains the reference $y^{ref}_{0:t}$ as the output sequence from a general set of models defined in \eqref{eq:model}.
+
+In \cite{NK11}, it had been shown that asumming a Markov transition density for $u_t$ in \eqref{eq:mctrans}, the optimal control defined in \eqref{eq:optcontrol} and the MAP estimate defined in \eqref{eq:map} are the same. Moreover, following the monotonicity of the transformation $p(\cdot)^\gamma$, the mode of $p(\cdot)^\gamma$ is the same for all $\gamma > 0$. The main difference is that it is easier to sample closer to the mode when $\gamma > 1$ because the density has sharper peak and vice versa. Putting all these together, we have the follows:
 \begin{equation}
-  u^*_{0:t} = \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} p(u_{0:t} \mid y^{ref}_{0:t})^\gamma,~\forall\gamma > 0
+  u^*_{0:t} = \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} \pi_n(u_{0:t})^\gamma,~\gamma > 0
 \end{equation}
 
-In SMC algorithm, this can be easily estimated using the particle as follows:
+In SMC algorithm, this can be easily estimated as follows:
 \begin{equation}
-\hat{u}^*_{0:t} = \arg\max_{u_{0:t}} p(u^{(i)}_{0:t} \mid y^{ref}_{0:t})
+\hat{u}^*_{0:t} = arg\max_{u_{0:t}} \pi_n(u^{(i)}_{0:t})^\gamma = \arg\max_{u_{0:t}} p(u^{(i)}_{0:t} \mid y^{ref}_{0:t})^\gamma
 \end{equation}
-As long as the support of the proposal density include the support of $(u^{(i)}_{0:t} \mid y^{ref}_{0:t})$, this estimate converge asymptotically to the MAP estimate, $\tilde{u}^*_{0:t}$ as $N \to \infty$. A better estimate can be obtained by embedding the Viterbi strategy as discussed in \cite{SG01}, but this comes with a computational cost that is quadratic in terms of the number of particles.
+As long as the support of the proposal density include the support of $(u^{(i)}_{0:t} \mid y^{ref}_{0:t})$, this estimate converge asymptotically to the $\tilde{u}^*_{0:t}$ as $N \to \infty$. A better estimate can be obtained by embedding the Viterbi strategy as discussed in \cite{SG01}, but this comes with a computational cost that is quadratic in terms of the number of samples.
+
+To add diversity to the population samples, the Resample-Move step described in Section \ref{sec:rm} which perturb the samples but leaving the distribution it represents unchanged. This is achieved by using a MCMC kernel which is invariant to the target density.
 
 \section{Example 1: Tracking stationary oscillating wave}
 \label{sec:exp1}

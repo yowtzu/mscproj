@@ -150,11 +150,11 @@ While the distribution estimation problem may appear to be simple, it is in fact
 \subsection{Kalman Filter}
 \label{sec:KF}
 In a conditional linear Gaussian state space as follows:
-\begin{align*}
-  X_t &= A_t(U_t)X_{t-1} + B_t(U_t)W_t + F_t(U_t) \\
+\begin{align}
+  X_t &= A_t(U_t)X_{t-1} + B_t(U_t)W_t + F_t(U_t) \nonumber \\
   Y_t &= C_t(U_t)X_t + D_t(U_t)V_t + G_t(U_t)
 \label{eq:gaussianmodel}
-\end{align*}
+\end{align}
 where $\{U_t\}_{t \geq 0}$ is a determinstic control input sequence that is used regulate the hidden states, $A_t$, $B_t$, $C_t$, $D_t$, $F_t$, $G_t$ are appropriate matrix/vector functions of $U_n$ and  $\{W_t\}_{t \geq 0}$ and  $\{V_t\}_{t \geq 0}$ are independent sequences of standard Gaussian random variable, i.e., $W_t, V_t \sim \mathcal{N}(0,I)$, the transition density and likelihood of this model are Gaussian distributions with center lied at a point of a linear combination of the known conditional control parameters, $u_t$ of the following form:
 \begin{align}
   f_t(x_t \mid x_{t-1}, u_t) &= \mathcal{N}(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
@@ -334,49 +334,58 @@ To trade-off between the two requirements, one could adopt a sliding windows app
 
 \subsection{Marginalised SMC}
 \label{sec:msmc}
-In practice, many models may not be entirely Gaussian. Some states may be linear and Gaussian, conditionally upon the other states. The naive way to model this is to use SMC to model all the states. A better approach would be making use of the Gaussian properties. The states are split into two categories: the linear Gaussian states and the non-linear states. Then, the Kalman Filter which is optimal and possess a closed form solution can be used to model the linear Gaussian states and the SMC can be to model the non-linear states. This marginalisation setting will yield estimates with smaller variances. 
+In practice, many models may not be entirely Gaussian. Some states may be linear and Gaussian, conditional upon other states. The naive way to model this is to use SMC techniques to model all the states.
 
-To illustrate this, let consider the a simple conditional linear Gaussian Model introduced earlier in Section \ref{sec:KF} with the model dynamic spedicfied as follows:
+A better approach would be making good use of the Gaussian properties. The idea is to split the states into the linear Gaussian states and the non-linear states. Then, the Kalman Filter which is optimal and possesses a closed form solution can be used to model the linear Gaussian states and the SMC techniques can be used to model only the non-linear states. This marginalisation setting will yield estimates with smaller variance. 
+
+To illustrate this, let consider the a simple conditional linear Gaussian Model \eqref{eq:gaussianmodel} introduced earlier, restated as follows to ease referencing:
+\begin{align*}
+  X_t &= A_t(U_t)X_{t-1} + B_t(U_t)W_t + F_t(U_t) \\
+  Y_t &= C_t(U_t)X_t + D_t(U_t)V_t + G_t(U_t)
+\end{align*}
+with the model dynamic spedicfied as follows:
 \begin{align}
-  p_t(u_t \mid u_{t-1}) &= \textrm{(any given form)} \\
-  p_t(x_t \mid x_{t-1}, u_t) &= N(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
-  p_t(y_t \mid x_t, u_t)    &= N(C_t(u_t) x_t, D_t(u_t)D_t(u_t)^T)
+  p_t(u_t \mid u_{t-1}) &= \textrm{(any given form)} \nonumber \\
+  f_t(x_t \mid x_{t-1}, u_t) &= \mathcal{N}(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
+  g_t(y_t \mid x_t, u_t)    &= \mathcal{N}(C_t(u_t) x_t + G_t(u_t), D_t(u_t)D_t(u_t)^T)
+%  p_t(x_t \mid x_{t-1}, u_t) &= N(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
+%  p_t(y_t \mid x_t, u_t)    &= N(C_t(u_t) x_t, D_t(u_t)D_t(u_t)^T)
 \end{align}
-where $A_t$, $B_t$, $C_t$, $D_t$ and $F_t$ are known matrix or vector operations.
 
 At any time $t$, the full posterior distribution of this model can be factorised as follows:
 \begin{equation}
   p(u_{0:t}, x_{0:t} \mid y_{0:t}) = p(x_{0:t} \mid u_{0:t}, y_{0:t}) p(u_{0:t} \mid y_{0:t})
 \end{equation}
-Looking at the right hand side of the equation, the first term follows Gaussian distribution, and therefore can be computed optimally using Kalman Filter. For the second term, we can rewrite it into the following recursion form as follows:
+Looking at the right hand side of the equation, the first term is Gaussian and can be estimated optimally using Kalman Filter. For the second term, we can rewrite it into the following recursion form:
 \begin{align}
-p(u_{0:t} \mid y_{0:t}) &\propto p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_{0:t} \mid y_{0:t-1}) \nonumber \\
-&=  p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1}) p(u_{0:t-1} \mid y_{0:t-1}) \nonumber \\
-&=  p(u_{0:t-1} \mid y_{0:t-1}) p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{t-1}, y_{0:t-1}) 
+p(u_{0:t} \mid y_{0:t}) &\propto p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_{0:t} \mid y_{0:t-1}) \nonumber \\
+&=  p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1}) p(u_{0:t-1} \mid y_{0:t-1}) \nonumber \\
+&=  p(u_{0:t-1} \mid y_{0:t-1}) p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1}) 
+\label{eq:msmc}
 \end{align}
 
-Assuming that it is possible to decompose the selected importance distribution into recursion form as follows:
-\begin{align}
-	q_{0:t}(x_{0:t} \mid y_{0:t}) &= q_{0:t-1}(x_{0:t-1} \mid y_{0:t-1}) q_t(x_t \mid x_{t-1}, y_t) \nonumber \\
-	q_{0:t}(u_{0:t} \mid y_{0:t}) &= q_{0:t-1}(u_{0:t-1} \mid y_{0:t-1}) q_t(u_t \mid u_{0:t-1}, y_{0:t}) 
+Assuming that it is also possible to decompose the selected importance density into recursion form as follows:
+\begin{equation}
+%	q_{0:t}(x_{0:t} \mid y_{0:t}) &= q_{0:t-1}(x_{0:t-1} \mid y_{0:t-1}) q_t(x_t \mid x_{t-1}, y_t) \nonumber \\
+	q_{0:t}(u_{0:t} \mid y_{0:t}) = q_{0:t-1}(u_{0:t-1} \mid y_{0:t-1}) q_t(u_t \mid u_{0:t-1}, y_{0:t}) 
 \label{eq:q2}
-\end{align}
-then the associated unnormalised weight of each sample can be derived in a similar fashion as given in Section\ref{sec:SIS} into the recursion form as follows:
+\end{equation}
+then the associated unnormalised weight of each sample can be derived in a similar fashion as given in Section \ref{sec:SIS} into the recursion form as follows:
 \begin{equation}
    \tilde{w}_t  = \tilde{w}_{t-1} \dfrac{p_t(u_t \mid u_{t-1})p_t(y_t \mid u_{0:t}, y_{0:t-1})}{q_t(u_t \mid u_{0:t-1}, y_{0:t})}
    \label{eq:wsmsc}
 \end{equation}
-Compare to \eqref{eq:q}, the main difference here is that $p(u_t \mid u_{0:t-1}, y_{0:t-1}) p(u_{0:t-1} \mid y_{0:t-1})$ depends on the whole path space from time $0$ up to $t$. The full Marginalised SMC is summarised in Algorithm \ref{algo:msmc}.
+Compare to \eqref{eq:q}, the main difference here is that the weights now depends on the whole path space from time $0$ up to $t$. The Marginalised SMC is summarised in Algorithm \ref{algo:msmc}.
 
 \begin{algorithm}
 \caption{Marginalised Sequential Monte Carlo}\label{algo:msmc}
 \begin{algorithmic}[1]
 \Function{MarginalisedSequentialMonteCarlo}{N, T}
 \State Set $t \gets 0$.
-\State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
+\State For $i \in 1, \ldots, N$, sample $u^{(i)}_0 \sim q(u^{(i)}_0 \mid y^{(i)}_0)$.
 \State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
 \begin{equation*}
- \tilde{w}^{(i)}_0 = \dfrac{p(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}
+ \tilde{w}^{(i)}_0 = \dfrac{p(u_0^{(i)})g_0(y_0 \mid u^{(i)}_0)}{q_0(u^{(i)}_0)}
 \end{equation*}
 \State For $i \in 1, \ldots, N$, normalize the importance weight:
 \begin{equation*}
@@ -406,18 +415,19 @@ with $y_{t \mid t-1}$ and $S_t$ are updated with Kalman Filter:
 \begin{equation*}
 \hat{w}^{(i)}_t = \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{i=1} \tilde{w}^{(i)}_t}
 \end{equation*}
-\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ x^{(i)}_t \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{\tilde{x}^{(i)}_{t,0:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$
+\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ u^{(i)}_{0:t} \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{u^{(i)}_{0:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$
+\State \textbf{Move:} For $i \in 1, \ldots, N$, sample $^{(i)}_{0:t} \sim K_t(\cdot)$, where $K_t$ is $p_t$-invariant.
 \EndWhile
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
-The discussion has been focused on linear Gaussian model. There is another important class model is the discrete state-space HMMs, in which the model states are discrete. In scuh a model, HMM forward algorithm \cite{LRR89} can be used to marginalise these discrete states. See \cite{CO05} for further detail.
+The discussion here has been focused on conditional linear Gaussian model. The discrete state space HMMs is another important class of HMMs in which HMM forward algorithm \cite{LRR89} can be used to marginalise the internal states. See \cite{CO05} for further details.
 
 \section{Conclusion}
-This chapter presents a review of Monte Carlo method, with a particular focus on Sequential Monte Carlo method that is used extensively in this thesis for portfolio optimisation. It begins to describe traditional Monte Carlo sampling techniques. It then introduce a simple SMC algorithm, and couple of extensions that have been proposed to improve the performance of the algorithm.
+This chapter presents a review of Monte Carlo methods, with a particular focus on Sequential Monte Carlo (SMC) techniques used extensively in this thesis for portfolio optimisation. This chapter begins with a brief introduction on the traditional Monte Carlo sampling techniques. Then, it details the SMC techniques, along with various extensions proposed to improve the performance of the algorithm.
 
-It is worth nothing SMC is not restricted to sequential filtering problem. For example, it has been established that it is possible to use SMC within MCMC framework (pMCMC, where p stands for particle) \cite{CA10} to solve other problems. In the next chapter, we will show Sequential Monte Carlo is used as a maximiser to search for a optimal strategy for a portfolio, given a multiplicative reward function.
+It is worth to have a remark here that the SMC techniques are not only applicable to sequential filtering problem. For example, it has been established that it is possible to use SMC techniques within MCMC framework (pMCMC, where p stands for particle) \cite{CA10} to solve other problems. In the next chapter, we will show how SMC can be used as a maximiser to search for a optimal strategy for the optimal portfolio, given a multiplicative reward function.
 
 
 

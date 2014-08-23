@@ -291,6 +291,7 @@ A common way to integrate this idea is to triggle the resampling step only if th
 \end{algorithm}
 
 \subsection{Resample-Move Algorithm}
+\label{sec:rm}
 However, resampling is not a silver bullet for sampling imporishment. Essentially, resampling provides a mechanism to eliminate low weight samples to give way to replicate \emph{copies} of high weight samples. This allows all samples to participate and contribute to the distribution estimation. This is obvious beneficial for the case of estimating filtering distribution and predictive distribution. Over time, this replication result in decrease in the number of distinct samples for previous time steps. Eventually, many samples will have the share the same sample trajectory. This is a fundamental weakness of SMC, in which the sample path history is never re-written. This lose of diversity in the sample set will have a negative impact when it comes to any smoothing distribution estimation. 
 
 To counteract this sample impoverishment, Resample-Move Algorithm \cite{BC01} is proposed to introduce some perturbance to the samples (so to diversify them) without changing the distribution they represent. This is accomplished by using MCMC steps with a Markov Kernel, $K$ that is invariant to the target distribution, $p(\cdot)$. In the original paper, this is achieved by simply introducing an additional MCMC ``move'' step to each sample after the resampling step using a kernel $K$  that is invariant to the target distribution. This Resample-Move algorithm is summarised in Algorition \ref{algo:rm}.
@@ -336,7 +337,7 @@ To trade-off between the two requirements, one could adopt a sliding windows app
 \label{sec:msmc}
 In practice, many models may not be entirely Gaussian. Some states may be linear and Gaussian, conditional upon other states. The naive way to model this is to use SMC techniques to model all the states.
 
-A better approach would be making good use of the Gaussian properties. The idea is to split the states into the linear Gaussian states and the non-linear states. Then, the Kalman Filter which is optimal and possess a closed form solution can be used to model the linear Gaussian states and the SMC techniques can be used to model only the non-linear states. This marginalisation setting will yield estimates with smaller variance. 
+A better approach would be making good use of the Gaussian properties. The idea is to split the states into the linear Gaussian states and the non-linear states. Then, the Kalman Filter which is optimal and possesses a closed form solution can be used to model the linear Gaussian states and the SMC techniques can be used to model only the non-linear states. This marginalisation setting will yield estimates with smaller variance. 
 
 To illustrate this, let consider the a simple conditional linear Gaussian Model \eqref{eq:gaussianmodel} introduced earlier, restated as follows to ease referencing:
 \begin{align*}
@@ -356,11 +357,12 @@ At any time $t$, the full posterior distribution of this model can be factorised
 \begin{equation}
   p(u_{0:t}, x_{0:t} \mid y_{0:t}) = p(x_{0:t} \mid u_{0:t}, y_{0:t}) p(u_{0:t} \mid y_{0:t})
 \end{equation}
-Looking at the right hand side of the equation, the first term is  Gaussian and can be estimated optimally using Kalman Filter. For the second term, we can rewrite it into the following recursion form:
+Looking at the right hand side of the equation, the first term is Gaussian and can be estimated optimally using Kalman Filter. For the second term, we can rewrite it into the following recursion form:
 \begin{align}
 p(u_{0:t} \mid y_{0:t}) &\propto p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_{0:t} \mid y_{0:t-1}) \nonumber \\
 &=  p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1}) p(u_{0:t-1} \mid y_{0:t-1}) \nonumber \\
-&=  p(u_{0:t-1} \mid y_{0:t-1}) p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{t-1}, y_{0:t-1}) 
+&=  p(u_{0:t-1} \mid y_{0:t-1}) p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1}) 
+\label{eq:msmc}
 \end{align}
 
 Assuming that it is also possible to decompose the selected importance density into recursion form as follows:
@@ -374,7 +376,7 @@ then the associated unnormalised weight of each sample can be derived in a simil
    \tilde{w}_t  = \tilde{w}_{t-1} \dfrac{p_t(u_t \mid u_{t-1})p_t(y_t \mid u_{0:t}, y_{0:t-1})}{q_t(u_t \mid u_{0:t-1}, y_{0:t})}
    \label{eq:wsmsc}
 \end{equation}
-Compare to \eqref{eq:q}, the main difference here is that the weights now depends on the whole path space from time $0$ up to $t$. The full Marginalised SMC is summarised in Algorithm \ref{algo:msmc}.
+Compare to \eqref{eq:q}, the main difference here is that the weights now depends on the whole path space from time $0$ up to $t$. The Marginalised SMC is summarised in Algorithm \ref{algo:msmc}.
 
 \begin{algorithm}
 \caption{Marginalised Sequential Monte Carlo}\label{algo:msmc}
