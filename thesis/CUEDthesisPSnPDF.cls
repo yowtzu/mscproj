@@ -30,6 +30,7 @@
 \fi
 \usepackage{blkarray}
 \usepackage{amssymb}
+\usepackage{subfig}
 \usepackage{graphics}
 \usepackage{fancyhdr}
 \usepackage{eucal}
@@ -115,6 +116,7 @@
     \DeclareGraphicsExtensions{.eps, .ps}
     \usepackage{epsfig}
     \usepackage{graphicx}
+    \usepackage{minpage}
     \graphicspath{{ThesisFigs/EPS/}{ThesisFigs/}}
 \fi
 

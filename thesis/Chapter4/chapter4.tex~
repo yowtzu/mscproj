@@ -64,9 +64,13 @@ where the expectation is taken with respect to the whole path of the Markov Chai
 with the assumption that the maximum is attainable. This reward function is closely related to the risk sensitive control discussed in \cite{WR90}, with slightly difference. This reward function is absence of an explicty risk sensitive constant and assume the presence of $y^{ref}_{1:T}$ as the reference target instead of the observable states. Nevertheless, a risk sensitivity constant could still be introduced through $D_n$ and $L_n$ if necessary.
 
 \subsection{Problem formulation}
-Under the realm of Bayesian inference framework, we treat the control inputs $u$ as random variables that admit a prior distribution. We also assume here that the sequence of control $u_n$ is a Markov process with transition distribution $p(u_i \mid u_{i-1})$. The objective is to compute the marginal posterior distribution density $p(u_{0:t} \mid y^{ref}_{0:t})$ by standard marginisation the distribution $p(x_{0:t}, u_{0:t} \mid y_{0:t})$ which statisfies the following recursive equation:
+Under the realm of Bayesian inference framework, we treat the control inputs $u$ as random variables that admit a prior distribution. We also assume here that the sequence of control $u_n$ is a Markov process with transition distribution $p(u_t \mid u_{t-1})$. The objective is to compute the marginal posterior distribution density:
+\begin{equation}
+ \pi_t(u_{0:t}) = p(u_{0:t} \mid y^{ref}_{0:t})
+\end{equation} 
+by standard marginisation the distribution $p(x_{0:t}, u_{0:t} \mid y_{0:t})$ which in itself statisfies the following recursive equation:
 \begin{align}
-  p(x_{0:t}, u_{0:t} \mid y_{0:t}) = p(x_{0:t-1}, u_{0:t-1} \mid y_{0:t-1}) \frac{p(y_t \mid x_t, u_t)p(x_t, u_t \mid x_{t-1}, u_{t-1})}{p(y_t \mid y_{1:t-1})}
+  p(x_{0:t}, u_{0:t} \mid y_{0:t}) = p(x_{0:t-1}, u_{0:t-1} \mid y_{0:t-1}) \frac{p(y_t \mid x_t, u_t)p(x_t, u_t \mid x_{t-1}, u_{t-1})}{p(y_t \mid y_{0:t-1})}
 \end{align}
  
 % This posterior desntiy function can be derived as follows:
@@ -87,12 +91,12 @@ To use Marginalised SMC for this problem, we consider the following factorisatio
 \begin{equation}
   p(x_{0:t}, u_{0:t} \mid y_{1:t}) = p(x_{0:t} \mid u_{0:t}, y_{1:t}) p(u_{0:t} \mid y_{1:t})
 \end{equation}
-we can see that given the density $p(u_{0:t} \mid y_{1:t})$, the density $p(x_{0:t} \mid u_{0:t}, y_{1:t})$ is Gaussian mixture model, which can be computed analytically using Kalman Filter. The density $p(u_{0:t} \mid y_{1:t})$ which itself is not linear has the following recursion form as shown in \eqref{eq:msmc}:
+we can see that given $p(u_{0:t} \mid y_{1:t})$, $p(x_{0:t} \mid u_{0:t}, y_{1:t})$ is simply a Gaussian mixture model, which can be computed optimally with Kalman Filter. The density $p(u_{0:t} \mid y_{1:t})$ that is not linear Gaussian has the following recursion form as shown in \eqref{eq:msmc}:
 \begin{equation}
 %  p(u_{0:t} \mid y_{1:t}) = p(u_{0:t-1} \mid y_{0:t-1 })  \frac{p(y_t \mid y_{0:t-1}, u_{0:t}) p(u_{t} \mid u_{0:t-1})}{p(y_{t} \mid y_{0:t-1})} 
 p(u_{0:t} \mid y_{1:t}) = p(u_{0:t-1} \mid y_{0:t-1}) p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1})
 \end{equation}
-which can be approximated with standard SMC algorithm. The full Marginalised SMC algorithm is summarised in Algorithm \ref{algo:msmc}.
+which can be approximated with standard SMC algorithm. The Marginalised SMC algorithm is summarised in Algorithm \ref{algo:msmc}.
  
 \subsection{MAP estimation for the control sequence}
 Based on the model defined in \eqref{eq:model}, the conditional likelihood density of the model is:
@@ -101,66 +105,76 @@ Based on the model defined in \eqref{eq:model}, the conditional likelihood densi
 \end{equation}
 and using the standard Kalman recursion discussed in Section \ref{sec:KF}, the posterior distribution $p(y^{ref}_t \mid y^{ref}_{t-1}, u_{0:t})$ is given as follows:
 \begin{equation}
-  p(y^{ref}_t \mid y^{ref}_{t-1}, u_{0:t}) \propto \exp\left( -\dfrac{1}{2} \vert\vert u_t - u_{t-1} \vert\vert^2_{S_t(u_{0:t})^{-1}}\right)
+  p(y^{ref}_t \mid y^{ref}_{t-1}, u_{0:t}) \propto \exp\left( -\dfrac{1}{2} \vert\vert y^{ref}_t - y_{t \mid t-1}(u_{0:t}) \vert\vert^2_{S_t(u_{0:t})^{-1}}\right)
 \end{equation}
-where $m_t$ and $S_t$ are the predictive mean and covariance matrix of the recursive likelihood. By assuming the Markov transition density for $u_t$ to be:
+where $y_{t \mid t-1}$ and $S_t$ are the mean and covariance matrix of the measurement at time $t$ obtained in the Kalman Filter recursion.
+
+By assuming the Markov transition density for $u_t$ to be:
 \begin{equation}
   p(u_{t} \mid u_{t-1}) \propto  \exp\left( -\dfrac{1}{2} \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right)
 \label{eq:mctrans}
 \end{equation}
-, the maximum a posteriori (MAP) estimate of $U_{0:t}$ is given to be:
+the Maximum a Posteriori (MAP) estimate of $U_{0:T}$ is given to be:
 \begin{equation}
-  \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} p(u_{0:t} \mid y^{ref}_{0:t})
+  \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} \pi_n(u_{0:t})
 \label{eq:map}
 \end{equation}
-which essentially specifies the model that best explains the reference $y^{ref}_{0:t}$ as the output sequence from the general set of models defined in \eqref{eq:model}. With the assumption \ref{eq:mctrans}, there is a duality that the optimal control defined in \eqref{eq:optcontrol} and the MAP estimate defined in \eqref{eq:map} are the same. See \cite{NK11} for detail proof. Moreover, following the monotonicity of the transformation $p(\cdot)^\gamma$, the mode of $p(\cdot)^\gamma$ is the same for all $\gamma > 0$. The main difference is that it is easier to sample closer to the mode when $\gamma > 1$ because the density has sharper peak and vice versa. Putting all these together, we have the follows:
+which essentially specifies the model that best explains the reference $y^{ref}_{0:t}$ as the output sequence from a general set of models defined in \eqref{eq:model}.
+
+In \cite{NK11}, it had been shown that asumming a Markov transition density for $u_t$ in \eqref{eq:mctrans}, the optimal control defined in \eqref{eq:optcontrol} and the MAP estimate defined in \eqref{eq:map} are the same. Moreover, following the monotonicity of the transformation $p(\cdot)^\gamma$, the mode of $p(\cdot)^\gamma$ is the same for all $\gamma > 0$. The main difference is that it is easier to sample closer to the mode when $\gamma > 1$ because the density has sharper peak and vice versa. Putting all these together, we have the follows:
 \begin{equation}
-  u^*_{0:t} = \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} p(u_{0:t} \mid y^{ref}_{0:t})^\gamma,~\forall\gamma > 0
+  u^*_{0:t} = \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} \pi_n(u_{0:t})^\gamma,~\gamma > 0
 \end{equation}
 
-In SMC algorithm, this can be easily estimated using the particle as follows:
+In SMC algorithm, this can be easily estimated as follows:
 \begin{equation}
-\hat{u}^*_{0:t} = \arg\max_{u_{0:t}} p(u^{(i)}_{0:t} \mid y^{ref}_{0:t})
+\hat{u}^*_{0:t} = arg\max_{u_{0:t}} \pi_n(u^{(i)}_{0:t})^\gamma = \arg\max_{u_{0:t}} p(u^{(i)}_{0:t} \mid y^{ref}_{0:t})^\gamma
 \end{equation}
-As long as the support of the proposal density include the support of $(u^{(i)}_{0:t} \mid y^{ref}_{0:t})$, this estimate converge asymptotically to the MAP estimate, $\tilde{u}^*_{0:t}$ as $N \to \infty$. A better estimate can be obtained by embedding the Viterbi strategy as discussed in \cite{SG01}, but this comes with a computational cost that is quadratic in terms of the number of particles.
+As long as the support of the proposal density include the support of $(u^{(i)}_{0:t} \mid y^{ref}_{0:t})$, this estimate converge asymptotically to the $\tilde{u}^*_{0:t}$ as $N \to \infty$. A better estimate can be obtained by embedding the Viterbi strategy as discussed in \cite{SG01}, but this comes with a computational cost that is quadratic in terms of the number of samples.
+
+To add diversity to the population samples, the Resample-Move step (see Section \ref{sec:rm}) can be added. This step perturbs the samples yet leave the distribution the samples represent unchanged by using a MCMC kernel that is invariant in density.
 
 \section{Example 1: Tracking stationary oscillating wave}
 \label{sec:exp1}
-We will consider a simple linear Gaussian state space model as presented earlier as \eqref{eq:model}, with $A_t=B_t=C_t=D_t=I$, $F_t{u_t}=u_t$, $G_t{u_t}=0$, $Xi = 0$, $u=0$. This model can be re-written as follows:
+We first consider here a simple linear Gaussian state space model as follows:
 \begin{align}
   X_t &= X_{t-1} + W_t + U_t \nonumber \\
   Y_t &= X_t + V_t
 \label{eq:refnmodel}
 \end{align}
-with $W_t, V_t \sim \mathcal{N}(0,I)$, and the target reference set to be an oscillating wave: $y_t = \cos(0.2 \pi t + 0.3)$. This toy example is first introduced in \cite{NK11}. It serves two purposes here. Firstly, it provides a simple example to verify our implementation\footnote{Strictly speaking, testing only increases confidence but  does not prove no bug.} Secondly, it severs as good benchmark for the following experiments in which we attempt to apply the same algorithm for more complicated reference signals and models.
+with $W_t, V_t \sim \mathcal{N}(0,I)$. This model is essential an instance of the class of model presented earlier in \eqref{eq:model}, with $A_t=B_t=C_t=D_t=I$, $F_t(u_t)=u_t$, $G_t(u_t)=0$ and $u_0=0$. The target reference is set to be an oscillating wave: $y^{ref}_t = \cos(0.2 \pi t + 0.3)$ as this example is  first introduced in \cite{NK11}.
 
-We examine the algorithm with the proposal density $q_t(\cdot)$ set to be the same Markov transition density $f_t(\cdot)$ with a \emph{all} combinations of following settings:
+This model serves two purposes here. Firstly, it is sufficient simple to verify the implementation\footnote{Strictly speaking, testing only increases confidence of the implementation correctness but does not prove no bug.}. Secondly, it serves as good benchmark problem in which we can examine the sensitivity of the algorithm to different parameter settings.
+
+We proceed by examining the proposed algorithm with proposal density $q_t(\cdot)$ set to be the same as the Markov transition density and \emph{all} different combination of settings as follows:
 \begin{enumerate}
 \item Different time period length, $T$: 5, 10 and 20.
-\item Different number of particles, $N$: 100, 500, 1000, 5000 and 10000.
-\item Effective sampling size, $ESS$: Enabled or Disabled.
-\item MCMC with random walk proposal: Enabled or Disabled.
+\item Different number of samples, $N$: 100, 500, 1000, 5000 and 10000.
+\item Effective sample size, $ESS$: Enabled or Disabled.
+\item Resample-Move step using MCMC with random walk proposal: Enabled or Disabled.
 \item Different $\gamma$ settings: Constant function of $1$, $50$, $100$, $500$, $1000$ and increasing function of time $t$,  $10t$, $50t$ and $100t$. 
 \end{enumerate}
 
 \subsection{Results and discussion}
-Looking the log-likelihood of $\pi$ obtained, the effective 
+We first evaluate the effect of using effective sample size $ESS$ mechanim. In \emph{all} the settings, we found that with $ESS$ enabled with trigger threshold set to $\frac{N}{2}$ performs no better with simple enabling resampling step in each iteration. The performance difference is clearly shown on the box-plots for $\log\pi_T(\hat{U}^I_{0:T})$ of 30 indepdent runs of the algorithms, where $\hat{U}^I_{0:T}$ is the MAP estimate of $u^*_{1:T}$ in each run in Figure \ref{fig:ess}.
 
-In Figure \ref{fig:exp1loglike}, we present the box plots for log likelihood. In Figure 2, we plot and the particile population take fromm one run of each case, but this time we only show the results for $N=10000$.
+In the same figure, we can also se that the improvement of using the Resample-Move step is marginal most of the time, except only when the $\gamma$ is set to rather high or when the a time period length is long, i.e.,  $T=20$. This suggests that it is helpful to move out from local optimal.
 
-We extend the time step to be $90$ and $250$ steps and looks at the corresponding performance. Due to the increase of time step, it makes sense to have more particles to track them and also look at the performance of performance of different order of $\gamma$. Based on the same metric, the results are summarised in Figure X.
- 
+In Figure \ref{fig:result2}, we show how the  $\log\pi_T(\hat{U}^I_{0:T})$ improves with number of samples for different time period length considered.
 
+A more interesting result is to compare the performance with different $\gamma$ setting, it seems the performance of high gamma setting is about the same across $N$. This suggests the algrotihm stuck at local optimal. Looking at variable $\gamma$, it seems to suggest. 
 
-\section{Example: Tracking the DAX Index}
+Now, we look at
+
+\section{Example 2: Tracking the DAX Index}
 \label{sec:exp2}
-Given the initial result looks promising, we attempt to investigate the use of the same algorithm to track the financial index using real-world data. We shall look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. We choose to work on the DAX Index for pragmatic reason. It is one of the major world indices that is tracked by funds, small number of constituents and data accesibility\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index. It was later found some of the data is available. Having said that, the preliminary results concur with the findings we have with DAX Index discussed here.}. For further detail on DAX Index methodology, refer \cite{DAX14}.
+Given the initial result looks promising, we attempt to investigate the use of the same algorithm to track the financial index using real-world data. We shall look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. The DAX Index is chosen for various pragmatic reasons. It is one of the major world indices that is tracked by various index funds, it has small number of components and the data is freely accessible\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index obtained. It was later found some of the data is not publicly available. Having said that, the preliminary findings concur with the findings we have with the DAX Index reported here.}. For further detail on the DAX Index methodology, refer \cite{DAX14}.
  
-In the first experiment, we define a simple hypothetical sub-index, $DAX4$ consists of four constituents from the DAX Index with highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the $DAX4$ index level is calculated as the simple weighted average of the close prices adjusted for dividends and splits downloaded from Yahoo Finance as follows:
+In the first experiment, we define a simple hypothetical sub-index, $DAX4$ consists of four stocks from the DAX Index that have the highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the $DAX4$ index level is calculated as the simple weighted average of the adjusted close prices obtained from Yahoo Finance as follows:
 \begin{equation}
   y = \sum_{s \in \mathcal{S}} w_s x_s
 \end{equation}
-where $y$ is the index level, $\mathcal{S}$ consists of the four stocks, $w_s$ the price of a stock $s$, $w_s$ is the weight of stock $s$. The weights of these four stocks are assigned to be $0.4$, $0.3$, $0.2$ and $0.1$ respectively. The adjusted close prices of each stock along with the calculated index level are shown in Figure \ref{fig:adjclose}.
+where $y$ is the index level, $\mathcal{S}$ consists of the four stocks and  $w_s$ and $x_s$ are the weight and price of stock $s$ respectively. Here the weights of these four stocks are assigned to be $0.4$, $0.3$, $0.2$ and $0.1$ respectively. The adjusted close price of each stock along with the calculated index level are shown in Figure \ref{fig:adjclose}.
  
 \begin{figure}[htbp]
 \centering
@@ -169,9 +183,9 @@ where $y$ is the index level, $\mathcal{S}$ consists of the four stocks, $w_s$ t
 \label{fig:adjclose}
 \end{figure}
  
-The portfolio optimisation problem is formulated as such $y$ is viewed as the target reference level that a portfolio manager attempt to replicate as close as possible by changing his position of his portfolio consists of the constituent stocks in $\mathcal{S}$, at the same time, minimize the trasaction cost incurred in position changes.
+The portfolio optimisation problem is formulated as such $y$ is viewed as the target reference level that a portfolio manager attempt to replicate as close as possible by changing the holding position on each component stocks in $\mathcal{S}$, at the same time, minimize the trasaction cost incurred in position changes.
  
-To solve this problem using the SMC algorithm proposed,  the following state space modelling is used:
+To solve this problem using the SMC,  the following state space modelling is used:
 \begin{align}
   X_t &= X_{t-1} + F_t(U_t) + \mu_{t_0} + \Sigma_{t_0} \\
   Y_t &= C_t(U_t)^{T}X_t
@@ -237,52 +251,6 @@ We demonstrate how the model control predictive can e used ot predict the value.
  
 \endinput
  
- 
-\section{Evidence for the thesis and future work}
-\label{sec:5.eftt}
-Formulating an optimal security policy is difficult. Current research
-work attempts to alleviate this issue by looking for ways to analyse
-and refine security policies in a top-down manner. We propose an
-alternative view on this issue: inferring security policies from
-decision examples. This idea is entirely novel. There is no previous
-work to my knowledge in the application of EAs or machine learning
-techniques in inferring security policies.
- 
-In this chapter, we presents some experiments that have been carried
-out to validate this proposal using EAs. Three different ways of
-representing security policies and the use of two different EAs are
-demonstrated. The results show that the inference process is largely
-independent of many parameters. We also show how the fuzzy set
-ensemble based approaches can be easily integrated into the policy
-inference framework to enhance the inference ability, yet it remains
-an interesting research topic to search for the optimal ways of
-defining the underlying target fuzzy membership functions.
- 
-EAs have shown several potentials in determining the security policies
-in the experiments. In particular, EAs are found to be able to quickly
-infer security policies with considerable complexity. The performance
-of these inferred policies is comparable to the original reference
-models that are used to generate the training sets. These techniques
-are also able to scale well with the range of input/output variables
-and to tolerate~``wrong'' examples in a training set. An obvious way
-forward is to validate this concept with other inference approaches
-and make a recommendation on which approach is better for what
-circumstance.
- 
-Being a data driven approach, the representativeness of the training
-set is crucial. Indeed, the experiments show that even the inference
-of the simple MLS Bell-LaPadula model may fail because of
-this. Inference summarises rather than speculates; the techniques do
-not know how to handle an unseen case.
- 
-As in other applications of EAs, the fitness function used is vital in
-guiding the search. Poor fitness function may result in policies that
-are suboptimal. Interesting future work would be to examine how to
-design a fitness function in a principled manner that is suitable for
-cost sensitive learning, in which different types of prediction errors
-are not equally costly. This is likely to be appropriate in security
-policy in which leaking of high sensitivity information is obviously
-far more severe than leaking of low sensitivity information.
  
 \section{Conclusions}
 \label{sec:conclusion5}

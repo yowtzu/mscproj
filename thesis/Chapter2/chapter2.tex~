@@ -291,6 +291,7 @@ A common way to integrate this idea is to triggle the resampling step only if th
 \end{algorithm}
 
 \subsection{Resample-Move Algorithm}
+\label{sec:rm}
 However, resampling is not a silver bullet for sampling imporishment. Essentially, resampling provides a mechanism to eliminate low weight samples to give way to replicate \emph{copies} of high weight samples. This allows all samples to participate and contribute to the distribution estimation. This is obvious beneficial for the case of estimating filtering distribution and predictive distribution. Over time, this replication result in decrease in the number of distinct samples for previous time steps. Eventually, many samples will have the share the same sample trajectory. This is a fundamental weakness of SMC, in which the sample path history is never re-written. This lose of diversity in the sample set will have a negative impact when it comes to any smoothing distribution estimation. 
 
 To counteract this sample impoverishment, Resample-Move Algorithm \cite{BC01} is proposed to introduce some perturbance to the samples (so to diversify them) without changing the distribution they represent. This is accomplished by using MCMC steps with a Markov Kernel, $K$ that is invariant to the target distribution, $p(\cdot)$. In the original paper, this is achieved by simply introducing an additional MCMC ``move'' step to each sample after the resampling step using a kernel $K$  that is invariant to the target distribution. This Resample-Move algorithm is summarised in Algorition \ref{algo:rm}.

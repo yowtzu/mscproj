@@ -367,7 +367,6 @@ p(u_{0:t} \mid y_{0:t}) &\propto p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_{0:t} \mid y
 
 Assuming that it is also possible to decompose the selected importance density into recursion form as follows:
 \begin{equation}
-%	q_{0:t}(x_{0:t} \mid y_{0:t}) &= q_{0:t-1}(x_{0:t-1} \mid y_{0:t-1}) q_t(x_t \mid x_{t-1}, y_t) \nonumber \\
 	q_{0:t}(u_{0:t} \mid y_{0:t}) = q_{0:t-1}(u_{0:t-1} \mid y_{0:t-1}) q_t(u_t \mid u_{0:t-1}, y_{0:t}) 
 \label{eq:q2}
 \end{equation}
@@ -429,79 +428,6 @@ The discussion here has been focused on conditional linear Gaussian model. The d
 This chapter presents a review of Monte Carlo methods, with a particular focus on Sequential Monte Carlo (SMC) techniques used extensively in this thesis for portfolio optimisation. This chapter begins with a brief introduction on the traditional Monte Carlo sampling techniques. Then, it details the SMC techniques, along with various extensions proposed to improve the performance of the algorithm.
 
 It is worth to have a remark here that the SMC techniques are not only applicable to sequential filtering problem. For example, it has been established that it is possible to use SMC techniques within MCMC framework (pMCMC, where p stands for particle) \cite{CA10} to solve other problems. In the next chapter, we will show how SMC can be used as a maximiser to search for a optimal strategy for the optimal portfolio, given a multiplicative reward function.
-
-
-
-
-
-
-
-
-\endinput
-\section{Markov chain Monte Carlo (MCMC)}
-%The rejection and importance algorithms scale badly with dimensionality. In some problems, it may still possible to decompose the probability distribution of interest, $P(x_{1:N})$ into low dimensional conditional distributions and proceed from there. However, this is not often feasible in practice.
-
-Markov chain Monte Carlo (MCMC) are a set of algorithms that allows ones to draw random samples from the target probability distribution by constructing a ergotic Markov chain process which has its stationary distribution set to be target desired distribution. 
-
-\subsection{Markov Chain}
-Conceptually, Markov chain is a stochastic process in which the past and future states of the process are independent given the current state. A Markov chain can be viewed as an \emph{ordered} sequence of states $\{x_{1:N}\}$, in which state $x_t$ only depends on state $x_{t-1}$, i.e., the state at time $t$ is determined based on some trasition distribution of the form $p(x_t \mid x_{t-1})$, which is independent of all previous states $x_{t-2}, x_{t-3}, \ldots$. 
-
-To ensure the Markov chain converges to a steady state (stationary distribution), the chain needs to satisfy the following properties:
-\begin{enumerate}
-\item irreducible --- no matter where it starts a chain, it is possible to reach all other states in finite amount time steps.
-\item aperiodic --- 	for all the states $i$, the chain can  return to state $i$ at irregular time.
-\item positive recurrent --- for all the state $i$, the chain will definitely revisit the state in finite amount time stpes.
-\end{enumerate}
-
-In practice, it is usually not difficult to construct the required Markov Chain, the more difficult problem is to determine how many steps it takes to converge, often known as mixing. Various visual diagnostic have been developed, yet it is often a matter of art. Refer \cite{RCP05} for details.
-
-In the following sections, we present two basic MCMC algorithms: Metropolis Hastings algorithms, Gibbs algorithms and a third algorithm in which these two basic algorithms are ``mixed and matched'' in a hierarchical fashion to form a more advanced samplers to fit application needs.
-
-\subsection{Metropolis-Hastings sampling}
-The first major MCMC algorithm was devised by Metropolis in \cite{MN53}. The algorithm constructs a Markov Chain by proposing a random walk step based a proposal distribution is symmetric, i.e., the probability of moving from state $t$ to state $t-1$ is the same as the probability of moving from state $t-1$ to state $t$ ($q(x_{t} \mid x_{t-1}) = q(x_{t-1} \mid x_{t}$). The proposed step is then either accepted or rejected according to an acceptance probability, $\alpha(x)= \min\left(1, \dfrac{p(x_t)}{p(x_{t-1})}\right)$, where $p(x)$ is the target probability density evaluated at $x$.
-
-This algorithm was generalised by Hastings \cite{WKH70} to allow the use of non-symmetric proposal density, with an adjustment to the accenptance probability $\alpha(x) = \min\left(1, \dfrac{p(x_t)q(x_t \mid x_{t-1})}{p(x_{t-1})q(x_{t-1} \mid x_{t})}\right)$ and hence the name, Metropolis-Hastings sampling. This algorithm is summarised in Algorithm \ref{algo:metropolishastings}.
-
-\begin{algorithm}
-\caption{MetropolisHastings}\label{algo:metropolishastings}
-\begin{algorithmic}[1]
-\Function{MetropolisHastings}{n}
-\State $r = [\ ]$
-\Repeat
-  \State sample $x_t \sim q(x_{t-1})$
-  \State sample $u \sim {\cal U}(0,1)$
-  \If {$u \leq \min\left(1, \dfrac{p(x_t)q(x_t \mid x_{t-1})}{p(x_{t-1})q(x_{t-1} \mid x_{t})}\right)$}
-    \State $x_{t-1} \gets x_{t}$
-    \State $r \gets [r,x_{t-1}]$
-  \EndIf
-\Until{len(r)=n}
-\EndFunction
-\end{algorithmic}
-\end{algorithm}
-
-It is not hard to see that the algorithm works best if the density $q$ matches the shape as density $p$, which is often unknown. Assuming a Gaussian proposal density $q$ is used, there is also an addtional parameter, namely the variance $\sigma^2$ is required to be tuned. There is a trade-off to be made in the tuning process. If the $\sigma^2$ is set too be too small, the chain is likely to mix slowly (i.e., the proposed step is likely to be accepted yet each successive move is very slow and therefore the chain will converge to target distribution $p$ at a slow rate). On the other hand, if $\sigma^2$ is too large, the proposed step is likely to be rejected as it is likely to hand in a region of much lower probability density and the chain will converge slowly again. Again, refer \cite{RCP05} for details on convergence dianogstic.
-
-\subsection{Gibbs sampling}
-Gibbs sampling \cite{GS84} is a special form of the Metropolis–Hastings sampling. The key idea in Gibbs sampling is to re-write the target multivariate distribution of interest as a product of conditional probability distributions of lesser number of parameters. A Markov Chain is then constructed to generate samples for each parameter \emph{in turn} from the conditional distributions with an acceptance rate $\alpha(x)=1$, i.e., accept all the samples.
-
-More formally, suppose we would like to have obtain $k$ samples of $\mathbf{x}=(x_1,x_2,\ldots, x_n)$ from $p(x_1, \ldots, x_n)$, assuming we start with an initial value $\mathbf{x}^{0}$. For each sample $(\mathbf{x}^{i}: i \in \{1 \dots n\})$, sample $x_j^{(i)}$ from the conditional distribution $p(x_j|x_1^{(i)},\dots,x_{j-1}^{(i)},x_{j+1}^{(i-1)},\dots,x_n^{(i-1)})$. In other words, sample each variable from the distribution of that variable conditioned on all other variables, making use of the most recent values and updating the variable with its new value as soon as it has been sampled. The algorithm is summarised in Algorithm \ref{algo:gibbs}.
-
-\begin{algorithm}
-\caption{Gibbs}\label{algo:gibbs}
-\begin{algorithmic}[1]
-\Function{Gibbs}{n}
-\State $r = [\ ]$
-\State sample $x^{(0)}$
-\Repeat
-  \State sample $x^{(t)} \sim p(x_j|x_1^{(i)},\dots,x_{j-1}^{(i)},x_{j+1}^{(i-1)},\dots,x_n^{(i-1)})$
-  \State $r \gets [r,^{t}]$
-\Until{len(r)=k}	
-\EndFunction
-\end{algorithmic}
-\end{algorithm}
-
-There are variations of Gibbs sampling techniques. For examples, a blocked Gibbs sampling groups more than one variables and sample from the joint distribution conditioning on other variables. Refer \cite{RCP05} for details. 
-
 
 % ------------------------------------------------------------------------
 

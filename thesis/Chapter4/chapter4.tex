@@ -136,41 +136,203 @@ To add diversity to the population samples, the Resample-Move step (see Section 
 
 \section{Example 1: Tracking stationary oscillating wave}
 \label{sec:exp1}
-We will consider a simple linear Gaussian state space model as presented earlier as \eqref{eq:model}, with $A_t=B_t=C_t=D_t=I$, $F_t{u_t}=u_t$, $G_t{u_t}=0$, $Xi = 0$, $u=0$. This model can be re-written as follows:
+We first consider here a simple linear Gaussian state space model as follows:
 \begin{align}
   X_t &= X_{t-1} + W_t + U_t \nonumber \\
   Y_t &= X_t + V_t
 \label{eq:refnmodel}
 \end{align}
-with $W_t, V_t \sim \mathcal{N}(0,I)$, and the target reference set to be an oscillating wave: $y_t = \cos(0.2 \pi t + 0.3)$. This toy example is first introduced in \cite{NK11}. It serves two purposes here. Firstly, it provides a simple example to verify our implementation\footnote{Strictly speaking, testing only increases confidence but  does not prove no bug.} Secondly, it severs as good benchmark for the following experiments in which we attempt to apply the same algorithm for more complicated reference signals and models.
+with $W_t, V_t \sim \mathcal{N}(0,I)$. This model is essential an instance of the class of model presented earlier in \eqref{eq:model}, with $A_t=B_t=C_t=D_t=I$, $F_t(u_t)=u_t$, $G_t(u_t)=0$ and $u_0=0$. The target reference is set to be an oscillating wave: $y^{ref}_t = \cos(0.2 \pi t + 0.3)$ and $L_1$ is set to $1$ similar to the setting used in \cite{NK11}.
 
-We examine the algorithm with the proposal density $q_t(\cdot)$ set to be the same Markov transition density $f_t(\cdot)$ with a \emph{all} combinations of following settings:
+This model serves two purposes here. Firstly, it is sufficient simple to verify the implementation\footnote{Strictly speaking, testing only increases confidence of the implementation correctness but does not prove no bug.}. Secondly, it serves as good benchmark problem in which we can examine the sensitivity of the algorithm to different parameter settings.
+
+We proceed by examining the proposed algorithm with proposal density $q_t(\cdot)$ set to be the same as the Markov transition density and \emph{all} different combination of settings as follows:
 \begin{enumerate}
-\item Different time period length, $T$: 5, 10 and 20.
-\item Different number of particles, $N$: 100, 500, 1000, 5000 and 10000.
-\item Effective sampling size, $ESS$: Enabled or Disabled.
-\item MCMC with random walk proposal: Enabled or Disabled.
-\item Different $\gamma$ settings: Constant function of $1$, $50$, $100$, $500$, $1000$ and increasing function of time $t$,  $10t$, $50t$ and $100t$. 
+\item Various time period length, $T$: 5, 10 and 20.
+\item Various number of samples, $N$: 100, 500, 1000, 5000 and 10000.
+\item Resample step: Always vs. Selectively (trigger threshold set to $\frac{ESS}{2}$).
+\item Resample-Move step with MCMC (random walk proposal): Always vs. disabled.
+\item Various $\gamma$ settings: Constant function of $1$, $50$, $100$, $1000$ and increasing function of time $t$, $10t$, $50t$ and $100t$. 
 \end{enumerate}
 
 \subsection{Results and discussion}
-Looking the log-likelihood of $\pi$ obtained, the effective 
+We first evaluate the effect of selectively enabling resample step with $ESS$ mechanism. In \emph{all} the settings, it is found that simple runs with resample step enabled always at each iteration have relatively better performance. Figure \ref{fig:ess} shows the performance in terms of $\log\pi_T(\hat{u}^*_{0:t})$ of 30 independent runs ($T=20$ and $N=10000$) of the algorithms. All other runs with different settings of $T$ and $N$ concur with this finding.
 
-In Figure \ref{fig:exp1loglike}, we present the box plots for log likelihood. In Figure 2, we plot and the particile population take fromm one run of each case, but this time we only show the results for $N=10000$.
+Morever, in the same figure, we can see that the Resample-Move step does improve performance, albeit in most cases the improvement is marginal. The improvement is more significant when $\gamma$ is set to be high. This is depicted clearly in Figure \ref{fig:rm}, in which it presents similar box-plots of $\log\pi_T(\hat{u}^*_{0:t})$ of $30$ independent runs of the algorithms for different $T$, $N$ and $\gamma$ settings. One possible explanation to this is that high $\gamma$ settings help in optimisation by encouranging particle converge to high density area. Excessively high $\gamma$ settings will lead to pre-mature convergence particles to local optimal (as one can see the $\log\pi_T(\hat{u}^*_{0:t})$ values found in high $\gamma$ settings are not very good). The perturbance Resample-Move step introduces may help particles to escape from local optimal.
 
-We extend the time step to be $90$ and $250$ steps and looks at the corresponding performance. Due to the increase of time step, it makes sense to have more particles to track them and also look at the performance of performance of different order of $\gamma$. Based on the same metric, the results are summarised in Figure X.
- 
+In terms of the number of samples used, we can the performance improves with the number of samples used for all time periods considered as shown in Figure \ref{fig:rm}. This is inline with our expectation. For shorter time-period considered, the performance improvement sometimes is ``saturated'' even with lower number of samples, says $1000$ and $5000$. This suggests the optimal control parameters may have been found.
 
+A more interesting result is to compare the performance with different $\gamma$ settings. Let first consider fixed $\gamma$ settings. Excessive high $\gamma$ settings lead to pre-mature convergence issue discussed earlier and stuck at local optimal. On the other hand, low $\gamma$ settings also ds not perform too well either (consider the process of searching for the maximum point by randomly sampling a very flat distribution). The optimal $\gamma$ setting seems to lie sometimes in between. In this case, the $\gamma=100$ setting results in the best performance.
 
-\section{Example: Tracking the DAX Index}
+In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may be a good pragmatic compromise between accuracy and good mixing. We investgate further on this by setting $\gamma$ to be increasing function of the form $\alpha t$, where $\alpha$ is constant and $t$ is the time step. The results show that the performance seems improve when the$\alpha$ value is low, but theh result is worse when the $\alpha$ value is high. This suggests a capping on the maximum value on $\alpha$ or a more moderate in $t$ may be more suitable. We therefore carry out two extra $\gamma$ settings: $50\log(t+2)$ and $100\log(t+2)$ to investgate this and the results are shown in Figure \ref{fig:log}. The results indeed agree with our intuition.
+
+Lastly, we conclude this section by showing the output of the model using our estimated $u^*_{0:T}$ obtained in various runs in Figure \ref{fig:estimatedy}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to track the reference signal very close. The code and the results of all other runs can be obtained at the online repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T5_gamma1_N10000.pdf}
+        %\includegraphics[width=0.3\linewidth, height=0.15\textheight]{prob1_6_2}
+        %\caption{$dt=0.1$}
+        %\label{fig:prob1_6_2}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma1_N10000.pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma10_N10000.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma50_N10000.pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma100_N10000.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma1000_N10000.pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma1t_N10000.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma10t_N10000.pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma50t_N10000.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma100t_N10000.pdf}
+    \end{minipage}
+    \caption{The performance in terms of $\log\pi_T(\hat{u}^*_{0:t})$ of 30 independent runs ($T=20$ and $N=10000$) of the algorithms.}
+    \label{fig:ess}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma50.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma50t.pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100t.pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma50.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma50t.pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma500.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma1000.pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100t.pdf}
+    \end{minipage}
+    \caption{The performance in terms of $\log\pi_T(\hat{u}^*_{0:t})$ of 30 independent runs with various settings.}
+    \label{fig:rm}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100.pdf}
+        %\includegraphics[width=0.3\linewidth, height=0.15\textheight]{prob1_6_2}
+        %\caption{$dt=0.1$}
+        %\label{fig:prob1_6_2}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100.pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100.pdf}
+    \end{minipage}
+    \caption{The performance in terms of $\log\pi_T(\hat{u}^*_{0:t})$ of 30 independent runs with four different $\gamma$s settings.}
+    \label{fig:log}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{output_y/output_20_1.pdf}
+        \caption*{$\gamma=1$}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{output_y/output_20_1t.pdf}
+        \caption*{$\gamma=1t$}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{output_y/output_20_10t.pdf}
+        \caption*{$\gamma=10t$}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{output_y/output_20_50t.pdf}
+        \caption*{$\gamma=50t$}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{output_y/output_20_100.pdf}
+        \caption*{$\gamma=100$}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{output_y/output_20_1000.pdf}
+        \caption*{$\gamma=1000$}
+    \end{minipage}
+    \caption{The estimated $y$ output of the model using $u^*_{0:T}$ in 30 independent runs with various $\gamma$ settings.}
+    \label{fig:estimatedy}
+\end{figure}
+
+\section{Example 2: Tracking the DAX Index}
 \label{sec:exp2}
-Given the initial result looks promising, we attempt to investigate the use of the same algorithm to track the financial index using real-world data. We shall look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. We choose to work on the DAX Index for pragmatic reason. It is one of the major world indices that is tracked by funds, small number of constituents and data accesibility\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index. It was later found some of the data is available. Having said that, the preliminary results concur with the findings we have with DAX Index discussed here.}. For further detail on DAX Index methodology, refer \cite{DAX14}.
+Given the initial result in Example 1 looks very promising, we attempt to investigate the use of the same algorithm to track the financial index using real-world data. We shall look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. The DAX Index is chosen for various pragmatic reasons. It is one of the major world indices that is tracked by various index funds, it has small number of components and the data is freely accessible\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index obtained. It was later found some of the data is not publicly available. Having said that, the preliminary findings concur with the findings we have with the DAX Index reported here.}. For further detail on the DAX Index methodology, refer \cite{DAX14}.
  
-In the first experiment, we define a simple hypothetical sub-index, $DAX4$ consists of four constituents from the DAX Index with highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the $DAX4$ index level is calculated as the simple weighted average of the close prices adjusted for dividends and splits downloaded from Yahoo Finance as follows:
+In the first experiment, we define a simple hypothetical sub-index, $DAX4$ consists of four stocks from the DAX Index that have the highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the $DAX4$ index level is calculated as the simple weighted average of the adjusted close prices obtained from Yahoo Finance as follows:
 \begin{equation}
   y = \sum_{s \in \mathcal{S}} w_s x_s
 \end{equation}
-where $y$ is the index level, $\mathcal{S}$ consists of the four stocks, $w_s$ the price of a stock $s$, $w_s$ is the weight of stock $s$. The weights of these four stocks are assigned to be $0.4$, $0.3$, $0.2$ and $0.1$ respectively. The adjusted close prices of each stock along with the calculated index level are shown in Figure \ref{fig:adjclose}.
+where $y$ is the index level, $\mathcal{S}$ consists of the four stocks and  $w_s$ and $x_s$ are the weight and price of stock $s$ respectively. Here the weights of these four stocks are assigned to be $0.4$, $0.3$, $0.2$ and $0.1$ respectively. The adjusted close price of each stock along with the calculated index level are shown in Figure \ref{fig:adjclose}.
  
 \begin{figure}[htbp]
 \centering
@@ -179,18 +341,18 @@ where $y$ is the index level, $\mathcal{S}$ consists of the four stocks, $w_s$ t
 \label{fig:adjclose}
 \end{figure}
  
-The portfolio optimisation problem is formulated as such $y$ is viewed as the target reference level that a portfolio manager attempt to replicate as close as possible by changing his position of his portfolio consists of the constituent stocks in $\mathcal{S}$, at the same time, minimize the trasaction cost incurred in position changes.
+The portfolio optimisation problem is formulated as such $y$ is viewed as the target reference level that a portfolio manager attempt to replicate as close as possible by changing the holding position on each component stocks in $\mathcal{S}$, at the same time, minimize the trasaction cost incurred in position changes.
  
-To solve this problem using the SMC algorithm proposed,  the following state space modelling is used:
+To solve this problem using the SMC,  the following state space modelling is used:
 \begin{align}
   X_t &= X_{t-1} + F_t(U_t) + \mu_{t_0} + \Sigma_{t_0} \\
   Y_t &= C_t(U_t)^{T}X_t
 \end{align}
-where $X_t$ is a vector of stock prices at time $t$ modelled as Arithmetic Brownian Motion with drift, $U_t$ is the vector of control input at time $t$ that represents the position we have for each stock, $_t$ can be viewed as market impact on the price due to changes on $u_t$, $\mu_{t_0}$ and $\Sigma_{t_0}$ are the vector of estimated mean and the estimated covariance matrix of the stock returns and $Y_t$ is the index level at time $t$. The values of $\mu_t$ and $Sigma_t$ are estimated using Exponential Weighted Moving Average (EWMA) approach with the decay rate, $\lambda$, set to $0.94$, which can be calculated in a recursion form as follows:
+where $\{X_t\}_{t \geq 0}$ is a vector of stock price processes modelled as Arithmetic Brownian Motion with drift, $\{U_t\}_{t \geq 0}$ is a vector of control input processes, each represents the position we have for each stock, $F_t$ can be viewed as the market impact on price due to position changes, $\mu_{t_0}$ and $\Sigma_{t_0}$ are vector of the estimated mean and the estimated covariance matrix of the stock returns and $\{Y_t\}_{t \geq 0}$ is the process represents the index level. The values of $\mu_t$ and $\Sigma_t$ here are estimated using Exponential Weighted Moving Average (EWMA) approach with the decay rate, $\lambda$, set to $0.94$, which can be easily calculated in a recursion form as follows:
 \begin{equation}
-  V_t = \lambda V_{t_1} + (1-\lambda) W_{t}
+  P_t = \lambda P_{t-1} + (1-\lambda) Q_{t}
 \end{equation}
-where $V_t$ is the EWMA estimate and $W_t$ is the observation at time step $t$. It is obvious from these equations that the EWMA estimate value depends on all previous estimates. To ensure the quality of EWMA estimate, a 6 months warm up period is used, i.e., the EWMA estimate is calculated from 1st July 2013 onwards. The estimates of $\mu_{t_0}$ and $\Sigma_{t_0}$ obtained are as follows:
+where $P_t$ is the EWMA estimate and $Q_t$ is the new observation at time step $t$. It is obvious from these equations that the EWMA estimate at time $t$ depens on all the preceeding estimates at time $s$, where $s < t$. To ensure the quality of EWMA estimate, a 6 months warm up period is used, i.e., the EWMA estimate is calculated from 1st July 2013 onwards. The estimates of $\mu_{t_0}$ and $\Sigma_{t_0}$ obtained are as follows:
 \begin{equation}
 \mu_{t_0} =
 \begin{blockarray}{c}
@@ -214,7 +376,7 @@ where $V_t$ is the EWMA estimate and $W_t$ is the observation at time step $t$. 
 \end{blockarray}
 \end{equation}
  
-It is worth here to re-iterate here that this model is just a means to an end to demonstrate the key idea of thesis how SMC can be used for portfolio optimisation. There are more sophisticated models, e.g., Geometric Brownian Motion with drift, Jump diffusion model, etc.
+It is worth here to re-iterate here that this model is just a means to an end. There are more sophisticated models, e.g., Geometric Brownian Motion with drift, Jump diffusion model, etc.
  
 Given the above model, we can write the reward function as follows:
 \begin{equation}
@@ -247,52 +409,6 @@ We demonstrate how the model control predictive can e used ot predict the value.
  
 \endinput
  
- 
-\section{Evidence for the thesis and future work}
-\label{sec:5.eftt}
-Formulating an optimal security policy is difficult. Current research
-work attempts to alleviate this issue by looking for ways to analyse
-and refine security policies in a top-down manner. We propose an
-alternative view on this issue: inferring security policies from
-decision examples. This idea is entirely novel. There is no previous
-work to my knowledge in the application of EAs or machine learning
-techniques in inferring security policies.
- 
-In this chapter, we presents some experiments that have been carried
-out to validate this proposal using EAs. Three different ways of
-representing security policies and the use of two different EAs are
-demonstrated. The results show that the inference process is largely
-independent of many parameters. We also show how the fuzzy set
-ensemble based approaches can be easily integrated into the policy
-inference framework to enhance the inference ability, yet it remains
-an interesting research topic to search for the optimal ways of
-defining the underlying target fuzzy membership functions.
- 
-EAs have shown several potentials in determining the security policies
-in the experiments. In particular, EAs are found to be able to quickly
-infer security policies with considerable complexity. The performance
-of these inferred policies is comparable to the original reference
-models that are used to generate the training sets. These techniques
-are also able to scale well with the range of input/output variables
-and to tolerate~``wrong'' examples in a training set. An obvious way
-forward is to validate this concept with other inference approaches
-and make a recommendation on which approach is better for what
-circumstance.
- 
-Being a data driven approach, the representativeness of the training
-set is crucial. Indeed, the experiments show that even the inference
-of the simple MLS Bell-LaPadula model may fail because of
-this. Inference summarises rather than speculates; the techniques do
-not know how to handle an unseen case.
- 
-As in other applications of EAs, the fitness function used is vital in
-guiding the search. Poor fitness function may result in policies that
-are suboptimal. Interesting future work would be to examine how to
-design a fitness function in a principled manner that is suitable for
-cost sensitive learning, in which different types of prediction errors
-are not equally costly. This is likely to be appropriate in security
-policy in which leaking of high sensitivity information is obviously
-far more severe than leaking of low sensitivity information.
  
 \section{Conclusions}
 \label{sec:conclusion5}
