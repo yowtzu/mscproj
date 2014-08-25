@@ -3272,7 +3272,7 @@ url = "http://cs.gmu.edu/~eclab/projects/ecj/",
 
 @ARTICLE{RTR00,
     author = {R. Tyrrell Rockafellar and Stanislav Uryasev},
-    title = {Optimization of Conditional Value-at-Risk},
+    title = {{Optimization of Conditional Value-at-Risk}},
     journal = {Journal of Risk},
     year = {2000},
     volume = {2},
@@ -3290,7 +3290,7 @@ url = "http://cs.gmu.edu/~eclab/projects/ecj/",
 
 @book{CO05,
  author = {Capp{\'e}, Olivier and Moulines, Eric and Ryden, Tobias},
- title = {Inference in Hidden Markov Models (Springer Series in Statistics)},
+ title = {{Inference in Hidden Markov Models (Springer Series in Statistics)}},
  year = {2005},
  isbn = {0387402640},
  publisher = {Springer-Verlag New York, Inc.},
@@ -3299,8 +3299,8 @@ url = "http://cs.gmu.edu/~eclab/projects/ecj/",
 
 @INPROCEEDINGS{LRR89,
     author = {Lawrence R. Rabiner},
-    title = {A tutorial on hidden Markov models and selected applications in speech recognition},
-    booktitle = {PROCEEDINGS OF THE IEEE},
+    title = {{A tutorial on hidden Markov models and selected applications in speech recognition}},
+    booktitle = {Proceedings of IEEE},
     year = {1989},
     pages = {257--286},
     publisher = {}
@@ -3308,7 +3308,7 @@ url = "http://cs.gmu.edu/~eclab/projects/ecj/",
 
 @article{KRE60,
     Author = {Kalman, Rudolph Emil},
-    Title = {A New Approach to Linear Filtering and Prediction Problems},
+    Title = {{A New Approach to Linear Filtering and Prediction Problems}},
     Journal = {Transactions of the ASME--Journal of Basic Engineering},
     Volume = {82},
     Number = {Series D},
@@ -3318,7 +3318,7 @@ url = "http://cs.gmu.edu/~eclab/projects/ecj/",
 
 @techreport{WG95,
  author = {Welch, Greg and Bishop, Gary},
- title = {An Introduction to the Kalman Filter},
+ title = {{An Introduction to the Kalman Filter}},
  year = {1995},
  institution = {University of North Carolina at Chapel Hill},
  address = {Chapel Hill, NC, USA},
@@ -3332,7 +3332,7 @@ year = 2012}
 
 @book{RCP05,
  author = {Robert, Christian P. and Casella, George},
- title = {Monte Carlo Statistical Methods (Springer Texts in Statistics)},
+ title = {{Monte Carlo Statistical Methods (Springer Texts in Statistics)}},
  year = {2005},
  isbn = {0387212396},
  publisher = {Springer-Verlag New York, Inc.},
@@ -3340,7 +3340,7 @@ year = 2012}
 }
 
 @article{GJ89,
-  title={Bayesian Inference in Econometric Models Using Monte Carlo Integration},
+  title={{Bayesian Inference in Econometric Models Using Monte Carlo Integration}},
   author={Geweke, John},
   journal={Econometrica},
   volume={57},
@@ -3370,7 +3370,7 @@ year = 2012}
 
 @article{GS84,
  author = {Geman, Stuart and Geman, Donald},
- title = {Stochastic Relaxation, Gibbs Distributions, and the Bayesian Restoration of Images},
+ title = {{Stochastic Relaxation, Gibbs Distributions, and the Bayesian Restoration of Images}},
  journal = {IEEE Trans. Pattern Anal. Mach. Intell.},
  issue_date = {November 1984},
  volume = {6},
@@ -3389,9 +3389,9 @@ year = 2012}
 } 
 
 @article{HM52,
-  title={Portfolio Selection},
+  title={{Portfolio Selection}},
   author={Markowitz, Harry},
-  journal={The journal of finance},
+  journal={The Journal of Finance},
   volume={7},
   number={1},
   pages={77--91},
@@ -3401,14 +3401,14 @@ year = 2012}
 
 @TECHREPORT{NK11,
   AUTHOR =        {N. Kantas, P. Del Moral and R. Vinter},
-  TITLE =         {Particle methods for Stochastic Regulation: towards an application for power scheduling},
+  TITLE =         {{Particle methods for Stochastic Regulation: towards an application for power scheduling}},
   INSTITUTION =   {Department of Electrical and Electronic Engineering, Imperial Colege, London},
   MONTH =         {March},
   YEAR  =         {2011}
 }
 
 @ARTICLE{MF14,
-  title = {Continuous time mean-variance portfolio optimization through the mean field approach},
+  title = {{Continuous time mean-variance portfolio optimization through the mean field approach}},
   author = {Markus Fischer and Giulia Livieri},
   year = 2014,
   url = {http://www.math.unipd.it/~fischer/Arbeiten/MeanVarianceOpt.pdf}
@@ -3429,14 +3429,12 @@ year = 2012}
 }
 
 @ARTICLE{BJ13,
-  title = {On the Right Track: Measuring Tracking Efficiency in ETFs},
+  title = {{On the Right Track: Measuring Tracking Efficiency in ETFs}},
   author = {Ben Johnson and  Hortense Bioy and Alastair Kellett and Lee Davidson},
   month = {February},
   year = 2013,
   url = {http://media.morningstar.com/uk/MEDIA/Research_Paper/Morningstar_Report_Measuring_Tracking_Efficiency_in_ETFs_February_2013.pdf}
 }
-
-bibliography.bib
 
 @article{C007,
   title = {{An Overview of Existing Methods and Recent Advances in Sequential Monte Carlo}},
@@ -3449,160 +3447,6 @@ bibliography.bib
   publisher = {IEEE INSTITUTE OF ELECTRICAL AND ELECTRONICS},
   url = {tracking-secure/reference_materials/OverviewSMCCappeGodsillMoulines2007.pdf}
 }
-@article{doucet:godsill:andrieu:2000,
-  title = {{On sequential Monte Carlo sampling methods for Bayesian filtering}},
-  author = {Doucet, A. and Godsill, S. and Andrieu, C.},
-  journal = {Statistics and Computing},
-  volume = {10},
-  number = {3},
-  pages = {197--208},
-  year = {2000},
-  publisher = {Springer},
-  url = {tracking-secure/reference_materials/SMCsamplingmethodsforBayesianFilteringDoucGodAnd2000.pdf}
-}
-@article{pang:li:godsill:2008,
-  title = {{Models and Algorithms for Detection and Tracking of Coordinated Groups}},
-  author = {Pang, S.K. and Li, J. and Godsill, S.J.},
-  journal = {Aerospace Conference, 2008 IEEE},
-  pages = {1--17},
-  year = {2008},
-  url = {tracking-secure/reference_materials/ModelsAlgoTrackingCoordinatedGroupsPangLiGodsill2008.pdf}
-}
-@article{pitt:shephard:1999,
-  title = {{Filtering Via Simulation: Auxiliary Particle Filters.}},
-  author = {Pitt, M. and Shephard, N. and Nuffield College Oxford},
-  journal = {Journal of the American Statistical Association},
-  volume = {94},
-  number = {446},
-  pages = {590--591},
-  year = {1999},
-  publisher = {American Statistical Association},
-  url = {tracking-secure/reference_materials/AuxiliaryParticleFilterPittShephard1999.pdf}
-}
-@unpublished{green:robins:rapley:2008,
-  title = {Real-time Biological Source Term Estimation Using Adaptive Sampling of {UV} Fluorescence {LIDAR} Data},
-  author = {Green, N. and Robins, P. and Rapley, V.},
-  year = {2008},
-  month = {September},
-  pages = {5 pp.-},
-  note = {Unpublished manuscript},
-  url = {tracking-secure/reference_materials/GreenRobinsRapley2008.pdf}
-}
-@article{robins:thomas:2005,
-  title = {Non-linear Bayesian {CBRN} source term estimation},
-  author = {Robins, P. and Thomas, P.},
-  journal = {Information Fusion, 2005 8th International Conference on},
-  year = {2005},
-  month = {July},
-  volume = {2},
-  pages = { 8 pp.-},
-  doi = {10.1109/ICIF.2005.1591980},
-  url = {tracking-secure/reference_materials/RobinsThomas2005.pdf}
-}
-@webpage{www:celltracker,
-  author = {Shen, H.},
-  note = {Retrieved on September 23, 2008},
-  title = {{C}ell{T}racker software website, \url{http://dbkgroup.org/celltracker/}},
-  url = {http://dbkgroup.org/celltracker/},
-  year = {2008}
-}
-@article{vaswani:2008:pfmtpap,
-  author = {Vaswani, N.},
-  title = {Particle Filtering for Large Dimensional State Spaces with Multimodal Observation Likelihoods},
-  year = {2008},
-  journal = {IEEE Trans. Signal Processing},
-  note = {to appear},
-  url = {tracking-secure/reference_materials/Vaswani2008pfmtpap.pdf}
-}
-@article{vaswani:2008:contour,
-  author = {Vaswani, N. and Rathi, Y. and Yezzi, A. and Tannenbaum, A.},
-  title = {{PF-MT} with an Interpolation Effective Basis for Tracking Local Contour Deformations},
-  year = {2008},
-  journal = {IEEE Trans. Image Processing},
-  note = {Accepted with mandatory minor revisions},
-  url = {tracking-secure/reference_materials/Vaswani2008contour.pdf}
-}
-@techreport{johannesson:2004,
-  title = {{Dynamic Bayesian Models via Monte Carlo-An Introduction with Examples}},
-  author = {Johannesson, G. and Hanley, B. and Nitao, J.},
-  year = {2004},
-  institution = {UCRL-TR-207173, Lawrence Livermore National Lab., Livermore, CA (US)},
-  url = {tracking-secure/reference_materials/Johannesson2004.pdf}
-}
-@article{gning:2008,
-  title = {Evolving networks for group object motion estimation},
-  author = {Gning, A. and Mihaylova, L. and Maskell, S. and Pang, S.K. and Godsill, S.},
-  journal = {Proc. of IET Seminar on Target Tracking and Data Fusion: Algorithms and Applications, Birmingham, UK},
-  pages = {99--106},
-  year = {2008},
-  url = {tracking-secure/reference_materials/Gning2008.pdf}
-}
-@article{gning:2008b,
-  title = {Ground Target Group Structure and State Estimation with Particle Filtering},
-  author = {Gning, A. and Mihaylova, L. and Maskell, S. and Pang, S.K. and Godsill, S.},
-  journal = {Proc. of the 11th International Conf. on Information Fusion, Cologne, Germany},
-  pages = {1176--1183},
-  year = {2008},
-  url = {tracking-secure/reference_materials/Gning2008b.pdf}
-}
-@webpage{www:celltracer,
-  author = {Wang, Q. and  You, L. and West, M.},
-  note = {Retrieved on September 30, 2008},
-  title = {{C}ell{T}racer software website, \url{http://www.stat.duke.edu/research/software/west/celltracer/}},
-  url = {http://www.stat.duke.edu/research/software/west/celltracer/},
-  year = {2008}
-}
-
-@article{peters:fan:sisson:2008,
-  title = {{On sequential Monte Carlo, partial rejection control and approximate
-  Bayesian computation}},
-  author = {Peters, G. W. and Fan, Y. and Sisson, S. A.},
-  journal = {Technical Report},
-  year = {2008},
-  publisher = {University of New South Wales},
-  url = {tracking-secure/reference_materials/PetersFanSisson2008.pdf}
-}
-@article{sisson:fan:tanaka:2007,
-  title = {Sequential Monte Carlo without Likelihoods}},
-  author = {Sisson S. A. and Fan, Y. and Tanaka, M. M.},
-  journal = {PROCEEDINGS-National Academy of Sciences},
-  volume = {104},
-  number = {6},
-  pages = {1760-1765},
-  year = {2007},
-  publisher = {The National Academy of Sciences USA},
-  url = {tracking-secure/reference_materials/Sisson_etal.pdf}
-}
-@article{Pillow:etal:2008,
-  title = {Spatio-temporal correlations and visual signalling in a complete neuron
-population.}},
-  author = {Pillow, J. W., Fan, Y., and Shelens, J., and Paninski, L., and Sher, A., and
-Litke, A. M., and Chichilmisky, E. J., and Simoncelli, E. P. },
-  journal = {Nature},
-  volume = {454},
-  pages = {995-999},
-  year = {2008},
-  url = {tracking-secure/reference_materials/PillowSimoncelli08.pdf}
-}
-@article{Vogelstein:etal:2008,
-  title = {Spike inference from calsium imaging using sequential Monte Carlo methods}},
-  author = { Vogelstein, J. T., and Watson, B. O., and Packer, A. M., and Yuste, R., and
- Jedynak, B., and Paninski, L. },
-  journal = {in preparation},
-  year = {2008},
-  url = {tracking-secure/reference_materials/BJ08.pdf}
-}
-@article{Paninski:2004,
-  title = {Maximum likelihood estimation of cascade
-point-process neural encoding models.}},
-  author = {Paninski, L. },
-  journal = {Network: Computation in Neural Systems },
-  volume = {15},
-  pages = {243-262},
-  year = {2004},
-  url = {tracking-secure/reference_materials/PillowSimoncelli08.pdf}
-}
-
 
 @article{AD00,
   title = {{On sequential Monte Carlo sampling methods for Bayesian filtering}},
@@ -3617,7 +3461,7 @@ point-process neural encoding models.}},
 }
 
 @article{AD09,
-  title={A tutorial on particle filtering and smoothing: Fifteen years later},
+  title={{A tutorial on particle filtering and smoothing: Fifteen years later}},
   author={Doucet, Arnaud and Johansen, Adam M},
   journal={Handbook of Nonlinear Filtering},
   volume={12},
@@ -3646,7 +3490,7 @@ point-process neural encoding models.}},
   url = {tracking-secure/reference_materials/AuxiliaryParticleFilterPittShephard1999.pdf}
 }
 @unpublished{green:robins:rapley:2008,
-  title = {Real-time Biological Source Term Estimation Using Adaptive Sampling of {UV} Fluorescence {LIDAR} Data},
+  title = {{Real-time Biological Source Term Estimation Using Adaptive Sampling of {UV} Fluorescence {LIDAR} Data}},
   author = {Green, N. and Robins, P. and Rapley, V.},
   year = {2008},
   month = {September},
@@ -3655,7 +3499,7 @@ point-process neural encoding models.}},
   url = {tracking-secure/reference_materials/GreenRobinsRapley2008.pdf}
 }
 @article{robins:thomas:2005,
-  title = {Non-linear Bayesian {CBRN} source term estimation},
+  title = {{Non-linear Bayesian {CBRN} source term estimation}},
   author = {Robins, P. and Thomas, P.},
   journal = {Information Fusion, 2005 8th International Conference on},
   year = {2005},
@@ -3665,114 +3509,9 @@ point-process neural encoding models.}},
   doi = {10.1109/ICIF.2005.1591980},
   url = {tracking-secure/reference_materials/RobinsThomas2005.pdf}
 }
-@webpage{www:celltracker,
-  author = {Shen, H.},
-  note = {Retrieved on September 23, 2008},
-  title = {{C}ell{T}racker software website, \url{http://dbkgroup.org/celltracker/}},
-  url = {http://dbkgroup.org/celltracker/},
-  year = {2008}
-}
-@article{vaswani:2008:pfmtpap,
-  author = {Vaswani, N.},
-  title = {Particle Filtering for Large Dimensional State Spaces with Multimodal Observation Likelihoods},
-  year = {2008},
-  journal = {IEEE Trans. Signal Processing},
-  note = {to appear},
-  url = {tracking-secure/reference_materials/Vaswani2008pfmtpap.pdf}
-}
-@article{vaswani:2008:contour,
-  author = {Vaswani, N. and Rathi, Y. and Yezzi, A. and Tannenbaum, A.},
-  title = {{PF-MT} with an Interpolation Effective Basis for Tracking Local Contour Deformations},
-  year = {2008},
-  journal = {IEEE Trans. Image Processing},
-  note = {Accepted with mandatory minor revisions},
-  url = {tracking-secure/reference_materials/Vaswani2008contour.pdf}
-}
-@techreport{johannesson:2004,
-  title = {{Dynamic Bayesian Models via Monte Carlo-An Introduction with Examples}},
-  author = {Johannesson, G. and Hanley, B. and Nitao, J.},
-  year = {2004},
-  institution = {UCRL-TR-207173, Lawrence Livermore National Lab., Livermore, CA (US)},
-  url = {tracking-secure/reference_materials/Johannesson2004.pdf}
-}
-@article{gning:2008,
-  title = {Evolving networks for group object motion estimation},
-  author = {Gning, A. and Mihaylova, L. and Maskell, S. and Pang, S.K. and Godsill, S.},
-  journal = {Proc. of IET Seminar on Target Tracking and Data Fusion: Algorithms and Applications, Birmingham, UK},
-  pages = {99--106},
-  year = {2008},
-  url = {tracking-secure/reference_materials/Gning2008.pdf}
-}
-@article{gning:2008b,
-  title = {Ground Target Group Structure and State Estimation with Particle Filtering},
-  author = {Gning, A. and Mihaylova, L. and Maskell, S. and Pang, S.K. and Godsill, S.},
-  journal = {Proc. of the 11th International Conf. on Information Fusion, Cologne, Germany},
-  pages = {1176--1183},
-  year = {2008},
-  url = {tracking-secure/reference_materials/Gning2008b.pdf}
-}
-@webpage{www:celltracer,
-  author = {Wang, Q. and  You, L. and West, M.},
-  note = {Retrieved on September 30, 2008},
-  title = {{C}ell{T}racer software website, \url{http://www.stat.duke.edu/research/software/west/celltracer/}},
-  url = {http://www.stat.duke.edu/research/software/west/celltracer/},
-  year = {2008}
-}
-
-@article{peters:fan:sisson:2008,
-  title = {{On sequential Monte Carlo, partial rejection control and approximate
-  Bayesian computation}},
-  author = {Peters, G. W. and Fan, Y. and Sisson, S. A.},
-  journal = {Technical Report},
-  year = {2008},
-  publisher = {University of New South Wales},
-  url = {tracking-secure/reference_materials/PetersFanSisson2008.pdf}
-}
-@article{sisson:fan:tanaka:2007,
-  title = {Sequential Monte Carlo without Likelihoods}},
-  author = {Sisson S. A. and Fan, Y. and Tanaka, M. M.},
-  journal = {PROCEEDINGS-National Academy of Sciences},
-  volume = {104},
-  number = {6},
-  pages = {1760-1765},
-  year = {2007},
-  publisher = {The National Academy of Sciences USA},
-  url = {tracking-secure/reference_materials/Sisson_etal.pdf}
-}
-@article{Pillow:etal:2008,
-  title = {Spatio-temporal correlations and visual signalling in a complete neuron
-population.}},
-  author = {Pillow, J. W., Fan, Y., and Shelens, J., and Paninski, L., and Sher, A., and
-Litke, A. M., and Chichilmisky, E. J., and Simoncelli, E. P. },
-  journal = {Nature},
-  volume = {454},
-  pages = {995-999},
-  year = {2008},
-  url = {tracking-secure/reference_materials/PillowSimoncelli08.pdf}
-}
-@article{Vogelstein:etal:2008,
-  title = {Spike inference from calsium imaging using sequential Monte Carlo methods}},
-  author = { Vogelstein, J. T., and Watson, B. O., and Packer, A. M., and Yuste, R., and
- Jedynak, B., and Paninski, L. },
-  journal = {in preparation},
-  year = {2008},
-  url = {tracking-secure/reference_materials/BJ08.pdf}
-}
-@article{Paninski:2004,
-  title = {Maximum likelihood estimation of cascade
-point-process neural encoding models.}},
-  author = {Paninski, L. },
-  journal = {Network: Computation in Neural Systems },
-  volume = {15},
-  pages = {243-262},
-  year = {2004},
-  url = {tracking-secure/reference_materials/PillowSimoncelli08.pdf}
-}
-
-
 @INPROCEEDINGS{EW01,
     author = {Eric A. Wan and Rudolph Van Der Merwe},
-    title = {The Unscented Kalman Filter},
+    title = {{The Unscented Kalman Filter}},
     booktitle = {Kalman Filtering and Neural Networks},
     year = {2001},
     pages = {221--280},
@@ -3780,7 +3519,7 @@ point-process neural encoding models.}},
 }
 
 @article{JAM10,
-  title={Monte Carlo Methods},
+  title={{Monte Carlo Methods}},
   author={Johansen, Adam M and Evers, Ludger and Whiteley, N},
   journal={Lecture Notes},
   volume={200},
@@ -3822,7 +3561,7 @@ filter}},
 @INPROCEEDINGS{DR05, 
 author={Douc, R. and Cappe, O.}, 
 booktitle={Image and Signal Processing and Analysis, 2005. ISPA 2005. Proceedings of the 4th International Symposium on}, 
-title={Comparison of resampling schemes for particle filtering}, 
+title={Comparison of resampling schemes for particle filtering}}, 
 year={2005}, 
 month={Sept}, 
 pages={64-69}, 
@@ -3833,7 +3572,7 @@ ISSN={1845-5921},}
 
 @ARTICLE{JSL98,
     author = {Jun S. Liu and Rong Chen},
-    title = {Sequential Monte Carlo Methods for Dynamic Systems},
+    title = {{Sequential Monte Carlo Methods for Dynamic Systems}},
     journal = {Journal of the American Statistical Association},
     year = {1998},
     volume = {93},
@@ -3845,7 +3584,7 @@ ISSN={1845-5921},}
 
 @article{KG96,
 author = {Kitagawa, Genshiro},
-title = {Monte Carlo Filter and Smoother for Non-Gaussian Nonlinear State Space Models},
+title = {{Monte Carlo Filter and Smoother for Non-Gaussian Nonlinear State Space Models}},
 journal = {Journal of Computational and Graphical Statistics},
 volume = {5},
 number = {1},
@@ -3863,11 +3602,11 @@ eprint = {
 @incollection{BC01,
 year={2001},
 isbn={978-1-4419-2887-0},
-booktitle={Sequential Monte Carlo Methods in Practice},
+booktitle={{Sequential Monte Carlo Methods in Practice}},
 series={Statistics for Engineering and Information Science},
 editor={Doucet, Arnaud and de Freitas, Nando and Gordon, Neil},
 doi={10.1007/978-1-4757-3437-9_6},
-title={RESAMPLE-MOVE Filtering with Cross-Model Jumps},
+title={{RESAMPLE-MOVE Filtering with Cross-Model Jumps}},
 url={http://dx.doi.org/10.1007/978-1-4757-3437-9_6},
 publisher={Springer New York},
 author={Berzuini, Carlo and Gilks, Walter},
@@ -3884,7 +3623,7 @@ URL = "http://www.dax-indices.com/EN/MediaLibrary/Document/Factsheets/Factsheet_
 }
 
 @book{RM96,
-  title={Riskmetrics(TM): Technical Document},
+  title={{Riskmetrics(TM): Technical Document}},
   author={J.P. Morgan and Reuters and Reuters Limited},
   url={http://books.google.co.uk/books?id=mPF8mgEACAAJ},
   year={1996},
@@ -3892,7 +3631,7 @@ URL = "http://www.dax-indices.com/EN/MediaLibrary/Document/Factsheets/Factsheet_
 }
 
 @book{WR90,
-  title={Risk-sensitive optimal control},
+  title={{Risk-sensitive optimal control}},
   author={Whittle, P.},
   isbn={9780471926221},
   lccn={89028165},
@@ -3903,7 +3642,7 @@ URL = "http://www.dax-indices.com/EN/MediaLibrary/Document/Factsheets/Factsheet_
 }
 
 @ARTICLE{SG01,
-title = {Maximum a Posteriori Sequence Estimation Using Monte Carlo Particle Filters},
+title = {{Maximum a Posteriori Sequence Estimation Using Monte Carlo Particle Filters}},
 author = {Godsill, Simon and Doucet, Arnaud and West, Mike},
 year = {2001},
 journal = {Annals of the Institute of Statistical Mathematics},
@@ -3912,4 +3651,19 @@ number = {1},
 pages = {82-96},
 keywords = {Bayesian estimation; filtering; Monte Carlo methods; non-linear non-Gaussian state space model; maximum a posteriori estimation; particle filter; smoothing},
 url = {http://EconPapers.repec.org/RePEc:spr:aistmt:v:53:y:2001:i:1:p:82-96}
+}
+
+@article {CN13,
+author = {Chopin, N. and Jacob, P. E. and Papaspiliopoulos, O.},
+title = {{SMC2}: an efficient algorithm for sequential analysis of state space models},
+journal = {Journal of the Royal Statistical Society: Series B (Statistical Methodology)},
+volume = {75},
+number = {3},
+publisher = {Blackwell Publishing Ltd},
+issn = {1467-9868},
+url = {http://dx.doi.org/10.1111/j.1467-9868.2012.01046.x},
+doi = {10.1111/j.1467-9868.2012.01046.x},
+pages = {397--426},
+keywords = {Iterated batch importance sampling, Particle filtering, Particle Markov chain Monte Carlo methods, Sequential Monte Carlo sampling, State space models},
+year = {2013},
 }

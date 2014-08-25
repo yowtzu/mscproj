@@ -23,7 +23,10 @@ numerous possible directions for future work that have been identified
 during the course of this research.
 
 \subsection{More realistic models}
-The Arithmetic Brownian Model with drift used in this thesis is rather simple. A possible extension work is to consider a more advanced model, e.g., Geometric Brownian Model, Jump Diffusion model, etc. Moving away from conditional Gaussian model also introduces another complication. Without the conditional Gaussian assumption, the inner Kalman Filter recursion is no longer optimal. A possible solution to this is substituting the Kalman Filter with a nested SMC algorithm. This setup is known as the SMC$^2$ algorithm \cite{CN13}.
+The Arithmetic Brownian Model with drift used in this thesis is rather simple. A possible extension work is to consider a more advanced model, e.g., Geometric Brownian Model, Jump Diffusion model, etc. Moving away from conditional Gaussian model also introduces another complication. Without the conditional Gaussian assumption, the inner Kalman Filter recursion is no longer optimal. A possible solution to this is substituting the Kalman Filter with a nested SMC algorithm. This setup is known as the SMC2 algorithm \cite{CN13}.
+
+\subsection{Parallel computation}
+The nested SMC setup inevitably add consideration computation requirements. A possible speed up is to parallelise the steps in SMC algorithm. This is very straight-forward for all the steps, except the resampling step, which remains an interesting research topic on its own. 
 
 \subsection{More complex financial indices}
 The benchmark index used in this thesis is rather simple. This can

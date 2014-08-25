@@ -152,27 +152,18 @@ We proceed by examining the proposed algorithm with proposal density $q_t(\cdot)
 \item Various number of samples, $N$: 100, 500, 1000, 5000 and 10000.
 \item Resample step: Always vs. Selectively (trigger threshold set to $\frac{ESS}{2}$).
 \item Resample-Move step with MCMC (random walk proposal): Always vs. disabled.
-\item Various $\gamma$ settings: Constant function of $1$, $50$, $100$, $1000$ and increasing function of time $t$, $10t$, $50t$ and $100t$. 
+\item Various $\gamma$ settings: Constant function of $1$, $50$, $100$, $1000$ and increasing function of time $t+1$, $10(t+1)$, $50(t+1)$ and $100(t+1)$\footnote{$t+1$ instead of $t$ because time-step $t$ starts with 0}. 
 \end{enumerate}
 
-\subsection{Results and discussion}
+\subsection{Results and discussions}
 We first evaluate the effect of selectively enabling resample step with $ESS$ mechanism. In \emph{all} the settings, it is found that simple runs with resample step enabled always at each iteration have relatively better performance. Figure \ref{fig:ess} shows the performance in terms of $\log\pi_T(\hat{u}^*_{0:t})$ of 30 independent runs ($T=20$ and $N=10000$) of the algorithms. All other runs with different settings of $T$ and $N$ concur with this finding. From here onwards, we assumes $ESS$ mechanism is disabled unless stated otherwise.
 
-Moreover, in the same figure, we can see that the Resample-Move step does improve performance, albeit in most cases the improvement is marginal. The improvement is more significant when $\gamma$ is set to be high. This is depicted clearly in Figure \ref{fig:rm}, in which it presents similar box-plots of $\log\pi_T(\hat{u}^*_{0:t})$ of $30$ independent runs of the algorithms for different $T$, $N$ and $\gamma$ settings. One possible explanation to this is that high $\gamma$ settings help in optimisation by encouranging particle converge to high density area. Excessively high $\gamma$ settings will lead to pre-mature convergence particles to local optimal (as one can see the $\log\pi_T(\hat{u}^*_{0:t})$ values found in high $\gamma$ settings are not very good). The perturbance Resample-Move step introduces may help particles to escape from local optimal.
-
-In terms of the number of samples used, we can the performance improves with the number of samples used for all time periods considered as shown in Figure \ref{fig:rm}. This is inline with our expectation. For shorter time-period considered, the performance improvement sometimes is ``saturated'' even with lower number of samples, says $1000$ and $5000$. This suggests the optimal control parameters may have been found.
-
-A more interesting result is to compare the performance with different $\gamma$ settings. Let first consider fixed $\gamma$ settings. Excessive high $\gamma$ settings lead to pre-mature convergence issue discussed earlier and stuck at local optimal. On the other hand, low $\gamma$ settings also ds not perform too well either (consider the process of searching for the maximum point by randomly sampling a very flat distribution). The optimal $\gamma$ setting seems to lie sometimes in between. In this case, the $\gamma=100$ setting results in the best performance.
-
-In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may be a good pragmatic compromise between accuracy and good mixing. We investgate further on this by setting $\gamma$ to be increasing function of the form $\alpha t$, where $\alpha$ is constant and $t$ is the time step. The results show that the performance seems improve when the$\alpha$ value is low, but theh result is worse when the $\alpha$ value is high. This suggests a capping on the maximum value on $\alpha$ or a more moderate in $t$ may be more suitable. We therefore carry out two extra $\gamma$ settings: $50\log(t+2)$ and $100\log(t+2)$ to investgate this and the results are shown in Figure \ref{fig:log}. The results indeed agree with our intuition.
-
-Lastly, we conclude this section by showing the output of the model using our estimated $u^*_{0:T}$ obtained in various runs in Figure \ref{fig:estimatedy}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to track the reference signal very close. The code and the results of all other runs can be obtained at the online repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
-
-\begin{figure}[!htbp]
+\begin{figure}[!thbp]
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T5_gamma1_N10000.pdf}
+      
         %\includegraphics[width=0.3\linewidth, height=0.15\textheight]{prob1_6_2}
         %\caption{$dt=0.1$}
         %\label{fig:prob1_6_2}
@@ -180,34 +171,42 @@ Lastly, we conclude this section by showing the output of the model using our es
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma1_N10000.pdf}
+      
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma10_N10000.pdf}
+      
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma50_N10000.pdf}
+      
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma100_N10000.pdf}
+      
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma1000_N10000.pdf}
+      
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma1t_N10000.pdf}
+      
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma10t_N10000.pdf}
+      
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma50t_N10000.pdf}
+      
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -217,15 +216,17 @@ Lastly, we conclude this section by showing the output of the model using our es
     \label{fig:ess}
 \end{figure}
 
-\begin{figure}[!htbp]
+Moreover, in the same figure, we can see that the Resample-Move step does improve performance, albeit in most cases the improvement is marginal. The improvement is more significant when $\gamma$ is set to be high. This is depicted clearly in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}, in which it presents similar box-plots of $\log\pi_T(\hat{u}^*_{0:t})$ of $30$ independent runs of the algorithms for different $T$, $N$ and $\gamma$ settings. One possible explanation to this is that high $\gamma$ settings help in optimisation by encouranging particle converge to high density area. Excessively high $\gamma$ settings will lead to pre-mature convergence particles to local optimal (as one can see the $\log\pi_T(\hat{u}^*_{0:t})$ values found in high $\gamma$ settings are not very good). The perturbance Resample-Move step introduces may help particles to escape from local optimal.
+
+\begin{figure}[!thbp]
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma50.pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma1(t+1).pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma50t.pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma50.pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -233,100 +234,162 @@ Lastly, we conclude this section by showing the output of the model using our es
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100t.pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100(t+1).pdf}
     \end{minipage}
+    \caption{The $\log\pi_T(\hat{u}^*_{0:t})$ box-plots of 30 independent runs with various settings for $T=5$. The $5$ left/rightmost box-plots in each figure are for the runs without/with resample-move step.}
+    \label{fig:rm1}
+\end{figure}
+
+\begin{figure}[!thbp]
+    \centering
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma50.pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma10(t+1).pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma50t.pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma50(t+1).pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma500.pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma100.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma1000.pdf}
+    \end{minipage}
+    \caption{The $\log\pi_T(\hat{u}^*_{0:t})$ box-plots of 30 independent runs with various settings for $T=10$. The $5$ left/rightmost box-plots in each figure are for the runs without/with resample-move step.}
+    \label{fig:rm2}
+\end{figure}
+
+\begin{figure}[!thbp]
+    \centering
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma50.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100.pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100(t+1).pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma1000.pdf}
     \end{minipage}
-    \begin{minipage}{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100.pdf}
-    \end{minipage}%
-    \begin{minipage}{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100t.pdf}
-    \end{minipage}
-    \caption{The $\log\pi_T(\hat{u}^*_{0:t})$ box-plots of 30 independent runs with various settings. The leftmost/rightmost $5$ box-plots in each figure are for the runs without/with resample-move step.}
-    \label{fig:rm}
+    \caption{The $\log\pi_T(\hat{u}^*_{0:t})$ box-plots of 30 independent runs with various settings for $T=20$. The $5$ left/rightmost box-plots in each figure are for the runs without/with resample-move step.}
+    \label{fig:rm3}
 \end{figure}
 
-\begin{figure}[!htbp]
+In terms of the number of samples used, we can the performance improves with the number of samples used for all time periods considered as shown in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}. This is inline with our expectation. For shorter time-period considered, the performance improvement sometimes is ``saturated'' even with lower number of samples, says $1000$ and $5000$. This suggests the optimal control parameters may have been found.
+
+A more interesting result is to compare the performance with different $\gamma$ settings. Let first consider fixed $\gamma$ settings. Excessive high $\gamma$ settings lead to pre-mature convergence issue discussed earlier and stuck at local optimal. On the other hand, low $\gamma$ settings also ds not perform too well either (consider the process of searching for the maximum point by randomly sampling a very flat distribution). The optimal $\gamma$ setting seems to lie sometimes in between. In this case, the $\gamma=100$ setting results in the best performance.
+
+In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may be a good pragmatic compromise between accuracy and good mixing. We investgate further on this by setting $\gamma$ to be increasing function of the form $\alpha t$, where $\alpha$ is constant and $t$ is the time step. The results show that the performance seems improve when the$\alpha$ value is low, but theh result is worse when the $\alpha$ value is high. This suggests a capping on the maximum value on $\alpha$ or a more moderate in $t$ may be more suitable. We therefore carry out two extra $\gamma$ settings: $50\log(t+2)$ and $100\log(t+2)$ to investgate this and the results are shown in Figure \ref{fig:log}. The results obtained are not stastically different from a simple fixed $\gamma=100$ setting.
+
+\begin{figure}[!thbp]
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100.pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma50log(t+2).pdf}
         %\includegraphics[width=0.3\linewidth, height=0.15\textheight]{prob1_6_2}
         %\caption{$dt=0.1$}
         %\label{fig:prob1_6_2}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100.pdf}
-    \end{minipage}
-    \begin{minipage}{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100.pdf}
-    \end{minipage}%
-    \begin{minipage}{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100.pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100log(t+2).pdf}
     \end{minipage}
     \caption{The $\log\pi_T(\hat{u}^*_{0:t})$ box-plots of 30 independent runs with four different $\gamma$s settings. The leftmost/rightmost $5$ box-plots in each figure are for the runs without/with resample-move step.}
     \label{fig:log}
 \end{figure}
 
-\begin{figure}[!htbp]
+Lastly, we conclude this section by showing the output of the model using our estimated $u^*_{0:T}$ obtained in various runs in Figure \ref{fig:estimatedy} and their corresponding tracking errors in Figure \ref{fig:error}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to track the reference signal very close. For further details about the experiments, the implementation code and the plots for all other runs can be obtained at the online repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
+
+In the next section, we shall investigate the use of the same algorithm to track a major financial index using real-world data. 
+
+\begin{figure}[!thbp]
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{output_y/output_20_1.pdf}
-        \caption*{$\gamma=1$}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{output_y/output_20_1t.pdf}
-        \caption*{$\gamma=1t$}
+        \includegraphics[width=\textwidth]{output_y/output_20_1(t+1).pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{output_y/output_20_10t.pdf}
-        \caption*{$\gamma=10t$}
+        \includegraphics[width=\textwidth]{output_y/output_20_50(t+1).pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{output_y/output_20_50t.pdf}
-        \caption*{$\gamma=50t$}
+        \includegraphics[width=\textwidth]{output_y/output_20_50log(t+2).pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{output_y/output_20_100.pdf}
-        \caption*{$\gamma=100$}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{output_y/output_20_100log(t+2).pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{output_y/output_20_500.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{output_y/output_20_1000.pdf}
-        \caption*{$\gamma=1000$}
     \end{minipage}
     \caption{The estimated $y$ output of the model using $u^*_{0:T}$ in 30 independent runs with various $\gamma$ settings, $T=20$, $N=1000$ and resample-move disabled.}
     \label{fig:estimatedy}
 \end{figure}
 
+\begin{figure}[!thbp]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma1.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma1(t+1).pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma50(t+1).pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma50log(t+2).pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma100.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma100log(t+2).pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma500.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma1000.pdf}
+    \end{minipage}
+    \caption{The tracking error of the model using $u^*_{0:T}$ in 30 independent runs with various $\gamma$ settings, $T=20$, $N=1000$ and resample-move disabled.}
+    \label{fig:error}
+\end{figure}
+
 \section{Example 2: Tracking the DAX Index}
 \label{sec:exp2}
-Given the initial result in Example 1 looks very promising, we attempt to investigate the use of the same algorithm to track the financial index using real-world data. We shall look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. The DAX Index is chosen for various pragmatic reasons. It is one of the major world indices that is tracked by various index funds, it has small number of components and the data is freely accessible\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index obtained. It was later found some of the data is not publicly available. Having said that, the preliminary findings concur with the findings we have with the DAX Index reported here.}. For further detail on the DAX Index methodology, refer \cite{DAX14}.
+In this example, we look at a real-world example. We look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. The DAX Index is chosen for various pragmatic reasons. It is one of the major world indices that is tracked by various index funds, it has small number of components and the data is freely accessible\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index obtained. It was later found some of the data is not publicly available. Having said that, the preliminary findings concur with the findings we have with the DAX Index reported here.}. For further detail on the DAX Index methodology, refer \cite{DAX14}.
  
 In the first experiment, we define a simple hypothetical sub-index, $DAX4$ consists of four stocks from the DAX Index that have the highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the $DAX4$ index level is calculated as the simple weighted average of the adjusted close prices obtained from Yahoo Finance as follows:
 \begin{equation}
@@ -376,39 +439,28 @@ where $P_t$ is the EWMA estimate and $Q_t$ is the new observation at time step $
 \end{blockarray}
 \end{equation}
  
-It is worth here to re-iterate here that this model is just a means to an end. There are more sophisticated models, e.g., Geometric Brownian Motion with drift, Jump diffusion model, etc.
- 
-Given the above model, we can write the reward function as follows:
+It is worth here to re-iterate here that this model is just a means to an end to demonstrate the idea. Other sophisticated models, e.g., Geometric Brownian Motion with drift, Jump diffusion model, etc., are possible, perhaps better. This model is again an instance of the model class defined in \eqref{eq:model}.
+
+Using this model, we can write the reward function as follows:
 \begin{equation}
-  J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t - G_t(u_t) \vert\vert^2_{(D_t(u_t)D_t(u_t)^T)^{-1}}  + \vert\vert u_t - \Xi_t u_{t-1} \vert\vert^2_{L_t}\right) \right]
+  J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t \vert\vert^2_{(D_t(u_t)D_t(u_t)^T)^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right]
 \end{equation}
- 
-For the state space model parameters we will use B = D = F = I and for the reward L1 = diag(0.1, 0.2, 0.3, 0.4) and L2 = diag(0.4, 0.3, 0.2, 0.1). Also, for the constraints of u2,n we have d1 = 2, d2 = 4, d3 = 6 and d4 = 8. The idea behind all choices is to construct a scenario where stations with with lower switching on/off cost are assigned higher “fuel” penalties (reflected upon higher values in L2) and more restrictive constraints on how much control power they can deliver (reflected upon dm). The reference is a one dimensional signal composed by a sequence of equally sized upward steps every 5 epochs up to some time before the middle of the horizon T, after which it decays with a sequence of equal but different than before downward steps.
- 
-This time, we will use the SMC algorithm to target $\pi^{\gamma_n}$ where $\gamma$ is a linearly increasing sequence chosen to be $\gamma=t$. This is a pragmatic compromise between accuracy and good mixing in the algorithm. For the importance sampling stepwe will propose for $U_{1,n}$ to either switch one station on, either shut one off, or keep the same configuration compared to U1,n−1. Each move is proposed with equal probability. For U2,n we will propose each time uniformly from U2. Simulations were carried out for N = 5000,10000,50000 without the MCMC moves implemented and the results are plotted in Figures 3 and 4. Given the difficulty to design MCMC moves with reasonable acceptance ratios for this model, the step was omitted. Instead to counter degeneracy it was chosen to use a large number of particles and a smoothly increasing γn . Simulations took less than a minute per 1000 particles.
-The algorithm seems to perform well. We observed that in some simulation runs there seems to be a lag when the reference drops. We believe this is sensible with the problem’s parameter setting, which penalises in the same way turning on and shutting down a station and constraining Un,2 to be non-negative. So in some cases it is preferable to keep a station on with low output than switching it off. Improvements in terms of the accuracy of the mean of the recursive likelihood mn tracking the reference, or the smoothness or speed of the controllers can be always be achieved by different tuning for L1, L2, D.
- 
-\subsection{Result and discussion}
-Various setting are attempted and repeated $n$ times, We tried and repeated couple of settings $T x L x $
- 
-The resulting $Y$ and $u$ are summaried in figure x.
- 
-As sho, we can see that the method is effective etc.
- 
-\subsection{Extension}
-Tracking the full index, the results are shown here
+Here, we will define $L = diag(0.1, 0.2, 0.3, 0.4)$ and also impose additional constraints on each component of $u$ is in the range $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi^{\gamma_n}$ where $\gamma$ is a increasing sequence in the order of $\log(t)$ as described in previous section. For the importance sampling step, we propose for $U_{1,n}$ uniformly from the range bounded the constraints mentioned. 
+
+The simulation is carried out for $N=5000,10000$ with no resample-move step implemented. The results are shown in Figure 3 and 4. The performance seems very promising. The simulated $y$ and the target index level very well.
+
+In the second setup, we alter $L= diag(100, 200, 300, 400)$. This essential increase the weight on minimizing transaction cost relatively to minimizing trackiing error. The results are shown in Figure \ref{}. One can see the $u$ is much more smoother at the expense of tracking error. 
+
+\subsection{Tracking the  $DAX$ index}
+Now we attempt to track the full index, applying the following changes: the setup back to $L = diag(0.1, 0.2, 0.3, 0.4)$. The results are show in. 
  
 \subsection{Partial Replication}
 As discussed earlier, sometimes it may be more efficient in terms of cost to track the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed, by doubling the number of stocks to be the top $8$ highest weighted constituents of DAX index as of 1st January 2014 and setting the the \emph{true} $DAX$ index level as the target reference $y$. The experiment is repeated as before and the results are shown in Figure .
  
-\section{Model Control Predictive}
-We demonstrate how the model control predictive can e used ot predict the value.Instead, we use this idea.
- 
- 
-\subsection{Result}
- 
-\endinput
- 
+\section{Model Predictive Control}
+Model Predictive Control (MPC) is an established technique in control theory which has achieved significant success in many different domains. MPC makes use of the model to predict the future behaviour of the considered system for certain prediction horizon, $T$. Based on this prediction, the given objective function is minimized. The first input of the obtained control input sequence is applied to the system. At hte next sampel point, prediction and minmization are preated for the same horizon, but are shifted only by one time step. This process is shown in Figure \ref{}. 
+
+The concpet of MPC fits well to this problem formulation. On a daily basis, the SMC algorithm can be executed to predict the optimal $u^*_{0:T}$, but only the first $u$ is applied to the system. Then the process is repeated again on the next day. Using the same setup as before, the experiment results for $DAX4$ and $DAX$ indices are shown in Figures 7 an 8. The tracking performance improves significantly,
  
 \section{Conclusions}
 \label{sec:conclusion5}
