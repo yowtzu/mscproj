@@ -391,6 +391,7 @@ In the next section, we shall investigate the use of the same algorithm to track
 \label{sec:exp2}
 In this example, we look at a real-world example. We look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. The DAX Index is chosen for various pragmatic reasons. It is one of the major world indices that is tracked by various index funds, it has small number of components and the data is freely accessible\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index obtained. It was later found some of the data is not publicly available. Having said that, the preliminary findings concur with the findings we have with the DAX Index reported here.}. For further detail on the DAX Index methodology, refer \cite{DAX14}.
  
+\subsection{Tracking the $DAX4$ sub-index}
 In the first experiment, we define a simple hypothetical sub-index, $DAX4$ consists of four stocks from the DAX Index that have the highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the $DAX4$ index level is calculated as the simple weighted average of the adjusted close prices obtained from Yahoo Finance as follows:
 \begin{equation}
   y = \sum_{s \in \mathcal{S}} w_s x_s
@@ -409,7 +410,7 @@ The portfolio optimisation problem is formulated as such $y$ is viewed as the ta
 To solve this problem using the SMC,  the following state space modelling is used:
 \begin{align}
   X_t &= X_{t-1} + F_t(U_t) + \mu_{t_0} + \Sigma_{t_0} \\
-  Y_t &= C_t(U_t)^{T}X_t
+  Y_t &= U^T_tX_t + 0.1V_t,~V_t \sim \mathcal{N}(0, I)
 \end{align}
 where $\{X_t\}_{t \geq 0}$ is a vector of stock price processes modelled as Arithmetic Brownian Motion with drift, $\{U_t\}_{t \geq 0}$ is a vector of control input processes, each represents the position we have for each stock, $F_t(u_t)$ can be viewed as the market impact on price due to position changes and is set to be $0.1u_t$ here, $\mu_{t_0}$ and $\Sigma_{t_0}$ are vector of the estimated mean and the estimated covariance matrix of the stock returns and $\{Y_t\}_{t \geq 0}$ is the process represents the index level. The values of $\mu_t$ and $\Sigma_t$ here are estimated using Exponential Weighted Moving Average (EWMA) approach with the decay rate, $\lambda$, set to $0.94$, which can be easily calculated in a recursion form as follows:
 \begin{equation}
@@ -445,17 +446,27 @@ Using this model, we can write the reward function as follows:
 \begin{equation}
   J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t \vert\vert^2_{(D_t(u_t)D_t(u_t)^T)^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right]
 \end{equation}
-Here, we will define $L = \diag(1, 2, 3, 4)$ and also impose additional constraints on each component of $u$ is in the range $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi^{\gamma_n}$ where $\gamma$ is a increasing sequence in the order of $\log(t)$ as described in previous section. For the importance sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. 
+Here, we will define $L = \diag(4,3,2,1)$ and also impose additional constraints on each component of $u$ is in the range $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi$ directly, i.e, fixed $\gamma=1$ setting. For the importance sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. 
 
-The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. THe output of the model is able to track the index very well with only $0.004$ tracking error, but the control parameter $u^*_{0:T}$ which represent the holding position of each stock does seems very stable.
+The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. The output of the model is able to track the index very well with only $0.004$ tracking error, but the control parameter $u^*_{0:T}$ which represent the holding position of each stock does seems very stable.
 
-To emphasize more on minimizing the holding position, we could simply increase the value of $L$. To demonstrate this, we repeat the experiment with $L = \diag(1000, 2000, 3000, 4000)$. The results are shown in Figure \ref{fig:dax42}. One can see the $u^*_{0:T}$ is much more stable, albeit the average tracking error is increased to $0.11$ over the $30$ runs.
+To reduce further the changes in holding position, we could simply increase the value of $L$. To demonstrate this, we repeat the experiment with $L = 1000\diag(4,3,2,1)$. The results are shown in Figure \ref{fig:dax42}. One can see the $u^*_{0:T}$ is much more stable, albeit the average tracking error is increased to $0.11$ over the $30$ runs.
 
-\subsection{Tracking the  $DAX$ index}
-Now we attempt to track the full index, applying the following changes: the setup back to $L = \diag(0.1, 0.2, 0.3, 0.4)$. The results are show in. 
+\subsection{Tracking the $DAX$ index}
+Now we attempt to track the orignal $DAX$ index which consits of $30$ components using the similar model with minimal changes as follows:
+\begin{align}
+  X_t &= X_{t-1} + F_t(U_t) + \mu_{t_0} + \Sigma_{t_0} \\
+  Y_t &= 30U^T_tX_t + 0.1V_t,~V_t \sim \mathcal{N}(0, I)
+\end{align}
+with the same parameter settings as before except the following:
+\begin{enumerate}
+\item The target reference $y^{ref}$ is the daily close index level of $DAX$.
+\item Dimensionality of $X$ and $Y$ are increased from $4$ to $30$.
+\item $L$ matrix is set to be $100I_{30 \times 30}$, i.e., the transaction cost of each component is equal.
+\end{enumerate}
+The results look very promising, albeit each iteration takes about $10$ times longer to run. The mean of $y$ is shown in Figure \ref{fig:dax} and the tracking error is $1.1$ over the $30$ runs.
  
-\subsection{Partial Replication}
-As discussed earlier, sometimes it may be more efficient in terms of cost to track the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed, by doubling the number of stocks to be the top $8$ highest weighted constituents of DAX index as of 1st January 2014 and setting the the \emph{true} $DAX$ index level as the target reference $y$. The experiment is repeated as before and the results are shown in Figure .
+It can be more efficient (not only in terms of computational), but also in terms of transaction cost and management perspective to the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed. We choose the top $6$ highest weighted constituents of DAX index as of 1st January 2014 and setting the the \emph{true} $DAX$ index level as the target reference $y$. The experiment is repeated as before and the results are shown in Figure \ref{}.
  
 \section{Model Predictive Control}
 Model Predictive Control (MPC) is an established technique in control theory which has achieved significant success in many different domains. MPC makes use of the model to predict the future behaviour of the considered system for certain prediction horizon, $T$. Based on this prediction, the given objective function is minimized. The first input of the obtained control input sequence is applied to the system. At hte next sampel point, prediction and minmization are preated for the same horizon, but are shifted only by one time step. This process is shown in Figure \ref{}. 
@@ -465,20 +476,4 @@ The concpet of MPC fits well to this problem formulation. On a daily basis, the 
 \section{Conclusions}
 \label{sec:conclusion5}
 This chapter presents some proof-of-concept experiments that have been
-carried out to validate our proposal: inferring security policies from
-decision examples using EAs. It first presents the experiments on
-inferring some simple binary decision policies and continues with the
-experiments on inferring the Fuzzy MLS model, which is a more
-complicated multi-decision policy model. In all cases, the results
-show that EAs are able to infer policies that can approximate (if not
-refine) the original reference models that are used to generate the
-training sets. The technique is also shown to be able to scale with
-the range of input/output variables and to tolerate~``wrong'' examples
-in the training set.
- 
-For a dynamic environment, the ability to infer policy from examples
-alone is not sufficient. The inferred and learnt policies will
-eventually become suboptimal over time as the operational requirements
-change. The policy needs to be updated continually to maintain its
-optimality. The next chapter demonstrates how multi-objective
-evolutionary algorithms (MOEAs) can be used to achieve this goal.
+carried out to validate our proposal: searching for the optimal control for a portfolio to track a target reference signal using SMC algorithms. It first presents an experiment with a osccilating wave as target reference signal and continues with an experiment with a major real-world index as target refernece signal. In all cases, the results show that SMCs are able to search for optimal control that results an output that is able to track the reference signal.
