@@ -1,5 +1,0 @@
-dvips -t a4 -o thesis.ps thesis.dvi
-dvips -t a4 -o thesis.ps thesis.dvi
-sed '/^SDict begin \[$/,/^end$/d' thesis.ps > patched
-mv patched thesis.ps
-ps2pdf thesis.ps

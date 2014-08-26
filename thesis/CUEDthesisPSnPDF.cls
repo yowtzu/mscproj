@@ -30,7 +30,6 @@
 \fi
 \usepackage{blkarray}
 \usepackage{amssymb}
-\usepackage{subfig}
 \usepackage{graphics}
 \usepackage{fancyhdr}
 \usepackage{eucal}

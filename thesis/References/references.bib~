@@ -3631,7 +3631,7 @@ URL = "http://www.dax-indices.com/EN/MediaLibrary/Document/Factsheets/Factsheet_
 }
 
 @book{WR90,
-  title={{Risk-sensitive optimal control}},
+  title={{Risk-sensitive Optimal Control}},
   author={Whittle, P.},
   isbn={9780471926221},
   lccn={89028165},
@@ -3655,7 +3655,7 @@ url = {http://EconPapers.repec.org/RePEc:spr:aistmt:v:53:y:2001:i:1:p:82-96}
 
 @article {CN13,
 author = {Chopin, N. and Jacob, P. E. and Papaspiliopoulos, O.},
-title = {{SMC2}: an efficient algorithm for sequential analysis of state space models},
+title = {{SMC2}: An efficient algorithm for sequential analysis of state space models},
 journal = {Journal of the Royal Statistical Society: Series B (Statistical Methodology)},
 volume = {75},
 number = {3},

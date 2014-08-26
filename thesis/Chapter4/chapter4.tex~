@@ -450,7 +450,21 @@ Here, we will define $L = \diag(4,3,2,1)$ and also impose additional constraints
 
 The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. The output of the model is able to track the index very well with only $0.004$ tracking error, but the control parameter $u^*_{0:T}$ which represent the holding position of each stock does seems very stable.
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{adjclose}
+\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\label{fig:dax4}
+\end{figure}
+
 To reduce further the changes in holding position, we could simply increase the value of $L$. To demonstrate this, we repeat the experiment with $L = 1000\diag(4,3,2,1)$. The results are shown in Figure \ref{fig:dax42}. One can see the $u^*_{0:T}$ is much more stable, albeit the average tracking error is increased to $0.11$ over the $30$ runs.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{adjclose}
+\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\label{fig:dax42}
+\end{figure}
 
 \subsection{Tracking the $DAX$ index}
 Now we attempt to track the orignal $DAX$ index which consits of $30$ components using the similar model with minimal changes as follows:
@@ -466,13 +480,36 @@ with the same parameter settings as before except the following:
 \end{enumerate}
 The results look very promising, albeit each iteration takes about $10$ times longer to run. The mean of $y$ is shown in Figure \ref{fig:dax} and the tracking error is $1.1$ over the $30$ runs.
  
-It can be more efficient (not only in terms of computational), but also in terms of transaction cost and management perspective to the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed. We choose the top $6$ highest weighted constituents of DAX index as of 1st January 2014 and setting the the \emph{true} $DAX$ index level as the target reference $y$. The experiment is repeated as before and the results are shown in Figure \ref{}.
- 
-\section{Model Predictive Control}
-Model Predictive Control (MPC) is an established technique in control theory which has achieved significant success in many different domains. MPC makes use of the model to predict the future behaviour of the considered system for certain prediction horizon, $T$. Based on this prediction, the given objective function is minimized. The first input of the obtained control input sequence is applied to the system. At hte next sampel point, prediction and minmization are preated for the same horizon, but are shifted only by one time step. This process is shown in Figure \ref{}. 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{adjclose}
+\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\label{fig:dax}
+\end{figure}
 
-The concpet of MPC fits well to this problem formulation. On a daily basis, the SMC algorithm can be executed to predict the optimal $u^*_{0:T}$, but only the first $u$ is applied to the system. Then the process is repeated again on the next day. Using the same setup as before, the experiment results for $DAX4$ and $DAX$ indices are shown in Figures 7 an 8. The tracking performance improves significantly,
+It can be more efficient (not only in terms of computational), but also in terms of transaction cost and management perspective to the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed. We choose the top $6$ highest weighted constituents of DAX index (including Allianz SE ($ALV$) and (SAP SE ($SAP$)) as of 1st January 2014 and setting the the \emph{true} $DAX$ index level as the target reference $y$. The experiment is repeated as before and the results are shown in Figure \ref{fig:daxpartial}.
  
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{adjclose}
+\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\label{fig:daxpartial}
+\end{figure}
+
+\section{Model Predictive Control}
+Up to this point, the discussion has been focussed on predicting the optimal (as outlined in the reward function) strategy for the time period $0:T$. However, as time progress, there are more realisation of the reference signal $y^{ref}_{t^\prime}, t^\prime < T$ obtained. It makes sense to take this information into account in the optimsation process. In this section, we shall demonstrate how the Model Predictive Control (MPC) algorithm can be incorporated easily for this problem.
+
+MPC is an established technique in control theory which has achieved significant success in many different domains. It is a kind of receding horizon control algorithm, in which at time step $t$, the model is used to optimise the controls for the process, $u_{t:t+W}$ for a finite horizon for $t:t+W$. However, only the first set of controls, i.e., $u_{t}$ is applied to the system. At time $t+1$, the whole optimisation process is repeated for the same horizon, but shifted by $1$ time step until $t=T$. Refer \cite{GCE89} for further details on MPC. 
+
+In this problem, the SMC algorithm can be executed on a daily basis after the market close on day $t$ to predict the optimal $u^*_{t:t+T}$, i.e., $W=T$, but only the first set of controls, $u_t$ is applied. The same SMC algorithm is repeated on the next day with a shifted time horizon and so on. To demonstrate this idea, we repeat the same experiment on the $DAX$ index with partial replication using $6$ components as before. The results are shown in Figure \ref{fig:mpc}. We can see a siginificant improvement of performance with only tracking error of $1.$ over the $30$ runs. Having said that, the computational requirement here is \emph{much} higher, in the order of $T$. A possible way to trade-off the two is to set $W$ to be less than $T$.
+ 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{adjclose}
+\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\label{fig:mpc}
+\end{figure}
+
 \section{Conclusions}
 \label{sec:conclusion5}
 This chapter presents some proof-of-concept experiments that have been
