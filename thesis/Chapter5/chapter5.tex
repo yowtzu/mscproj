@@ -4,16 +4,16 @@
 The work reported in the previous chapter provides evidence to support
 the thesis hypothesis:
 \begin{quote}
-Sequential Monte Carlo (SMCs) have the potential to be an effective means of searching the optimal strategy for index tracking funds.
+Sequential Monte Carlo (SMC) techniques have the potential to be an effective means of searching the optimal strategy for index tracking funds.
 \end{quote}
 This chapter reviews the work that has been done, evaluates the extent
 to which they justify the thesis hypothesis and concludes the thesis
 by addressing the directions for future work.
 
 \subsection{Thesis contributions}
-In the first experiment, we demonstrated the potential of SMCs in tracking a determinstic simple oscillating wave. The sensitivity of the techniques in terms of parameter settings and trade-off between the estimation accuracy and computational efforts are explored numerically. Several results are found. Firstly, it is found that a simple resampling step at each iteration performs better the more advanced method in which the resampling step is selectively triggered depending on the $ESS$ value. Secondly, it is found that the improvement of resample-move step is marginal. Considering the amount of computational cost involved and the extra amount of design cost involved, this may not be worthwhile. Thirdly, it is found that setting $\gamma$ as an increasing function of $t$ does lead to better performance, albeit extra care must be paid on the amount of increment at each step to avoid pre-mature convergence to local optimal. 
+In the first experiment, we demonstrated the potential of SMC techniques in tracking a deterministic simple oscillating wave. The sensitivity of the techniques in terms of parameter settings and trade-off between the estimation accuracy and computational efforts are explored numerically. Several results are found. Firstly, it is found that a simple resampling step at each iteration performs better the more advanced method in which the resampling step is selectively triggered depending on the $ESS$ value. Secondly, it is found that the improvement of resample-move step is marginal. Considering the amount of computational cost involved and the extra amount of design cost involved, this may not be worthwhile. Thirdly, it is found that setting $\gamma$ as an increasing function of $t$ does lead to better performance, albeit extra care must be paid on the amount of increment at each step to avoid pre-mature convergence to local optimal. 
 
-In the second experiment, we explore the potential of SMC techniques in searching the optimal strategy for index tracking error with constraints and minimizing the trasaction costs. We adopt the same framework with slightly different model. Although this framework has been applied in various engineering domains, there is no previous work to my knowledge in the application of such techniques in portfolio tracking error optimisation. In particular, we show how index can be fully replicated or partially replicated with transaction cost taken into account. The experiment results show the SMC techniques are rather promising.
+In the second experiment, we explore the potential of SMC techniques in searching the optimal strategy for index tracking error with constraints and minimizing the transaction costs. We adopt the same framework with slightly different model. Although this framework has been applied in various engineering domains, there is no previous work to my knowledge in the application of such techniques in portfolio tracking error optimisation. In particular, we show how index can be fully replicated or partially replicated with transaction cost taken into account. The experiment results show the SMC techniques are rather promising.
 
 In the third experiment, we introduce the concept of model predictive control (MPC) and how it can be used together with SMC techniques in improving tracking performance. Whist this technique is nothing new in control theory, its application to this portfolio optimisation problem is novel. The experimental results do suggest that MPC indeed improve the tracking performance.
 
@@ -31,12 +31,12 @@ The nested SMC setup inevitably add consideration computation requirements. A po
 \subsection{More complex financial indices}
 The benchmark index used in this thesis is rather simple. This can
 be potentially an issue. Having said that, this index is a simple, but by no means a ``toy''
-index. It is a major financial index in the world. There are however indices with much large number of components, e.g., $\approx 1600$ for MSCI World Index. This translates to a high dimensional problem in wich may be difficult for the proposed model here.
+index. It is a major financial index in the world. There are however indices with much large number of components, e.g., $\approx 1600$ for MSCI World Index. This translates to a high dimensional problem in which may be difficult for the proposed model here.
 
-A possible way to cope with this is to just track the index with partial replication using preselected subset of components, perhaps using Principle Component Analysis (PCA). Altenatively, we could use a divide and conquer approach, tracking multiple sub-indices separately. Yet, there is still much to answer here, for example:
+A possible way to cope with this is to just track the index with partial replication using preselected subset of components, perhaps using Principle Component Analysis (PCA). Alternatively, we could use a divide and conquer approach, tracking multiple sub-indices separately. Yet, there is still much to answer here, for example:
 \begin{itemize}
 \item How to split an index into smaller components in a systematic manner?
-\item How to deal with index components changes during annoucement and implementation?
+\item How to deal with index components changes during announcement and implementation?
 \end{itemize}
 
 \section{Closing remarks}

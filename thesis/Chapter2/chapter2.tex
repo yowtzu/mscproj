@@ -1,7 +1,7 @@
 \chapter{Monte Carlo Methods}
 \graphicspath{{Chapter2/figures/}}
 \label{ch:mcmethods}
-Monte Carlo Methods have achieved significant success in its aplication to various domains in the last few decades. This chapter reviews some fundamental concept in Monte Carlo method that are related to this thesis. It first begins with a summary on the main concept of Bayesian inference. It then discusses some  basic Monte Carlo methods such as perfect Monte Carlo sampling, rejection sampling, importance sampling. Lastly, it details the Sequential Monte Carlo (SMC) techniques, along with various enhancement made to the framework, used in this thesis.
+Monte Carlo Methods have achieved significant success in its application to various domains in the last few decades. This chapter reviews some fundamental concept in Monte Carlo method that are related to this thesis. It first begins with a summary on the main concept of Bayesian inference. It then discusses some  basic Monte Carlo methods such as perfect Monte Carlo sampling, rejection sampling, importance sampling. Lastly, it details the Sequential Monte Carlo (SMC) techniques, along with various enhancement made to the framework, used in this thesis.
 
 \section{Bayesian Inference}
 In Bayesian inference framework, each unknown parameter in the model is assumed to be random variable and is associated with a prior distribution that characterises the initial belief. The inference process is merely about updating the belief with new observable evidence in a systematic fashion using Bayes theorem.
@@ -17,7 +17,7 @@ This problem formulation is elegant, but there remains some subtle issues in pra
 \begin{equation}
   p(x \mid \mathcal{M}) = \int p(x \mid \theta, \mathcal{M}) p(\theta \mid \mathcal{M})~d\theta
 \end{equation}
-This is often infeasible. A often way to circumvent this requirement is by making use of conjugate prior that yields posterior distributions from the same family in an analytical fashion. Morover, the need of calculating integral that does not posess analytic solution also arises in the marginalisation process of nuisance parameters, calculating expectation of a function, etc.
+This is often infeasible. A often way to circumvent this requirement is by making use of conjugate prior that yields posterior distributions from the same family in an analytical fashion. Moreover, the need of calculating integral that does not possess analytic solution also arises in the marginalisation process of nuisance parameters, calculating expectation of a function, etc.
 
 \section{Perfect Monte Carlo}
 Instead of a closed form solution, the Method Carlo methods offer a numerical solution in estimating the integral using simple sampling techniques. Consider the calculation the expectation of a function, $I$ of the following form:
@@ -31,11 +31,11 @@ Assuming we are able to sample $N$ independent and identically distributed (i.i.
 \end{equation}
 This approximation can be viewed as discretization of the continuous distribution with \emph{random} support. This estimate is unbiased and converge almost surely to $I$ as $N \to \infty$ by the Law of Large number \cite{RCP05}. 
 
-Morever, if the variance of $f(\cdot)$ is bounded ($\sigma^2_f < \infty$), as $N \to \infty$, then the following central limit theorem holds:
+Moreover, if the variance of $f(\cdot)$ is bounded ($\sigma^2_f < \infty$), as $N \to \infty$, then the following central limit theorem holds:
 \begin{equation}
   \sqrt{N}(\hat{I} - I) \Longrightarrow N(0, \sigma^2_f)
 \end{equation}
-where $\Longrightarrow$ denotes convergence in distribution \cite{AD09}. The key point to note here is this converengence rate of $\frac{1}{\sqrt{N}}$ is independent of the dimensions of $x$. This is in constrast with any determinstic method that has a rate that decreases as the integral dimension increases \cite{RCP05}. This is the main advantage of Monte Carlo integration.
+where $\Longrightarrow$ denotes convergence in distribution \cite{AD09}. The key point to note here is this convergence rate of $\frac{1}{\sqrt{N}}$ is independent of the dimensions of $x$. This is in contrast with any deterministic method that has a rate that decreases as the integral dimension increases \cite{RCP05}. This is the main advantage of Monte Carlo integration.
 
 \section{Rejection sampling}
 However, it is not always possible to sample directly from the distribution $p(\cdot)$. Suppose we can find an instrumental distribution (a.k.a. proposal distribution), $q(\cdot)$, that is easy to sample from and has the property such that $cq(x)$ dominates $p(x)$ for all $x$, i.e., $cq(x) \geq p(x) \geq 0$ for all $x$, then to get a random sample from $p(\cdot)$, we can first sample from $q(\cdot)$ instead and accept the sample with acceptance probability $\alpha(x)=\dfrac{p(x)}{cq(x)}$. If the sample is rejected, the process is repeated until success. This rejection algorithm is summarised in Algorithm \ref{algo:rejectionsampling}\footnote{The set notation is used here, despite it is actually a collection that allows duplicates. Therefore, the $\cup$ operation should be viewed as a simple join of two collections.}.
@@ -57,7 +57,7 @@ However, it is not always possible to sample directly from the distribution $p(\
 \end{algorithmic}
 \end{algorithm}
 
-Looking at the acceptance ratio formula, it is not difficult to see that the optimal instrumental distribution, $q^*$, is the one that minimizes the space bounded by $cq(x)$ subject to the constraint that it still dominates the target density $p(x)$. As the dimension of $x$ increases, this algorithm becomes very ineffecient because the acceptance ratio which is essentially defined as the ratio of two spaces tends towards zero. Therefore, many generated examples would be rejected. 
+Looking at the acceptance ratio formula, it is not difficult to see that the optimal instrumental distribution, $q^*$, is the one that minimizes the space bounded by $cq(x)$ subject to the constraint that it still dominates the target density $p(x)$. As the dimension of $x$ increases, this algorithm becomes very inefficient because the acceptance ratio which is essentially defined as the ratio of two spaces tends towards zero. Therefore, many generated examples would be rejected. 
 
 \section{Importance sampling}
 \label{sec:IS}
@@ -73,7 +73,7 @@ where $w(x)$ is commonly referred as the importance weight. This reformulation l
           &= \sum^N_{i=1} \dfrac{\tilde{w}(x^{(i)})}{\sum^N_{j=1} \tilde{w}(x^{(j)})} f(x^{(i)}) \nonumber \\
           &= \sum^N_{i=1} \hat{w}(x^{(i)}) f(x^{(i)})  \label{eq:is} 
 \end{align}
-where $\tilde{w}(x^{(i)}) = \dfrac{p(x^{(i)})}{q(x^{(i)})}$ and $\hat{w}(x^{(i)})  = \dfrac{\tilde{w}(x^{(i)})}{\sum^N_{j=1} \tilde{w}(x^{(j)})}$ are referred to as unnormalised and normalised importance weight respectively \cite{CO05}. This estimate is biased as it consists of the ratio of two estimates, yet it is still asymtoptically consistent.
+where $\tilde{w}(x^{(i)}) = \dfrac{p(x^{(i)})}{q(x^{(i)})}$ and $\hat{w}(x^{(i)})  = \dfrac{\tilde{w}(x^{(i)})}{\sum^N_{j=1} \tilde{w}(x^{(j)})}$ are referred to as unnormalized and normalised importance weight respectively \cite{CO05}. This estimate is biased as it consists of the ratio of two estimates, yet it is still asymptotically consistent.
 
 To obtain samples from the target distribution, $p(\cdot)$, an additional resampling step can be introduced. In the first step, we draw a set of samples $\{\tilde{x}^{(i)}\}$ from the instrumental distribution and compute their associated normalised importance weights, $\hat{w}(\tilde{x}^{(i)})$. In the resampling step, we draw the final sample set, $\{x^{(i)}\}$ from this intermediate set of samples by taking into account the importance weights. This algorithm is summarised in Algorithm \ref{algo:importancesampling}
 
@@ -101,7 +101,7 @@ There are many ways of implementing the resampling stage. A simple direct implem
 
 \section{Sequential Monte Carlo}
 \label{sec:SMC}
-To motivate why Sequential Monte Carlo is useful, consider a target distribution of interest $p(x_{0:n})$, and for simplicity, assuming we can sample directly from the distribution $p(x_{0:n})$, the minimal computational complexity of the sampling scheme would be at least linear in $n$. Sequential Monte Carlo (SMC) provides a way to obtain samples of $x$ for each sequential time step follows time$t$ in a \emph{fixed} amount of computational time in Hidden Markov Models (HMMs). We shall begin with a brief introduction on HMMs that is cruicial to understand SMC in the next section. Refer \cite{CO05} for further details of inference techniques for HMMs in general. 
+To motivate why Sequential Monte Carlo is useful, consider a target distribution of interest $p(x_{0:n})$, and for simplicity, assuming we can sample directly from the distribution $p(x_{0:n})$, the minimal computational complexity of the sampling scheme would be at least linear in $n$. Sequential Monte Carlo (SMC) provides a way to obtain samples of $x$ for each sequential time step follows time$t$ in a \emph{fixed} amount of computational time in Hidden Markov Models (HMMs). We shall begin with a brief introduction on HMMs that is crucial to understand SMC in the next section. Refer \cite{CO05} for further details of inference techniques for HMMs in general. 
 
 \subsection{Hidden Markov Models}
 HMMs can be seen as a class of models that consist of two related processes: an underlying Markov process, $X_t$, which is the target process of interest, and a observable process, $Y_t$, which its state can be measured and therefore provides some information about $X_t$. Moreover, it is assumed that these two processes have conditional independence properties as shown using the graphical model representation in Figure \ref{fig:HMM}. These properties can be summarised as follows:
@@ -117,7 +117,7 @@ where $f(x_t \mid x_{t-1})$ is the Markov transition density and $g(y_t \mid x_t
 \label{fig:HMM}
 \end{figure}
 
-This class of models are designed to model evolving systems that output some observable events over time, which depends on the internal state of the system in a online manner. This imposes an implicit requirement on computation perspective: the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
+This class of models are designed to model evolving systems that output some observable events over time, which depends on the internal state of the system in a on-line manner. This imposes an implicit requirement on computation perspective: the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
 
 Arguably, the most common inference problem in HMMs is the smoothing distribution, $p(x_{0:t} \mid y_{0:t})$, that is estimating the states $x_{0:t}$ based on the sequence of observations up to time $t$, $y_{0:t}$. Using Bayes rules, we can write the density of the distribution of interest in the recursion form as follows:
 \begin{align}
@@ -155,7 +155,7 @@ In a conditional linear Gaussian state space as follows:
   Y_t &= C_t(U_t)X_t + D_t(U_t)V_t + G_t(U_t)
 \label{eq:gaussianmodel}
 \end{align}
-where $\{U_t\}_{t \geq 0}$ is a determinstic control input sequence that is used regulate the hidden states, $A_t$, $B_t$, $C_t$, $D_t$, $F_t$, $G_t$ are appropriate matrix/vector functions of $U_n$ and  $\{W_t\}_{t \geq 0}$ and  $\{V_t\}_{t \geq 0}$ are independent sequences of standard Gaussian random variable, i.e., $W_t, V_t \sim \mathcal{N}(0,I)$, the transition density and likelihood of this model are Gaussian distributions with center lied at a point of a linear combination of the known conditional control parameters, $u_t$ of the following form:
+where $\{U_t\}_{t \geq 0}$ is a deterministic control input sequence that is used regulate the hidden states, $A_t$, $B_t$, $C_t$, $D_t$, $F_t$, $G_t$ are appropriate matrix/vector functions of $U_n$ and  $\{W_t\}_{t \geq 0}$ and  $\{V_t\}_{t \geq 0}$ are independent sequences of standard Gaussian random variable, i.e., $W_t, V_t \sim \mathcal{N}(0,I)$, the transition density and likelihood of this model are Gaussian distributions with center lied at a point of a linear combination of the known conditional control parameters, $u_t$ of the following form:
 \begin{align}
   f_t(x_t \mid x_{t-1}, u_t) &= \mathcal{N}(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
   g_t(y_t \mid x_t, u_t)    &= \mathcal{N}(C_t(u_t) x_t + G_t(u_t), D_t(u_t)D_t(u_t)^T)
@@ -172,7 +172,7 @@ Using the properties of Gaussian distribution, the integral involved can be reso
 \end{align}
 where  $\mu_{t \mid t -1}$ and $\Sigma_{t \mid t -1}$ are the predicted mean and co-variance matrix of the state $x_t$, $y_{t \mid t-1}$ and $S_t$ are the mean and co-variance matrix of the measurement at time $t$ and $\mu_{t \mid t}$ and $\Sigma_{t \mid t}$ are the estimated mean and co-variance matrix of the state $x_t$ after seeing the observation $y_t$.
 
-There are various extensions have been developed on top of this approach. For example, the Extended Kalman Filter (EKF) which uses Taylor Series expansion to linearize at the conditional variables locally \cite{WG95}, Unscentend Kalman Filter which further extend the idea in EKF by only using a minimal set of well chosen samples \cite{EW01}, etc.
+There are various extensions have been developed on top of this approach. For example, the Extended Kalman Filter (EKF) which uses Taylor Series expansion to linearise at the conditional variables locally \cite{WG95}, Unscented Kalman Filter which further extend the idea in EKF by only using a minimal set of well chosen samples \cite{EW01}, etc.
 
 \subsection{Sequential Important Sampling (SIS)}
 \label{sec:SIS}
@@ -206,7 +206,7 @@ The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 \Function{SequentialImportanceSampling}{N, T}
 \State Set $t \gets 0$.
 \State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
-\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weights:
+\State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
 \begin{equation*}
  \tilde{w}^{(i)}_0 = \dfrac{f(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}
 \end{equation*}
@@ -218,7 +218,7 @@ The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 \While{$t \leq T$}
 \State For $i \in 1, \ldots, N$, sample $x^{(i)}_t \sim q(x^{(i)}_t \mid y^{(i)}_{t-1}, x^{(i)}_{t-1})$.
 \State For $i \in 1, \ldots, N$, set $x^{(i)}_{0:t} \gets (x^{(i)}_{0:t-1}, x^{(i)}_t)$.
-\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weights:
+\State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
 \begin{equation*}
  \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{f_t(x^{(i)}_t \mid x^{(i)}_{t-1})g_t(y_t \mid x^{(i)}_t)}{q_t(x^{(i)}_t \mid x^{(i)}_{t-1})}
 \end{equation*}
@@ -244,7 +244,7 @@ In general, it is not always possible to sample from this optimal proposal distr
 proposal \emph{reduces} the amount of variance introduced, but it \emph{does not eliminate} the weight degeneracy problem.
 
 \subsection{Sequential Importance Resampling (SIR)}
-The variance in importance weights accumulates over iterations. This suggests a possible solution is to ``reset'' the weights associated to the samples somehow during the iterations \cite{JAM10}. Sequential Importance Resampling (SIR) introduces an additional resampling step to SIS step in a similar fashsion as discussed in Section \ref{sec:IS}. After resampling, the weight of each sample is reset to be equal, i.e., $\frac{1}{N}$.
+The variance in importance weights accumulates over iterations. This suggests a possible solution is to ``reset'' the weights associated to the samples somehow during the iterations \cite{JAM10}. Sequential Importance Resampling (SIR) introduces an additional resampling step to SIS step in a similar fashion as discussed in Section \ref{sec:IS}. After resampling, the weight of each sample is reset to be equal, i.e., $\frac{1}{N}$.
 
 Besides the simplest multinomial resampling scheme, many different resampling schemes have been proposed in the literature. For example, stratified resampling \cite{KG96} as the name suggested splitting the samples into strata to ensure the good coverage on the resulting sample set, residual resampling \cite{JSL98} which is able to decrease the variance of the weights due to resampling, etc. See \cite{DR05} for further details on the comparison of these sampling schemes.  The SIR algorithm is now summarised in Algorithm \ref{algo:sir}.
 
@@ -256,7 +256,7 @@ To trade-off these two competing requirements, one possible way is to monitor th
   ESS \approx \dfrac{1}{E[w^2]} \approx \dfrac{\left(\sum^N_{i=0} w_i \right)^2}{\sum^N_{i=0}w_i^2}
 \end{equation}
 
-A common way to integrate this idea is to triggle the resampling step only if the $ESS_t$ fall below certain threshold at time $t$, say $\frac{N}{2}$. See \cite{JAM10} for further details on ESS.
+A common way to integrate this idea is to trigger the resampling step only if the $ESS_t$ fall below certain threshold at time $t$, say $\frac{N}{2}$. See \cite{JAM10} for further details on ESS.
 
 \begin{algorithm}
 \caption{Sequential Importance Resampling}\label{algo:sir}
@@ -264,7 +264,7 @@ A common way to integrate this idea is to triggle the resampling step only if th
 \Function{SequentialImportanceResampling}{N, T}
 \State Set $t \gets 0$.
 \State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
-\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weights:
+\State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
 \begin{equation*}
  \tilde{w}^{(i)}_0 = \dfrac{f(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}
 \end{equation*}
@@ -276,7 +276,7 @@ A common way to integrate this idea is to triggle the resampling step only if th
 \While{$t \leq T$}
 \State For $i \in 1, \ldots, N$, sample $x^{(i)}_t \sim q(x^{(i)}_t \mid y^{(i)}_{t-1}, x^{(i)}_{t-1})$.
 \State For $i \in 1, \ldots, N$, set $x^{(i)}_{0:t} \gets (x^{(i)}_{0:t-1}, x^{(i)}_t)$.
-\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weights:
+\State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
 \begin{equation*}
  \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{f_t(x^{(i)}_t \mid x^{(i)}_{t-1})g_t(y_t \mid x^{(i)}_t)}{q_t(x^{(i)}_t \mid x^{(i)}_{t-1})}
 \end{equation*}
@@ -292,9 +292,9 @@ A common way to integrate this idea is to triggle the resampling step only if th
 
 \subsection{Resample-Move Algorithm}
 \label{sec:rm}
-However, resampling is not a silver bullet for sampling imporishment. Essentially, resampling provides a mechanism to eliminate low weight samples to give way to replicate \emph{copies} of high weight samples. This allows all samples to participate and contribute to the distribution estimation. This is obvious beneficial for the case of estimating filtering distribution and predictive distribution. Over time, this replication result in decrease in the number of distinct samples for previous time steps. Eventually, many samples will have the share the same sample trajectory. This is a fundamental weakness of SMC, in which the sample path history is never re-written. This lose of diversity in the sample set will have a negative impact when it comes to any smoothing distribution estimation. 
+However, resampling is not a silver bullet for sampling impoverishment. Essentially, resampling provides a mechanism to eliminate low weight samples to give way to replicate \emph{copies} of high weight samples. This allows all samples to participate and contribute to the distribution estimation. This is obvious beneficial for the case of estimating filtering distribution and predictive distribution. Over time, this replication result in decrease in the number of distinct samples for previous time steps. Eventually, many samples will have the share the same sample trajectory. This is a fundamental weakness of SMC, in which the sample path history is never re-written. This lose of diversity in the sample set will have a negative impact when it comes to any smoothing distribution estimation. 
 
-To counteract this sample impoverishment, Resample-Move Algorithm \cite{BC01} is proposed to introduce some perturbance to the samples (so to diversify them) without changing the distribution they represent. This is accomplished by using MCMC steps with a Markov Kernel, $K$ that is invariant to the target distribution, $p(\cdot)$. In the original paper, this is achieved by simply introducing an additional MCMC ``move'' step to each sample after the resampling step using a kernel $K$  that is invariant to the target distribution. This Resample-Move algorithm is summarised in Algorition \ref{algo:rm}.
+To counteract this sample impoverishment, Resample-Move Algorithm \cite{BC01} is proposed to introduce some perturbation to the samples (so to diversify them) without changing the distribution they represent. This is accomplished by using MCMC steps with a Markov Kernel, $K$ that is invariant to the target distribution, $p(\cdot)$. In the original paper, this is achieved by simply introducing an additional MCMC ``move'' step to each sample after the resampling step using a kernel $K$  that is invariant to the target distribution. This Resample-Move algorithm is summarised in Algorithm \ref{algo:rm}.
 
 This does not entirely solve the smoothing distribution estimation problem. To apply Markov Kernels with invariant distribution corresponding to the smoothing distribution, the space that Markov kernel is defined has to increase at each iteration. This implies the computation time increases linearly with time. Moreover, fast mixing high dimension Markov kernel in itself is not easy to design \cite{JAM10}.
 
@@ -306,7 +306,7 @@ To trade-off between the two requirements, one could adopt a sliding windows app
 \Function{ResampleMoveAlgorithm}{N, T}
 \State Set $t \gets 0$.
 \State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
-\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weights:
+\State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
 \begin{equation*}
  \tilde{w}^{(i)}_0 = \dfrac{f(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}
 \end{equation*}
@@ -318,7 +318,7 @@ To trade-off between the two requirements, one could adopt a sliding windows app
 \While{$t \leq T$}
 \State For $i \in 1, \ldots, N$, sample $x^{(i)}_t \sim q(x^{(i)}_t \mid y^{(i)}_{t-1}, x^{(i)}_{t-1})$.
 \State For $i \in 1, \ldots, N$, set $x^{(i)}_{0:t} \gets (x^{(i)}_{0:t-1}, x^{(i)}_t)$.
-\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weights:
+\State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
 \begin{equation*}
  \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{f_t(x^{(i)}_t \mid x^{(i)}_{t-1})g_t(y_t \mid x^{(i)}_t)}{q_t(x^{(i)}_t \mid x^{(i)}_{t-1})}
 \end{equation*}
@@ -344,7 +344,7 @@ To illustrate this, let consider the a simple conditional linear Gaussian Model 
   X_t &= A_t(U_t)X_{t-1} + B_t(U_t)W_t + F_t(U_t) \\
   Y_t &= C_t(U_t)X_t + D_t(U_t)V_t + G_t(U_t)
 \end{align*}
-with the model dynamic spedicfied as follows:
+with the model dynamic specified as follows:
 \begin{align}
   p_t(u_t \mid u_{t-1}) &= \textrm{(any given form)} \nonumber \\
   f_t(x_t \mid x_{t-1}, u_t) &= \mathcal{N}(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
@@ -370,7 +370,7 @@ Assuming that it is also possible to decompose the selected importance density i
 	q_{0:t}(u_{0:t} \mid y_{0:t}) = q_{0:t-1}(u_{0:t-1} \mid y_{0:t-1}) q_t(u_t \mid u_{0:t-1}, y_{0:t}) 
 \label{eq:q2}
 \end{equation}
-then the associated unnormalised weight of each sample can be derived in a similar fashion as given in Section \ref{sec:SIS} into the recursion form as follows:
+then the associated unnormalized weight of each sample can be derived in a similar fashion as given in Section \ref{sec:SIS} into the recursion form as follows:
 \begin{equation}
    \tilde{w}_t  = \tilde{w}_{t-1} \dfrac{p_t(u_t \mid u_{t-1})p_t(y_t \mid u_{0:t}, y_{0:t-1})}{q_t(u_t \mid u_{0:t-1}, y_{0:t})}
    \label{eq:wsmsc}
@@ -383,7 +383,7 @@ Compare to \eqref{eq:q}, the main difference here is that the weights now depend
 \Function{MarginalisedSequentialMonteCarlo}{N, T}
 \State Set $t \gets 0$.
 \State For $i \in 1, \ldots, N$, sample $u^{(i)}_0 \sim q(u^{(i)}_0 \mid y^{(i)}_0)$.
-\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
+\State For $i \in 1, \ldots, N$, calculate the unnormalized importance weight:
 \begin{equation*}
  \tilde{w}^{(i)}_0 = \dfrac{p(u_0^{(i)})g_0(y_0 \mid u^{(i)}_0)}{q_0(u^{(i)}_0)}
 \end{equation*}
@@ -394,7 +394,7 @@ Compare to \eqref{eq:q}, the main difference here is that the weights now depend
 \State Set $t \gets t + 1$.
 \While{$t \leq T$}
 \State For $i \in 1, \ldots, N$, sample $u^{(i)}_t \sim q(u^{(i)}_t \mid y^{(i)}_{t-1}, u^{(i)}_{t-1})$.
-\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weight:
+\State For $i \in 1, \ldots, N$, calculate the unnormalized importance weight:
 \begin{equation*}
    \tilde{w}_t  = \tilde{w}_{t-1} \dfrac{p_t(u_t \mid u_{t-1})p_t(y_t \mid u_{0:t}, y_{0:t-1})}{q_t(u_t \mid u_{0:t-1}, y_{0:t})}
 \end{equation*}

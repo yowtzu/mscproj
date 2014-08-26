@@ -391,8 +391,8 @@ In the next section, we shall investigate the use of the same algorithm to track
 \label{sec:exp2}
 In this example, we look at a real-world example. We look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. The DAX Index is chosen for various pragmatic reasons. It is one of the major world indices that is tracked by various index funds, it has small number of components and the data is freely accessible\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index obtained. It was later found some of the data is not publicly available. Having said that, the preliminary findings concur with the findings we have with the DAX Index reported here.}. For further detail on the DAX Index methodology, refer \cite{DAX14}.
  
-\subsection{Tracking the $DAX4$ sub-index}
-In the first experiment, we define a simple hypothetical sub-index, $DAX4$ consists of four stocks from the DAX Index that have the highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the $DAX4$ index level is calculated as the simple weighted average of the adjusted close prices obtained from Yahoo Finance as follows:
+\subsection{Tracking the DAX4 sub-index}
+In the first experiment, we define a simple hypothetical sub-index, DAX4 consists of four stocks from the DAX Index that have the highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the DAX4 index level is calculated as the simple weighted average of the adjusted close prices obtained from Yahoo Finance as follows:
 \begin{equation}
   y = \sum_{s \in \mathcal{S}} w_s x_s
 \end{equation}
@@ -401,7 +401,7 @@ where $y$ is the index level, $\mathcal{S}$ consists of the four stocks and  $w_
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
 \label{fig:adjclose}
 \end{figure}
  
@@ -453,7 +453,7 @@ The simulation is carried out for $N=10000$ with no resample-move step implement
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
 \label{fig:dax4}
 \end{figure}
 
@@ -462,19 +462,19 @@ To reduce further the changes in holding position, we could simply increase the 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
 \label{fig:dax42}
 \end{figure}
 
-\subsection{Tracking the $DAX$ index}
-Now we attempt to track the orignal $DAX$ index which consits of $30$ components using the similar model with minimal changes as follows:
+\subsection{Tracking the DAX index}
+Now we attempt to track the orignal DAX index which consits of $30$ components using the similar model with minimal changes as follows:
 \begin{align}
   X_t &= X_{t-1} + F_t(U_t) + \mu_{t_0} + \Sigma_{t_0} \\
   Y_t &= 30U^T_tX_t + 0.1V_t,~V_t \sim \mathcal{N}(0, I)
 \end{align}
 with the same parameter settings as before except the following:
 \begin{enumerate}
-\item The target reference $y^{ref}$ is the daily close index level of $DAX$.
+\item The target reference $y^{ref}$ is the daily close level of the DAX index.
 \item Dimensionality of $X$ and $Y$ are increased from $4$ to $30$.
 \item $L$ matrix is set to be $100I_{30 \times 30}$, i.e., the transaction cost of each component is equal.
 \end{enumerate}
@@ -483,16 +483,16 @@ The results look very promising, albeit each iteration takes about $10$ times lo
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
 \label{fig:dax}
 \end{figure}
 
-It can be more efficient (not only in terms of computational), but also in terms of transaction cost and management perspective to the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed. We choose the top $6$ highest weighted constituents of DAX index (including Allianz SE ($ALV$) and (SAP SE ($SAP$)) as of 1st January 2014 and setting the the \emph{true} $DAX$ index level as the target reference $y$. The experiment is repeated as before and the results are shown in Figure \ref{fig:daxpartial}.
+It can be more efficient (not only in terms of computational), but also in terms of transaction cost and management perspective to the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed. We choose the top $6$ highest weighted constituents of DAX index (including Allianz SE ($ALV$) and (SAP SE ($SAP$)) as of 1st January 2014 and setting the the \emph{true} DAX index level as the target reference $y$. The experiment is repeated as before and the results are shown in Figure \ref{fig:daxpartial}.
  
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
 \label{fig:daxpartial}
 \end{figure}
 
@@ -501,12 +501,12 @@ Up to this point, the discussion has been focussed on predicting the optimal (as
 
 MPC is an established technique in control theory which has achieved significant success in many different domains. It is a kind of receding horizon control algorithm, in which at time step $t$, the model is used to optimise the controls for the process, $u_{t:t+W}$ for a finite horizon for $t:t+W$. However, only the first set of controls, i.e., $u_{t}$ is applied to the system. At time $t+1$, the whole optimisation process is repeated for the same horizon, but shifted by $1$ time step until $t=T$. Refer \cite{GCE89} for further details on MPC. 
 
-In this problem, the SMC algorithm can be executed on a daily basis after the market close on day $t$ to predict the optimal $u^*_{t:t+T}$, i.e., $W=T$, but only the first set of controls, $u_t$ is applied. The same SMC algorithm is repeated on the next day with a shifted time horizon and so on. To demonstrate this idea, we repeat the same experiment on the $DAX$ index with partial replication using $6$ components as before. The results are shown in Figure \ref{fig:mpc}. We can see a siginificant improvement of performance with only tracking error of $1.$ over the $30$ runs. Having said that, the computational requirement here is \emph{much} higher, in the order of $T$. A possible way to trade-off the two is to set $W$ to be less than $T$.
+In this problem, the SMC algorithm can be executed on a daily basis after the market close on day $t$ to predict the optimal $u^*_{t:t+T}$, i.e., $W=T$, but only the first set of controls, $u_t$ is applied. The same SMC algorithm is repeated on the next day with a shifted time horizon and so on. To demonstrate this idea, we repeat the same experiment on the DAX index with partial replication using $6$ components as before. The results are shown in Figure \ref{fig:mpc}. We can see a siginificant improvement of performance with only tracking error of $1.$ over the $30$ runs. Having said that, the computational requirement here is \emph{much} higher, in the order of $T$. A possible way to trade-off the two is to set $W$ to be less than $T$.
  
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated index level of $DAX4$.}
+\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
 \label{fig:mpc}
 \end{figure}
 
