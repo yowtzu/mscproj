@@ -155,10 +155,10 @@ We proceed by examining the proposed algorithm with proposal density $q_t(\cdot)
 \item Various $\gamma$ settings: Constant function of $1$, $50$, $100$, $1000$ and increasing function of time $t+1$, $10(t+1)$, $50(t+1)$ and $100(t+1)$\footnote{$t+1$ instead of $t$ because time-step $t$ starts with 0}. 
 \end{enumerate}
 
-\subsection{Results and discussion}
+\subsection{Results and discussions}
 We first evaluate the effect of selectively enabling resample step with $ESS$ mechanism. In \emph{all} the settings, it is found that simple runs with resample step enabled always at each iteration have relatively better performance. Figure \ref{fig:ess} shows the performance in terms of $\log\pi_T(\hat{u}^*_{0:t})$ of 30 independent runs ($T=20$ and $N=10000$) of the algorithms. All other runs with different settings of $T$ and $N$ concur with this finding. From here onwards, we assumes $ESS$ mechanism is disabled unless stated otherwise.
 
-\begin{figure}[!htbp]
+\begin{figure}[!thbp]
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
@@ -218,7 +218,7 @@ We first evaluate the effect of selectively enabling resample step with $ESS$ me
 
 Moreover, in the same figure, we can see that the Resample-Move step does improve performance, albeit in most cases the improvement is marginal. The improvement is more significant when $\gamma$ is set to be high. This is depicted clearly in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}, in which it presents similar box-plots of $\log\pi_T(\hat{u}^*_{0:t})$ of $30$ independent runs of the algorithms for different $T$, $N$ and $\gamma$ settings. One possible explanation to this is that high $\gamma$ settings help in optimisation by encouranging particle converge to high density area. Excessively high $\gamma$ settings will lead to pre-mature convergence particles to local optimal (as one can see the $\log\pi_T(\hat{u}^*_{0:t})$ values found in high $\gamma$ settings are not very good). The perturbance Resample-Move step introduces may help particles to escape from local optimal.
 
-\begin{figure}[!htbp]
+\begin{figure}[!thbp]
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
@@ -240,7 +240,7 @@ Moreover, in the same figure, we can see that the Resample-Move step does improv
     \label{fig:rm1}
 \end{figure}
 
-\begin{figure}[!htbp]
+\begin{figure}[!thbp]
     \centering
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -262,7 +262,7 @@ Moreover, in the same figure, we can see that the Resample-Move step does improv
     \label{fig:rm2}
 \end{figure}
 
-\begin{figure}[!htbp]
+\begin{figure}[!thbp]
     \centering
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -288,9 +288,9 @@ In terms of the number of samples used, we can the performance improves with the
 
 A more interesting result is to compare the performance with different $\gamma$ settings. Let first consider fixed $\gamma$ settings. Excessive high $\gamma$ settings lead to pre-mature convergence issue discussed earlier and stuck at local optimal. On the other hand, low $\gamma$ settings also ds not perform too well either (consider the process of searching for the maximum point by randomly sampling a very flat distribution). The optimal $\gamma$ setting seems to lie sometimes in between. In this case, the $\gamma=100$ setting results in the best performance.
 
-In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may be a good pragmatic compromise between accuracy and good mixing. We investgate further on this by setting $\gamma$ to be increasing function of the form $\alpha t$, where $\alpha$ is constant and $t$ is the time step. The results show that the performance seems improve when the$\alpha$ value is low, but theh result is worse when the $\alpha$ value is high. This suggests a capping on the maximum value on $\alpha$ or a more moderate in $t$ may be more suitable. We therefore carry out two extra $\gamma$ settings: $50\log(t+2)$ and $100\log(t+2)$ to investgate this and the results are shown in Figure \ref{fig:log}. The results indeed agree with our intuition.
+In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may be a good pragmatic compromise between accuracy and good mixing. We investgate further on this by setting $\gamma$ to be increasing function of the form $\alpha t$, where $\alpha$ is constant and $t$ is the time step. The results show that the performance seems improve when the$\alpha$ value is low, but theh result is worse when the $\alpha$ value is high. This suggests a capping on the maximum value on $\alpha$ or a more moderate in $t$ may be more suitable. We therefore carry out two extra $\gamma$ settings: $50\log(t+2)$ and $100\log(t+2)$ to investgate this and the results are shown in Figure \ref{fig:log}. The results obtained are not stastically different from a simple fixed $\gamma=100$ setting.
 
-\begin{figure}[!htbp]
+\begin{figure}[!thbp]
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
@@ -307,9 +307,11 @@ In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may b
     \label{fig:log}
 \end{figure}
 
-Lastly, we conclude this section by showing the output of the model using our estimated $u^*_{0:T}$ obtained in various runs in Figure \ref{fig:estimatedy}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to track the reference signal very close. The code and the results of all other runs can be obtained at the online repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
+Lastly, we conclude this section by showing the output of the model using our estimated $u^*_{0:T}$ obtained in various runs in Figure \ref{fig:estimatedy} and their corresponding tracking errors in Figure \ref{fig:error}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to track the reference signal very close. For further details about the experiments, the implementation code and the plots for all other runs can be obtained at the online repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
 
-\begin{figure}[!htbp]
+In the next section, we shall investigate the use of the same algorithm to track a major financial index using real-world data. 
+
+\begin{figure}[!thbp]
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
@@ -347,9 +349,47 @@ Lastly, we conclude this section by showing the output of the model using our es
     \label{fig:estimatedy}
 \end{figure}
 
+\begin{figure}[!thbp]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma1.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma1(t+1).pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma50(t+1).pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma50log(t+2).pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma100.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma100log(t+2).pdf}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma500.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma1000.pdf}
+    \end{minipage}
+    \caption{The tracking error of the model using $u^*_{0:T}$ in 30 independent runs with various $\gamma$ settings, $T=20$, $N=1000$ and resample-move disabled.}
+    \label{fig:error}
+\end{figure}
+
 \section{Example 2: Tracking the DAX Index}
 \label{sec:exp2}
-Given the initial result in Example 1 looks very promising, we attempt to investigate the use of the same algorithm to track the financial index using real-world data. We shall look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. The DAX Index is chosen for various pragmatic reasons. It is one of the major world indices that is tracked by various index funds, it has small number of components and the data is freely accessible\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index obtained. It was later found some of the data is not publicly available. Having said that, the preliminary findings concur with the findings we have with the DAX Index reported here.}. For further detail on the DAX Index methodology, refer \cite{DAX14}.
+In this example, we look at a real-world example. We look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. The DAX Index is chosen for various pragmatic reasons. It is one of the major world indices that is tracked by various index funds, it has small number of components and the data is freely accessible\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index obtained. It was later found some of the data is not publicly available. Having said that, the preliminary findings concur with the findings we have with the DAX Index reported here.}. For further detail on the DAX Index methodology, refer \cite{DAX14}.
  
 In the first experiment, we define a simple hypothetical sub-index, $DAX4$ consists of four stocks from the DAX Index that have the highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the $DAX4$ index level is calculated as the simple weighted average of the adjusted close prices obtained from Yahoo Finance as follows:
 \begin{equation}
@@ -371,7 +411,7 @@ To solve this problem using the SMC,  the following state space modelling is use
   X_t &= X_{t-1} + F_t(U_t) + \mu_{t_0} + \Sigma_{t_0} \\
   Y_t &= C_t(U_t)^{T}X_t
 \end{align}
-where $\{X_t\}_{t \geq 0}$ is a vector of stock price processes modelled as Arithmetic Brownian Motion with drift, $\{U_t\}_{t \geq 0}$ is a vector of control input processes, each represents the position we have for each stock, $F_t$ can be viewed as the market impact on price due to position changes, $\mu_{t_0}$ and $\Sigma_{t_0}$ are vector of the estimated mean and the estimated covariance matrix of the stock returns and $\{Y_t\}_{t \geq 0}$ is the process represents the index level. The values of $\mu_t$ and $\Sigma_t$ here are estimated using Exponential Weighted Moving Average (EWMA) approach with the decay rate, $\lambda$, set to $0.94$, which can be easily calculated in a recursion form as follows:
+where $\{X_t\}_{t \geq 0}$ is a vector of stock price processes modelled as Arithmetic Brownian Motion with drift, $\{U_t\}_{t \geq 0}$ is a vector of control input processes, each represents the position we have for each stock, $F_t(u_t)$ can be viewed as the market impact on price due to position changes and is set to be $0.1u_t$ here, $\mu_{t_0}$ and $\Sigma_{t_0}$ are vector of the estimated mean and the estimated covariance matrix of the stock returns and $\{Y_t\}_{t \geq 0}$ is the process represents the index level. The values of $\mu_t$ and $\Sigma_t$ here are estimated using Exponential Weighted Moving Average (EWMA) approach with the decay rate, $\lambda$, set to $0.94$, which can be easily calculated in a recursion form as follows:
 \begin{equation}
   P_t = \lambda P_{t-1} + (1-\lambda) Q_{t}
 \end{equation}
@@ -405,14 +445,14 @@ Using this model, we can write the reward function as follows:
 \begin{equation}
   J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t \vert\vert^2_{(D_t(u_t)D_t(u_t)^T)^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right]
 \end{equation}
-Here, we will define $L = diag(0.1, 0.2, 0.3, 0.4)$ and also impose additional constraints on each component of $u$ is in the range $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi^{\gamma_n}$ where $\gamma$ is a increasing sequence in the order of $\log(t)$ as described in previous section. For the importance sampling step, we propose for $U_{1,n}$ uniformly from the range bounded the constraints mentioned. 
+Here, we will define $L = \diag(1, 2, 3, 4)$ and also impose additional constraints on each component of $u$ is in the range $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi^{\gamma_n}$ where $\gamma$ is a increasing sequence in the order of $\log(t)$ as described in previous section. For the importance sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. 
 
-The simulation is carried out for $N=5000,10000$ with no resample-move step implemented. The results are shown in Figure 3 and 4. The performance seems very promising. The simulated $y$ and the target index level very well.
+The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. THe output of the model is able to track the index very well with only $0.004$ tracking error, but the control parameter $u^*_{0:T}$ which represent the holding position of each stock does seems very stable.
 
-In the second setup, we alter $L= diag(100, 200, 300, 400)$. This essential increase the weight on minimizing transaction cost relatively to minimizing trackiing error. The results are shown in Figure \ref{}. One can see the $u$ is much more smoother at the expense of tracking error. 
+To emphasize more on minimizing the holding position, we could simply increase the value of $L$. To demonstrate this, we repeat the experiment with $L = \diag(1000, 2000, 3000, 4000)$. The results are shown in Figure \ref{fig:dax42}. One can see the $u^*_{0:T}$ is much more stable, albeit the average tracking error is increased to $0.11$ over the $30$ runs.
 
 \subsection{Tracking the  $DAX$ index}
-Now we attempt to track the full index, applying the following changes: the setup back to $L = diag(0.1, 0.2, 0.3, 0.4)$. The results are show in. 
+Now we attempt to track the full index, applying the following changes: the setup back to $L = \diag(0.1, 0.2, 0.3, 0.4)$. The results are show in. 
  
 \subsection{Partial Replication}
 As discussed earlier, sometimes it may be more efficient in terms of cost to track the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed, by doubling the number of stocks to be the top $8$ highest weighted constituents of DAX index as of 1st January 2014 and setting the the \emph{true} $DAX$ index level as the target reference $y$. The experiment is repeated as before and the results are shown in Figure .

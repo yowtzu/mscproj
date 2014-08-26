@@ -35,7 +35,7 @@
 %\crest{\IncludeGraphicsW{UnivShield}{40mm}{14 14 73 81}}
 %
 %\renewcommand{\submittedtext}{change the default text here if needed}
-\degree{Submitted in partial fulfilment of the requirements for the
+\degree{Submitted in partial fulfilment of the requirements for the\\
 MSc in Statistics}
 \degreedate{\today}
 
