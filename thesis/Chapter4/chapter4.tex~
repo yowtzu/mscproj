@@ -1,7 +1,7 @@
 \chapter{Portfolio optimisation}
 \graphicspath{{Chapter4/figures/}}
 \label{lab:PO}
-Optimal portfolio is the ultimate goal of every investment manager; but the optimality criteria can be very different to each of them. In the infamous Markowitz's modern portfolio theory \cite{HM52}. it is assumed that investor attempt to maximize a portfolio's return and minimize the risk (measured by the variance of the portfolio return). For index tracker fund manager, the main objective of portfolio management is to track and replicate the exposure of a benchmark index. The lack of active management generally makes the fund less vulnerable to change of management and has the advatanges of lower fees and taxes. It is the latter the focus of the thesis lies.
+Optimal portfolio is the ultimate goal of every investment manager; but the optimality criteria can be very different to each of them. In the infamous Markowitz's modern portfolio theory \cite{HM52}. it is assumed that investor attempt to maximize a portfolio's return and minimize the risk (measured by the variance of the portfolio return). For index tracker fund manager, the main objective of portfolio management is to track and replicate the exposure of a benchmark index. The lack of active management generally makes the fund less vulnerable to change of management and has the advantages of lower fees and taxes. It is the latter the focus of the thesis lies.
  
 This chapter begins with a brief introduction on index tracking fund and a short summary on some causing factors of the tracking error between a index fund and its benchmark index. It then describes how the portfolio optimisation problem in terms of minimising the tracking error can be formulated as a stochastic control problem, which is then turned into a parameter estimation in the SMC framework. Next, it details some of the experiments carried out to verify this approach, starting with a simple proof of concept experiment in Section \ref{sec:exp1}, continue on with a more complicated example with real-world data in Section \ref{sec:exp2} and concludes the chapter with an experiment in demonstrating how the Model Predictive Control (MPC) can be incorporating into the basic SMC framework proposed.
  
@@ -15,26 +15,26 @@ To allows investors to take exposure to the markets (as represented by the indic
 \subsection{Index Replication}
 To track an index, the simplest way is to replicate the index by investing all the components of the benchmark index. However, this can be costly and difficult to manage, considering some of the indices may have huge number of components, e.g., MSCI World index that consists of $\approx 1600$ components from many different countries. Instead, one could partial replicate the index by sampling some of the components that are most representative. This can mean those components with larger weights, more volatiles or less correlated in returns (assuming these returns average out the gain/loss among them). This partial replication could save transaction cost, at the same time, introducing some tracking errors to the funds.
  
-Instead of physically replicating the index by investing in the components, the portfolio manager also have the option to enter a swap agreement with a counterparty (typically investment bank) that provides the exact return of the stock market or commodity it’s tracking. Essentially, this transfers the market risk to the counterparty, at the same introducing the counterparty default risk. This technique is known synthetic replication.
+Instead of physically replicating the index by investing in the components, the portfolio manager also have the option to enter a swap agreement with a counter-party (typically investment bank) that provides the exact return of the stock market or commodity it's tracking. Essentially, this transfers the market risk to the counter-party, at the same introducing the counter-party default risk. This technique is known synthetic replication.
  
 \subsection{Causing factors of tracking error}
 To evaluate the performance of index tracking fund, different metrics have been introduced to quantify the mismatch between the performance of a fund and its benchmark index. For example, tracking difference is the sum of absolute difference in returns between of a fund and its benchmark. Here, we adopt the tracking error as our metric, which is defined to be the standard deviation of the absolute difference of the returns of the fund and the benchmark defined in \cite{BJ13} as follows:
 \begin{equation}
-  \epsilon = \sqrt{\E[(r_p - r_b)^2]}
+  \epsilon = \sqrt{\Var(r_p - r_b)}
 \end{equation}
 where $r_p$ is the return of the portfolio and $r_b$ is the return of the benchmark index.
  
 There are many factors that can cause tracking errors, some of which are summarised as follows:
 \begin{enumerate}
-\item benchmark index rebalance --- the benchmark index is re-weighting its constitutents periodically to reflex the changes on the market based on its methodology. To track the index, the fund has to adjust its portfolio accordingly. This will incur some trasaction costs. During the index rebalance period, cash drag may also  happen between the liquidation of the constituents that have weights reduced/dropped and the addition of the constituents that have weights increased/added. This cash is essentially not participating in the market and therefore do not reflex the changes on the benchmark index.
-\item replication and sampling techniques --- funds may choose to replicate the benchmakr index by selecting a subset of the constituents (often the ones with larger weights and more liquid) in an effort to minimize the transaction costs. This exclusion of the smaller, less liquid constitutents may introduce another source od tracking error, especially under stressed market.
+\item benchmark index rebalance --- the benchmark index is re-weighting its constituents periodically to reflex the changes on the market based on its methodology. To track the index, the fund has to adjust its portfolio accordingly. This will incur some transaction costs. During the index rebalance period, cash drag may also  happen between the liquidation of the constituents that have weights reduced/dropped and the addition of the constituents that have weights increased/added. This cash is essentially not participating in the market and therefore do not reflex the changes on the benchmark index.
+\item replication and sampling techniques --- funds may choose to replicate the benchmark index by selecting a subset of the constituents (often the ones with larger weights and more liquid) in an effort to minimize the transaction costs. This exclusion of the smaller, less liquid constituents may introduce another source of tracking error, especially under stressed market.
 \item different assumption on dividend reinvestment and taxation --- This is best illustrate with examples. For example, the benchmark index calculation may assume immediate reinvestment of dividends on ex-dividend dates but the fund may only able to reinvest the dividend after receiving it. The tax treatment that is applied on the dividends may also be different.
 \item total expense ratio --- there is an additional expense charged to the fund on daily basis to cover the management cost.
 \end{enumerate}
 This list is by no mean exclusive. See \cite{BJ13} for further details.
  
 \section{Technical Approach}
-Instead of using a traditional deterministic state space models, we choose to use a \emph{stochastic} modelling approach to carry out the portfolio optimisation. In particular, we focus here the the problem in minimizing the tracking error between a portfolio and its benchmark index.  Our aim is to determine what investment actions (buy or sell) on the necessary index components a portfolio manager has to do on a daily basis across the investment horizon to track the benckmark index well.
+Instead of using a traditional deterministic state space models, we choose to use a \emph{stochastic} modelling approach to carry out the portfolio optimisation. In particular, we focus here the the problem in minimizing the tracking error between a portfolio and its benchmark index.  Our aim is to determine what investment actions (buy or sell) on the necessary index components a portfolio manager has to do on a daily basis across the investment horizon to track the benchmark index well.
 
 In the next section, we proceed by presenting the stochastic state space model that we assume throughout this thesis. This model is by no mean to compete the state of the art model in realistic portfolio optimisation, but rather to motivate further work in this direction.
  
@@ -45,7 +45,7 @@ We adopt the simple conditional linear Gaussian Model \eqref{eq:gaussianmodel} i
   Y_t &= C_t(U_t)X_t + D_t(U_t)V_t + G_t(U_t)
 \label{eq:model}
 \end{align}
-where $\{U_t\}_{t \geq 0}$ is a determinstic control input sequence that is used regulate the hidden states, $A_t$, $B_t$, $C_t$, $D_t$, $F_t$, $G_t$ are appropriate matrix/vector functions of $U_n$ and  $\{W_t\}_{t \geq 0}$ and  $\{V_t\}_{t \geq 0}$ are independent sequences of standard Gaussian random variable, i.e., $W_t, V_t \sim \mathcal{N}(0,I)$. The transition density and likelihood of this model are Gaussian distributions with center lied at a point of a linear combination of the known conditional control parameters, $u_t$ of the following form:
+where $\{U_t\}_{t \geq 0}$ is a deterministic control input sequence that is used regulate the hidden states, $A_t$, $B_t$, $C_t$, $D_t$, $F_t$, $G_t$ are appropriate matrix/vector functions of $U_n$ and  $\{W_t\}_{t \geq 0}$ and  $\{V_t\}_{t \geq 0}$ are independent sequences of standard Gaussian random variable, i.e., $W_t, V_t \sim \mathcal{N}(0,I)$. The transition density and likelihood of this model are Gaussian distributions with center lied at a point of a linear combination of the known conditional control parameters, $u_t$ of the following form:
 \begin{align}
   p_t(u_t \mid u_{t-1}) &= \textrm{(any given form)} \nonumber \\
   f_t(x_t \mid x_{t-1}, u_t) &= \mathcal{N}(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
@@ -61,14 +61,14 @@ where the expectation is taken with respect to the whole path of the Markov Chai
   u^*_{1:T} = \arg\max_{u_{1:T}} J(u_{1:T};y^{ref}_{1:T};x_0)
 \label{eq:optcontrol}
 \end{equation}
-with the assumption that the maximum is attainable. This reward function is closely related to the risk sensitive control discussed in \cite{WR90}, with slightly difference. This reward function is absence of an explicty risk sensitive constant and assume the presence of $y^{ref}_{1:T}$ as the reference target instead of the observable states. Nevertheless, a risk sensitivity constant could still be introduced through $D_n$ and $L_n$ if necessary.
+with the assumption that the maximum is attainable. This reward function is closely related to the risk sensitive control discussed in \cite{WR90}, with slightly difference. This reward function is absence of an explicitly risk sensitive constant and assume the presence of $y^{ref}_{1:T}$ as the reference target instead of the observable states. Nevertheless, a risk sensitivity constant could still be introduced through $D_n$ and $L_n$ if necessary.
 
 \subsection{Problem formulation}
 Under the realm of Bayesian inference framework, we treat the control inputs $u$ as random variables that admit a prior distribution. We also assume here that the sequence of control $u_n$ is a Markov process with transition distribution $p(u_t \mid u_{t-1})$. The objective is to compute the marginal posterior distribution density:
 \begin{equation}
  \pi_t(u_{0:t}) = p(u_{0:t} \mid y^{ref}_{0:t})
 \end{equation} 
-by standard marginisation the distribution $p(x_{0:t}, u_{0:t} \mid y_{0:t})$ which in itself statisfies the following recursive equation:
+by standard marginalisation the distribution $p(x_{0:t}, u_{0:t} \mid y_{0:t})$ which in itself satisfies the following recursive equation:
 \begin{align}
   p(x_{0:t}, u_{0:t} \mid y_{0:t}) = p(x_{0:t-1}, u_{0:t-1} \mid y_{0:t-1}) \frac{p(y_t \mid x_t, u_t)p(x_t, u_t \mid x_{t-1}, u_{t-1})}{p(y_t \mid y_{0:t-1})}
 \end{align}
@@ -121,7 +121,7 @@ the Maximum a Posteriori (MAP) estimate of $U_{0:T}$ is given to be:
 \end{equation}
 which essentially specifies the model that best explains the reference $y^{ref}_{0:t}$ as the output sequence from a general set of models defined in \eqref{eq:model}.
 
-In \cite{NK11}, it had been shown that asumming a Markov transition density for $u_t$ in \eqref{eq:mctrans}, the optimal control defined in \eqref{eq:optcontrol} and the MAP estimate defined in \eqref{eq:map} are the same. Moreover, following the monotonicity of the transformation $p(\cdot)^\gamma$, the mode of $p(\cdot)^\gamma$ is the same for all $\gamma > 0$. The main difference is that it is easier to sample closer to the mode when $\gamma > 1$ because the density has sharper peak and vice versa. Putting all these together, we have the follows:
+In \cite{NK11}, it had been shown that assuming a Markov transition density for $u_t$ in \eqref{eq:mctrans}, the optimal control defined in \eqref{eq:optcontrol} and the MAP estimate defined in \eqref{eq:map} are the same. Moreover, following the monotonicity of the transformation $p(\cdot)^\gamma$, the mode of $p(\cdot)^\gamma$ is the same for all $\gamma > 0$. The main difference is that it is easier to sample closer to the mode when $\gamma > 1$ because the density has sharper peak and vice versa. Putting all these together, we have the follows:
 \begin{equation}
   u^*_{0:t} = \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} \pi_n(u_{0:t})^\gamma,~\gamma > 0
 \end{equation}
@@ -216,7 +216,7 @@ We first evaluate the effect of selectively enabling resample step with $ESS$ me
     \label{fig:ess}
 \end{figure}
 
-Moreover, in the same figure, we can see that the Resample-Move step does improve performance, albeit in most cases the improvement is marginal. The improvement is more significant when $\gamma$ is set to be high. This is depicted clearly in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}, in which it presents similar box-plots of $\log\pi_T(\hat{u}^*_{0:t})$ of $30$ independent runs of the algorithms for different $T$, $N$ and $\gamma$ settings. One possible explanation to this is that high $\gamma$ settings help in optimisation by encouranging particle converge to high density area. Excessively high $\gamma$ settings will lead to pre-mature convergence particles to local optimal (as one can see the $\log\pi_T(\hat{u}^*_{0:t})$ values found in high $\gamma$ settings are not very good). The perturbance Resample-Move step introduces may help particles to escape from local optimal.
+Moreover, in the same figure, we can see that the Resample-Move step does improve performance, albeit in most cases the improvement is marginal. The improvement is more significant when $\gamma$ is set to be high. This is depicted clearly in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}, in which it presents similar box-plots of $\log\pi_T(\hat{u}^*_{0:t})$ of $30$ independent runs of the algorithms for different $T$, $N$ and $\gamma$ settings. One possible explanation to this is that high $\gamma$ settings help in optimisation by encouraging particle converge to high density area. Excessively high $\gamma$ settings will lead to pre-mature convergence particles to local optimal (as one can see the $\log\pi_T(\hat{u}^*_{0:t})$ values found in high $\gamma$ settings are not very good). The perturbation Resample-Move step introduces may help particles to escape from local optimal.
 
 \begin{figure}[!thbp]
     \centering
@@ -284,11 +284,11 @@ Moreover, in the same figure, we can see that the Resample-Move step does improv
     \label{fig:rm3}
 \end{figure}
 
-In terms of the number of samples used, we can the performance improves with the number of samples used for all time periods considered as shown in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}. This is inline with our expectation. For shorter time-period considered, the performance improvement sometimes is ``saturated'' even with lower number of samples, says $1000$ and $5000$. This suggests the optimal control parameters may have been found.
+In terms of the number of samples used, we can the performance improves with the number of samples used for all time periods considered as shown in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}. This is in-line with our expectation. For shorter time-period considered, the performance improvement sometimes is ``saturated'' even with lower number of samples, says $1000$ and $5000$. This suggests the optimal control parameters may have been found.
 
-A more interesting result is to compare the performance with different $\gamma$ settings. Let first consider fixed $\gamma$ settings. Excessive high $\gamma$ settings lead to pre-mature convergence issue discussed earlier and stuck at local optimal. On the other hand, low $\gamma$ settings also ds not perform too well either (consider the process of searching for the maximum point by randomly sampling a very flat distribution). The optimal $\gamma$ setting seems to lie sometimes in between. In this case, the $\gamma=100$ setting results in the best performance.
+A more interesting result is to compare the performance with different $\gamma$ settings. Let first consider fixed $\gamma$ settings. Excessive high $\gamma$ settings lead to pre-mature convergence issue discussed earlier and stuck at local optimal. On the other hand, low $\gamma$ settings also does not perform too well either (consider the process of searching for the maximum point by randomly sampling a very flat distribution). The optimal $\gamma$ setting seems to lie sometimes in between. In this case, the $\gamma=100$ setting results in the best performance.
 
-In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may be a good pragmatic compromise between accuracy and good mixing. We investgate further on this by setting $\gamma$ to be increasing function of the form $\alpha t$, where $\alpha$ is constant and $t$ is the time step. The results show that the performance seems improve when the$\alpha$ value is low, but theh result is worse when the $\alpha$ value is high. This suggests a capping on the maximum value on $\alpha$ or a more moderate in $t$ may be more suitable. We therefore carry out two extra $\gamma$ settings: $50\log(t+2)$ and $100\log(t+2)$ to investgate this and the results are shown in Figure \ref{fig:log}. The results obtained are not stastically different from a simple fixed $\gamma=100$ setting.
+In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may be a good pragmatic compromise between accuracy and good mixing. We investigate further on this by setting $\gamma$ to be increasing function of the form $\alpha t$, where $\alpha$ is constant and $t$ is the time step. The results show that the performance seems improve when the$\alpha$ value is low, but the result is worse when the $\alpha$ value is high. This suggests a capping on the maximum value on $\alpha$ or a more moderate in $t$ may be more suitable. We therefore carry out two extra $\gamma$ settings: $50\log(t+2)$ and $100\log(t+2)$ to investigate this and the results are shown in Figure \ref{fig:log}. The results obtained are not statistically different from a simple fixed $\gamma=100$ setting.
 
 \begin{figure}[!thbp]
     \centering
@@ -307,7 +307,7 @@ In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may b
     \label{fig:log}
 \end{figure}
 
-Lastly, we conclude this section by showing the output of the model using our estimated $u^*_{0:T}$ obtained in various runs in Figure \ref{fig:estimatedy} and their corresponding tracking errors in Figure \ref{fig:error}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to track the reference signal very close. For further details about the experiments, the implementation code and the plots for all other runs can be obtained at the online repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
+Lastly, we conclude this section by showing the output of the model using our estimated $u^*_{0:T}$ obtained in various runs in Figure \ref{fig:estimatedy} and their corresponding tracking errors in Figure \ref{fig:error}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to track the reference signal very close. For further details about the experiments, the implementation code and the plots for all other runs can be obtained at the on-line repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
 
 In the next section, we shall investigate the use of the same algorithm to track a major financial index using real-world data. 
 
@@ -405,7 +405,7 @@ where $y$ is the index level, $\mathcal{S}$ consists of the four stocks and  $w_
 \label{fig:adjclose}
 \end{figure}
  
-The portfolio optimisation problem is formulated as such $y$ is viewed as the target reference level that a portfolio manager attempt to replicate as close as possible by changing the holding position on each component stocks in $\mathcal{S}$, at the same time, minimize the trasaction cost incurred in position changes.
+The portfolio optimisation problem is formulated as such $y$ is viewed as the target reference level that a portfolio manager attempt to replicate as close as possible by changing the holding position on each component stocks in $\mathcal{S}$, at the same time, minimize the transaction cost incurred in position changes.
  
 To solve this problem using the SMC,  the following state space modelling is used:
 \begin{align}
@@ -416,7 +416,7 @@ where $\{X_t\}_{t \geq 0}$ is a vector of stock price processes modelled as Arit
 \begin{equation}
   P_t = \lambda P_{t-1} + (1-\lambda) Q_{t}
 \end{equation}
-where $P_t$ is the EWMA estimate and $Q_t$ is the new observation at time step $t$. It is obvious from these equations that the EWMA estimate at time $t$ depens on all the preceeding estimates at time $s$, where $s < t$. To ensure the quality of EWMA estimate, a 6 months warm up period is used, i.e., the EWMA estimate is calculated from 1st July 2013 onwards. The estimates of $\mu_{t_0}$ and $\Sigma_{t_0}$ obtained are as follows:
+where $P_t$ is the EWMA estimate and $Q_t$ is the new observation at time step $t$. It is obvious from these equations that the EWMA estimate at time $t$ depends on all the preceding estimates at time $s$, where $s < t$. To ensure the quality of EWMA estimate, a 6 months warm up period is used, i.e., the EWMA estimate is calculated from 1st July 2013 onwards. The estimates of $\mu_{t_0}$ and $\Sigma_{t_0}$ obtained are as follows:
 \begin{equation}
 \mu_{t_0} =
 \begin{blockarray}{c}
@@ -448,7 +448,7 @@ Using this model, we can write the reward function as follows:
 \end{equation}
 Here, we will define $L = \diag(4,3,2,1)$ and also impose additional constraints on each component of $u$ is in the range $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi$ directly, i.e, fixed $\gamma=1$ setting. For the importance sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. 
 
-The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. The output of the model is able to track the index very well with only $0.004$ tracking error, but the control parameter $u^*_{0:T}$ which represent the holding position of each stock does seems very stable.
+The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. The output $y$ produced by the model using the estimated $\hat{u}^*_{0:T}$ is tracking the reference index level very close with the average tracking error of $0.091884$ over the $30$ runs tracking error. However, the estimated set of control parameter $\hat{u}^*_{0:T}$ which represents the holding position of each stock is not very stable.
 
 \begin{figure}[htbp]
 \centering
@@ -457,7 +457,9 @@ The simulation is carried out for $N=10000$ with no resample-move step implement
 \label{fig:dax4}
 \end{figure}
 
-To reduce further the changes in holding position, we could simply increase the value of $L$. To demonstrate this, we repeat the experiment with $L = 1000\diag(4,3,2,1)$. The results are shown in Figure \ref{fig:dax42}. One can see the $u^*_{0:T}$ is much more stable, albeit the average tracking error is increased to $0.11$ over the $30$ runs.
+To reduce the changes in holding positions, the value of $L$ can be tuned up. To demonstrate this, the same experiment is re-run with $L = 500\diag(4,3,2,1)$ and the result are shown in Figure \ref{fig:dax42}. It is obvious the estimated set of control parameters $\hat{u}^*_{0:T}$ produced is much more stable. However, this comes with a price on the tracking error. The average tracking error with this setting is increased to $0.157246$ over the $30$ runs. 
+
+In terms of computation cost, it takes about on average $\approx 85$ seconds per iteration at each time step on he computation takes about $85$ seconds for each time step iteration on a Desktop Intel Pentium G3420 Dual Core CPU, with 8GB of DDR3 2133MHz RAM.
 
 \begin{figure}[htbp]
 \centering
@@ -467,7 +469,7 @@ To reduce further the changes in holding position, we could simply increase the 
 \end{figure}
 
 \subsection{Tracking the DAX index}
-Now we attempt to track the orignal DAX index which consits of $30$ components using the similar model with minimal changes as follows:
+Given the results look promising, we attempt to track the original DAX index which consists of $30$ components using the similar model with minimal changes as follows:
 \begin{align}
   X_t &= X_{t-1} + F_t(U_t) + \mu_{t_0} + \Sigma_{t_0} \\
   Y_t &= 30U^T_tX_t + 0.1V_t,~V_t \sim \mathcal{N}(0, I)
@@ -478,7 +480,8 @@ with the same parameter settings as before except the following:
 \item Dimensionality of $X$ and $Y$ are increased from $4$ to $30$.
 \item $L$ matrix is set to be $100I_{30 \times 30}$, i.e., the transaction cost of each component is equal.
 \end{enumerate}
-The results look very promising, albeit each iteration takes about $10$ times longer to run. The mean of $y$ is shown in Figure \ref{fig:dax} and the tracking error is $1.1$ over the $30$ runs.
+
+As before, we show the output $y$ produced by the model using the estimated set of control parameters $\hat{u}^*_{0:T}$ in Figure \ref{fig:dax}. The average tracking error with over $30$ runs is $123$. However, the computational cost increases significantly in this experiment. It takes on average $\approx 653$ seconds per iteration at each time step. Using the computation cost of $DAX4$ as a baseline factor of $1$, this computational cost for this experiment is $\approx 8.53$.
  
 \begin{figure}[htbp]
 \centering
@@ -487,8 +490,8 @@ The results look very promising, albeit each iteration takes about $10$ times lo
 \label{fig:dax}
 \end{figure}
 
-It can be more efficient (not only in terms of computational), but also in terms of transaction cost and management perspective to the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed. We choose the top $6$ highest weighted constituents of DAX index (including Allianz SE ($ALV$) and (SAP SE ($SAP$)) as of 1st January 2014 and setting the the \emph{true} DAX index level as the target reference $y$. The experiment is repeated as before and the results are shown in Figure \ref{fig:daxpartial}.
- 
+It can be more efficient (not only in terms of computational), but also in terms of transaction cost and management perspective to the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed. We choose the top $6$ highest weighted constituents of DAX index (including Allianz SE ($ALV$) and (SAP SE ($SAP$)), i which together they constitute more than $50\%$ of the weights for the DAX index level as of 2nd January 2014. The experiment is repeated as before and the results are shown in Figure \ref{fig:daxpartial}. The average tracking error over $30$ runs is $134$. It takes on average $\approx 98$ seconds per iteration at each time step. This traslates to computational cost factor of $\approx 1.5$, which is about $6.5\times$ speed-up in comparison to the full replication method.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{adjclose}
@@ -497,11 +500,13 @@ It can be more efficient (not only in terms of computational), but also in terms
 \end{figure}
 
 \section{Model Predictive Control}
-Up to this point, the discussion has been focussed on predicting the optimal (as outlined in the reward function) strategy for the time period $0:T$. However, as time progress, there are more realisation of the reference signal $y^{ref}_{t^\prime}, t^\prime < T$ obtained. It makes sense to take this information into account in the optimsation process. In this section, we shall demonstrate how the Model Predictive Control (MPC) algorithm can be incorporated easily for this problem.
+Up to this point, the discussion has been focussed on predicting the optimal (as outlined in the reward function) strategy for the time period $0:T$. However, as time progress, there are more realisation of the reference signal $y^{ref}_{t^\prime}, t^\prime < T$ obtained. It makes sense to take this information into account in the optimisation process. In this section, we shall demonstrate how the Model Predictive Control (MPC) algorithm can be incorporated easily for this problem.
 
 MPC is an established technique in control theory which has achieved significant success in many different domains. It is a kind of receding horizon control algorithm, in which at time step $t$, the model is used to optimise the controls for the process, $u_{t:t+W}$ for a finite horizon for $t:t+W$. However, only the first set of controls, i.e., $u_{t}$ is applied to the system. At time $t+1$, the whole optimisation process is repeated for the same horizon, but shifted by $1$ time step until $t=T$. Refer \cite{GCE89} for further details on MPC. 
 
-In this problem, the SMC algorithm can be executed on a daily basis after the market close on day $t$ to predict the optimal $u^*_{t:t+T}$, i.e., $W=T$, but only the first set of controls, $u_t$ is applied. The same SMC algorithm is repeated on the next day with a shifted time horizon and so on. To demonstrate this idea, we repeat the same experiment on the DAX index with partial replication using $6$ components as before. The results are shown in Figure \ref{fig:mpc}. We can see a siginificant improvement of performance with only tracking error of $1.$ over the $30$ runs. Having said that, the computational requirement here is \emph{much} higher, in the order of $T$. A possible way to trade-off the two is to set $W$ to be less than $T$.
+In this problem, the SMC algorithm can be executed on a daily basis after the market close on day $t$ to predict the optimal $u^*_{t:t+T}$, i.e., $W=T$, but only the first set of controls, $u_t$ is applied. The same SMC algorithm is repeated on the next day with a shifted time horizon and so on. To demonstrate this idea, we repeat the same experiment on the DAX index with partial replication using $6$ components with the highest weights as before.
+
+The results are shown in Figure \ref{fig:mpc}. We can see a significant improvement of performance with only tracking error of $1.$ over the $30$ runs. Having said that, the computational requirement here is \emph{much} higher. Whilst the cost of each iteration remains the same, for a finite horizon, there is $WT$ iterations as opposed to $T$ iterations.
  
 \begin{figure}[htbp]
 \centering
@@ -513,4 +518,4 @@ In this problem, the SMC algorithm can be executed on a daily basis after the ma
 \section{Conclusions}
 \label{sec:conclusion5}
 This chapter presents some proof-of-concept experiments that have been
-carried out to validate our proposal: searching for the optimal control for a portfolio to track a target reference signal using SMC algorithms. It first presents an experiment with a osccilating wave as target reference signal and continues with an experiment with a major real-world index as target refernece signal. In all cases, the results show that SMCs are able to search for optimal control that results an output that is able to track the reference signal.
+carried out to validate our proposal: searching for the optimal control for a portfolio to track a target reference signal using SMC algorithms. It first presents an experiment with a oscillating wave as target reference signal and continues with an experiment with a major real-world index as target reference signal. In all cases, the results show that SMC techniques are able to search for optimal control that results an output that is able to track the reference signal.
