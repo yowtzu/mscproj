@@ -155,7 +155,7 @@ We proceed by examining the proposed algorithm with proposal density $q_t(\cdot)
 \item Various $\gamma$ settings: Constant function of $1$, $50$, $100$, $1000$ and increasing function of time $t+1$, $10(t+1)$, $50(t+1)$ and $100(t+1)$\footnote{$t+1$ instead of $t$ because time-step $t$ starts with 0}. 
 \end{enumerate}
 
-\subsection{Results and discussions}
+\subsection{Results and discussion}
 We first evaluate the effect of selectively enabling resample step with $ESS$ mechanism. In \emph{all} the settings, it is found that simple runs with resample step enabled always at each iteration have relatively better performance. Figure \ref{fig:ess} shows the performance in terms of $\log\pi_T(\hat{u}^*_{0:t})$ of 30 independent runs ($T=20$ and $N=10000$) of the algorithms. All other runs with different settings of $T$ and $N$ concur with this finding. From here onwards, we assumes $ESS$ mechanism is disabled unless stated otherwise.
 
 \begin{figure}[!thbp]
@@ -446,25 +446,38 @@ Using this model, we can write the reward function as follows:
 \begin{equation}
   J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t \vert\vert^2_{(D_t(u_t)D_t(u_t)^T)^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right]
 \end{equation}
-Here, we will define $L = \diag(4,3,2,1)$ and also impose additional constraints on each component of $u$ is in the range $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi$ directly, i.e, fixed $\gamma=1$ setting. For the importance sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. 
+Here, we will define $L = 0.1\diag(4,3,2,1)$ and also impose additional constraints on each component of $u$ is in the range $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi$ directly, i.e, fixed $\gamma=1$ setting. For the importance sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. 
 
-The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. The output $y$ produced by the model using the estimated $\hat{u}^*_{0:T}$ is tracking the reference index level very close with the average tracking error of $0.091884$ over the $30$ runs tracking error. However, the estimated set of control parameter $\hat{u}^*_{0:T}$ which represents the holding position of each stock is not very stable.
+\subsubsection{Results and discussion}
+The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. The output $y$ produced by the model using the estimated $\hat{u}^*_{0:T}$ is tracking the reference index level very close with the average annualised\footnote{the annualisation factor is set to be $\sqrt{252}$ as the daily return is measured here.} tracking error of $0.024570$ over the $30$ runs tracking error. However, the estimated set of control parameter $\hat{u}^*_{0:T}$ which represents the holding position of each stock is not very stable.
 
-\begin{figure}[htbp]
+\begin{figure}[tbp]
 \centering
-\includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{DAX4Low-u.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{DAX4Low-y.pdf}
+    \end{minipage}
+\caption{The estimated $\hat{u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 30 independent runs for target reference, $y^{ref}$ set to be the calculated DAX4 index level and $L = 0.1\diag(4,3,2,1)$.}
 \label{fig:dax4}
 \end{figure}
 
-To reduce the changes in holding positions, the value of $L$ can be tuned up. To demonstrate this, the same experiment is re-run with $L = 500\diag(4,3,2,1)$ and the result are shown in Figure \ref{fig:dax42}. It is obvious the estimated set of control parameters $\hat{u}^*_{0:T}$ produced is much more stable. However, this comes with a price on the tracking error. The average tracking error with this setting is increased to $0.157246$ over the $30$ runs. 
-
-In terms of computation cost, it takes about on average $\approx 85$ seconds per iteration at each time step on he computation takes about $85$ seconds for each time step iteration on a Desktop Intel Pentium G3420 Dual Core CPU, with 8GB of DDR3 2133MHz RAM.
+To reduce the number of changes in holding positions, the value of $L$ matrix can be scaled up. To demonstrate this, the same experiment is re-run with $L = 500\diag(4,3,2,1)$. The results are shown in Figure \ref{fig:dax42}. It is obvious the estimated set of control parameters $\hat{u}^*_{0:T}$ produced in this case is much more stable. However, this comes with a price on the tracking error. The average annualised tracking error with this setting is increased to $0.041328$ over the $30$ runs. 
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{DAX4High-u.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{DAX4High-y.pdf}
+    \end{minipage}
+\caption{The estimated $\hat{u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 30 independent runs for target reference, $y^{ref}$ set to be the calculated DAX4 index level and $L = 500\diag(4,3,2,1)$.}
 \label{fig:dax42}
 \end{figure}
 
@@ -477,25 +490,46 @@ Given the results look promising, we attempt to track the original DAX index whi
 with the same parameter settings as before except the following:
 \begin{enumerate}
 \item The target reference $y^{ref}$ is the daily close level of the DAX index.
-\item Dimensionality of $X$ and $Y$ are increased from $4$ to $30$.
-\item $L$ matrix is set to be $100I_{30 \times 30}$, i.e., the transaction cost of each component is equal.
+\item Dimensionality of $U$ and $X$ are increased from $4$ to $30$.
+\item The $L$ matrix is set to be $50I_{30 \times 30}$, i.e., the transaction cost of each component is equal.
 \end{enumerate}
 
-As before, we show the output $y$ produced by the model using the estimated set of control parameters $\hat{u}^*_{0:T}$ in Figure \ref{fig:dax}. The average tracking error with over $30$ runs is $123$. However, the computational cost increases significantly in this experiment. It takes on average $\approx 653$ seconds per iteration at each time step. Using the computation cost of $DAX4$ as a baseline factor of $1$, this computational cost for this experiment is $\approx 8.53$.
- 
+As mentioned, sometimes it can be more efficient (not only in terms of computational), but also in terms of transaction cost and management perspective to the index with only a subset of its constituents.
+
+This can be achieved with minimal change on the model proposed. We choose the top $6$ highest weighted constituents of DAX index by including Allianz SE ($ALV$) and SAP SE ($SAP$), in which they all together constitute more than $50\%$ of the weights for the DAX index level as of 2nd January 2014. Using only these $6$ component stocks, $L=50I_{6 \times 6}$ and the DAX index level as the target reference $y^{ref}$, the experiment is re-run for $30$ times.
+
+\subsubsection{Results and discussion}
+As before, the estimated $\hat{u}^*_{0:T}$ and the corresponding $y$ output of the model produced by the estimated $\hat{u}^*_{0:T}$ in one of the $15$ independent runs for full and partial replication are shown in Figure \ref{fig:dax} and \ref{fig:daxpartial} respectively.
+
+In the full replication case, the average annuualised tracking error over $30$ runs is $0.031669$. However, the computational cost increases significantly in this experiment due to the dimensionality increases in $U$ and $X$. Using the computation cost of the previous $DAX4$ experiment as the baseline model, the computational cost for this experiment is $\approx 7.2$ times more for each iteration.
+
+In the partial replication case, the average annualised tracking error over $30$ runs is $0.020375$. In terms of computational cost, the relative cost factor in comparison to the baseline is $\approx 1.1$. In other words, this setting is $6.5\times$ speed-up in comparison to the full replication setting.
+
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{DAXFull-u.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{DAX4Full-y.pdf}
+    \end{minipage}
+\caption{The estimated $\hat{u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 15 independent runs for target reference, $y^{ref}$ set to be the calculated DAX index level with full replication.}
 \label{fig:dax}
 \end{figure}
 
-It can be more efficient (not only in terms of computational), but also in terms of transaction cost and management perspective to the index with only a subset of its constituents. This can be achieved with minimal change on the model proposed. We choose the top $6$ highest weighted constituents of DAX index (including Allianz SE ($ALV$) and (SAP SE ($SAP$)), i which together they constitute more than $50\%$ of the weights for the DAX index level as of 2nd January 2014. The experiment is repeated as before and the results are shown in Figure \ref{fig:daxpartial}. The average tracking error over $30$ runs is $134$. It takes on average $\approx 98$ seconds per iteration at each time step. This traslates to computational cost factor of $\approx 1.5$, which is about $6.5\times$ speed-up in comparison to the full replication method.
-
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{DAXPartial-u.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{DAXPartial-y.pdf}
+    \end{minipage}
+\caption{The estimated $\hat{u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 15 independent runs for target reference, $y^{ref}$ set to be the calculated DAX index level with partial replication using $6$ component stocks.}
 \label{fig:daxpartial}
 \end{figure}
 
@@ -506,12 +540,19 @@ MPC is an established technique in control theory which has achieved significant
 
 In this problem, the SMC algorithm can be executed on a daily basis after the market close on day $t$ to predict the optimal $u^*_{t:t+T}$, i.e., $W=T$, but only the first set of controls, $u_t$ is applied. The same SMC algorithm is repeated on the next day with a shifted time horizon and so on. To demonstrate this idea, we repeat the same experiment on the DAX index with partial replication using $6$ components with the highest weights as before.
 
-The results are shown in Figure \ref{fig:mpc}. We can see a significant improvement of performance with only tracking error of $1.$ over the $30$ runs. Having said that, the computational requirement here is \emph{much} higher. Whilst the cost of each iteration remains the same, for a finite horizon, there is $WT$ iterations as opposed to $T$ iterations.
+The results are shown in Figure \ref{fig:mpc}. We can see a significant improvement of performance with only tracking error of $0.020308$ over the $15$ runs. Having said that, the computational requirement here is \emph{much} higher. Whilst the cost of each iteration remains the same, for a finite horizon, there is $WT$ iterations as opposed to $T$ iterations.
  
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{DAXMPC-u}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{DAXMPC-y}
+    \end{minipage}
+\caption{The $y$ output of the model produced by the estiamted $\hat{u}^*_{0:T}$ in one of the 30 independent runs with the target reference, $y^{ref}$ set to be the calculated DAX index level using full replication and partial replication methods.}
 \label{fig:mpc}
 \end{figure}
 
