@@ -86,8 +86,9 @@ MSc in Statistics}
 %\newcommand{\ignore}[1]{}
 
 \DeclareMathOperator{\diag}{diag} 
-\DeclareMathOperator{\Var}{\mathbb{Var}} 
+
 \DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\Var}{{\mathrm{Var}}} 
 \begin{document}
 
 %\language{english}
@@ -140,11 +141,12 @@ MSc in Statistics}
 %\include{Chapter3/chapter3}
 \include{Chapter4/chapter4}
 \include{Chapter5/chapter5}
-
+\appendix
+\include{Appendices/appendices}
 %\bibliographystyle{Classes/CUEDbiblio}
 %\bibliographystyle{Classes/jmb}
 \addcontentsline{toc}{chapter}{References} %adds References to contents page
-\bibliographystyle{unsrt} %this works with package natbib
+\bibliographystyle{acm} %this works with package natbib
 %\bibliographystyle{Classes/jmb} % bibliography style
 \renewcommand{\bibname}{References} % changes default name Bibliography to References
 \bibliography{References/references} % References file
