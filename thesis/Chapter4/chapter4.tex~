@@ -152,9 +152,10 @@ with $m_{t \mid t-1}$ and $S_t$ are updated with Kalman Filter recursions:
 \begin{equation*}
 \hat{w}^{(i)}_t = \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{i=1} \tilde{w}^{(i)}_t}
 \end{equation*}
-\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ u^{(i)}_{1:t} \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{u^{(i)}_{1:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$
+\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ u^{(i)}_{1:t} \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{u^{(i)}_{1:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$.
 \State \textbf{Move:} For $i \in 1, \ldots, N$, sample $u^{(i)}_{1:t} \sim K_t(\cdot)$, where $K_t$ is $p_t$-invariant.
 \EndWhile
+\State Compute the MAP estimate: $\hat{u}^*_{1:t} =  \arg\max_{u_{1:t}} p(u^{(i)}_{1:t} \mid y^{ref}_{1:t})^\gamma$.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -345,7 +346,7 @@ One possible explanation to this result is that high $\gamma$ settings sharpen t
     \label{fig:rm3}
 \end{figure}
 
-\subsubsection{Various sample settings}
+\subsubsection{Various sample size settings}
 In terms of the sample size setting used, the performance increased monotonically with the number of samples used for all time periods considered as shown in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}. This is in-line with the theory, more samples is always better. For the shorter time-period considered, says $T=5$, the performance improvement sometimes is ``saturated'' even with lower number of samples, says $T=1000$ or $T=5000$. This suggests the optimal control parameters may have been attained.
 
  \subsubsection{Various $\gamma$ settings}
@@ -370,7 +371,7 @@ In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may b
     \label{fig:log}
 \end{figure}
 
-Lastly, we conclude this section by showing the mean of the recursive likelihood $m_t(u^*{1:T})$ obtained in various runs in Figure \ref{fig:estimatedy} and their corresponding tracking errors in Figure \ref{fig:error}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to track the reference signal very close. 
+Lastly, we conclude this section by showing the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in various runs in Figure \ref{fig:estimatedy} and their corresponding tracking errors in Figure \ref{fig:error}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to closely track the reference signal. 
 
 \begin{figure}[!thbp]
     \centering
@@ -406,7 +407,7 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
         \centering
         \includegraphics[width=\textwidth]{output_y/output_20_1000.pdf}
     \end{minipage}
-    \caption{The means of the recursive likelihood $m_t(u^*{1:T})$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma$ settings and Resample-Move step disabled are plotted in lines with different colours. The target reference signal $y^{ref}$ is also plotted with a `x' marker.}
+    \caption{The means of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma$ settings and Resample-Move step disabled are plotted in lines with different colours. The target reference signal $y^{ref}$ is also plotted with a `x' marker.}
     \label{fig:estimatedy}
 \end{figure}
 
@@ -449,7 +450,7 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
 \end{figure}
 
 
-\chapter{Application: Tracking the DAX index}
+\chapter{Tracking the DAX index}
 \graphicspath{{Chapter4/figures/}}
 \label{cha:dax}
 %This chapter details the experiments carried out to investigate the potential of the SMC based algorithm to search for the optimal portfolio. It first presents a simple toy example in Section \ref{sec:exp1}, continue on with a more complicated example with real-world data in Section \ref{sec:exp2} and concludes the chapter with an experiment in demonstrating how the concepts Model Predictive Control (MPC) can be incorporated into the framework proposed.
@@ -465,7 +466,7 @@ In the first experiment, we define a simple hypothetical sub-index, DAX4 consist
 \end{equation}
 where $y^{DAX4}$ is the index level, $\mathcal{S}$ consists of the four stocks and  $w_s$ and $x_s$ are the weight and price of stock $s$ respectively. Here the weights of these four stocks are assigned to be $0.4$, $0.3$, $0.2$ and $0.1$ respectively. The adjusted close price of each stock along with the calculated index level are shown in Figure \ref{fig:adjclose}.
  
-\begin{figure}[htbp]
+\begin{figure}[!thbp]
 \centering
 \includegraphics[width=\textwidth]{adjclose}
 \caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level, $y^{DAX4}$.}
@@ -479,7 +480,7 @@ To solve this problem using the SMC,  the following state space modelling is use
   X_t &= X_{t-1} + F_t(U_t) + \mu_{t_0} + \Sigma_{t_0} \\
   Y_t &= U^T_tX_t + 0.1V_t,~V_t \sim \mathcal{N}(0, I)
 \end{align}
-where $\{X_t\}_{t \geq 0}$ is a vector of stock price processes modelled as Arithmetic Brownian Motion with drift, $\{U_t\}_{t \geq 0}$ is a vector of control input processes, each represents the position we have for each stock, $F_t(U_t)$ can be viewed as the market impact on price due to position changes and is set to be $0.1U_t$ here, $\mu_{t_0}$ and $\Sigma_{t_0}$ are vector of the estimated mean and the estimated covariance matrix of the stock returns and $\{Y_t\}_{t \geq 0}$ is the process represents the index level.
+where $\{X_t\}_{t \geq 0}$ is a vector of stock price processes modelled as Arithmetic Brownian Motion with drift, $\{U_t\}_{t \geq 0}$ is a vector of control input processes, each represents the position we have for each stock, $F_t(U_t)$ can be viewed as the market impact on price due to position changes and is set to be $0.1U_t$ here, $\mu_{t_0}$ and $\Sigma_{t_0}$ are vector of the estimated mean returns and the estimated covariance matrix of the stock returns and $\{Y_t\}_{t \geq 0}$ is the process represents the index level.
 
 The values of $\mu_t$ and $\Sigma_t$ here are estimated using Exponential Weighted Moving Average (EWMA) approach with the decay rate, $\lambda$, set to $0.94$. For example, $\mu_t$ can be easily calculated in a recursion form as follows:
 \begin{equation}
@@ -513,12 +514,14 @@ It is worth here to re-iterate here that this model is just a means to an end to
 
 Using this model, we can write the reward function as follows:
 \begin{equation}
-  J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ \exp \left( -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t \vert\vert^2_{Q_t(u_t)^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right ) \right]
+  J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ \exp \left( -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - u^Tx_t \vert\vert^2_{Q_t(u_t)^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right ) \right]
 \end{equation}
-Here, we will define $L = 0.1\diag(4,3,2,1)$  and also impose additional constraints on each component of $U_t$ such that the range is within $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi$ directly, i.e, fixed $\gamma=1$ setting. For the importance sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. 
+Here, we define $L = 0.1\diag(4,3,2,1)$  and also impose additional constraints on the holding position of each individual component of $U_t$ such that the range is within $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing the holding position on each individual component and a constraint on the maximum amount on the holding position of each individual component one portfolio can have.
+
+For simplicity, we will use the SMC algorithm to target $\pi$ directly, i.e, fixed $\gamma=1$ setting and important sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. The experiment is carried out for $30$ independent runs, each with sample size is fixed to $10000$ and no Resample-Move step is implemented.
 
 \subsubsection{Results and discussion}
-The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. The output $y$ produced by the model using the estimated $\hat{u}^*_{1:T}$ is tracking the reference index level very close with the average annualised\footnote{the annualisation factor is set to be $\sqrt{252}$ as the daily return is measured here.} tracking error of $0.024570$ over the $30$ runs tracking error. However, the estimated set of control parameter $\hat{u}^*_{1:T}$ which represents the holding position of each stock is not very stable.
+As in previous experiment, the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs are shown in Figure \ref{fig:dax}.  It is obvious the output of the model produce using the estimated $\hat{u}^*_{1:T}$ is closely tracking the reference index level, $y^{DAX4}$. The average annualised\footnote{the annualisation factor is set to be $\sqrt{252}$ as the daily return is measured here.} tracking error of $0.024570$ over the $30$ runs. Having said that, the estimated set of control parameter $\hat{u}^*_{1:T}$ which represents the holding position of each stock does not seem very stable.
 
 \begin{figure}[tbp]
 \centering
@@ -530,11 +533,11 @@ The simulation is carried out for $N=10000$ with no resample-move step implement
         \centering
         \includegraphics[width=\textwidth]{DAX4Low-y.pdf}
     \end{minipage}
-\caption{The estimated $\hat{u}^*_{1:T}$ and the corresponding $y$ output of the model in one of the 30 independent runs for target reference, $y^{ref}$ set to be the calculated DAX4 index level and $L = 0.1\diag(4,3,2,1)$.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the $y^{DAX4}$ set to be the target reference using $L = 0.1\diag(4,3,2,1)$.}
 \label{fig:dax4}
 \end{figure}
 
-To reduce the number of changes in holding positions, the value of $L$ matrix can be scaled up. To demonstrate this, the same experiment is re-run with $L = 500\diag(4,3,2,1)$. The results are shown in Figure \ref{fig:dax42}. It is obvious the estimated set of control parameters $\hat{u}^*_{0:T}$ produced in this case is much more stable. However, this comes with a price on the tracking error. The average annualised tracking error with this setting is increased to $0.041328$ over the $30$ runs. 
+To reduce the number of changes in holding positions, the value of $L$ matrix can be scaled up. To demonstrate this, the same experiment is re-run with $L = 500\diag(4,3,2,1)$. The results are shown in Figure \ref{fig:dax42}. It is obvious the estimated set of control parameters $\hat{u}^*_{!:T}$ produced in this case is much more stable. However, this comes at a price on the tracking error. The average annualised tracking error with this setting is increased to $0.041328$ over the $30$ runs. 
 
 \begin{figure}[htbp]
 \centering
@@ -546,20 +549,20 @@ To reduce the number of changes in holding positions, the value of $L$ matrix ca
         \centering
         \includegraphics[width=\textwidth]{DAX4High-y.pdf}
     \end{minipage}
-\caption{The estimated $\hat{u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 30 independent runs for target reference, $y^{ref}$ set to be the calculated DAX4 index level and $L = 500\diag(4,3,2,1)$.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the $y^{DAX4}$ set to be the target reference using $L = 500\diag(4,3,2,1)$.}
 \label{fig:dax42}
 \end{figure}
 
 \subsection{Tracking the DAX index}
-Given the results look promising, we attempt to track the original DAX index which consists of $30$ components using the similar model with minimal changes as follows:
+Given the results of the experiment for DAX4 index look promising, we now attempt to track the original DAX index which consists of $30$ components using a similar model as follows:
 \begin{align}
   X_t &= X_{t-1} + F_t(U_t) + \mu_{t_0} + \Sigma_{t_0} \\
   Y_t &= 30U^T_tX_t + 0.1V_t,~V_t \sim \mathcal{N}(0, I)
 \end{align}
 with the same parameter settings as before except the following:
 \begin{enumerate}
-\item The target reference $y^{ref}$ is the daily close level of the DAX index.
-\item Dimensionality of $U$ and $X$ are increased from $4$ to $30$.
+\item The target reference $y^{ref}$ is the daily close level of the DAX index level.
+\item The number of dimensions for $U$ and $X$ are increased from $4$ to $30$.
 \item The $L$ matrix is set to be $50I_{30 \times 30}$, i.e., the transaction cost of each component is equal.
 \end{enumerate}
 

@@ -48,7 +48,7 @@
 \newlabel{fig:ess}{{3.1}{26}{The performance in terms of $\log \pi _T(\hat {u}^*_{1:t})$ of 30 independent runs of the algorithms with $T=20$ and $N=10000$ for various $\gamma $ settings. The four box-plots in each sub-figure represent the results of runs with the following settings (from left to right): a) MCMC disabled, ESS disabled, b) MCMC enabled, ESS disabled, c) MCMC disabled, ESS enabled, and d) MCMC enabled, ESS enabled. \relax }{figure.caption.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces The $\qopname  \relax o{log}\pi _T(\mathaccentV {hat}05E{u}^*_{1:t})$ box-plots of 30 independent runs with various settings for $T=5$. Each sub-figure shows the runs for a selected $\gamma $ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.\relax }}{27}{figure.caption.6}}
 \newlabel{fig:rm1}{{3.2}{27}{The $\log \pi _T(\hat {u}^*_{1:t})$ box-plots of 30 independent runs with various settings for $T=5$. Each sub-figure shows the runs for a selected $\gamma $ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.\relax }{figure.caption.6}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1.3}Various sample settings}{27}{subsubsection.3.3.1.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1.3}Various sample size settings}{27}{subsubsection.3.3.1.3}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1.4}Various $\gamma $ settings}{27}{subsubsection.3.3.1.4}}
 \citation{NK11}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces The $\qopname  \relax o{log}\pi _T(\mathaccentV {hat}05E{u}^*_{1:t})$ box-plots of 30 independent runs with various settings for $T=10$. Each sub-figure shows the runs for a selected $\gamma $ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.\relax }}{28}{figure.caption.7}}
@@ -59,8 +59,8 @@
 \newlabel{fig:rm3}{{3.4}{29}{The $\log \pi _T(\hat {u}^*_{1:t})$ box-plots of 30 independent runs with various settings for $T=20$. Each sub-figure shows the runs for a selected $\gamma $ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.\relax }{figure.caption.8}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces The $\qopname  \relax o{log}\pi _T(\mathaccentV {hat}05E{u}^*_{1:t})$ box-plots of 30 independent runs with $\gamma $ settings: $50\qopname  \relax o{log}(t+1)$ and $100\qopname  \relax o{log}(t+1)$. Each sub-figure shows the runs for a selected $\gamma $ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.\relax }}{29}{figure.caption.9}}
 \newlabel{fig:log}{{3.5}{29}{The $\log \pi _T(\hat {u}^*_{1:t})$ box-plots of 30 independent runs with $\gamma $ settings: $50\log (t+1)$ and $100\log (t+1)$. Each sub-figure shows the runs for a selected $\gamma $ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.\relax }{figure.caption.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces The means of the recursive likelihood $m_t(u^*{1:T})$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma $ settings and Resample-Move step disabled are plotted in lines with different colours. The target reference signal $y^{ref}$ is also plotted with a `x' marker.\relax }}{30}{figure.caption.10}}
-\newlabel{fig:estimatedy}{{3.6}{30}{The means of the recursive likelihood $m_t(u^*{1:T})$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma $ settings and Resample-Move step disabled are plotted in lines with different colours. The target reference signal $y^{ref}$ is also plotted with a `x' marker.\relax }{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces The means of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma $ settings and Resample-Move step disabled are plotted in lines with different colours. The target reference signal $y^{ref}$ is also plotted with a `x' marker.\relax }}{30}{figure.caption.10}}
+\newlabel{fig:estimatedy}{{3.6}{30}{The means of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma $ settings and Resample-Move step disabled are plotted in lines with different colours. The target reference signal $y^{ref}$ is also plotted with a `x' marker.\relax }{figure.caption.10}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces The box-plots of tracking errors of the model using $u^*_{1:T}$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma $ settings and Resample-Move step disabled.\relax }}{31}{figure.caption.11}}
 \newlabel{fig:error}{{3.7}{31}{The box-plots of tracking errors of the model using $u^*_{1:T}$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma $ settings and Resample-Move step disabled.\relax }{figure.caption.11}{}}
 \citation{DAX14}
@@ -74,24 +74,24 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces The adjusted close price of the 4 stocks and the calculated DAX4 index level, $y^{DAX4}$.\relax }}{33}{figure.caption.12}}
 \newlabel{fig:adjclose}{{4.1}{33}{The adjusted close price of the 4 stocks and the calculated DAX4 index level, $y^{DAX4}$.\relax }{figure.caption.12}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.0.5}Results and discussion}{34}{subsubsection.4.1.0.5}}
-\FN@pp@footnote@aux{5}{34}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces The estimated $\mathaccentV {hat}05E{u}^*_{1:T}$ and the corresponding $y$ output of the model in one of the 30 independent runs for target reference, $y^{ref}$ set to be the calculated DAX4 index level and $L = 0.1\diag  (4,3,2,1)$.\relax }}{35}{figure.caption.13}}
-\newlabel{fig:dax4}{{4.2}{35}{The estimated $\hat {u}^*_{1:T}$ and the corresponding $y$ output of the model in one of the 30 independent runs for target reference, $y^{ref}$ set to be the calculated DAX4 index level and $L = 0.1\diag (4,3,2,1)$.\relax }{figure.caption.13}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces The estimated $\mathaccentV {hat}05E{u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 30 independent runs for target reference, $y^{ref}$ set to be the calculated DAX4 index level and $L = 500\diag  (4,3,2,1)$.\relax }}{35}{figure.caption.14}}
-\newlabel{fig:dax42}{{4.3}{35}{The estimated $\hat {u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 30 independent runs for target reference, $y^{ref}$ set to be the calculated DAX4 index level and $L = 500\diag (4,3,2,1)$.\relax }{figure.caption.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the $y^{DAX4}$ set to be the target reference using $L = 0.1\diag  (4,3,2,1)$.\relax }}{35}{figure.caption.13}}
+\newlabel{fig:dax4}{{4.2}{35}{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the $y^{DAX4}$ set to be the target reference using $L = 0.1\diag (4,3,2,1)$.\relax }{figure.caption.13}{}}
+\FN@pp@footnote@aux{5}{35}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the $y^{DAX4}$ set to be the target reference using $L = 500\diag  (4,3,2,1)$.\relax }}{35}{figure.caption.14}}
+\newlabel{fig:dax42}{{4.3}{35}{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the $y^{DAX4}$ set to be the target reference using $L = 500\diag (4,3,2,1)$.\relax }{figure.caption.14}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Tracking the DAX index}{36}{subsection.4.1.1}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1.1}Results and discussion}{36}{subsubsection.4.1.1.1}}
+\citation{GCE89}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces The estimated $\mathaccentV {hat}05E{u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 15 independent runs for target reference, $y^{ref}$ set to be the calculated DAX index level with full replication.\relax }}{37}{figure.caption.15}}
 \newlabel{fig:dax}{{4.4}{37}{The estimated $\hat {u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 15 independent runs for target reference, $y^{ref}$ set to be the calculated DAX index level with full replication.\relax }{figure.caption.15}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces The estimated $\mathaccentV {hat}05E{u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 15 independent runs for target reference, $y^{ref}$ set to be the calculated DAX index level with partial replication using $6$ component stocks.\relax }}{37}{figure.caption.16}}
 \newlabel{fig:daxpartial}{{4.5}{37}{The estimated $\hat {u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 15 independent runs for target reference, $y^{ref}$ set to be the calculated DAX index level with partial replication using $6$ component stocks.\relax }{figure.caption.16}{}}
-\citation{GCE89}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Model Predictive Control}{38}{section.4.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Model Predictive Control}{37}{section.4.2}}
 \@writefile{brf}{\backcite{GCE89}{{38}{4.2}{section.4.2}}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces The $y$ output of the model produced by the estiamted $\mathaccentV {hat}05E{u}^*_{0:T}$ in one of the 30 independent runs with the target reference, $y^{ref}$ set to be the calculated DAX index level using full replication and partial replication methods.\relax }}{38}{figure.caption.17}}
 \newlabel{fig:mpc}{{4.6}{38}{The $y$ output of the model produced by the estiamted $\hat {u}^*_{0:T}$ in one of the 30 independent runs with the target reference, $y^{ref}$ set to be the calculated DAX index level using full replication and partial replication methods.\relax }{figure.caption.17}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Conclusions}{39}{section.4.3}}
-\newlabel{sec:conclusion5}{{4.3}{39}{Conclusions}{section.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Conclusions}{38}{section.4.3}}
+\newlabel{sec:conclusion5}{{4.3}{38}{Conclusions}{section.4.3}{}}
 \FN@pp@footnotehinttrue 
 \@setckpt{Chapter4/chapter4}{
 \setcounter{page}{40}
@@ -128,7 +128,7 @@
 \setcounter{lotdepth}{1}
 \setcounter{float@type}{8}
 \setcounter{algorithm}{6}
-\setcounter{ALG@line}{14}
+\setcounter{ALG@line}{15}
 \setcounter{ALG@rem}{0}
 \setcounter{ALG@nested}{0}
 \setcounter{ALG@Lnr}{2}
