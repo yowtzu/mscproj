@@ -1,7 +1,7 @@
 \chapter{Monte Carlo Methods}
 \graphicspath{{Chapter2/figures/}}
-\label{ch:mcmethods}
-Monte Carlo Methods have achieved significant success in its application to various domains in the last few decades. This chapter reviews some fundamental concept in Monte Carlo method that are related to this thesis. It first begins with a summary on the main concept of Bayesian inference. It then discusses some  basic Monte Carlo methods such as perfect Monte Carlo sampling, rejection sampling, importance sampling. Lastly, it details the Sequential Monte Carlo (SMC), along with various enhancement made to the techniques, used in this thesis.
+\label{cha:mcmethods}
+Monte Carlo Methods have achieved significant success in its application to various domains in the last few decades. This chapter reviews some fundamental concepts in Monte Carlo methods that are related to this thesis. It begins with a summary on the main concept of Bayesian inference. It then discusses some basic Monte Carlo methods such as perfect Monte Carlo sampling, rejection sampling and importance sampling. Lastly, it introduces Sequential Monte Carlo (SMC), along with various enhancement made to the techniques, used in this thesis.
 
 \section{Bayesian Inference}
 In Bayesian inference, each unknown parameter in the model is assumed to be random variable and is associated with a prior distribution that characterises the initial belief. The inference process is merely about updating the belief with new observable evidence in a systematic fashion using Bayes theorem.
@@ -99,7 +99,7 @@ To obtain samples from the target distribution, $p(\cdot)$, an additional resamp
 
 \section{Sequential Monte Carlo}
 \label{sec:SMC}
-To motivate why Sequential Monte Carlo is useful, consider a target distribution of interest $p(x_{0:n})$, and for simplicity, assuming we can sample directly from the distribution $p(x_{0:n})$, the minimal computational complexity of the sampling scheme would be at least linear in $n$. Sequential Monte Carlo (SMC) provides a way to obtain samples of $x$ for each sequential time step follows time$t$ in a \emph{fixed} amount of computational time in Hidden Markov Models (HMMs). We shall begin with a brief introduction on HMMs that is crucial to understand SMC in the next section. Refer \cite{CO05} for further details of inference techniques for HMMs in general. 
+To motivate why Sequential Monte Carlo is useful, consider a target distribution of interest $p(x_{0:n})$, and for simplicity, assuming we can sample directly from the distribution $p(x_{0:n})$, the minimal computational complexity of the sampling scheme would be at least linear in $n$. Sequential Monte Carlo (SMC) provides a way to obtain samples of $x$ for each sequential time step in a \emph{fixed} amount of computational time in Hidden Markov Models (HMMs). We shall begin with a brief introduction on HMMs that is crucial to understand SMC in the next section. Refer \cite{CO05} for further details of inference techniques for HMMs in general. 
 
 \subsection{Hidden Markov Models}
 HMMs can be seen as a class of models that consist of two related processes: an underlying Markov process, $X_t$, which is the target process of interest, and a observable process, $Y_t$, which its state can be measured and therefore provides some information about $X_t$. Moreover, it is assumed that these two processes have conditional independence properties as shown using the graphical model representation in Figure \ref{fig:HMM}. These properties can be summarised as follows:
@@ -144,11 +144,11 @@ Another distribution of interest is  the prediction distribution, that is the es
 \end{equation}
 Therefore, any prediction density can be obtained by simply integrating out the variables of not interest from the above equation.
 
-While these expressions \emph{appear} to be very simple, the distribution estimation problem is in fact far from being resolved in practice. The integrals involved in the above equations are often intractable and can only be estimated, since they require the evalution of complex high-dimensional integrals\footnote{Except under very special setting, in which the marginal filtering density $p(x_t \mid y_{0:t})$, the prediction density $p(x_n \mid y_{0:t-1})$ and the recursive likelihood $P(y_t \mid y_{0:t-1})$ are all Gaussian densities, then their means and variances can be computed analytically using Kalman Filter as shown in Appendix \ref{sec:KF}.}. 
+While these expressions \emph{appear} to be very simple, the distribution estimation problem is in fact far from being resolved in practice. The integrals involved in the above equations are often intractable because they require the evalution of complex high-dimensional integrals\footnote{Except under very special setting, in which the marginal filtering density $p(x_t \mid y_{0:t})$, the prediction density $p(x_t \mid y_{0:t-1})$ and the recursive likelihood $P(y_t \mid y_{0:t-1})$ are all Gaussian densities, then their means and variances can be computed analytically using Kalman Filter as shown in Appendix \ref{sec:KF}.}. 
 
 \subsection{Sequential Important Sampling (SIS)}
 \label{sec:SIS}
-Sequential Monte Carlo provides a systematic way to approximate the solution to this estimation problem. Let assume that it is possible to decompose the selected proposal distribution into recursion form as follows:
+Sequential Monte Carlo provides a systematic way to approximate the solution to the distribution estimation problem. Let assume that it is possible to decompose the selected proposal distribution into recursion form as follows:
 \begin{align}
 	q_{0:t}(x_{0:t} \mid y_{0:t}) &= q_{0:t-1}(x_{0:t-1} \mid y_{0:t-1}) q_t(x_t \mid x_{0:t-1}, y_{0:t}) \nonumber \\
 	             &= q_0(x_0 \mid y_0) \prod^t_{i=1} q_i(x_i \mid x_{0:i-1}, y_{0:i})
@@ -170,6 +170,16 @@ Using these weighted samples $\{(x^{(i)}_{0:t}, \tilde{w}^{(i)}_t)\}_{1 \leq i \
   \hat{f}(x_{0:t}) &= \sum^N_{i=1} \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{j=1}\tilde{w}^{(j)}_t} f(x^{(i)}_{0:t}) \nonumber \\
    &= \sum^N_{i=1} \hat{w}^{(i)} f(x^{(i)}_{0:t})
 \end{align}
+A particular important instance of SMC is obtained when the prior distribution is used as the importance distribution:
+\begin{align}
+	q_{0:t}(x_{0:t} \mid y_{0:t}) &= p(x_{0:t}) \nonumber \\
+	             &= p_0(x_0) \prod^t_{i=1} p_i(x_i \mid x_{0:i-1})
+\label{eq:bf}
+\end{align}
+This greatly simplifies importance weight to follows:
+\begin{equation}
+  \tilde{w_t} \propto \tilde{w}_{t-1} g (y_t \mid x_{t}) 
+\end{equation}
 The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 
 \begin{algorithm}
@@ -180,7 +190,7 @@ The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 \State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
 \State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
 \begin{equation*}
- \tilde{w}^{(i)}_0 = \dfrac{f(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0)}
+ \tilde{w}^{(i)}_0 = \dfrac{f(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0 \mid y_0)}
 \end{equation*}
 \State For $i \in 1, \ldots, N$, normalize the importance weights:
 \begin{equation*}
@@ -192,7 +202,7 @@ The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 \State For $i \in 1, \ldots, N$, set $x^{(i)}_{0:t} \gets (x^{(i)}_{0:t-1}, x^{(i)}_t)$.
 \State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
 \begin{equation*}
- \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{f_t(x^{(i)}_t \mid x^{(i)}_{t-1})g_t(y_t \mid x^{(i)}_t)}{q_t(x^{(i)}_t \mid x^{(i)}_{t-1}, y_t)}
+ \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{f_t(x^{(i)}_t \mid x^{(i)}_{t-1})g_t(y_t \mid x^{(i)}_t)}{q_t(x^{(i)}_t \mid x^{(i)}_{0:t-1}, y_{0:t})}
 \end{equation*}
 \State For $i \in 1, \ldots, N$, normalize the importance weights:
 \begin{equation*}
@@ -208,7 +218,7 @@ While SIS is attractive, it is nothing but a specialised version of importance s
 
 To alleviate this issue, looking at \eqref{eq:w}, it is obvious that the variance of importance weights can be minimised by using a proposal distribution of the following form:
 \begin{equation}
- q_{t}(x_{t} \mid x_{t-1}, y_t) \propto f_{t}(x_{t} \mid x_{t-1}) g_{t}(y_{t} \mid x_t)
+ p_{t}(x_{t} \mid x_{t-1}, y_t) \propto f_{t}(x_{t} \mid x_{t-1}) g_{t}(y_{t} \mid x_t)
 \end{equation}
 This is often referred to as the optimal proposal distribution.
 
@@ -223,14 +233,15 @@ A simple direct implementation of resampling step is to select the sample from t
 There are many other resampling schemes have been proposed in the literature. For example, stratified resampling \cite{KG96} as the name suggested splitting the samples into strata to ensure the good coverage on the resulting sample set, residual resampling \cite{JSL98} which is able to decrease the variance of the weights due to resampling, etc. See \cite{DR05} for further details on the comparison of these sampling schemes.  The SIR algorithm is now summarised in Algorithm \ref{algo:sir}.
 
 \subsection{Effective sample size (ESS)}
-Resampling step induces additional Monte Carlo variance to the weights. Yet, this step is necessary to avoid accumulation of estimation variance onto the weights over time and therefore result in a more estimate.
+\label{sec:ess}
+Resampling step induces additional Monte Carlo variance to the weights. Yet, this step is necessary to avoid accumulation of estimation variance onto the weights over time and therefore results in a more accurate estimate.
 
-To trade-off these two competing requirements, one possible way is to monitor the effective sample size (ESS) which provides a measure on the quality of the weighted samples. The ESS value can be estimated as follows:
+To trade-off these two competing requirements, one possible way is to monitor the effective sample size (ESS) of the sample set which provides a measure on the quality of the weighted samples. The ESS value can be estimated as follows:
 \begin{equation}
-  ESS \approx \dfrac{1}{E[w^2]} \approx \dfrac{\left(\sum^N_{i=0} w_i \right)^2}{\sum^N_{i=0}w_i^2}
+  \text{ESS} \approx \dfrac{1}{E[w^2]} \approx \dfrac{\left(\sum^N_{i=0} w_i \right)^2}{\sum^N_{i=0}w_i^2}
 \end{equation}
 
-A common way to integrate this idea is to trigger the resampling step only if the $ESS_t$ fall below certain threshold at time $t$, say $\frac{N}{2}$. See \cite{JAM10} for further details on ESS.
+A common way to integrate this idea is to trigger the resampling step only if the ESS value at time step $t$ fall below certain threshold at time $t$, say $\frac{N}{2}$. See \cite{JAM10} for further details on ESS.
 
 \begin{algorithm}
 \caption{Sequential Importance Resampling}\label{algo:sir}
@@ -244,13 +255,13 @@ A common way to integrate this idea is to trigger the resampling step only if th
 
 \subsection{Resample-Move Algorithm}
 \label{sec:rm}
-However, resampling is not a silver bullet for sampling impoverishment. Essentially, resampling provides a mechanism to eliminate low weight samples to give way to replicate \emph{copies} of high weight samples. This allows all samples to participate and contribute to the distribution estimation. This is obvious beneficial for the case of estimating filtering distribution and predictive distribution. Over time, this replication result in decrease in the number of distinct samples for previous time steps. Eventually, many samples will have the share the same sample trajectory. This is a fundamental weakness of SMC, in which the sample path history is never re-written. This lose of diversity in the sample set will have a negative impact when it comes to any smoothing distribution estimation. 
+However, resampling is not a silver bullet for sampling impoverishment. Essentially, resampling provides a mechanism to eliminate low weight samples to give way to replicate \emph{copies} of high weight samples. This allows all samples to participate and contribute to the distribution estimation. This is obvious beneficial for the case of estimating filtering distribution and predictive distribution. Over time, this replication results in decrease in the number of distinct samples for previous time steps. Eventually, many samples will have the share the same sample trajectory. This is a fundamental weakness of SMC, in which the sample path history is never re-written. This lose of diversity in the sample set will have a negative impact when it comes to any smoothing distribution estimation. 
 
-To counteract this sample impoverishment, Resample-Move Algorithm \cite{BC01, WG01} is proposed to introduce some perturbation to the samples (so to diversify them) without changing the distribution they represent. This is accomplished by using MCMC steps with a Markov Kernel, $K$ that is invariant to the target distribution, $p(\cdot)$. In the original paper, this is achieved by simply introducing an additional MCMC ``move'' step to each sample after the resampling step using a kernel $K$  that is invariant to the target distribution. This Resample-Move algorithm is summarised in Algorithm \ref{algo:rm}.
+To counteract this sample impoverishment, Resample-Move Algorithm \cite{BC01, WG01} is proposed to introduce some perturbation to the samples (so to diversify them) without changing the distribution they represent. In the original paper, this is accomplished by adding a MCMC ``move'' step to each sample after the resampling step with a Markov Kernel, $K$ that is invariant to the target distribution, $p(\cdot)$. This Resample-Move algorithm is summarised in Algorithm \ref{algo:rm}.
 
 This does not entirely solve the smoothing distribution estimation problem. To apply Markov Kernels with invariant distribution corresponding to the smoothing distribution, the space that Markov kernel is defined has to increase at each iteration. This implies the computation time increases linearly with time. Moreover, fast mixing high dimension Markov kernel in itself is not easy to design \cite{JAM10}.
 
-To trade-off between the two requirements, one could adopt a sliding windows approach, in which MCMC Kernels which diversify the samples of the previous $n$ time step at each iteration. Adding this sliding window approach into the standard SIR algorithm will make each iteration has an additional \emph{fixed} computational cost.
+To trade-off between the two requirements, one could adopt a sliding windows approach, in which the MCMC Kernel is used to diversify only the samples of the previous $n$ time step at each iteration. Adding this sliding window approach into the standard SIR algorithm will make each iteration has an additional \emph{fixed} computational cost.
 
 \begin{algorithm}
 \caption{Resample-Move Algorithm}\label{algo:rm}
@@ -269,8 +280,8 @@ In practice, many models may not be entirely non-linear or non-Gaussian. Some st
 
 To illustrate this, let consider the a simple conditional linear Gaussian Model as follows:
 \begin{align}
-  X^L_t &= A_t(X^N_t)X_{t-1} + B_t(X^N_t)W_t + F_t(X^N_t) \\
-  Y_t &= C_t(X^N_t)X_t + D_t(X^N_t)V_t + G_t(X^N_t)
+  X^L_t &= A_t(X^N_t)X^L_{t-1} + B_t(X^N_t)W_t + F_t(X^N_t) \\
+  Y_t &= C_t(X^N_t)X^L_t + D_t(X^N_t)V_t + G_t(X^N_t)
 \end{align}
 where $\{X^N_t\}_{t \geq 0}$ is a non-linear Markov processs, $A_t$, $B_t$, $C_t$, $D_t$, $F_t$, $G_t$ are appropriate matrix/vector of $X^N_t$ and  $\{W_t\}_{t \geq 0}$ and  $\{V_t\}_{t \geq 0}$ are independent sequences of standard Gaussian random variable, i.e., $W_t, V_t \sim \mathcal{N}(0,I)$. In such a case, the transition density and likelihood of this model are Gaussian distributions with center lied at a point of a linear combination of the known $x^N_t$ that can be obtained by using classical Kalman Fitering recursions as shown in Appendix \ref{sec:KF}.
 
@@ -279,9 +290,9 @@ The discussion here has been focused on conditional linear Gaussian model. The d
 
 
 \section{Conclusion}
-This chapter presents a review of Monte Carlo methods, with a particular focus on Sequential Monte Carlo (SMC) used extensively in this thesis for portfolio optimisation. This chapter begins with a brief introduction on the traditional Monte Carlo sampling techniques. Then, it details the SMC, along with various extensions proposed to improve the performance of the algorithm.
+This chapter presents a review of Monte Carlo methods, with a particular focus on Sequential Monte Carlo (SMC), along with various extensions proposed in the literature, used in this thesis for portfolio optimisation.
 
-It is worth to have a remark here that the SMC techniques are not only applicable to sequential filtering problem. For example, it has been established that it is possible to use SMC techniques within MCMC framework (pMCMC, where p stands for particle) \cite{CA10} to build high dimensional proposal distribution to improve standard MCMC. In the next chapter, we will show how SMC can be used as a maximiser to search for a optimal strategy for the optimal portfolio, given a multiplicative reward function.
+It is worth to have a remark here that the SMC are not only applicable to sequential filtering problem. For example, it has been established that it is possible to use SMC within MCMC framework (pMCMC, where p stands for particle) \cite{CA10} to build high dimensional proposal distribution to improve standard MCMC. In the next chapter, we will show how SMC can be used as a maximiser to search for a optimal strategy for the optimal portfolio, given a multiplicative reward function.
 
 % ------------------------------------------------------------------------
 

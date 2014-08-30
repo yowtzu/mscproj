@@ -1,9 +1,9 @@
 \chapter{Portfolio optimisation}
 \graphicspath{{Chapter4/figures/}}
-\label{lab:PO}
-Optimal portfolio is the ultimate goal of every investment manager; but the optimality criteria can be very different to each of them. In the infamous Markowitz's modern portfolio theory \cite{HM52}. It is assumed that investor attempt to maximize a portfolio's return and minimize the risk (measured by the variance of the portfolio return). For index tracker fund manager, the main objective of portfolio management is to track and replicate the exposure of a benchmark index. The lack of active management generally makes the fund less vulnerable to change of management and has the advantages of lower fees and taxes. It is the latter the focus of the thesis lies.
+\label{cha:po}
+Optimal portfolio is the ultimate goal of every investment manager; but the optimality criteria can be very different to each of them. In the infamous Markowitz's modern portfolio theory \cite{HM52}, it is assumed that investor attempt to maximize the return and minimize the risk of his portfolio. For index tracker fund manager, the main objective of portfolio management is to track and replicate the exposure of a benchmark index. The lack of active management generally makes the fund less vulnerable to change of management and has the advantages of lower fees and taxes. It is the latter the focus of the thesis lies.
  
-In this chapter, we briefly introduce index tracking fund and summarise some causing factors of the tracking error between a index fund and its benchmark index. We then present how the portfolio optimisation problem in terms of minimising the tracking error can be formulated as a stochastic control problem. Lastly, we show this stochastic control problem can be turned in to a path-space parameter estimation, in which Rao-Blackwellised SMC can be used to estimate efficiently.
+In this chapter, we introduces the index tracking fund and summarise some causing factors of the tracking error between the fund and its benchmark index. We then present how the portfolio optimisation problem in terms of minimising the tracking error can be formulated as a stochastic control problem. Lastly, we show this stochastic control problem can be turned into a path-space parameter estimation problem, in which Rao-Blackwellised SMC can be used to estimate these parameters efficiently.
  
 \section{Index Tracking Fund}
 An financial index can be thought of a summary statistics of a market, typically formed as weighted average of the prices of some financial instruments. For example, FTSE 100 is an index that attempts to represents the performance of the 100 biggest companies in UK. This index is however not an investable financial product one can invest directly.
@@ -13,10 +13,10 @@ To allows investors to take exposure to the markets (as represented by the indic
 \subsection{Index Replication}
 To track an index, the simplest way is to replicate the index by investing all the components of the benchmark index. However, this can be costly and difficult to manage, considering some of the indices may have huge number of components, e.g., MSCI World index that consists of $\approx 1600$ components from many different countries. Instead, one could partial replicate the index by sampling some of the components that are most representative. This can mean those components with larger weights, more volatiles or less correlated in returns (assuming these returns average out the gain/loss among them). This partial replication could save transaction cost, at the same time, introducing some tracking errors to the funds.
  
-Instead of physically replicating the index by investing in the components, the portfolio manager also have the option to enter a swap agreement with a counter-party (typically investment bank) that provides the exact return of the stock market or commodity it's tracking. Essentially, this transfers the market risk to the counter-party, at the same introducing the counter-party default risk. This technique is known synthetic replication.
+Instead of physically replicating the index by investing in the components, the portfolio managers also have the option to enter a swap agreement with a counter-party (typically investment bank) that provides the exact return of the stock market or commodity it's tracking. Essentially, this transfers the market risk to the counter-party, at the same introducing the counter-party default risk. This technique is known synthetic replication.
  
 \subsection{Causing factors of tracking error}
-To evaluate the performance of index tracking fund, different metrics have been introduced to quantify the mismatch between the performance of a fund and its benchmark index. For example, tracking difference is the sum of absolute difference in returns between of a fund and its benchmark. Here, we adopt the tracking error as our metric, which is defined to be the standard deviation of the absolute difference of the returns of the fund and the benchmark defined in \cite{BJ13} as follows:
+To evaluate the performance of index tracking fund, different metrics have been introduced to quantify the mismatch between the performance of the fund and its benchmark index. For example, tracking difference is the sum of absolute difference in returns between of the fund and its benchmark index. Here, we adopt the tracking error as our metric, which is defined to be the standard deviation of the absolute difference of the returns of the fund and the benchmark index defined in \cite{BJ13} as follows:
 \begin{equation}
   \epsilon = \sqrt{\Var[r_p - r_b]}
 \end{equation}
@@ -24,15 +24,15 @@ where $r_p$ is the return of the portfolio and $r_b$ is the return of the benchm
  
 There are many factors that can cause tracking errors, some of which are summarised as follows:
 \begin{enumerate}
-\item benchmark index rebalance --- the benchmark index is re-weighting its constituents periodically to reflex the changes on the market based on its methodology. To track the index, the fund has to adjust its portfolio accordingly. This will incur some transaction costs. During the index rebalance period, cash drag may also  happen between the liquidation of the constituents that have weights reduced/dropped and the addition of the constituents that have weights increased/added. This cash is essentially not participating in the market and therefore do not reflex the changes on the benchmark index.
+\item benchmark index rebalance --- the benchmark index is re-weighting its constituents periodically to reflex the changes on the market based on its methodology. To track the index, the fund has to adjust its portfolio accordingly. This will incur some transaction costs. During the index rebalance period, cash drag may also  happen between the liquidation of the constituents that have weights reduced/dropped and the addition of the constituents that have weights increased/added. This cash is essentially not participating in the market and therefore it does not reflex the changes on the benchmark index.
 \item replication and sampling techniques --- funds may choose to replicate the benchmark index by selecting a subset of the constituents (often the ones with larger weights and more liquid) in an effort to minimize the transaction costs. This exclusion of the smaller, less liquid constituents may introduce another source of tracking error, especially under stressed market.
-\item different assumption on dividend reinvestment and taxation --- This is best illustrate with examples. For example, the benchmark index calculation may assume immediate reinvestment of dividends on ex-dividend dates but the fund may only able to reinvest the dividend after receiving it. The tax treatment that is applied on the dividends may also be different.
+\item different assumption on dividend reinvestment and taxation --- the benchmark index calculation often assumes immediate reinvestment of dividends on ex-dividend dates but the fund may only able to reinvest the dividend after receiving it. The tax treatment that is applied on the dividends may also be different.
 \item total expense ratio --- there is an additional expense charged to the fund on daily basis to cover the management cost.
 \end{enumerate}
 This list is by no mean exclusive. See \cite{BJ13} for further details.
  
-\section{Metholodogy}
-Instead of using a traditional deterministic state space models, we choose to use a \emph{stochastic} modelling approach to carry out the portfolio optimisation. In particular, we focus here the the problem in minimizing the tracking error between a portfolio and its benchmark index.  Our aim is to determine what investment actions (buy or sell) on the necessary index components a portfolio manager has to do on a daily basis across the investment horizon to track the benchmark index well.
+\section{Methodology}
+Instead of using a traditional deterministic state space models, we choose to use a \emph{stochastic} modelling approach to carry out the portfolio optimisation. In particular, we focus here the the problem in minimizing the tracking error between a portfolio and its benchmark index.  Our aim is to determine what investment actions (buy or sell) a portfolio manager needs to do for each index component on a daily basis across the investment horizon to track the benchmark index well.
 
 We adopt here conditional Gaussian linear state space model as follows:
 \begin{align}
@@ -50,17 +50,19 @@ where $\{U_t\}_{t \geq 0}$ is a deterministic control input sequence that is use
 
 Based on this model, the optimisation objective is to search for a sequence of controls $u_{1:t}$ that would result in a sequence of observations $y_{1:t}$ that tracks the reference signal $y^{ref}_{1:T}$ as close as possible. This problem is often known as stochastic regulation problem. We adopt the finite horizon multiplicative reward function proposed in \cite{NK11} here:
 \begin{equation}
-  J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t - G_t(u_t) \vert\vert^2_{(D_t(u_t)D_t(u_t)^T)^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right]
+  J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[\exp\left( -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t - G_t(u_t) \vert\vert^2_{Q_t(u_t))^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right) \right]
 \end{equation}
-where the expectation is taken with respect to the whole path of the Markov Chain $\{X_t\}_{t \geq 0}$, starting with $X_0 = x_0$,  i.e., $E_{x_0}[\phi(X_{1:t})] = \displaystyle\int \phi(X_{1:T}) \prod f_t(x_t \mid x_{t-1})~dx_{1:t}$, with $D_t$ and $L_t$ are assumed to be known. The corresponding optimal open loop policy is:
+where $Q(u_t) = D_t(u_t)D_t(u_t)^T$ and $L_t$ are assumed to known. The expectation here is taken with respect to the whole path of the Markov Chain $\{X_t\}_{t \geq 0}$ with the starting point $X_0 = x_0$,  i.e., $E_{x_0}[\phi(X_{1:t})] = \displaystyle\int \phi(X_{1:T}) \prod f_t(x_t \mid x_{t-1})~dx_{1:t}$.
+
+The corresponding optimal open loop policy is:
 \begin{equation}
   u^*_{1:T} = \arg\max_{u_{1:T}} J(u_{1:T};y^{ref}_{1:T};x_0)
 \label{eq:optcontrol}
 \end{equation}
-with the assumption that the maximum is attainable. This reward function is closely related to the risk sensitive control discussed in \cite{WR90}, with slightly difference. This reward function is absence of an explicitly risk sensitive constant and assume the presence of $y^{ref}_{1:T}$ as the reference target instead of the observable states. Nevertheless, a risk sensitivity constant could still be introduced through $D_n$ and $L_n$ if necessary.
+with the assumption that the maximum is attainable. This reward function is closely related to the risk sensitive control discussed in \cite{WR90}, with slightly difference. This reward function used here is absence of an explicitly risk sensitive constant and it also assumes the presence of $y^{ref}_{1:T}$ as the reference target instead of the observable states. Nevertheless, a risk sensitivity constant could still be introduced through $D_n$ and $L_n$ if necessary.
 
 \subsection{Problem formulation}
-Under the realm of Bayesian inference, we treat the control inputs $u$ as random variables that admit a prior distribution. We also assume here that the sequence of control $u_n$ is a Markov process with transition distribution $p(u_t \mid u_{t-1})$. The objective is to compute the marginal posterior distribution density:
+We assume here that the sequence of controls $\{U_t\}_{t \geq 0}$ is a Markov process with transition distribution $p(u_t \mid u_{t-1})$. The objective is to compute the marginal posterior distribution density:
 \begin{equation}
  \pi_t(u_{1:t}) = p(u_{1:t} \mid y^{ref}_{1:t})
 \end{equation} 
@@ -81,23 +83,22 @@ by standard marginalisation the distribution $p(x_{1:t}, u_{1:t} \mid y_{1:t})$ 
 %&=  p(u_{0:t-1} \mid y_{0:t-1}) p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{t-1}, y_{0:t-1})
 %\end{align}
  
-One straight-forward way to approximate the recursion is directly apply SMC algorithm by consider the hidden states is a sequence of paired states $\{(U_t, X_t)\}_{t \geq 0}$. A better approach be using the Rao-Blackwellised SMC approach (see Section \ref{sec:msmc} for detail), which splits the states into the linear Gaussian states and the non-linear states. Then, the Kalman Filter can be used to model the linear Gaussian states and the SMC can be to model only the non-linear states. This marginalisation setting often yields estimates with smaller variance.
+One straight-forward way to approximate the recursion is directly apply SMC algorithm by consider the hidden states is a sequence of paired states $\{(U_t, X_t)\}_{t \geq 0}$. A better approach would be using the Rao-Blackwellised SMC mentioned in Section \ref{sec:msmc}, attempts to do as much computation analytically as possible, by splitting the states into the linear Gaussian states and the non-linear states. Then, the Kalman Filter can be used to model and track the linear Gaussian states and the SMC is only required to model and track the non-linear states. This marginalisation setting often yields estimates with smaller variance.
 
-
-To use Rao-blackwellised SMC on this model, we consider the following factorisation on the full posterior distribution as follows:
+To use Rao-Blackwellised SMC on this model, we consider the following factorisation on the full posterior distribution as follows:
 \begin{equation}
   p(u_{1:t}, x_{1:t} \mid y_{1:t}) = p(x_{1:t} \mid u_{1:t}, y_{1:t}) p(u_{1:t} \mid y_{1:t})
 \end{equation}
-Looking at the right hand side of the equation, the first term is Gaussian and can be estimated optimally using Kalman Filter recursion as shown in Appendix \ref{sec:KF}. For the second term, we can rewrite it into the following recursion form:
+Looking at the right hand side of the equation, the first term is obviously Gaussian and can therefore can be estimated optimally using Kalman Filter recursions described in Appendix \ref{sec:KF}. For the second term, we can rewrite it into the following recursion form:
 \begin{align}
-p(u_{0:t} \mid y_{0:t}) &\propto p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_{0:t} \mid y_{0:t-1}) \nonumber \\
-&=  p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1}) p(u_{0:t-1} \mid y_{0:t-1}) \nonumber \\
-&=  p(u_{0:t-1} \mid y_{0:t-1}) p(y_t \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1})
+p(u_{1:t} \mid y_{1:t}) &\propto p(y_t \mid u_{1:t}, y_{1:t-1}) p(u_{1:t} \mid y_{1:t-1}) \nonumber \\
+&=  p(y_t \mid u_{1:t}, y_{1:t-1}) p(u_t \mid u_{1:t-1}, y_{1:t-1}) p(u_{1:t-1} \mid y_{1:t-1}) \nonumber \\
+&=  p(u_{1:t-1} \mid y_{1:t-1}) p(y_t \mid u_{1:t}, y_{1:t-1}) p(u_t \mid u_{1:t-1}, y_{1:t-1})
 \label{eq:msmc}
 \end{align}
 Assuming that it is also possible to decompose the selected importance density into recursion form as follows:
 \begin{equation}
-        q_{1:t}(u_{1:t} \mid y_{0:t}) = q_{1:t-1}(u_{1:t-1} \mid y_{1:t-1}) q_t(u_t \mid u_{1:t-1}, y_{1:t})
+        q_{1:t}(u_{1:t} \mid y_{1:t}) = q_{1:t-1}(u_{1:t-1} \mid y_{1:t-1}) q_t(u_t \mid u_{1:t-1}, y_{1:t})
 \label{eq:q2}
 \end{equation}
 then the associated unnormalized weight of each sample can be derived in a similar fashion as given in Section \ref{sec:SIS} into the recursion form as follows:
@@ -105,48 +106,54 @@ then the associated unnormalized weight of each sample can be derived in a simil
    \tilde{w}_t  = \tilde{w}_{t-1} \dfrac{p_t(u_t \mid u_{t-1})p_t(y_t \mid u_{1:t}, y_{1:t-1})}{q_t(u_t \mid u_{1:t-1}, y_{1:t})}
    \label{eq:wsmsc}
 \end{equation}
-Compare to \eqref{eq:q}, the main difference here is that the weights now depends on the whole path space from time $1$ up to $t$. The Rao-blackwellised SMC algorithm is summarised in Algorithm \ref{algo:msmc}.
+Compare to \eqref{eq:w}, the main difference here is that the weights now depends on the whole path space from time step $1$ to $t$.
+
+\subsection{Extensions}
+As discussed in Section \ref{sec:ess}, the resampling step introduces variance to the the weights, but it is necessary to avoid accumulation of estimation variance onto the weights over time. Effective sample size (ESS) can be used to measure the quality of the weight and trigger the resampling step only if necessary, e.g., 
+when the ESS value at time step $t$ fall below certain threshold at time $t$, say $\frac{N}{2}$.
+
+To add diversity in the population of particles, the Resample-Move step introduced in Section \ref{sec:rm} can be included. This step perturbs the samples yet leave the distribution the samples represent unchanged using a MCMC kernel that is invariant in density. With this optional step in place, the whole algorithm is summarised in Algorithm \ref{algo:msmc}.
 
 \begin{algorithm}
-\caption{Rao-Blackwellised Sequential Monte Carlo}\label{algo:msmc}
+\caption{Rao-Blackwellised SMC to search for the optimal control parameters}\label{algo:msmc}
 \begin{algorithmic}[1]
-\Function{RaoBlackwellisedSequentialMonteCarlo}{N, T}
-\State Set $t \gets 0$.
-\State For $i \in 1, \ldots, N$, sample $u^{(i)}_0 \sim q(u^{(i)}_0 \mid y^{(i)}_0)$.
+\Function{OptimalParameters}{N, T}
+\State Set $t \gets 1$.
+\State For $i \in 1, \ldots, N$, sample $u^{(i)}_1 \sim q(u^{(i)}_1 \mid y^{(i)}_1)$.
 \State For $i \in 1, \ldots, N$, calculate the unnormalized importance weight:
 \begin{equation*}
- \tilde{w}^{(i)}_0 = \dfrac{p(u_0^{(i)})g_0(y_0 \mid u^{(i)}_0)}{q_0(u^{(i)}_0)}
+ \tilde{w}^{(i)}_1 = \dfrac{p(u_1^{(i)})g_1(y_1 \mid u^{(i)}_1)}{q_1(u^{(i)}_1, y_1)}
 \end{equation*}
 \State For $i \in 1, \ldots, N$, normalize the importance weight:
 \begin{equation*}
-\hat{w}^{(i)}_0 = \dfrac{\tilde{w}^{(i)}_0}{\sum^N_{i=1} \tilde{w}^{(i)}_0}
+\hat{w}^{(i)}_1 = \dfrac{\tilde{w}^{(i)}_1}{\sum^N_{i=1} \tilde{w}^{(i)}_1}
 \end{equation*}
 \State Set $t \gets t + 1$.
 \While{$t \leq T$}
 \State For $i \in 1, \ldots, N$, sample $u^{(i)}_t \sim q(u^{(i)}_t \mid y^{(i)}_{t-1}, u^{(i)}_{t-1})$.
 \State For $i \in 1, \ldots, N$, calculate the unnormalized importance weight:
 \begin{equation*}
-   \tilde{w}_t  = \tilde{w}_{t-1} \dfrac{p_t(u_t \mid u_{t-1})p_t(y_t \mid u_{0:t}, y_{0:t-1})}{q_t(u_t \mid u_{0:t-1}, y_{0:t})}
+   \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{p_t(u^{(i)}_t \mid u^{(i)}_{t-1})g_t(y_t \mid u^{(i)}_{1:t}, y_{1:t-1})}{q_t(u^{(i)}_t \mid u^{(i)}_{1:t-1}, y_{1:t})}
 \end{equation*}
 where
 \begin{equation}
-  p(y_t \mid u^{(i)}_{0:t}, y_{1:t-1}) \sim N(y_{t \mid t-1},S_t)
+  p(y_t \mid u^{(i)}_{1:t}, y_{1:t-1}) \sim N(m_{t \mid t-1},S_t)
 \end{equation}
-with $y_{t \mid t-1}$ and $S_t$ are updated with Kalman Filter:
+with $m_{t \mid t-1}$ and $S_t$ are updated with Kalman Filter recursions:
 \begin{align}
   \mu_{t \mid t -1} &= A_{t}(u_t)(\mu_{t-1 \mid t-1})X_{t-1} + F_t(u_t) \nonumber \\
   \Sigma_{t \mid t -1} &= A_{t}(u_t)\Sigma_{t -1 \mid t -1}A_{t}(u_t)^T +  B_t(u_t)B_t(u_t)^T \nonumber\\
   S_t &=  C_{t}(u_t)\Sigma_{t \mid t -1}C_{t}(u_t)^T +  D_t(u_t)D_t(u_t)^T \nonumber\\
-  y_{t \mid t-1} &=  C_{t}(u_t)  \mu_{t \mid t-1} + G_t(u_t) \nonumber\\
-  \mu_{t \mid t} &=   \mu_{t \mid t -1} +   \Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1}(y_t - y_{t \mid t-1}) \nonumber\\
+  m_{t \mid t-1} &=  C_{t}(u_t)  \mu_{t \mid t-1} + G_t(u_t) \nonumber\\
+  \mu_{t \mid t} &=   \mu_{t \mid t -1} +   \Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1}(y_t - m_{t \mid t-1}) \nonumber\\
   \Sigma_{t \mid t} &=  \Sigma_{t \mid t -1} -\Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1} C_{t}(u_t)\Sigma_{t \nonumber \mid t -1}
 \end{align}
 \State For $i \in 1, \ldots, N$, normalize the importance weight:
 \begin{equation*}
 \hat{w}^{(i)}_t = \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{i=1} \tilde{w}^{(i)}_t}
 \end{equation*}
-\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ u^{(i)}_{0:t} \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{u^{(i)}_{0:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$
-\State \textbf{Move:} For $i \in 1, \ldots, N$, sample $^{(i)}_{0:t} \sim K_t(\cdot)$, where $K_t$ is $p_t$-invariant.
+\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ u^{(i)}_{1:t} \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{u^{(i)}_{1:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$
+\State \textbf{Move:} For $i \in 1, \ldots, N$, sample $u^{(i)}_{1:t} \sim K_t(\cdot)$, where $K_t$ is $p_t$-invariant.
 \EndWhile
 \EndFunction
 \end{algorithmic}
@@ -157,38 +164,38 @@ Based on the model defined in \eqref{eq:model}, the conditional likelihood densi
 \begin{equation}
   g_t(y^{ref}_t \mid x_t, u_t) \propto \exp\left( -\dfrac{1}{2} \vert\vert y^{ref}_t - C_t(u_t)x_t - G_t(u_t) \vert\vert^2_{(D_t(u_t)D_t(u_t)^T)^{-1}}\right)
 \end{equation}
-and using the standard Kalman recursion discussed in Section \ref{sec:KF}, the posterior distribution $p(y^{ref}_t \mid y^{ref}_{t-1}, u_{0:t})$ is given as follows:
+and using the standard Kalman recursion discussed in Appendix \ref{sec:KF}, the posterior distribution $p(y^{ref}_t \mid y^{ref}_{t-1}, u_{1:t})$ is given as follows:
 \begin{equation}
-  p(y^{ref}_t \mid y^{ref}_{t-1}, u_{0:t}) \propto \exp\left( -\dfrac{1}{2} \vert\vert y^{ref}_t - y_{t \mid t-1}(u_{0:t}) \vert\vert^2_{S_t(u_{0:t})^{-1}}\right)
+  p(y^{ref}_t \mid y^{ref}_{t-1}, u_{1:t}) \propto \exp\left( -\dfrac{1}{2} \vert\vert y^{ref}_t - y_{t \mid t-1}(u_{1:t}) \vert\vert^2_{S_t(u_{1:t})^{-1}}\right)
 \end{equation}
-where $y_{t \mid t-1}$ and $S_t$ are the mean and covariance matrix of the measurement at time $t$ obtained in the Kalman Filter recursion.
+where $y_{t \mid t-1}$ and $S_t$ are the mean and covariance matrix of the measurement at time $t$ obtained in the Kalman Filter recursions.
 
 By assuming the Markov transition density for $u_t$ to be:
 \begin{equation}
   p(u_{t} \mid u_{t-1}) \propto  \exp\left( -\dfrac{1}{2} \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right)
 \label{eq:mctrans}
 \end{equation}
-the Maximum a Posteriori (MAP) estimate of $U_{0:T}$ is given to be:
+the Maximum a Posteriori (MAP) estimate of $U_{1:T}$ is given to be:
 \begin{equation}
-  \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} \pi_n(u_{0:t})
+  \tilde{u}^*_{1:t} = \arg\max_{u_{1:t}} \pi_n(u_{1:t})
 \label{eq:map}
 \end{equation}
-which essentially specifies the model that best explains the reference $y^{ref}_{0:t}$ as the output sequence from a general set of models defined in \eqref{eq:model}.
+which essentially specifies the model that best explains the reference $y^{ref}_{1:t}$ as the output sequence from a general set of models defined in \eqref{eq:model}.
 
-In \cite{NK11}, it had been shown that assuming a Markov transition density for $u_t$ in \eqref{eq:mctrans}, the optimal control defined in \eqref{eq:optcontrol} and the MAP estimate defined in \eqref{eq:map} are the same. Moreover, following the monotonicity of the transformation $p(\cdot)^\gamma$, the mode of $p(\cdot)^\gamma$ is the same for all $\gamma > 0$. The main difference is that it is easier to sample closer to the mode when $\gamma > 1$ because the density has sharper peak and vice versa. Putting all these together, we have the follows:
+In \cite{NK11}, it had been shown that assuming a Markov transition density for $U_t$ in \eqref{eq:mctrans}, the optimal control defined in \eqref{eq:optcontrol} and the MAP estimate defined in \eqref{eq:map} are the same. Moreover, following the monotonicity of the transformation $p(\cdot)^\gamma$, the mode of $p(\cdot)^\gamma$ is the same for all $\gamma > 0$. The main difference is that it is easier to sample closer to the mode when $\gamma > 1$ because the density has sharper peak and vice versa. Putting all these together, we have the follows:
 \begin{equation}
-  u^*_{0:t} = \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} \pi_n(u_{0:t})^\gamma,~\gamma > 0
+  u^*_{1:t} = \tilde{u}^*_{1:t} = \arg\max_{u_{1:t}} \pi_n(u_{1:t})^\gamma,~\gamma > 0
 \end{equation}
 
 In SMC algorithm, this can be easily estimated as follows:
 \begin{equation}
-\hat{u}^*_{0:t} = arg\max_{u_{0:t}} \pi_n(u^{(i)}_{0:t})^\gamma = \arg\max_{u_{0:t}} p(u^{(i)}_{0:t} \mid y^{ref}_{0:t})^\gamma
+\hat{u}^*_{1:t} = arg\max_{u_{1:t}} \pi_n(u^{(i)}_{1:t})^\gamma = \arg\max_{u_{1:t}} p(u^{(i)}_{1:t} \mid y^{ref}_{1:t})^\gamma
 \end{equation}
-As long as the support of the proposal density include the support of $(u^{(i)}_{0:t} \mid y^{ref}_{0:t})$, this estimate converge asymptotically to the $\tilde{u}^*_{0:t}$ as $N \to \infty$. A better estimate can be obtained by embedding the Viterbi strategy as discussed in \cite{SG01}, but this comes with a computational cost that is quadratic in terms of the number of samples.
+As long as the support of the proposal density include the support of $(u^{(i)}_{1:t} \mid y^{ref}_{1:t})$, this estimate converge asymptotically to the $\tilde{u}^*_{1:t}$ as $N \to \infty$. A better estimate can be obtained by embedding the Viterbi strategy as discussed in \cite{SG01}, but this comes with a computational cost that is quadratic in terms of the number of samples.
 
 To add diversity to the population samples, the Resample-Move step (see Section \ref{sec:rm}) can be added. This step perturbs the samples yet leave the distribution the samples represent unchanged by using a MCMC kernel that is invariant in density.
 
-\section{Example 1:Tracking stationary oscillating wave}
+\section{Numerical Example: Tracking a stationary oscillating wave}
 \label{sec:exp1}
 We first consider here a simple linear Gaussian state space model as follows:
 \begin{align}
@@ -196,21 +203,28 @@ We first consider here a simple linear Gaussian state space model as follows:
   Y_t &= X_t + V_t
 \label{eq:refnmodel}
 \end{align}
-with $W_t, V_t \sim \mathcal{N}(0,I)$. This model is essential an instance of the class of model presented earlier in \eqref{eq:model}, with $A_t=B_t=C_t=D_t=I$, $F_t(u_t)=u_t$, $G_t(u_t)=0$ and $u_0=0$. The target reference is set to be an oscillating wave: $y^{ref}_t = \cos(0.2 \pi t + 0.3)$ and $L_1$ is set to $0.1$ similar to the setting used in \cite{NK11}.
+with $W_t, V_t \sim \mathcal{N}(0,I)$. This model is essential an instance of the class of model presented earlier in \eqref{eq:model}, with $A_t=B_t=C_t=D_t=I$, $F_t(U_t)=U_t$ and $G_t(U_t)=0$. The target reference is set to be an oscillating wave: $y^{ref}_t = \cos(0.2 \pi t + 0.3)$ and $L_1$ is set to $0.1$ similar to the setting used in \cite{NK11}.
 
 This model serves two purposes here. Firstly, it is sufficient simple to verify the implementation\footnote{Strictly speaking, testing only increases confidence of the implementation correctness but does not prove no bug.}. Secondly, it serves as good benchmark problem in which we can examine the sensitivity of the algorithm to different parameter settings.
 
 We proceed by examining the proposed algorithm with proposal density $q_t(\cdot)$ set to be the same as the Markov transition density and \emph{all} different combination of settings as follows:
 \begin{enumerate}
-\item Various time period length, $T$: 5, 10 and 20.
-\item Various number of samples, $N$: 100, 500, 1000, 5000 and 10000.
-\item Resample step: Always vs. Selectively (trigger threshold set to $\frac{ESS}{2}$).
+\item Various time period length settings, $T$: 5, 10 and 20.
+\item Various sample size settings, $N$: 100, 500, 1000, 5000 and 10000.
+\item Resampling step: Always vs. Selectively (trigger threshold set to $\frac{\text{ESS}}{2}$).
 \item Resample-Move step with MCMC (random walk proposal): Always vs. disabled.
-\item Various $\gamma$ settings: Constant function of $1$, $50$, $100$, $1000$ and increasing function of time $t+1$, $10(t+1)$, $50(t+1)$ and $100(t+1)$\footnote{$t+1$ instead of $t$ because time-step $t$ starts with 0}. 
+\item Various $\gamma$ settings: Constant function of $1$, $50$, $100$, $1000$ and increasing function of time $t$, $10t$, $50t$ and $100t$.
 \end{enumerate}
 
+For each of the setting, the experiment is repeated for $30$ times. Therefore, there are in total $3 \times 5 \times 2 \times 2 \times 8 \times 30 = 14400$ runs. 
+
 \subsection{Results and discussion}
-We first evaluate the effect of selectively enabling resample step with $ESS$ mechanism. In \emph{all} the settings, it is found that simple runs with resample step enabled always at each iteration have relatively better performance. Figure \ref{fig:ess} shows the performance in terms of $\log\pi_T(\hat{u}^*_{0:t})$ of 30 independent runs ($T=20$ and $N=10000$) of the algorithms. All other runs with different settings of $T$ and $N$ concur with this finding. From here onwards, we assumes $ESS$ mechanism is disabled unless stated otherwise.
+This sections presents a summary of the experimental results from all the runs. Instead of presenting the outputs produced by all the runs, only a subset of outputs that demonstrates our findings is presented here. The complete set of implementation code and output produced can be obtained from the repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
+
+\subsubsection{Selectively resampling step with ESS}
+We first evaluate the effect of selectively enabling resample step with ESS mechanism. In \emph{all} the settings, it is found that the simple runs with resample step enabled always at each iteration, i.e., with ESS disabled,  have relatively better performance. Figure \ref{fig:ess} shows the result the performance obtained in terms of $\log\pi_T(\hat{u}^*_{1:t})$ of 30 independent runs of the algorithms with $T=20$ and $N=10000$ for various $\gamma$ settings. All other runs with different settings of $T$ and $N$ concur with this finding. From here onwards, we assumes ESS mechanism is disabled unless stated otherwise.
+
+To explain this counter-intuitive result, recall that ESS is essentially a proxy to measure the quality of the weighted samples in representing the target distribution. A sample set that is well spread over the target distribution would have high ESS value and vice versa. However, the application of SMC as a maximiser here is \emph{only} concerned with the mode of the distribution. The process of resampling the samples proportional to the weights essentially pushes samples towards the mode of the distribution. Selectively resampling using ESS essentially reduces the strength of this push and therefore leads to sub-optimal solution.
 
 \begin{figure}[!thbp]
     \centering
@@ -244,16 +258,6 @@ We first evaluate the effect of selectively enabling resample step with $ESS$ me
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma1000_N10000.pdf}
-      
-    \end{minipage}
-    \begin{minipage}{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma1t_N10000.pdf}
-      
-    \end{minipage}%
-    \begin{minipage}{0.5\textwidth}
-        \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma10t_N10000.pdf}
       
     \end{minipage}
@@ -266,11 +270,14 @@ We first evaluate the effect of selectively enabling resample step with $ESS$ me
         \centering
         \includegraphics[width=\textwidth]{loglik_mcmc_ess/T20_gamma100t_N10000.pdf}
     \end{minipage}
-    \caption{The $\log\pi_T(\hat{u}^*_{0:t})$ box-plots of 30 independent runs ($T=20$ and $N=10000$) of the algorithms.}
+    \caption{The performance in terms of $\log\pi_T(\hat{u}^*_{1:t})$ of 30 independent runs of the algorithms  with $T=20$ and $N=10000$ for various $\gamma$ settings. The four box-plots in each sub-figure represent the results of runs with the following settings (from left to right): a) MCMC disabled, ESS disabled, b) MCMC enabled, ESS disabled, c) MCMC disabled, ESS enabled, and d) MCMC enabled, ESS enabled.   }
     \label{fig:ess}
 \end{figure}
 
-Moreover, in the same figure, we can see that the Resample-Move step does improve performance, albeit in most cases the improvement is marginal. The improvement is more significant when $\gamma$ is set to be high. This is depicted clearly in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}, in which it presents similar box-plots of $\log\pi_T(\hat{u}^*_{0:t})$ of $30$ independent runs of the algorithms for different $T$, $N$ and $\gamma$ settings. One possible explanation to this is that high $\gamma$ settings help in optimisation by encouraging particle converge to high density area. Excessively high $\gamma$ settings will lead to pre-mature convergence particles to local optimal (as one can see the $\log\pi_T(\hat{u}^*_{0:t})$ values found in high $\gamma$ settings are not very good). The perturbation Resample-Move step introduces may help particles to escape from local optimal.
+\subsubsection{Resample-Move step with MCMC}
+In Figure \ref{fig:ess}, we can also observe that the Resample-Move step does improve performance, albeit the improvement is marginal  in most of the cases. The improvement is more significant when $\gamma$ is set to be high. Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3} show the box plots of $\log\pi_T(\hat{u}^*_{1:t})$ of $30$ independent runs for time period $T$ of 5, 10, 20 respectively. Each sub-figure shows the runs for a selected $\gamma$ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.
+
+One possible explanation to this result is that high $\gamma$ settings sharpen the distribution shape. Such a setting encourages optimisation by pushing the sample towards  high density area but at the same time reduces the space exploration. With excessively high $\gamma$ settings, the sample set may be led to a local optimal with relatively high density area, which may not be the mode of the distribution. The perturbation Resample-Move step introduced at each iteration may help particles to escape from local optimal.
 
 \begin{figure}[!thbp]
     \centering
@@ -290,7 +297,7 @@ Moreover, in the same figure, we can see that the Resample-Move step does improv
         \centering
         \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100(t+1).pdf}
     \end{minipage}
-    \caption{The $\log\pi_T(\hat{u}^*_{0:t})$ box-plots of 30 independent runs with various settings for $T=5$. The $5$ left/rightmost box-plots in each figure are for the runs without/with resample-move step.}
+    \caption{The $\log\pi_T(\hat{u}^*_{1:t})$ box-plots of 30 independent runs with various settings for $T=5$. Each sub-figure shows the runs for a selected $\gamma$ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.}
     \label{fig:rm1}
 \end{figure}
 
@@ -312,7 +319,7 @@ Moreover, in the same figure, we can see that the Resample-Move step does improv
         \centering
         \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma1000.pdf}
     \end{minipage}
-    \caption{The $\log\pi_T(\hat{u}^*_{0:t})$ box-plots of 30 independent runs with various settings for $T=10$. The $5$ left/rightmost box-plots in each figure are for the runs without/with resample-move step.}
+    \caption{The $\log\pi_T(\hat{u}^*_{1:t})$ box-plots of 30 independent runs with various settings for $T=10$. Each sub-figure shows the runs for a selected $\gamma$ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.}
     \label{fig:rm2}
 \end{figure}
 
@@ -334,15 +341,17 @@ Moreover, in the same figure, we can see that the Resample-Move step does improv
         \centering
         \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma1000.pdf}
     \end{minipage}
-    \caption{The $\log\pi_T(\hat{u}^*_{0:t})$ box-plots of 30 independent runs with various settings for $T=20$. The $5$ left/rightmost box-plots in each figure are for the runs without/with resample-move step.}
+    \caption{The $\log\pi_T(\hat{u}^*_{1:t})$ box-plots of 30 independent runs with various settings for $T=20$. Each sub-figure shows the runs for a selected $\gamma$ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.}
     \label{fig:rm3}
 \end{figure}
 
-In terms of the number of samples used, we can the performance improves with the number of samples used for all time periods considered as shown in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}. This is in-line with our expectation. For shorter time-period considered, the performance improvement sometimes is ``saturated'' even with lower number of samples, says $1000$ and $5000$. This suggests the optimal control parameters may have been found.
+\subsubsection{Various sample settings}
+In terms of the sample size setting used, the performance increased monotonically with the number of samples used for all time periods considered as shown in Figures \ref{fig:rm1}, \ref{fig:rm2} and \ref{fig:rm3}. This is in-line with the theory, more samples is always better. For the shorter time-period considered, says $T=5$, the performance improvement sometimes is ``saturated'' even with lower number of samples, says $T=1000$ or $T=5000$. This suggests the optimal control parameters may have been attained.
 
-A more interesting result is to compare the performance with different $\gamma$ settings. Let first consider fixed $\gamma$ settings. Excessive high $\gamma$ settings lead to pre-mature convergence issue discussed earlier and stuck at local optimal. On the other hand, low $\gamma$ settings also does not perform too well either (consider the process of searching for the maximum point by randomly sampling a very flat distribution). The optimal $\gamma$ setting seems to lie sometimes in between. In this case, the $\gamma=100$ setting results in the best performance.
+ \subsubsection{Various $\gamma$ settings}
+A more interesting result is to compare the performance with different $\gamma$ settings. Let first consider the fixed $\gamma$ settings. Excessive high $\gamma$ settings may lead to issue discussed earlier and stuck at local optimal. On the other hand, low $\gamma$ settings also does not perform too well either (consider the process of searching for the mode by randomly sampling a very flat distribution). The optimal $\gamma$ setting seems to lie sometimes in between. In this case, the $\gamma=100$ setting results in the best performance.
 
-In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may be a good pragmatic compromise between accuracy and good mixing. We investigate further on this by setting $\gamma$ to be increasing function of the form $\alpha t$, where $\alpha$ is constant and $t$ is the time step. The results show that the performance seems improve when the$\alpha$ value is low, but the result is worse when the $\alpha$ value is high. This suggests a capping on the maximum value on $\alpha$ or a more moderate in $t$ may be more suitable. We therefore carry out two extra $\gamma$ settings: $50\log(t+2)$ and $100\log(t+2)$ to investigate this and the results are shown in Figure \ref{fig:log}. The results obtained are not statistically different from a simple fixed $\gamma=100$ setting.
+In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may be a good pragmatic compromise between accuracy and good mixing. We investigate further on this by setting $\gamma$ to be increasing function of the form $\alpha t$, where $\alpha$ is constant and $t$ is the time step. The results show that the performance seems improve when the $\alpha$ value is low, but the result is worse when the $\alpha$ value is high. This suggests a capping on the maximum value on $\alpha$ or a more moderate in $t$ may be more suitable. We therefore carry out two extra $\gamma$ settings: $50\log(t+1)$ and $100\log(t+1)$ to investigate this. The results of these runs are shown in Figure \ref{fig:log}. The results obtained are not statistically different from a simple fixed $\gamma=100$ setting.
 
 \begin{figure}[!thbp]
     \centering
@@ -357,13 +366,11 @@ In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may b
         \centering
         \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100log(t+2).pdf}
     \end{minipage}
-    \caption{The $\log\pi_T(\hat{u}^*_{0:t})$ box-plots of 30 independent runs with four different $\gamma$s settings. The leftmost/rightmost $5$ box-plots in each figure are for the runs without/with resample-move step.}
+    \caption{The $\log\pi_T(\hat{u}^*_{1:t})$ box-plots of 30 independent runs with $\gamma$ settings: $50\log(t+1)$ and $100\log(t+1)$. Each sub-figure shows the runs for a selected $\gamma$ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.}
     \label{fig:log}
 \end{figure}
 
-Lastly, we conclude this section by showing the output of the model using our estimated $u^*_{0:T}$ obtained in various runs in Figure \ref{fig:estimatedy} and their corresponding tracking errors in Figure \ref{fig:error}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to track the reference signal very close. For further details about the experiments, the implementation code and the plots for all other runs can be obtained at the on-line repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
-
-In the next section, we shall investigate the use of the same algorithm to track a major financial index using real-world data. 
+Lastly, we conclude this section by showing the mean of the recursive likelihood $m_t(u^*{1:T})$ obtained in various runs in Figure \ref{fig:estimatedy} and their corresponding tracking errors in Figure \ref{fig:error}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to track the reference signal very close. 
 
 \begin{figure}[!thbp]
     \centering
@@ -399,7 +406,7 @@ In the next section, we shall investigate the use of the same algorithm to track
         \centering
         \includegraphics[width=\textwidth]{output_y/output_20_1000.pdf}
     \end{minipage}
-    \caption{The estimated $y$ output of the model using $u^*_{0:T}$ in 30 independent runs with various $\gamma$ settings, $T=20$, $N=1000$ and resample-move disabled.}
+    \caption{The means of the recursive likelihood $m_t(u^*{1:T})$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma$ settings and Resample-Move step disabled are plotted in lines with different colours. The target reference signal $y^{ref}$ is also plotted with a `x' marker.}
     \label{fig:estimatedy}
 \end{figure}
 
@@ -437,14 +444,14 @@ In the next section, we shall investigate the use of the same algorithm to track
         \centering
         \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma1000.pdf}
     \end{minipage}
-    \caption{The tracking error of the model using $u^*_{0:T}$ in 30 independent runs with various $\gamma$ settings, $T=20$, $N=1000$ and resample-move disabled.}
+    \caption{The box-plots of tracking errors of the model using $u^*_{1:T}$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma$ settings and Resample-Move step disabled.}
     \label{fig:error}
 \end{figure}
 
 
 \chapter{Track the DAX index}
 \graphicspath{{Chapter4/figures/}}
-\label{cha:Application}
+\label{cha:dax}
 
 \section{Example 2: Tracking the DAX Index}
 \label{sec:exp2}
@@ -512,7 +519,7 @@ Using this model, we can write the reward function as follows:
 Here, we will define $L = 0.1\diag(4,3,2,1)$ and also impose additional constraints on each component of $u$ is in the range $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi$ directly, i.e, fixed $\gamma=1$ setting. For the importance sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. 
 
 \subsubsection{Results and discussion}
-The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. The output $y$ produced by the model using the estimated $\hat{u}^*_{0:T}$ is tracking the reference index level very close with the average annualised\footnote{the annualisation factor is set to be $\sqrt{252}$ as the daily return is measured here.} tracking error of $0.024570$ over the $30$ runs tracking error. However, the estimated set of control parameter $\hat{u}^*_{0:T}$ which represents the holding position of each stock is not very stable.
+The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. The output $y$ produced by the model using the estimated $\hat{u}^*_{1:T}$ is tracking the reference index level very close with the average annualised\footnote{the annualisation factor is set to be $\sqrt{252}$ as the daily return is measured here.} tracking error of $0.024570$ over the $30$ runs tracking error. However, the estimated set of control parameter $\hat{u}^*_{1:T}$ which represents the holding position of each stock is not very stable.
 
 \begin{figure}[tbp]
 \centering
@@ -524,7 +531,7 @@ The simulation is carried out for $N=10000$ with no resample-move step implement
         \centering
         \includegraphics[width=\textwidth]{DAX4Low-y.pdf}
     \end{minipage}
-\caption{The estimated $\hat{u}^*_{0:T}$ and the corresponding $y$ output of the model in one of the 30 independent runs for target reference, $y^{ref}$ set to be the calculated DAX4 index level and $L = 0.1\diag(4,3,2,1)$.}
+\caption{The estimated $\hat{u}^*_{1:T}$ and the corresponding $y$ output of the model in one of the 30 independent runs for target reference, $y^{ref}$ set to be the calculated DAX4 index level and $L = 0.1\diag(4,3,2,1)$.}
 \label{fig:dax4}
 \end{figure}
 

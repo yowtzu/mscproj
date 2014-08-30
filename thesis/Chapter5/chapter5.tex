@@ -1,6 +1,6 @@
 \chapter{Conclusions and Future Work}
 \graphicspath{{Chapter5/figures/}}
-\label{EvaluationAndConclusion}
+\label{cha:conclusions}
 The work reported in the previous chapter provides evidence to support
 the thesis hypothesis:
 \begin{quote}
@@ -11,7 +11,7 @@ to which they justify the thesis hypothesis and concludes the thesis
 by addressing the directions for future work.
 
 \section{Thesis contributions}
-In the first experiment, we demonstrated the potential of SMC techniques in tracking a deterministic simple oscillating wave. The sensitivity of the techniques in terms of parameter settings and trade-off between the estimation accuracy and computational efforts are explored numerically. Several results are found. Firstly, it is found that a simple resampling step at each iteration performs better the more advanced method in which the resampling step is selectively triggered depending on the $ESS$ value. Secondly, it is found that the improvement of resample-move step is marginal. Considering the amount of computational cost involved and the extra amount of design cost involved, this may not be worthwhile. Thirdly, it is found that setting $\gamma$ as an increasing function of $t$ does lead to better performance, albeit extra care must be paid on the amount of increment at each step to avoid pre-mature convergence to local optimal. 
+In the first experiment, we demonstrated the potential of SMC techniques in tracking a deterministic simple oscillating wave. The sensitivity of the techniques in terms of parameter settings and trade-off between the estimation accuracy and computational efforts are explored numerically. Several results are found. Firstly, it is found that a simple resampling step at each iteration performs better the more advanced method in which the resampling step is selectively triggered depending on the ESS value. Secondly, it is found that the improvement of resample-move step is marginal. Considering the amount of computational cost involved and the extra amount of design cost involved, this may not be worthwhile. Thirdly, it is found that setting $\gamma$ as an increasing function of $t$ does lead to better performance, albeit extra care must be paid on the amount of increment at each step to avoid pre-mature convergence to local optimal. 
 
 In the second experiment, we explore the potential of SMC techniques in searching the optimal strategy for index tracking error with constraints and minimizing the transaction costs. We adopt the same framework with slightly different model. Although this framework has been applied in various engineering domains, there is no previous work to my knowledge in the application of such techniques in portfolio tracking error optimisation. In particular, we show how index can be fully replicated or partially replicated with transaction cost taken into account. The experiment results show the SMC techniques are rather promising.
 
