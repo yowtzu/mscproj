@@ -1,9 +1,9 @@
-\chapter{Monte Carlo Methods}
+\chapter{Monte Carlo methods}
 \graphicspath{{Chapter2/figures/}}
 \label{cha:mcmethods}
 Monte Carlo Methods have achieved significant success in its application to various domains in the last few decades. This chapter reviews some fundamental concepts in Monte Carlo methods that are related to this thesis. It begins with a summary on the main concept of Bayesian inference. It then discusses some basic Monte Carlo methods such as perfect Monte Carlo sampling, rejection sampling and importance sampling. Lastly, it introduces Sequential Monte Carlo (SMC), along with various enhancement made to the techniques, used in this thesis.
 
-\section{Bayesian Inference}
+\section{Bayesian inference}
 In Bayesian inference, each unknown parameter in the model is assumed to be random variable and is associated with a prior distribution that characterises the initial belief. The inference process is merely about updating the belief with new observable evidence in a systematic fashion using Bayes theorem.
 
 Formally, let $\mathcal{M}$ be the model used, $\theta$ be the set of parameters of the model, $p\left(\theta \mid \mathcal{M}\right)$ be the prior distribution (initial belief) and $p(x \mid \theta, \mathcal{M})$ be the likelihood (probability of observing an observation $x$ given the model) then posterior distribution (updated belief) is given as follows:  
@@ -213,7 +213,7 @@ The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Optimal Proposal Distribution}
+\subsection{Optimal proposal distribution}
 While SIS is attractive, it is nothing but a specialised version of importance sampling introduced earlier in Section \ref{sec:IS}. As the state space increases with the number of time step $t$, direct importance sampling on a state space that is increasing in size is not very efficient. The weights of the samples will degenerate over time, in the sense that the weights start to concentrate only on a small number of samples. Consequently, many samples will have negligible weights and do not contribute much in the estimating the expectation. See \cite{JAM10} for a step-by-step illustration. The weight degeneracy issue cause the quality of the estimate degrades over time.
 
 To alleviate this issue, looking at \eqref{eq:w}, it is obvious that the variance of importance weights can be minimised by using a proposal distribution of the following form:

@@ -173,7 +173,7 @@ Using these weighted samples $\{(x^{(i)}_{0:t}, \tilde{w}^{(i)}_t)\}_{1 \leq i \
 A particular important instance of SMC is obtained when the prior distribution is used as the importance distribution:
 \begin{align}
 	q_{0:t}(x_{0:t} \mid y_{0:t}) &= p(x_{0:t}) \nonumber \\
-	             &= p_0(x_0 \mid y_0) \prod^t_{i=1} p_i(x_i \mid x_{0:i-1})
+	             &= p_0(x_0) \prod^t_{i=1} p_i(x_i \mid x_{0:i-1})
 \label{eq:bf}
 \end{align}
 This greatly simplifies importance weight to follows:
@@ -190,7 +190,7 @@ The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 \State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
 \State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
 \begin{equation*}
- \tilde{w}^{(i)}_0 = \dfrac{f(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0, y_0)}
+ \tilde{w}^{(i)}_0 = \dfrac{f(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0 \mid y_0)}
 \end{equation*}
 \State For $i \in 1, \ldots, N$, normalize the importance weights:
 \begin{equation*}

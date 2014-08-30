@@ -5,12 +5,12 @@ Optimal portfolio is the ultimate goal of every investment manager; but the opti
  
 In this chapter, we introduces the index tracking fund and summarise some causing factors of the tracking error between the fund and its benchmark index. We then present how the portfolio optimisation problem in terms of minimising the tracking error can be formulated as a stochastic control problem. Lastly, we show this stochastic control problem can be turned into a path-space parameter estimation problem, in which Rao-Blackwellised SMC can be used to estimate these parameters efficiently.
  
-\section{Index Tracking Fund}
+\section{Index tracking fund}
 An financial index can be thought of a summary statistics of a market, typically formed as weighted average of the prices of some financial instruments. For example, FTSE 100 is an index that attempts to represents the performance of the 100 biggest companies in UK. This index is however not an investable financial product one can invest directly.
  
 To allows investors to take exposure to the markets (as represented by the indices), index tracker funds are introduced. These funds generally follow very strict and transparent rules with the main objective to track their benchmark indices as close as possible. Investors of these funds therefore are only exposed to the market risks of the chosen indices, with minimal exposure to the risk associated with the investment process of the traditional active fund management.
  
-\subsection{Index Replication}
+\subsection{Index replication}
 To track an index, the simplest way is to replicate the index by investing all the components of the benchmark index. However, this can be costly and difficult to manage, considering some of the indices may have huge number of components, e.g., MSCI World index that consists of $\approx 1600$ components from many different countries. Instead, one could partial replicate the index by sampling some of the components that are most representative. This can mean those components with larger weights, more volatiles or less correlated in returns (assuming these returns average out the gain/loss among them). This partial replication could save transaction cost, at the same time, introducing some tracking errors to the funds.
  
 Instead of physically replicating the index by investing in the components, the portfolio managers also have the option to enter a swap agreement with a counter-party (typically investment bank) that provides the exact return of the stock market or commodity it's tracking. Essentially, this transfers the market risk to the counter-party, at the same introducing the counter-party default risk. This technique is known synthetic replication.
@@ -118,26 +118,26 @@ To add diversity in the population of particles, the Resample-Move step introduc
 \caption{Rao-Blackwellised SMC to search for the optimal control parameters}\label{algo:msmc}
 \begin{algorithmic}[1]
 \Function{OptimalParameters}{N, T}
-\State Set $t \gets 0$.
-\State For $i \in 1, \ldots, N$, sample $u^{(i)}_0 \sim q(u^{(i)}_0 \mid y^{(i)}_0)$.
+\State Set $t \gets 1$.
+\State For $i \in 1, \ldots, N$, sample $u^{(i)}_1 \sim q(u^{(i)}_1 \mid y^{(i)}_1)$.
 \State For $i \in 1, \ldots, N$, calculate the unnormalized importance weight:
 \begin{equation*}
- \tilde{w}^{(i)}_0 = \dfrac{p(u_0^{(i)})g_0(y_0 \mid u^{(i)}_0)}{q_0(u^{(i)}_0, y_0)}
+ \tilde{w}^{(i)}_1 = \dfrac{p(u_1^{(i)})g_1(y_1 \mid u^{(i)}_1)}{q_1(u^{(i)}_1, y_1)}
 \end{equation*}
 \State For $i \in 1, \ldots, N$, normalize the importance weight:
 \begin{equation*}
-\hat{w}^{(i)}_0 = \dfrac{\tilde{w}^{(i)}_0}{\sum^N_{i=1} \tilde{w}^{(i)}_0}
+\hat{w}^{(i)}_1 = \dfrac{\tilde{w}^{(i)}_1}{\sum^N_{i=1} \tilde{w}^{(i)}_1}
 \end{equation*}
 \State Set $t \gets t + 1$.
 \While{$t \leq T$}
 \State For $i \in 1, \ldots, N$, sample $u^{(i)}_t \sim q(u^{(i)}_t \mid y^{(i)}_{t-1}, u^{(i)}_{t-1})$.
 \State For $i \in 1, \ldots, N$, calculate the unnormalized importance weight:
 \begin{equation*}
-   \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{p_t(u^{(i)}_t \mid u^{(i)}_{t-1})g_t(y_t \mid u^{(i)}_{0:t}, y_{0:t-1})}{q_t(u^{(i)}_t \mid u^{(i)}_{0:t-1}, y_{0:t})}
+   \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{p_t(u^{(i)}_t \mid u^{(i)}_{t-1})g_t(y_t \mid u^{(i)}_{1:t}, y_{1:t-1})}{q_t(u^{(i)}_t \mid u^{(i)}_{1:t-1}, y_{1:t})}
 \end{equation*}
 where
 \begin{equation}
-  p(y_t \mid u^{(i)}_{0:t}, y_{1:t-1}) \sim N(m_{t \mid t-1},S_t)
+  p(y_t \mid u^{(i)}_{1:t}, y_{1:t-1}) \sim N(m_{t \mid t-1},S_t)
 \end{equation}
 with $m_{t \mid t-1}$ and $S_t$ are updated with Kalman Filter recursions:
 \begin{align}
@@ -152,8 +152,8 @@ with $m_{t \mid t-1}$ and $S_t$ are updated with Kalman Filter recursions:
 \begin{equation*}
 \hat{w}^{(i)}_t = \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{i=1} \tilde{w}^{(i)}_t}
 \end{equation*}
-\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ u^{(i)}_{0:t} \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{u^{(i)}_{0:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$
-\State \textbf{Move:} For $i \in 1, \ldots, N$, sample $^{(i)}_{0:t} \sim K_t(\cdot)$, where $K_t$ is $p_t$-invariant.
+\State \textbf{Resample:} For $i \in 1, \ldots, N$, resample $ u^{(i)}_{1:t} \sim \dfrac{\sum^N_{i=1}\hat{w}^{(i)}_t\delta_{u^{(i)}_{1:t}}}{\sum^N_{j=1} \hat{w}^{(j)}_t}$
+\State \textbf{Move:} For $i \in 1, \ldots, N$, sample $u^{(i)}_{1:t} \sim K_t(\cdot)$, where $K_t$ is $p_t$-invariant.
 \EndWhile
 \EndFunction
 \end{algorithmic}
@@ -177,25 +177,25 @@ By assuming the Markov transition density for $u_t$ to be:
 \end{equation}
 the Maximum a Posteriori (MAP) estimate of $U_{1:T}$ is given to be:
 \begin{equation}
-  \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} \pi_n(u_{1:t})
+  \tilde{u}^*_{1:t} = \arg\max_{u_{1:t}} \pi_n(u_{1:t})
 \label{eq:map}
 \end{equation}
 which essentially specifies the model that best explains the reference $y^{ref}_{1:t}$ as the output sequence from a general set of models defined in \eqref{eq:model}.
 
 In \cite{NK11}, it had been shown that assuming a Markov transition density for $U_t$ in \eqref{eq:mctrans}, the optimal control defined in \eqref{eq:optcontrol} and the MAP estimate defined in \eqref{eq:map} are the same. Moreover, following the monotonicity of the transformation $p(\cdot)^\gamma$, the mode of $p(\cdot)^\gamma$ is the same for all $\gamma > 0$. The main difference is that it is easier to sample closer to the mode when $\gamma > 1$ because the density has sharper peak and vice versa. Putting all these together, we have the follows:
 \begin{equation}
-  u^*_{0:t} = \tilde{u}^*_{0:t} = \arg\max_{u_{0:t}} \pi_n(u_{0:t})^\gamma,~\gamma > 0
+  u^*_{1:t} = \tilde{u}^*_{1:t} = \arg\max_{u_{1:t}} \pi_n(u_{1:t})^\gamma,~\gamma > 0
 \end{equation}
 
 In SMC algorithm, this can be easily estimated as follows:
 \begin{equation}
-\hat{u}^*_{0:t} = arg\max_{u_{0:t}} \pi_n(u^{(i)}_{0:t})^\gamma = \arg\max_{u_{0:t}} p(u^{(i)}_{0:t} \mid y^{ref}_{0:t})^\gamma
+\hat{u}^*_{1:t} = arg\max_{u_{1:t}} \pi_n(u^{(i)}_{1:t})^\gamma = \arg\max_{u_{1:t}} p(u^{(i)}_{1:t} \mid y^{ref}_{1:t})^\gamma
 \end{equation}
-As long as the support of the proposal density include the support of $(u^{(i)}_{0:t} \mid y^{ref}_{0:t})$, this estimate converge asymptotically to the $\tilde{u}^*_{0:t}$ as $N \to \infty$. A better estimate can be obtained by embedding the Viterbi strategy as discussed in \cite{SG01}, but this comes with a computational cost that is quadratic in terms of the number of samples.
+As long as the support of the proposal density include the support of $(u^{(i)}_{1:t} \mid y^{ref}_{1:t})$, this estimate converge asymptotically to the $\tilde{u}^*_{1:t}$ as $N \to \infty$. A better estimate can be obtained by embedding the Viterbi strategy as discussed in \cite{SG01}, but this comes with a computational cost that is quadratic in terms of the number of samples.
 
 To add diversity to the population samples, the Resample-Move step (see Section \ref{sec:rm}) can be added. This step perturbs the samples yet leave the distribution the samples represent unchanged by using a MCMC kernel that is invariant in density.
 
-\section{Numerical Example: Tracking a stationary oscillating wave}
+\section{Numerical example: Tracking an oscillating wave}
 \label{sec:exp1}
 We first consider here a simple linear Gaussian state space model as follows:
 \begin{align}
@@ -283,7 +283,7 @@ One possible explanation to this result is that high $\gamma$ settings sharpen t
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma1(t+1).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma1t.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -295,7 +295,7 @@ One possible explanation to this result is that high $\gamma$ settings sharpen t
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100(t+1).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T5_gamma100t.pdf}
     \end{minipage}
     \caption{The $\log\pi_T(\hat{u}^*_{1:t})$ box-plots of 30 independent runs with various settings for $T=5$. Each sub-figure shows the runs for a selected $\gamma$ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.}
     \label{fig:rm1}
@@ -305,11 +305,11 @@ One possible explanation to this result is that high $\gamma$ settings sharpen t
     \centering
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma10(t+1).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma10t.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma50(t+1).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T10_gamma50t.pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -335,7 +335,7 @@ One possible explanation to this result is that high $\gamma$ settings sharpen t
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100(t+1).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100t.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -357,16 +357,16 @@ In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may b
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma50log(t+2).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma50log(t+1).pdf}
         %\includegraphics[width=0.3\linewidth, height=0.15\textheight]{prob1_6_2}
         %\caption{$dt=0.1$}
         %\label{fig:prob1_6_2}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100log(t+2).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n/T20_gamma100log(t+1).pdf}
     \end{minipage}
-    \caption{The $\log\pi_T(\hat{u}^*_{1:t})$ box-plots of 30 independent runs with four different $\gamma$ settings. Each sub-figure shows the runs for a selected $\gamma$ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.}
+    \caption{The $\log\pi_T(\hat{u}^*_{1:t})$ box-plots of 30 independent runs with $\gamma$ settings: $50\log(t+1)$ and $100\log(t+1)$. Each sub-figure shows the runs for a selected $\gamma$ setting with the box-plots grouped by whether the Resample-Move step is used (on the left) or not (on the right), sorted in terms of number of samples used $N$.}
     \label{fig:log}
 \end{figure}
 
@@ -380,15 +380,15 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{output_y/output_20_1(t+1).pdf}
+        \includegraphics[width=\textwidth]{output_y/output_20_1t.pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{output_y/output_20_50(t+1).pdf}
+        \includegraphics[width=\textwidth]{output_y/output_20_50t.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{output_y/output_20_50log(t+2).pdf}
+        \includegraphics[width=\textwidth]{output_y/output_20_50log(t+1).pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -396,7 +396,7 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{output_y/output_20_100log(t+2).pdf}
+        \includegraphics[width=\textwidth]{output_y/output_20_100log(t+1).pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -406,7 +406,7 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
         \centering
         \includegraphics[width=\textwidth]{output_y/output_20_1000.pdf}
     \end{minipage}
-    \caption{The means of the recursive likelihood $m_t(u^*{1:T})$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma$ settings and Resample-Move step disabled are plotted in lines and the $y^{ref}$ is plotted with a `x' marker.}
+    \caption{The means of the recursive likelihood $m_t(u^*{1:T})$ obtained in $30$ independent runs with $T=20$, $N=1000$, various $\gamma$ settings and Resample-Move step disabled are plotted in lines with different colours. The target reference signal $y^{ref}$ is also plotted with a `x' marker.}
     \label{fig:estimatedy}
 \end{figure}
 
@@ -418,15 +418,15 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma1(t+1).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma1t.pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma50(t+1).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma50t.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma50log(t+2).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma50log(t+1).pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -434,7 +434,7 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma100log(t+2).pdf}
+        \includegraphics[width=\textwidth]{loglik_t_gs_n_error/T20_gamma100log(t+1).pdf}
     \end{minipage}
     \begin{minipage}{0.5\textwidth}
         \centering
@@ -449,44 +449,43 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
 \end{figure}
 
 
-\chapter{Track the DAX index}
+\chapter{Application: Tracking the DAX index}
 \graphicspath{{Chapter4/figures/}}
 \label{cha:dax}
-
-\section{Example 2: Tracking the DAX Index}
-\label{sec:exp2}
 %This chapter details the experiments carried out to investigate the potential of the SMC based algorithm to search for the optimal portfolio. It first presents a simple toy example in Section \ref{sec:exp1}, continue on with a more complicated example with real-world data in Section \ref{sec:exp2} and concludes the chapter with an experiment in demonstrating how the concepts Model Predictive Control (MPC) can be incorporated into the framework proposed.
  
 %We investigate in this chapter how SMCs can be used to search for the optimal control parameters for portfolio optimisation problem in financial market, i.e., what decision a portfolio manager need to do to minimize the portfolio's tracking error to the target's stock index over a finite time horizon. This chapter is organised as follows: In Section \ref{sec:po}  shows how a portfolio optimisation problem can be re-casted into a parameter estimation problem in SMC framework. Section \ref{sec:toy} details the experiments in accessing how well this approach perform to track various target signals generated by some known models. Section \ref{sec:real} presents the experiments of examining the approach using real-world data collected from Yahoo finance. Section \ref{sec:extension} details possible extensions that can be easily achieved with this framework with some concrete examples. Finally, Section \ref{sec:summary} concludes this chapter with a summary of results.
 
-In this chapter, we attempt to use the algorithm to a real-world example. We look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. The DAX Index is chosen for various pragmatic reasons. It is one of the major world indices that is tracked by various index funds, it has small number of components and the data is freely accessible\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index obtained. It was later found some of the data is not publicly available. Having said that, the preliminary findings concur with the findings we have with the DAX Index reported here.}. For further detail on the DAX Index methodology, refer \cite{DAX14}.
+In this chapter, we attempt to use the same algorithm to a real-world financial index. We look at the German's DAX (Deutscher Aktienindex) Index, which consists of 30 German's blue chip stocks listed on Frankfurt Stock Exchange as the constituents from 1st January 2014 up to 30th June 2014. It represents $80\%$ of the aggregated prime standard's market capitalization. The DAX Index is chosen for various pragmatic reasons. It is one of the major world indices that is tracked by various index funds, it has small number of components and the data is freely accessible\footnote{Actually, we first looked at Dow Jones Industrial Average (DJIA) Index obtained. It was later found some of the data is not publicly available. Having said that, the preliminary findings concur with the findings we have with the DAX Index reported here.}. For further detail on the DAX Index methodology, refer \cite{DAX14}.
  
-\subsection{Tracking the DAX4 sub-index}
+\section{Tracking the DAX4 sub-index}
 In the first experiment, we define a simple hypothetical sub-index, DAX4 consists of four stocks from the DAX Index that have the highest weights as of 2nd January 2014, namely Bayer (BAYN), Siemens (SIE), BASF (BAS) and Daimler (DAI). Then, the DAX4 index level is calculated as the simple weighted average of the adjusted close prices obtained from Yahoo Finance as follows:
 \begin{equation}
-  y = \sum_{s \in \mathcal{S}} w_s x_s
+  y^{DAX4} = \sum_{s \in \mathcal{S}} w_s x_s
 \end{equation}
-where $y$ is the index level, $\mathcal{S}$ consists of the four stocks and  $w_s$ and $x_s$ are the weight and price of stock $s$ respectively. Here the weights of these four stocks are assigned to be $0.4$, $0.3$, $0.2$ and $0.1$ respectively. The adjusted close price of each stock along with the calculated index level are shown in Figure \ref{fig:adjclose}.
+where $y^{DAX4}$ is the index level, $\mathcal{S}$ consists of the four stocks and  $w_s$ and $x_s$ are the weight and price of stock $s$ respectively. Here the weights of these four stocks are assigned to be $0.4$, $0.3$, $0.2$ and $0.1$ respectively. The adjusted close price of each stock along with the calculated index level are shown in Figure \ref{fig:adjclose}.
  
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{adjclose}
-\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level.}
+\caption{The adjusted close price of the 4 stocks and the calculated DAX4 index level, $y^{DAX4}$.}
 \label{fig:adjclose}
 \end{figure}
  
-The portfolio optimisation problem is formulated as such $y$ is viewed as the target reference level that a portfolio manager attempt to replicate as close as possible by changing the holding position on each component stocks in $\mathcal{S}$, at the same time, minimize the transaction cost incurred in position changes.
+The portfolio optimisation problem is formulated as such $y^{DAX4}$ is viewed as the target reference level that a portfolio manager attempt to replicate as close as possible by changing the holding position on each component stocks in $\mathcal{S}$, at the same time, minimize the transaction cost incurred in position changes.
  
 To solve this problem using the SMC,  the following state space modelling is used:
 \begin{align}
   X_t &= X_{t-1} + F_t(U_t) + \mu_{t_0} + \Sigma_{t_0} \\
   Y_t &= U^T_tX_t + 0.1V_t,~V_t \sim \mathcal{N}(0, I)
 \end{align}
-where $\{X_t\}_{t \geq 0}$ is a vector of stock price processes modelled as Arithmetic Brownian Motion with drift, $\{U_t\}_{t \geq 0}$ is a vector of control input processes, each represents the position we have for each stock, $F_t(u_t)$ can be viewed as the market impact on price due to position changes and is set to be $0.1u_t$ here, $\mu_{t_0}$ and $\Sigma_{t_0}$ are vector of the estimated mean and the estimated covariance matrix of the stock returns and $\{Y_t\}_{t \geq 0}$ is the process represents the index level. The values of $\mu_t$ and $\Sigma_t$ here are estimated using Exponential Weighted Moving Average (EWMA) approach with the decay rate, $\lambda$, set to $0.94$, which can be easily calculated in a recursion form as follows:
+where $\{X_t\}_{t \geq 0}$ is a vector of stock price processes modelled as Arithmetic Brownian Motion with drift, $\{U_t\}_{t \geq 0}$ is a vector of control input processes, each represents the position we have for each stock, $F_t(U_t)$ can be viewed as the market impact on price due to position changes and is set to be $0.1U_t$ here, $\mu_{t_0}$ and $\Sigma_{t_0}$ are vector of the estimated mean and the estimated covariance matrix of the stock returns and $\{Y_t\}_{t \geq 0}$ is the process represents the index level.
+
+The values of $\mu_t$ and $\Sigma_t$ here are estimated using Exponential Weighted Moving Average (EWMA) approach with the decay rate, $\lambda$, set to $0.94$. For example, $\mu_t$ can be easily calculated in a recursion form as follows:
 \begin{equation}
-  P_t = \lambda P_{t-1} + (1-\lambda) Q_{t}
+  \mu_t = \lambda \mu_{t-1} + (1-\lambda) r_{t}
 \end{equation}
-where $P_t$ is the EWMA estimate and $Q_t$ is the new observation at time step $t$. It is obvious from these equations that the EWMA estimate at time $t$ depends on all the preceding estimates at time $s$, where $s < t$. To ensure the quality of EWMA estimate, a 6 months warm up period is used, i.e., the EWMA estimate is calculated from 1st July 2013 onwards. The estimates of $\mu_{t_0}$ and $\Sigma_{t_0}$ obtained are as follows:
+where $r_t$ is the return at time step $t$. It is obvious from these equations that the EWMA estimate at time $t$ depends on all the preceding estimates at time $s$, where $s < t$. To ensure the quality of EWMA estimate, a 6 months warm up period is used, i.e., the EWMA estimate is calculated from 1st July 2013 onwards. The estimates of $\mu_{t_0}$ and $\Sigma_{t_0}$ obtained are as follows:
 \begin{equation}
 \mu_{t_0} =
 \begin{blockarray}{c}
@@ -510,13 +509,13 @@ where $P_t$ is the EWMA estimate and $Q_t$ is the new observation at time step $
 \end{blockarray}
 \end{equation}
  
-It is worth here to re-iterate here that this model is just a means to an end to demonstrate the idea. Other sophisticated models, e.g., Geometric Brownian Motion with drift, Jump diffusion model, etc., are possible, perhaps better. This model is again an instance of the model class defined in \eqref{eq:model}.
+It is worth here to re-iterate here that this model is just a means to an end to demonstrate the idea. Other sophisticated models, e.g., Geometric Brownian Motion with drift, Jump diffusion model, etc., are possible, perhaps better.
 
 Using this model, we can write the reward function as follows:
 \begin{equation}
-  J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t \vert\vert^2_{(D_t(u_t)D_t(u_t)^T)^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right]
+  J(u_{1:T},y^{ref}_{1:T}, x_0) = \E_{x_0}\left[ \exp \left( -\dfrac{1}{2}\displaystyle\sum^T_{t=1}\left(\vert\vert y^{ref}_t - C_t(u_t)x_t \vert\vert^2_{Q_t(u_t)^{-1}}  + \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right) \right ) \right]
 \end{equation}
-Here, we will define $L = 0.1\diag(4,3,2,1)$ and also impose additional constraints on each component of $u$ is in the range $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi$ directly, i.e, fixed $\gamma=1$ setting. For the importance sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. 
+Here, we will define $L = 0.1\diag(4,3,2,1)$  and also impose additional constraints on each component of $U_t$ such that the range is within $[0,0.5]$. The idea behind these choices is to construct a scenario in which there is different amount of transaction cost involved in changing positions on each component and a constraint on the maximum amount on each component one portfolio can have. This time, we will use the SMC algorithm to target $\pi$ directly, i.e, fixed $\gamma=1$ setting. For the importance sampling step, $U_{1,n}$ is sampled uniformly from the range bounded the constraints mentioned. 
 
 \subsubsection{Results and discussion}
 The simulation is carried out for $N=10000$ with no resample-move step implemented and the results are shown in Figure \ref{fig:dax4}. The output $y$ produced by the model using the estimated $\hat{u}^*_{1:T}$ is tracking the reference index level very close with the average annualised\footnote{the annualisation factor is set to be $\sqrt{252}$ as the daily return is measured here.} tracking error of $0.024570$ over the $30$ runs tracking error. However, the estimated set of control parameter $\hat{u}^*_{1:T}$ which represents the holding position of each stock is not very stable.
