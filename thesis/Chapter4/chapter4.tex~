@@ -605,15 +605,15 @@ In the partial replication setting, the average annualised tracking error over $
 \section{Model Predictive Control (MPC)}
 Up to this point, the discussion has been focussed on predicting the optimal (as outlined in the reward function) strategy for the a given time period $0:T$. However, as time progress, more realisation of the reference signal $y^{ref}_{t^\prime}, t^\prime < T$ are observed. It makes sense to take this information into account in the optimisation process. In this section, we shall demonstrate how the SMC technique can be integrated into Model Predictive Control (MPC) framework.
 
-MPC is an established technique in control theory which has achieved significant success in many different domains. It is a kind of receding horizon control algorithm, in which at time step $t$, the model is used to optimise the controls for the process, $u_{t:t+k}$ for a finite horizon for $t:t+k$. However, only the first set of controls, i.e., $u_{t}$ is applied to the system. At time $t+1$, the new set of the observation is measured to update the states. Then, the whole optimisation process is repeated for the same horizon, but shifted by one time step until $t=T$. The MPC framework is summarised in Algorithm \ref{algo:mpc}. Refer \cite{RJB09,MJM02} for further details on MPC. 
+MPC is an established technique in control theory which has achieved significant success in many different domains. It is a kind of receding horizon control algorithm, in which at time step $t$, the model is used to optimise the controls for the process, $u_{t:t+K}$ for a finite horizon for $t:t+K$. However, only the first set of controls, i.e., $u_{t}$ is applied to the system. At time $t+1$, the new set of the observation is measured to update the states. Then, the whole optimisation process is repeated for the same horizon, but shifted by one time step until $t=T$. The MPC framework is summarised in Algorithm \ref{algo:mpc}. Refer \cite{RJB09,MJM02} for further details on MPC. 
 
 \begin{algorithm}
 \caption{Model Predictive Control}\label{algo:mpc}
 \begin{algorithmic}[1]
-\Function{ModelPredictiveControl}{T,k}
+\Function{ModelPredictiveControl}{T,K}
 \State Set $t \gets 1$.
 \While{$t \leq T$}
-\State Search the optimal $u^*_{t:t+k}$ for the control problem of time horizon $t:t+k$.
+\State Search the optimal $u^*_{t:t+K}$ for the control problem of time horizon $t:t+K$.
 \State Apply the first set of the optimal control  $u^*_{t}$ to the problem.
 \State Update the model states with any new measurement $y^{ref}_t$.
 \State Set $t \gets t + 1$.
@@ -622,13 +622,13 @@ MPC is an established technique in control theory which has achieved significant
 \end{algorithmic}
 \end{algorithm}
 
-To use MPC framework here, the SMC based optimisation algorithm can be executed on a daily basis after the market close on day $t$ to search for the optimal $u^*_{t:t+k}$, but only apply the first set of controls, $u_t$ to the problem. The same algorithm is repeated on the next day with a shifted time horizon and so on. Using this model, the reward function that we attempt to optimise at each time step $t$ is as follows:
+To use MPC framework here, the SMC based optimisation algorithm can be executed on a daily basis after the market close on day $t$ to search for the optimal $u^*_{t:t+K}$, but only apply the first set of controls, $u_t$ to the problem. The same algorithm is repeated on the next day with a shifted time horizon and so on. Using this model, the reward function that we attempt to optimise at each time step $t$ is as follows:
 \begin{equation}
-  J(u_{t:t+k},y^{ref}_{t:t+k}, x_t) = \E_{x_0}\left[ \exp \left( -\dfrac{1}{2}\displaystyle\sum^{t+k}_{s=t}\left(\vert\vert y^{ref}_s - u^Tx_s \vert\vert^2_{Q_s(u_s)^{-1}}  + \vert\vert u_s - u_{s-1} \vert\vert^2_{L_s}\right) \right ) \right]
+  J(u_{t:t+K},y^{ref}_{t:t+K}, x_t) = \E_{x_0}\left[ \exp \left( -\dfrac{1}{2}\displaystyle\sum^{t+K}_{s=t}\left(\vert\vert y^{ref}_s - u^Tx_s \vert\vert^2_{Q_s(u_s)^{-1}}  + \vert\vert u_s - u_{s-1} \vert\vert^2_{L_s}\right) \right ) \right]
 \label{eq:J2}
 \end{equation}
 
-To demonstrate this idea, we re-run the DAX index with partial replication setting using this MPC framework. The setting of $k$ is set to be $5$. The experiment is repeated for $30$ times. The results look very promising. Figure \ref{fig:mpc} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. The tracking performance looks good, with an average annualised tracking error of $0.062813$ over the $30$ runs. The estimated optimal control $u^*_{1:T}$ found is also reasonable stable. In terms of computational cost, the relative computational cost factor in comparison to the baseline is approximately $5.5$ for each time step.
+To demonstrate this idea, we re-run the DAX index with partial replication setting using this MPC framework with $K=5$. The experiment is repeated for $30$ times. The results look very promising. Figure \ref{fig:mpc} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. The tracking performance looks good, with an average annualised tracking error of $0.062813$ over the $30$ runs. The estimated optimal control $u^*_{1:T}$ found is also reasonable stable. In terms of computational cost, the relative computational cost factor in comparison to the baseline is approximately $5.5$ for each time step.
  
 \begin{figure}[htbp]
 \centering
@@ -640,17 +640,17 @@ To demonstrate this idea, we re-run the DAX index with partial replication setti
         \centering
         \includegraphics[width=\textwidth]{DAXMPC-y}
     \end{minipage}
-\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the DAX index level set to be the target reference using the MPC framework with $k=5$.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the DAX index level set to be the target reference using the MPC framework with $K=5$.}
 \label{fig:mpc}
 \end{figure}
 
-In practice, the target reference signal $y^{ref}_{t+1:t+1+k}$ would not be observable at time-step $t$. To over this, we first define an estimator of $y^{ref}_{t+1:t+1+k}$ to be as follows:
+In practice, the target reference signal $y^{ref}_{t+1:t+K}$ would not be observable at time step $t$. To over this, we define an estimator of $y^{ref}$ to be as follows:
 \begin{equation}
-  \hat{y}^{ref}_{t+1:t+1+k} = y^{ref}_{t} + \beta k
+  \hat{y}^{ref}_{t+k} = y^{ref}_{t} + \beta k
 \end{equation}
-where $\beta$ is the EWMA estimate ($\lambda = 0.94$) of the daily changes of $y^{ref}$ up to time step $t$. Again, this estimator is used just for simplicity sake. Other estimators are possible.
+where $k$ is within $1 \ldots K$, $\beta$ is the EWMA estimate ($\lambda = 0.94$) of the daily changes of $y^{ref}$ up to time step $t$. This estimator is used just for simplicity sake. Other estimators are possible.
 
-Using the estimate $\hat{y}^{ref}_{t}$ in place of $y^{ref}_{t}$, the reward function $J$ defined in \eqref{eq:J2} now only depends information up to time step $t$. With this setting, the experiment is re-run for $30$ times. Figure \ref{fig:mpc2} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. The tracking performance looks good, with an average annualised tracking error of $0.062364$ over the $30$ runs. The estimated optimal control $u^*_{1:T}$ found is also reasonable stable.
+Using the estimate $\hat{y}^{ref}_{t+1:t+K}$ in place of $y^{ref}_{t+1:t+K}$, the reward function $J$ defined in \eqref{eq:J2} now only depends information up to time step $t$. With this setting, the experiment is re-run for $30$ times. Figure \ref{fig:mpc2} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. The tracking performance looks good, with an average annualised tracking error of $0.062364$ over the $30$ runs. The estimated optimal control $u^*_{1:T}$ found is also reasonable stable.
 
 \begin{figure}[htbp]
 \centering
@@ -662,7 +662,7 @@ Using the estimate $\hat{y}^{ref}_{t}$ in place of $y^{ref}_{t}$, the reward fun
         \centering
         \includegraphics[width=\textwidth]{DAXMPC-y-2}
     \end{minipage}
-\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the estimated DAX index level ($\hat{y}^{ref}_{t:t+k}$ set to be the target reference using the MPC framework with $k=5$.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the estimated DAX index level ($\hat{y}^{ref}_{t:t+K}$) set to be the target reference using the MPC framework with $K=5$.}
 \label{fig:mpc2}
 \end{figure}
 
