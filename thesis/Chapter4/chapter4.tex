@@ -644,13 +644,13 @@ To demonstrate this idea, we re-run the DAX index with partial replication setti
 \label{fig:mpc}
 \end{figure}
 
-In practice, the target reference signal $y^{ref}_{t+1:t+1+k}$ would not be observable at time-step $t$. To over this, we first define an estimator of $y^{ref}_{t+1:t+1+k}$ to be as follows:
+In practice, the target reference signal $y^{ref}_{t+1:t+k}$ would not be observable at time step $t$. To over this, we define an estimator of $y^{ref}$ to be as follows:
 \begin{equation}
-  \hat{y}^{ref}_{t+1:t+1+k} = y^{ref}_{t} + \beta k
+  \hat{y}^{ref}_{t+1} = y^{ref}_{t} + \beta k
 \end{equation}
-where $\beta$ is the EWMA estimate ($\lambda = 0.94$) of the daily changes of $y^{ref}$ up to time step $t$. Again, this estimator is used just for simplicity sake. Other estimators are possible.
+where $\beta$ is the EWMA estimate ($\lambda = 0.94$) of the daily changes of $y^{ref}$ up to time step $t$. This estimator is used just for simplicity sake. Other estimators are possible.
 
-Using the estimate $\hat{y}^{ref}_{t}$ in place of $y^{ref}_{t}$, the reward function $J$ defined in \eqref{eq:J2} now only depends information up to time step $t$. With this setting, the experiment is re-run for $30$ times. Figure \ref{fig:mpc2} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. The tracking performance looks good, with an average annualised tracking error of $0.062813$ over the $30$ runs. The estimated optimal control $u^*_{1:T}$ found is also reasonable stable.
+Using the estimate $\hat{y}^{ref}_{t+1:t+k}$ in place of $y^{ref}_{t+1:t+k}$, the reward function $J$ defined in \eqref{eq:J2} now only depends information up to time step $t$. With this setting, the experiment is re-run for $30$ times. Figure \ref{fig:mpc2} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. The tracking performance looks good, with an average annualised tracking error of $0.062364$ over the $30$ runs. The estimated optimal control $u^*_{1:T}$ found is also reasonable stable.
 
 \begin{figure}[htbp]
 \centering
@@ -662,7 +662,7 @@ Using the estimate $\hat{y}^{ref}_{t}$ in place of $y^{ref}_{t}$, the reward fun
         \centering
         \includegraphics[width=\textwidth]{DAXMPC-y-2}
     \end{minipage}
-\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the estimated DAX index level ($\hat{y}^{ref}_{t:t+k}$ set to be the target reference using the MPC framework with $k=5$.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the estimated DAX index level ($\hat{y}^{ref}_{t:t+k}$) set to be the target reference using the MPC framework with $k=5$.}
 \label{fig:mpc2}
 \end{figure}
 

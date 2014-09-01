@@ -450,6 +450,8 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
     \label{fig:error}
 \end{figure}
 
+\section{Conclusions}
+In this chapter, we introduces the index tracking fund and summarise some causing factors of the tracking error between the fund and its benchmark index. We then present how the portfolio optimisation problem in terms of minimising the tracking error can be formulated as a stochastic control problem. This stochastic control problem can be turned into a path-space parameter estimation problem, in which Rao-Blackwellised SMC can be used to estimate these parameters efficiently. Lastly, we presents a some proof-of-concept experiment with a oscillating wave as target reference signal. The results show that the algorithm is able to track the reference signal well.
 
 \chapter{Tracking the DAX index}
 \graphicspath{{Chapter4/figures/}}
@@ -600,7 +602,7 @@ In the partial replication setting, the average annualised tracking error over $
 \label{fig:daxpartial}
 \end{figure}
 
-\section{Model Predictive Control}
+\section{Model Predictive Control (MPC)}
 Up to this point, the discussion has been focussed on predicting the optimal (as outlined in the reward function) strategy for the a given time period $0:T$. However, as time progress, more realisation of the reference signal $y^{ref}_{t^\prime}, t^\prime < T$ are observed. It makes sense to take this information into account in the optimisation process. In this section, we shall demonstrate how the SMC technique can be integrated into Model Predictive Control (MPC) framework.
 
 MPC is an established technique in control theory which has achieved significant success in many different domains. It is a kind of receding horizon control algorithm, in which at time step $t$, the model is used to optimise the controls for the process, $u_{t:t+k}$ for a finite horizon for $t:t+k$. However, only the first set of controls, i.e., $u_{t}$ is applied to the system. At time $t+1$, the new set of the observation is measured to update the states. Then, the whole optimisation process is repeated for the same horizon, but shifted by one time step until $t=T$. The MPC framework is summarised in Algorithm \ref{algo:mpc}. Refer \cite{RJB09,MJM02} for further details on MPC. 
@@ -648,7 +650,7 @@ In practice, the target reference signal $y^{ref}_{t+1:t+1+k}$ would not be obse
 \end{equation}
 where $\beta$ is the EWMA estimate ($\lambda = 0.94$) of the daily changes of $y^{ref}$ up to time step $t$. Again, this estimator is used just for simplicity sake. Other estimators are possible.
 
-Using the estimate $\hat{y}^{ref}_{t}$ in place of $y^{ref}_{t}$, the reward function $J$ defined in \eqref{eq:J2} now only depends information up to time step $t$. With this setting, the experiment is re-run for $30$ times. Figure \ref{fig:mpc2} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. The tracking performance looks good, with an average annualised tracking error of $0.062813$ over the $30$ runs. The estimated optimal control $u^*_{1:T}$ found is also reasonable stable.
+Using the estimate $\hat{y}^{ref}_{t}$ in place of $y^{ref}_{t}$, the reward function $J$ defined in \eqref{eq:J2} now only depends information up to time step $t$. With this setting, the experiment is re-run for $30$ times. Figure \ref{fig:mpc2} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. The tracking performance looks good, with an average annualised tracking error of $0.062364$ over the $30$ runs. The estimated optimal control $u^*_{1:T}$ found is also reasonable stable.
 
 \begin{figure}[htbp]
 \centering
@@ -666,5 +668,4 @@ Using the estimate $\hat{y}^{ref}_{t}$ in place of $y^{ref}_{t}$, the reward fun
 
 \section{Conclusions}
 \label{sec:conclusion5}
-This chapter presents some proof-of-concept experiments that have been
-carried out to validate our proposal: searching for the optimal control for a portfolio to track a target reference signal using SMC algorithms. It first presents an experiment with a oscillating wave as target reference signal and continues with an experiment with a major real-world index as target reference signal. In all cases, the results show that SMC techniques are able to search for optimal control that results an output that is able to track the reference signal.
+This chapter presents several experiments in apply the SMC technique to track a real-world financial index --- the DAX index.  It begins with a simple experiment in which a synthetic sub-index constructed with only $4$ to proof the concept. It then uses the same technique to demonstrate how the DAX index can be tracked with full replication as well as partial replication. Lastly, it introduces Model Predictive Control (MPC) framework and demonstrates how this technique can be integrated into the MPC framework easily. In all cases, the results sow the SMC technique proposed is able to search for optimal control that results an output that track the reference signal given.
