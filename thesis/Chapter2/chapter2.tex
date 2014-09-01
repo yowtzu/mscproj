@@ -29,7 +29,7 @@ Assuming we are able to sample $N$ independent and identically distributed (i.i.
 \begin{equation}
   \hat{I} = \frac{1}{N} \sum^N_{i=1} f(x^{(i)})
 \end{equation}
-This approximation can be viewed as discretization of the continuous distribution with \emph{random} grid points. This estimate is unbiased and converge almost surely to $I$ as $N \to \infty$ by the Law of Large number \cite{RCP05}. 
+This approximation can be viewed as discretisation of the continuous distribution with \emph{random} grid points. This estimate is unbiased and converge almost surely to $I$ as $N \to \infty$ by the Law of Large number \cite{RCP05}. 
 
 Moreover, if the variance of $f(\cdot)$ is bounded ($\sigma^2_f < \infty$), as $N \to \infty$, then the following central limit theorem holds:
 \begin{equation}
@@ -57,7 +57,7 @@ However, it is not always possible to sample directly from the distribution $p(\
 \end{algorithmic}
 \end{algorithm}
 
-Looking at the acceptance ratio formula, it is not difficult to see that the optimal instrumental distribution, $q^*$, is the one that minimizes the space bounded by $cq(x)$ subject to the constraint that it still dominates the target density $p(x)$. As the dimension of $x$ increases, this algorithm becomes very inefficient because the acceptance ratio which is essentially defined as the ratio of two spaces tends towards zero. Therefore, many generated examples would be rejected. 
+Looking at the acceptance ratio formula, it is not difficult to see that the optimal instrumental distribution, $q^*$, is the one that minimises the space bounded by $cq(x)$ subject to the constraint that it still dominates the target density $p(x)$. As the dimension of $x$ increases, this algorithm becomes very inefficient because the acceptance ratio which is essentially defined as the ratio of two spaces tends towards zero. Therefore, many generated examples would be rejected. 
 
 \section{Importance sampling}
 \label{sec:IS}
@@ -73,7 +73,7 @@ where $w(x)$ is commonly referred as the importance weight. This reformulation l
           &= \sum^N_{i=1} \dfrac{\tilde{w}(x^{(i)})}{\sum^N_{j=1} \tilde{w}(x^{(j)})} f(x^{(i)}) \nonumber \\
           &= \sum^N_{i=1} \hat{w}(x^{(i)}) f(x^{(i)})  \label{eq:is} 
 \end{align}
-where $\tilde{w}(x^{(i)}) = \dfrac{p(x^{(i)})}{q(x^{(i)})}$ and $\hat{w}(x^{(i)})  = \dfrac{\tilde{w}(x^{(i)})}{\sum^N_{j=1} \tilde{w}(x^{(j)})}$ are referred to as unnormalized and normalised importance weight respectively \cite{CO05}. This estimate is biased as it consists of the ratio of two estimates, yet it is still asymptotically consistent.
+where $\tilde{w}(x^{(i)}) = \dfrac{p(x^{(i)})}{q(x^{(i)})}$ and $\hat{w}(x^{(i)})  = \dfrac{\tilde{w}(x^{(i)})}{\sum^N_{j=1} \tilde{w}(x^{(j)})}$ are referred to as unnormalised and normalised importance weight respectively \cite{CO05}. This estimate is biased as it consists of the ratio of two estimates, yet it is still asymptotically consistent.
 
 To obtain samples from the target distribution, $p(\cdot)$, an additional resampling step can be introduced. In the first step, we draw a set of samples $\{\tilde{x}^{(i)}\}$ from the instrumental distribution and compute their associated normalised importance weights, $\hat{w}(\tilde{x}^{(i)})$. In the resampling step, we draw the final sample set, $\{x^{(i)}\}$ from this intermediate set of samples by taking into account the importance weights. This importance sampling algorithm is summarised in Algorithm \ref{algo:importancesampling}
 
@@ -144,7 +144,7 @@ Another distribution of interest is  the prediction distribution, that is the es
 \end{equation}
 Therefore, any prediction density can be obtained by simply integrating out the variables of not interest from the above equation.
 
-While these expressions \emph{appear} to be very simple, the distribution estimation problem is in fact far from being resolved in practice. The integrals involved in the above equations are often intractable because they require the evalution of complex high-dimensional integrals\footnote{Except under very special setting, in which the marginal filtering density $p(x_t \mid y_{0:t})$, the prediction density $p(x_t \mid y_{0:t-1})$ and the recursive likelihood $P(y_t \mid y_{0:t-1})$ are all Gaussian densities, then their means and variances can be computed analytically using Kalman Filter as shown in Appendix \ref{sec:KF}.}. 
+While these expressions \emph{appear} to be very simple, the distribution estimation problem is in fact far from being resolved in practice. The integrals involved in the above equations are often intractable because they require the evaluation of complex high-dimensional integrals\footnote{Except under very special setting, in which the marginal filtering density $p(x_t \mid y_{0:t})$, the prediction density $p(x_t \mid y_{0:t-1})$ and the recursive likelihood $P(y_t \mid y_{0:t-1})$ are all Gaussian densities, then their means and variances can be computed analytically using Kalman Filter as shown in Appendix \ref{sec:KF}.}. 
 
 \subsection{Sequential Important Sampling (SIS)}
 \label{sec:SIS}
@@ -188,7 +188,7 @@ The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 \Function{SequentialImportanceSampling}{N, T}
 \State Set $t \gets 0$.
 \State For $i \in 1, \ldots, N$, sample $x^{(i)}_0 \sim q(x^{(i)}_0 \mid y^{(i)}_0)$.
-\State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
+\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weights:
 \begin{equation*}
  \tilde{w}^{(i)}_0 = \dfrac{f(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0 \mid y_0)}
 \end{equation*}
@@ -200,7 +200,7 @@ The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 \While{$t \leq T$}
 \State For $i \in 1, \ldots, N$, sample $x^{(i)}_t \sim q(x^{(i)}_t \mid y_{t-1}, x^{(i)}_{t-1})$.
 \State For $i \in 1, \ldots, N$, set $x^{(i)}_{0:t} \gets (x^{(i)}_{0:t-1}, x^{(i)}_t)$.
-\State For $i \in 1, \ldots, N$, calculate the unnormalized importance weights:
+\State For $i \in 1, \ldots, N$, calculate the unnormalised importance weights:
 \begin{equation*}
  \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{f_t(x^{(i)}_t \mid x^{(i)}_{t-1})g_t(y_t \mid x^{(i)}_t)}{q_t(x^{(i)}_t \mid x^{(i)}_{0:t-1}, y_{0:t})}
 \end{equation*}
@@ -283,7 +283,7 @@ To illustrate this, let consider the a simple conditional linear Gaussian Model 
   X^L_t &= A_t(X^N_t)X^L_{t-1} + B_t(X^N_t)W_t + F_t(X^N_t) \\
   Y_t &= C_t(X^N_t)X^L_t + D_t(X^N_t)V_t + G_t(X^N_t)
 \end{align}
-where $\{X^N_t\}_{t \geq 0}$ is a non-linear Markov processs, $A_t$, $B_t$, $C_t$, $D_t$, $F_t$, $G_t$ are appropriate matrix/vector of $X^N_t$ and  $\{W_t\}_{t \geq 0}$ and  $\{V_t\}_{t \geq 0}$ are independent sequences of standard Gaussian random variable, i.e., $W_t, V_t \sim \mathcal{N}(0,I)$. In such a case, the transition density and likelihood of this model are Gaussian distributions with center lied at a point of a linear combination of the known $x^N_t$ that can be obtained by using classical Kalman Fitering recursions as shown in Appendix \ref{sec:KF}.
+where $\{X^N_t\}_{t \geq 0}$ is a non-linear Markov process, $A_t$, $B_t$, $C_t$, $D_t$, $F_t$, $G_t$ are appropriate matrix/vector of $X^N_t$ and  $\{W_t\}_{t \geq 0}$ and  $\{V_t\}_{t \geq 0}$ are independent sequences of standard Gaussian random variable, i.e., $W_t, V_t \sim \mathcal{N}(0,I)$. In such a case, the transition density and likelihood of this model are Gaussian distributions with centre lied at a point of a linear combination of the known $x^N_t$ that can be obtained by using classical Kalman Filtering recursions as shown in Appendix \ref{sec:KF}.
 
 
 The discussion here has been focused on conditional linear Gaussian model. The discrete state space HMMs is another important class of HMMs in which HMM forward algorithm \cite{LRR89} can be used to marginalise the internal states. See \cite{CO05} for further details.

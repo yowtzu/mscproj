@@ -3614,6 +3614,22 @@ pages={117-138},
 language={English}
 }
 
+@article {WG01,
+author = {Gilks, Walter R. and Berzuini, Carlo},
+title = {{Following a moving target—Monte Carlo inference for dynamic Bayesian models}},
+journal = {Journal of the Royal Statistical Society: Series B (Statistical Methodology)},
+volume = {63},
+number = {1},
+publisher = {Blackwell Publishers Ltd.},
+issn = {1467-9868},
+url = {http://dx.doi.org/10.1111/1467-9868.00280},
+doi = {10.1111/1467-9868.00280},
+pages = {127--146},
+keywords = {Bayesian inference, Dynamic model, Hidden Markov model, Importance resampling, Importance sampling, Markov chain Monte Carlo methods, Particle filter, Predictive model selection, Sequential imputation, Simulation, Tracking},
+year = {2001},
+}
+
+
 @misc{DAX14,
 title = {Factsheet {DAX}},
 howpublished = {Websites},
@@ -3668,21 +3684,23 @@ keywords = {Iterated batch importance sampling, Particle filtering, Particle Mar
 year = {2013},
 }
 
-@article{GCE89,
- author = {Garcia, C. E. and Prett, D. M. and Morari, M.},
- title = {{Model Predictive Control: Theory and Practice\&Mdash;a Survey}},
- journal = {Automatica},
- issue_date = {May 1989},
- volume = {25},
- number = {3},
- month = may,
- year = {1989},
- issn = {0005-1098},
- pages = {335--348},
- numpages = {14},
- url = {http://dx.doi.org/10.1016/0005-1098(89)90002-2},
- doi = {10.1016/0005-1098(89)90002-2},
- acmid = {72069},
- publisher = {Pergamon Press, Inc.},
- address = {Tarrytown, NY, USA},
-} 
+@book{RJB09,
+  title={Model Predictive Control: Theory and Design},
+  author={Rawlings, J.B. and Mayne, D.Q.},
+  isbn={9780975937709},
+  lccn={2009904993},
+  url={http://books.google.co.uk/books?id=3\_rfQQAACAAJ},
+  year={2009},
+  publisher={Nob Hill Pub.}
+}
+
+@book{MJM02,
+  title={Predictive Control: With Constraints},
+  author={Maciejowski, J.M.},
+  isbn={9780201398236},
+  lccn={00054713},
+  series={Pearson Education},
+  url={http://books.google.co.uk/books?id=HV\_Y58c7KiwC},
+  year={2002},
+  publisher={Prentice Hall}
+}
