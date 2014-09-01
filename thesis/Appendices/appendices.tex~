@@ -1,0 +1,44 @@
+\chapter{Kalman Filter}
+\graphicspath{{Appendices/figures/}}
+\label{sec:KF}
+In a conditional linear Gaussian state space as follows:
+\begin{align}
+  X_t &= A_t(U_t)X_{t-1} + B_t(U_t)W_t + F_t(U_t) \nonumber \\
+  Y_t &= C_t(U_t)X_t + D_t(U_t)V_t + G_t(U_t)
+\label{eq:gaussianmodel}
+\end{align}
+where $\{U_t\}_{t \geq 0}$ is a deterministic control input sequence that is used regulate the hidden states, $A_t$, $B_t$, $C_t$, $D_t$, $F_t$, $G_t$ are appropriate matrix/vector functio\
+ns of $U_n$ and  $\{W_t\}_{t \geq 0}$ and  $\{V_t\}_{t \geq 0}$ are independent sequences of standard Gaussian random variable, i.e., $W_t, V_t \sim \mathcal{N}(0,I)$, the transition densi\
+ty and likelihood of this model are Gaussian distributions with center lied at a point of a linear combination of the known conditional control parameters, $u_t$ of the following form:
+\begin{align}
+  p_t(u_t \mid u_{t-1}) &= \textrm{(any given form)} \nonumber \\
+  f_t(x_t \mid x_{t-1}, u_t) &= \mathcal{N}(A_t(u_t) x_{t-1} + F_t(u_t), B_t(u_t)B_t(u_t)^T) \nonumber \\
+  g_t(y_t \mid x_t, u_t)    &= \mathcal{N}(C_t(u_t) x_t + G_t(u_t), D_t(u_t)D_t(u_t)^T)
+\end{align}
+
+Using the properties of Gaussian distribution, the integral involved can be resolved analytically. This leads to the widely used \emph{Kalman Filter} \cite{KRE60} that has the following recursive solution as follows:
+\begin{align}
+  \mu_{t \mid t -1} &= A_{t}(u_t)(\mu_{t-1 \mid t-1})X_{t-1} + F_t(u_t) \\
+  \Sigma_{t \mid t -1} &= A_{t}(u_t)\Sigma_{t -1 \mid t -1}A_{t}(u_t)^T +  B_t(u_t)B_t(u_t)^T \\
+  S_t &=  C_{t}(u_t)\Sigma_{t \mid t -1}C_{t}(u_t)^T +  D_t(u_t)D_t(u_t)^T \\
+  m_{t \mid t-1} &=  C_{t}(u_t)  \mu_{t \mid t-1} + G_t(u_t) \\
+  \mu_{t \mid t} &=   \mu_{t \mid t -1} +   \Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1}(y_t - m_{t \mid t-1}) \\
+  \Sigma_{t \mid t} &=  \Sigma_{t \mid t -1} -\Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1} C_{t}(u_t)\Sigma_{t \mid t -1}
+\end{align}
+where  $\mu_{t \mid t -1}$ and $\Sigma_{t \mid t -1}$ are the predicted mean and co-variance matrix of the state $x_t$, $m_{t \mid t-1}$ and $S_t$ are the mean and co-variance matrix of th\
+e measurement at time $t$ and $\mu_{t \mid t}$ and $\Sigma_{t \mid t}$ are the estimated mean and co-variance matrix of the state $x_t$ after seeing the observation $y_t$.
+
+There are various extensions have been developed on top of this approach. For example, the Extended Kalman Filter (EKF) which uses Taylor Series expansion to linearise at the conditional v\
+ariables locally \cite{WG95}, Unscented Kalman Filter which further extend the idea in EKF by only using a minimal set of well chosen samples \cite{EW01}, etc.
+
+
+\endinput
+%%% ----------------------------------------------------------------------
+
+% ------------------------------------------------------------------------
+
+%%% Local Variables: 
+%%% mode: latex
+
+%%% TeX-master: "../thesis"
+%%% End: 
