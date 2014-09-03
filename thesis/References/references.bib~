@@ -3685,7 +3685,7 @@ year = {2013},
 }
 
 @book{RJB09,
-  title={Model Predictive Control: Theory and Design},
+  title={{Model Predictive Control: Theory and Design}},
   author={Rawlings, J.B. and Mayne, D.Q.},
   isbn={9780975937709},
   lccn={2009904993},
@@ -3695,7 +3695,7 @@ year = {2013},
 }
 
 @book{MJM02,
-  title={Predictive Control: With Constraints},
+  title={{Predictive Control: With Constraints}},
   author={Maciejowski, J.M.},
   isbn={9780201398236},
   lccn={00054713},
