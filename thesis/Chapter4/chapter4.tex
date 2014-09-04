@@ -208,7 +208,7 @@ We proceed by examining the proposed SMC technique with proposal density $q_t(\c
 For each of the setting, the experiment is repeated for $30$ times. Therefore, there are in total $3 \times 5 \times 2 \times 2 \times 8 \times 30 = 14400$ runs. 
 
 \subsection{Results and discussion}
-This sections presents a summary of the experimental results from all the runs. Instead of presenting the outputs produced by all the runs, only a subset of outputs that demonstrates our findings is presented here. The complete set of implementation code and output produced can be obtained from the repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
+This sections presents a summary of the experimental results from all the runs. Instead of presenting the outputs produced by all the runs, only a subset of outputs that demonstrates our findings is presented here. The complete set of implementation code and output produced can be obtained from the repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}\footnote{\href{https://github.com/yowtzu/mscproj}{https://github.com/yowtzu/mscproj}}.
 
 \subsubsection{Selectively resampling step with ESS}
 We first evaluate the effect of selectively enabling resample step with ESS mechanism. In \emph{all} the settings, it is found that the simple runs with resample step enabled at each iteration, i.e., with ESS disabled,  always have equivalent or relative better performance in comparison to selectively resampling with ESS. Figure \ref{fig:ess} shows the result the performance obtained in terms of $\log\pi_T(\hat{u}^*_{1:t})$ of 30 independent runs of the algorithms with $T=20$ and $N=10000$ for various $\gamma$ settings. All other runs with different settings of $T$ and $N$ concur with this finding. From here onwards, we assume ESS mechanism is disabled unless stated otherwise.
@@ -519,7 +519,7 @@ As in previous experiment, the estimated optimal control $u^*_{1:T}$ and the mea
         \centering
         \includegraphics[width=\textwidth]{DAX4Low-y.pdf}
     \end{minipage}
-\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the $y^{DAX4}$ set to be the target reference using $L = 0.1\diag(4,3,2,1)$.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the $y^{DAX4}$ set to be the target reference using $L = 0.1\diag(4,3,2,1)$. The target reference signal is also plotted with a `x' marker.}
 \label{fig:dax4}
 \end{figure}
 
@@ -535,7 +535,7 @@ To reduce the number of changes in holding positions, the value of $L$ matrix ca
         \centering
         \includegraphics[width=\textwidth]{DAX4High-y.pdf}
     \end{minipage}
-\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the $y^{DAX4}$ set to be the target reference using $L = 5\diag(4,3,2,1)$.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the $y^{DAX4}$ set to be the target reference using $L = 5\diag(4,3,2,1)$. The target reference signal is also plotted with a `x' marker.}
 \label{fig:dax42}
 \end{figure}
 
@@ -574,7 +574,7 @@ In the partial replication setting, the average annualised tracking error over $
         \centering
         \includegraphics[width=\textwidth]{DAXFull-y.pdf}
     \end{minipage}
-\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the DAX index level set to be the target reference using all $30$ component stocks.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the DAX index level set to be the target reference using all $30$ component stocks.  The target reference signal is also plotted with a `x' marker.}
 \label{fig:dax}
 \end{figure}
 
@@ -588,7 +588,7 @@ In the partial replication setting, the average annualised tracking error over $
         \centering
         \includegraphics[width=\textwidth]{DAXPartial-y.pdf}
     \end{minipage}
-\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the DAX index level set to be the target reference using only the top $6$ highest weighted component stocks.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the DAX index level set to be the target reference using only the top $6$ highest weighted component stocks.  The target reference signal is also plotted with a `x' marker.}
 \label{fig:daxpartial}
 \end{figure}
 
@@ -647,23 +647,22 @@ In terms of computational cost, the empirical computational cost factor in relat
         \centering
         \includegraphics[width=\textwidth]{DAXMPC-y-2}
     \end{minipage}
-\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the estimated DAX index level ($\hat{y}^{ref}_{t:t+H}$) set to be the target reference using the MPC framework with $H=5$ and $T=20$.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the estimated DAX index level ($\hat{y}^{ref}_{t:t+H}$) set to be the target reference using the MPC framework with $H=5$ and $T=20$.  The target reference signal is also plotted with a `x' marker.}
 \label{fig:mpc2}
 \end{figure}
-
-In the last experiment, we attempt to demonstrate the scalability of the technique by considering the same problem, but with an extended time period of $T=125$, i.e., $\approx 6$ months period. Figure \ref{fig:mpc2long} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. Again, the results look promising, with an average annualised tracking error of $0.062364$ over the $30$ runs. 
+In the last experiment, we attempt to demonstrate the scalability of the technique by considering the same problem, but with an extended time period of $T=125$, i.e., $\approx 6$ months period. Figure \ref{fig:mpc2long} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. Again, the results look promising, with an average annualised tracking error of $0.065709$ over the $30$ runs. 
 
 \begin{figure}[htbp]
 \centering
     \begin{minipage}{\textwidth}
         \centering
-        \includegraphics[width=1.1\textwidth, height=0.3\textheight]{DAXMPC-u-2-long}
+        \includegraphics[width=\textwidth, height=0.3\textheight]{DAXMPC-u-2-long}
     \end{minipage}
     \begin{minipage}{\textwidth}
         \centering
-        \includegraphics[width=1.1\textwidth, height=0.3\textheight]{DAXMPC-y-2-long}
+        \includegraphics[width=\textwidth, height=0.3\textheight]{DAXMPC-y-2-long}
     \end{minipage}
-\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the estimated DAX index level ($\hat{y}^{ref}_{t:t+H}$) set to be the target reference using the MPC framework with $H=5$ and $T=125$.}
+\caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the estimated DAX index level ($\hat{y}^{ref}_{t:t+H}$) set to be the target reference using the MPC framework with $H=5$ and $T=125$.  The target reference signal is also plotted with a `x' marker.}
 \label{fig:mpc2long}
 \end{figure}
 
