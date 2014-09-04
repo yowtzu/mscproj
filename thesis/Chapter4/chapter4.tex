@@ -450,7 +450,7 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
 \end{figure}
 
 \section{Conclusions}
-In this chapter, we introduce index tracking funds and summarise some causing factors of the tracking error between a fund and its benchmark index. We then present how the portfolio optimisation problem in terms of minimising the tracking error can be formulated as a stochastic control problem. This stochastic control problem can be turned into a path-space parameter estimation problem, in which Rao-Blackwellised SMC can be used to estimate these parameters efficiently. Lastly, we presents a some proof-of-concept experiment with a oscillating wave as target reference signal. The results show that the SMC technique proposed is able to track the reference signal well.
+In this chapter, we introduce index tracking funds and summarise some causing factors of the tracking error between a fund and its benchmark index. We then present how the portfolio optimisation problem in terms of minimising the tracking error can be formulated as a stochastic control problem. This stochastic control problem can be turned into a path-space parameter estimation problem, in which Rao-Blackwellised SMC can be used to estimate these parameters efficiently. Lastly, we presents a proof-of-concept experiment with a oscillating wave as target reference signal. The results show that the SMC technique proposed is able to track the reference signal well.
 
 \chapter{Tracking the DAX index}
 \graphicspath{{Chapter4/figures/}}
@@ -516,7 +516,7 @@ Using this model, we can write the reward function as follows:
 \end{equation}
 Here, we define $L = 0.1\diag(4,3,2,1)$  and also impose additional constraints on the holding position of each individual component of $U_t$ such that the range is within $[0,0.5]$. The idea behind these choices is to construct a scenario in which the transaction cost involved in changing the holding position on each individual component is different and impose a constraint on the maximum amount on the holding position of each individual component one portfolio can have.
 
-For simplicity, we will use the SMC algorithm to target $\pi^\gamma$ where $\gamma=100$ and important sampling step, $U_{1,n}$ is sampled uniformly from the range bounded by the constraints mentioned above. The experiment is carried out for $30$ independent runs, each with sample size is fixed to $10000$ and no Resample-Move step is used here.
+For the sake of simplicity, we will use the SMC algorithm to target $\pi^\gamma$ where $\gamma=100$ and important sampling step, $U_{1,n}$ is sampled uniformly from the range bounded by the constraints mentioned above. The experiment is carried out for $30$ independent runs, each with sample size is fixed to $10000$ and no Resample-Move step is used here.
 
 \subsection{Results and discussion}
 As in previous experiment, the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs are shown in Figure \ref{fig:dax}.  The output of the model produce using the estimated $\hat{u}^*_{1:T}$ is closely tracking the reference index level, $y^{DAX4}$. The average annualised\footnote{the annualisation factor is set to be $\sqrt{252}$ as the daily return is measured here.} tracking error of $0.023288$ over the $30$ runs. Having said that, the estimated set of control parameter $\hat{u}^*_{1:T}$ which represents the holding position of each stock does not seem very stable.
@@ -605,17 +605,17 @@ In the partial replication setting, the average annualised tracking error over $
 \end{figure}
 
 \section{Model Predictive Control (MPC)}
-Up to this point, the discussion has been focussed on searching the optimal control parameters (as outlined in the reward function) for the a given time horizon $0:T$ at time step $0$. There are two issues here:
+Up to this point, the discussion has been focussed on searching the optimal control parameters for a given time horizon $0:T$ at time step $0$. There are two issues here:
 \begin{enumerate}
-\item It is assumed that the future target reference signal $y^{ref}_{t^\prime}$, $t^\prime > 0$ is available for optimisation, but in fact they are not observable as of time step $0$.
-\item The optimisation is \emph{only} performed at time step $0$, i.e., the problem is treated as an open loop problem. Any new observation of the target reference signal, any of the control used and any of the output produced by the model over the elapsed time horizon are not fed back to the system.
+\item It is assumed that the future target reference signal $y^{ref}_{t^\prime}$, $t^\prime > 0$ is available for optimisation. In this application, but these are in fact not observable as of time step $0$.
+\item The optimisation is \emph{only} performed at the beginning of the time horizon, i.e., the problem is treated as an open loop problem. Any new observation of the target reference signal, any of the control used and any of the output produced by the model over the time horizon are not fed back to the system.
 \end{enumerate}
 
 To overcome these problems, instead of tracking the true $y^{ref}$, an estimate of $y^{ref}$ is used as the target reference signal whenever the $y^{ref}$ is not (yet) available. A simple estimator of $y^{ref}_{t+s}$ at time step $t$ is defined to be as follows:
 \begin{equation}
   \hat{y}^{ref}_{t+s} = y^{ref}_{t} + \beta s
 \end{equation}
-where $s > 0$, $\beta$ is the EWMA estimate ($\lambda = 0.94$) of the mean of daily changes of $y^{ref}_t$ calculated at time step $t$. This estimator is chosen here for simplicity. Other estimators are possible. To simplify notation, we will define $\tilde{y}^{ref}_{t^\prime}$ at any time step $t$ to be as follows:
+where $s > 0$, $\beta$ is the EWMA estimate ($\lambda = 0.94$) of the mean of daily changes of $y^{ref}_t$ calculated at time step $t$. This estimator is chosen here for the sake of simplicity. Other estimators are possible. To simplify notation, we will define $\tilde{y}^{ref}_{t^\prime}$ at any time step $t$ to be as follows:
 \begin{align}
 \tilde{y}^{ref}_{t^\prime} &= y^{ref}_{t^\prime}&\text{if } t^\prime \leq t, \nonumber \\
                                       &= \hat{y}^{ref}_{t^\prime}&\text{otherwise}    
@@ -638,16 +638,16 @@ To take into account the any new observable information into account over the ti
 \end{algorithmic}
 \end{algorithm}
 
-It is straight forward to apply the MPC framework for this problem. At every time step $t$, the SMC optimisation technique proposed can be executed to search for the optimal $u^*_{t:t+H}$, but only the first set of controls, $u_t$ is applied the model to produce the output $y$. Using this approach, the reward function that we attempt to optimise at each time step $t$ is as follows:
+It is straight forward to apply the MPC framework for this problem. At every time step $t$, the SMC optimisation technique proposed can be executed to search for the optimal $u^*_{t:t+H}$, but only the first set of controls, $u^*_t$ is applied the model to produce the output $y$. Using this approach, the reward function that we attempt to optimise at each time step $t$ is as follows:
 \begin{equation}
   J(u_{t:t+H},\tilde{y}^{ref}_{t:t+H}, x_t) = \E_{x_0}\left[ \exp \left( -\dfrac{1}{2}\displaystyle\sum^{t+H}_{s=t}\left(\vert\vert \tilde{y}^{ref}_s - u^T_s x_s \vert\vert^2_{Q_s(u_s)^{-1}}  + \vert\vert u_s - u_{s-1} \vert\vert^2_{L_s}\right) \right ) \right]
 \label{eq:J2}
 \end{equation}
 This reward function is different from the previous ones as it does not depend any future information beyond time step $t$.
 
-To demonstrate this idea, we re-run the experiment on the DAX index tracking with partial replication setting using this MPC framework with $H=5$. The experiment is repeated for $30$ times. Figure \ref{fig:mpc2} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. The tracking performance looks very good, with an average annualised tracking error of $0.062364$ over the $30$ runs. The estimated optimal control $u^*_{1:T}$ found is also found to be reasonably stable.
+To demonstrate this idea, we re-run the experiment on the DAX index tracking with partial replication setting using this MPC framework with $H=5$. The experiment is repeated for $30$ times. Figure \ref{fig:mpc2} shows the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs. The tracking performance looks very good, with an average annualised tracking error of $0.062364$ over the $30$ runs. The estimated optimal control $u^*_{1:T}$ is also found to be reasonably stable.
 
-In terms of computational cost, the empirical computational cost factor relative to the baseline is approximately $\approx 5.2 \times$ per run. This makes sense as the complexity of each run is $\mathcal{O}(NTH)$ as opposed to $\mathcal{O}(NT)$ in as in the previous case\footnote{We assume here the Resample-Move step is disabled. With Resample-Move step enabled, the complexity of this technique is $\mathcal{O}(NTH^2)$ as opposed to $\mathcal{O}(NT^2)$.}.
+In terms of computational cost, the empirical computational cost factor in relative to the baseline is approximately $\approx 5.2$ per run. This makes sense as the complexity of each run here is  $\mathcal{O}(NTH)$ as opposed to $\mathcal{O}(NT)$ in as in the previous case\footnote{We assume here the Resample-Move step is disabled. With Resample-Move step enabled, the complexity of this technique is $\mathcal{O}(NTH^2)$ as opposed to $\mathcal{O}(NT^2)$.}.
 
 \begin{figure}[htbp]
 \centering
@@ -681,4 +681,4 @@ In the last experiment, we attempt to demonstrate the scalability of the techniq
 
 \section{Conclusions}
 \label{sec:conclusion5}
-This chapter presents several experiments in apply the SMC technique to track a real-world financial index --- the DAX index.  It begins with a simple experiment in which a synthetic sub-index constructed with only $4$ to proof the concept. It then uses the same technique to demonstrate how the DAX index can be tracked with full replication as well as partial replication. Lastly, it introduces Model Predictive Control (MPC) framework and demonstrates how this technique can be integrated into the MPC framework easily. In all cases, the results sow the SMC technique proposed is able to search for optimal control that results an output that track the given reference signal well.
+This chapter presents several experiments in apply the SMC technique to track a real-world financial index --- the DAX index.  It begins with a simple experiment in which a synthetic sub-index constructed with only $4$ components to proof the concept. It then uses the same technique to demonstrate how the DAX index can be tracked with full replication as well as partial replication. Lastly, it introduces Model Predictive Control (MPC) framework and demonstrates how this technique can be integrated into the MPC framework easily. In all cases, the results show the SMC technique proposed is able to search for the optimal controls that produce an output that tracks the given reference signal well.
