@@ -6,9 +6,9 @@ Optimal portfolio is the ultimate goal of every investment manager; but the opti
 In this chapter, we introduce the index tracking fund and summarise some causing factors of the tracking error between a fund and its benchmark index. We then present how the portfolio optimisation problem in terms of minimising the tracking error can be formulated as a stochastic control problem. We show this stochastic control problem can be turned into a path-space parameter estimation problem, in which Rao-Blackwellised SMC can be used to estimate these parameters efficiently. Lastly, we present a simple numerical example to demonstrate how to apply this technique to track a deterministic reference signal.
  
 \section{Index tracking fund}
-An financial index can be thought of a summary statistics of a market, typically formed as weighted average of the prices of some financial instruments. For example, FTSE 100 is an index that attempts to represent the performance of the 100 biggest companies in UK. This index is however not an investable financial product one can invest directly.
+A financial index can be thought of a summary statistics of a market, typically formed as weighted average of the prices of some financial instruments. For example, FTSE 100 is an index that attempts to represent the performance of the 100 biggest companies in UK. This index is however not an investable financial product one can invest directly.
  
-To allows investors to take exposure to the markets (as represented by the indices), index tracker funds are introduced. These funds generally follow very strict and transparent rules with the main objective to track their benchmark indices as close as possible. Investors of these funds therefore are only exposed to the market risks of the chosen indices, with minimal exposure to the risk associated with the investment process of the traditional active fund management.
+To allow investors to take exposure to the markets (as represented by the indices), index tracker funds are introduced. These funds generally follow very strict and transparent rules with the main objective to track their benchmark indices as close as possible. Investors of these funds therefore are only exposed to the market risks of the chosen indices, with minimal exposure to the risk associated with the investment process of the traditional active fund management.
  
 \subsection{Index replication}
 \label{sec:replication}
@@ -33,7 +33,7 @@ There are many factors that can cause the tracking errors, some of which are sum
 This list is by no mean exclusive. See \cite{BJ13} for further details.
  
 \section{Methodology}
-Instead of using a traditional deterministic state space models, we choose to use a \emph{stochastic} modelling approach to carry out the portfolio optimisation. In particular, we focus here the the problem in minimising the tracking error between a portfolio and its benchmark index.  Our aim is to determine what investment actions (buy or sell) a portfolio manager needs to do for each index component on a daily basis across the investment horizon to track the benchmark index well.
+Instead of using a traditional deterministic state space models, we choose to use a \emph{stochastic} modelling approach to carry out the portfolio optimisation. In particular, we focus here the problem in minimising the tracking error between a portfolio and its benchmark index.  Our aim is to determine what investment actions (buy or sell) a portfolio manager needs to do for each index component on a daily basis across the investment horizon to track the benchmark index well.
 
 We adopt here a conditional Gaussian linear state space model as follows:
 \begin{align}
@@ -72,18 +72,6 @@ by standard marginalisation the distribution $p(x_{1:t}, u_{1:t} \mid y_{1:t})$ 
   p(x_{1:t}, u_{1:t} \mid y_{1:t}) = p(x_{1:t-1}, u_{1:t-1} \mid y_{1:t-1}) \frac{p(y_t \mid x_t, u_t)p(x_t, u_t \mid x_{t-1}, u_{t-1})}{p(y_t \mid y_{1:t-1})}
 \end{align}
  
-% This posterior density function can be derived as follows:
-%\begin{align}
-%p(u_{0:t} \mid y^{ref}_{0:t}) &\propto p(u_{0:t}) p(y^{ref}_{0:t} \mid u_{0:t}) \\
-%&= \prod^t_{i=1} p(y^{ref} \mid y^{ref}_{0:i-1}, u_{0:i}) p(u_i \mid u_{i-1})
-%\end{align}
- 
-%\begin{align}
-%p(u_{0:t} \mid y_{0:t}) &\propto p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_{0:t} \mid y_{0:t-1}) \nonumber \\
-%&=  p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{0:t-1}, y_{0:t-1}) p(u_{0:t-1} \mid y_{0:t-1}) \nonumber \\
-%&=  p(u_{0:t-1} \mid y_{0:t-1}) p(y_k \mid u_{0:t}, y_{0:t-1}) p(u_t \mid u_{t-1}, y_{0:t-1})
-%\end{align}
- 
 One straight-forward way to approximate the recursion is directly apply SMC by consider the hidden states is a sequence of paired states $\left\{(U_t, X_t)\right\}_{t \geq 0}$. A better approach would be using the Rao-Blackwellised SMC mentioned in Section \ref{sec:msmc}, attempts to do as much computation analytically as possible, by splitting the states into the linear Gaussian states and the non-linear states. Then, the Kalman Filter can be used to model and track the linear Gaussian states and the SMC is only used to model and track the non-linear states. This marginalisation setting often yields estimates with smaller variance.
 
 To use Rao-Blackwellised SMC on this model, we consider the following factorisation on the full posterior distribution as follows:
@@ -110,7 +98,7 @@ then the associated unnormalised weight of each sample can be derived in a simil
 Compare to \eqref{eq:w}, the main difference here is that the weights now depends on the whole path space from time step $1$ to $t$.
 
 \subsection{Extensions}
-As discussed in Section \ref{sec:ess}, the resampling step introduces variance to the the weights, but it is necessary to avoid accumulation of estimation variance onto the weights over time. Effective sample size (ESS) can be used to measure the quality of the weight and trigger the resampling step only if necessary, e.g., 
+As discussed in Section \ref{sec:ess}, the resampling step introduces variance to the weights, but it is necessary to avoid accumulation of estimation variance onto the weights over time. Effective sample size (ESS) can be used to measure the quality of the weight and trigger the resampling step only if necessary, e.g., 
 when the ESS value at time step $t$ fall below certain threshold at time $t$, say $\frac{N}{2}$.
 
 To add diversity in the population of particles, the Resample-Move step introduced in Section \ref{sec:rm} can also be included. This step perturbs the samples yet leave the distribution the samples represent unchanged using a MCMC kernel that is invariant in density. With this optional step in place, the whole algorithm is summarised in Algorithm \ref{algo:msmc}.
@@ -125,7 +113,7 @@ To add diversity in the population of particles, the Resample-Move step introduc
 \begin{equation*}
  \tilde{w}^{(i)}_1 = \dfrac{p(u_1^{(i)})g_1(y_1 \mid u^{(i)}_1)}{q_1(u^{(i)}_1, y_1)}
 \end{equation*}
-\State For $i \in 1, \ldots, N$, normalize the importance weight:
+\State For $i \in 1, \ldots, N$, normalise the importance weight:
 \begin{equation*}
 \hat{w}^{(i)}_1 = \dfrac{\tilde{w}^{(i)}_1}{\sum^N_{j=1} \tilde{w}^{(j)}_1}
 \end{equation*}
@@ -149,7 +137,7 @@ with $m_{t \mid t-1}$ and $S_t$ are updated with Kalman Filter recursions:
   \mu_{t \mid t} &=   \mu_{t \mid t -1} +   \Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1}(y_t - m_{t \mid t-1}) \nonumber\\
   \Sigma_{t \mid t} &=  \Sigma_{t \mid t -1} -\Sigma_{t \mid t -1} C_{t}(u_t)S_t^{-1} C_{t}(u_t)\Sigma_{t \nonumber \mid t -1}
 \end{align}
-\State For $i \in 1, \ldots, N$, normalize the importance weight:
+\State For $i \in 1, \ldots, N$, normalise the importance weight:
 \begin{equation*}
 \hat{w}^{(i)}_t = \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{j=1} \tilde{w}^{(j)}_t}
 \end{equation*}
@@ -177,7 +165,7 @@ By assuming the Markov transition density for $u_t$ to be:
   p(u_{t} \mid u_{t-1}) \propto  \exp\left( -\dfrac{1}{2} \vert\vert u_t - u_{t-1} \vert\vert^2_{L_t}\right)
 \label{eq:mctrans}
 \end{equation}
-the Maximum a Posteriori (MAP) estimate of $U_{1:T}$ is given to be:
+The Maximum a Posteriori (MAP) estimate of $U_{1:T}$ is given to be:
 \begin{equation}
   \tilde{u}^*_{1:t} = \arg\max_{u_{1:t}} \pi_t(u_{1:t})
 \label{eq:map}
@@ -223,7 +211,7 @@ For each of the setting, the experiment is repeated for $30$ times. Therefore, t
 This sections presents a summary of the experimental results from all the runs. Instead of presenting the outputs produced by all the runs, only a subset of outputs that demonstrates our findings is presented here. The complete set of implementation code and output produced can be obtained from the repository of this project at \href{https://github.com/yowtzu/mscproj}{GitHub}.
 
 \subsubsection{Selectively resampling step with ESS}
-We first evaluate the effect of selectively enabling resample step with ESS mechanism. In \emph{all} the settings, it is found that the simple runs with resample step enabled at each iteration, i.e., with ESS disabled,  always have equivalent or relative better performance in comparison to selectively resampling with ESS. Figure \ref{fig:ess} shows the result the performance obtained in terms of $\log\pi_T(\hat{u}^*_{1:t})$ of 30 independent runs of the algorithms with $T=20$ and $N=10000$ for various $\gamma$ settings. All other runs with different settings of $T$ and $N$ concur with this finding. From here onwards, we assumes ESS mechanism is disabled unless stated otherwise.
+We first evaluate the effect of selectively enabling resample step with ESS mechanism. In \emph{all} the settings, it is found that the simple runs with resample step enabled at each iteration, i.e., with ESS disabled,  always have equivalent or relative better performance in comparison to selectively resampling with ESS. Figure \ref{fig:ess} shows the result the performance obtained in terms of $\log\pi_T(\hat{u}^*_{1:t})$ of 30 independent runs of the algorithms with $T=20$ and $N=10000$ for various $\gamma$ settings. All other runs with different settings of $T$ and $N$ concur with this finding. From here onwards, we assume ESS mechanism is disabled unless stated otherwise.
 
 To explain this counter-intuitive result, recall that ESS is essentially a proxy to measure the quality of the weighted samples in representing the target distribution. A sample set that is well spread over the target distribution would have high ESS value and vice versa. However, the application of SMC as a maximiser here is \emph{only} concerned with the mode of the distribution. At each time step, the process of resampling the samples proportional to the weights essentially pushes the sample set towards the mode of the distribution. Selectively resampling using ESS essentially reduces the strength of this push and therefore leads to sub-optimal solution.
 
@@ -371,7 +359,7 @@ In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may b
     \label{fig:log}
 \end{figure}
 
-Lastly, we conclude this section by showing the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in various runs in Figure \ref{fig:estimatedy} and their corresponding tracking errors in Figure \ref{fig:error}. The results looks very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to closely track the reference signal. 
+Lastly, we conclude this section by showing the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in various runs in Figure \ref{fig:estimatedy} and their corresponding tracking errors in Figure \ref{fig:error}. The results look very promising. Except in the runs with the $\gamma=1$ setting in which there is a lot of noise in tracking, all other runs are able to closely track the reference signal. 
 
 \begin{figure}[!thbp]
     \centering
@@ -450,7 +438,7 @@ Lastly, we conclude this section by showing the mean of the recursive likelihood
 \end{figure}
 
 \section{Conclusions}
-In this chapter, we introduce index tracking funds and summarise some causing factors of the tracking error between a fund and its benchmark index. We then present how the portfolio optimisation problem in terms of minimising the tracking error can be formulated as a stochastic control problem. This stochastic control problem can be turned into a path-space parameter estimation problem, in which Rao-Blackwellised SMC can be used to estimate these parameters efficiently. Lastly, we presents a proof-of-concept experiment with a oscillating wave as target reference signal. The results show that the SMC technique proposed is able to track the reference signal well.
+In this chapter, we introduce index tracking funds and summarise some causing factors of the tracking error between a fund and its benchmark index. We then present how the portfolio optimisation problem in terms of minimising the tracking error can be formulated as a stochastic control problem. This stochastic control problem can be turned into a path-space parameter estimation problem, in which Rao-Blackwellised SMC can be used to estimate these parameters efficiently. Lastly, we presents a proof-of-concept experiment with an oscillating wave as target reference signal. The results show that the SMC technique proposed is able to track the reference signal well.
 
 \chapter{Tracking the DAX index}
 \graphicspath{{Chapter4/figures/}}

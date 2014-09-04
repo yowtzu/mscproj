@@ -17,7 +17,7 @@ This problem formulation is elegant, but there remains some subtle issues in pra
 \begin{equation}
   p(x \mid \mathcal{M}) = \int p(x \mid \theta, \mathcal{M}) p(\theta \mid \mathcal{M})~d\theta
 \end{equation}
-This is often infeasible. A often way to circumvent this requirement is by making use of conjugate prior that yields posterior distributions from the same family in an analytical fashion. Moreover, the need of calculating integral that does not possess analytic solution also arises in the marginalisation process of nuisance parameters, calculating expectation of a function, etc.
+This is often infeasible. An often way to circumvent this requirement is by making use of conjugate prior that yields posterior distributions from the same family in an analytical fashion. Moreover, the need of calculating integral that does not possess analytic solution also arises in the marginalisation process of nuisance parameters, calculating expectation of a function, etc.
 
 \section{Perfect Monte Carlo}
 Instead of a closed form solution, the Method Carlo methods offer a numerical solution in estimating the integral using simple sampling techniques. Consider the calculation the expectation of a function, $I$ of the following form:
@@ -25,7 +25,7 @@ Instead of a closed form solution, the Method Carlo methods offer a numerical so
   I = \E_p[f(x)] = \int f(x)p(x)~dx
 \label{eq:expectation}
 \end{equation}
-Assuming we are able to sample $N$ independent and identically distributed (i.i.d.) samples of $x$ from $p(\cdot)$, denote these as $\{x^{(i)}\}$ where $i \in \{1 \ldots N\}$, a Monte Carlo estimate of $I$ using the the point masses of the samples is:
+Assuming we are able to sample $N$ independent and identically distributed (i.i.d.) samples of $x$ from $p(\cdot)$, denote these as $\{x^{(i)}\}$ where $i \in \{1 \ldots N\}$, a Monte Carlo estimate of $I$ using the point masses of the samples is:
 \begin{equation}
   \hat{I} = \frac{1}{N} \sum^N_{i=1} f(x^{(i)})
 \end{equation}
@@ -102,7 +102,7 @@ To obtain samples from the target distribution, $p(\cdot)$, an additional resamp
 To motivate why Sequential Monte Carlo is useful, consider a target distribution of interest $p(x_{0:n})$, and for simplicity, assuming we can sample directly from the distribution $p(x_{0:n})$, the minimal computational complexity of the sampling scheme would be at least linear in $n$. Sequential Monte Carlo (SMC) provides a way to obtain samples of $x$ for each sequential time step in a \emph{fixed} amount of computational time in Hidden Markov Models (HMMs). We shall begin with a brief introduction on HMMs that is crucial to understand SMC in the next section. Refer \cite{CO05} for further details of inference techniques for HMMs. 
 
 \subsection{Hidden Markov Models}
-HMMs can be seen as a class of models that consist of two related processes: an underlying Markov process, $X_t$, which is the target process of interest, and a observable process, $Y_t$, which its state can be measured and therefore provides some information about $X_t$. Moreover, it is assumed that these two processes have conditional independence properties as shown using the graphical model representation in Figure \ref{fig:HMM}. These properties can be summarised as follows:
+HMMs can be seen as a class of models that consist of two related processes: an underlying Markov process, $X_t$, which is the target process of interest, and an observable process, $Y_t$, which its state can be measured and therefore provides some information about $X_t$. Moreover, it is assumed that these two processes have conditional independence properties as shown using the graphical model representation in Figure \ref{fig:HMM}. These properties can be summarised as follows:
 \begin{align}
    p(x_t \mid x_{0:t-1}) &= f(x_t \mid x_{t-1})   \nonumber \\
    p(y_t \mid x_{0:t}, y_{0:t-1}) &= g(y_t \mid x_{t}) 
@@ -116,7 +116,7 @@ where $f(x_t \mid x_{t-1})$ is the Markov transition density and $g(y_t \mid x_t
 \label{fig:HMM}
 \end{figure}
 
-This class of models are designed to model evolving systems that output some observable events over time, which depends on the internal state of the system in a on-line manner. This imposes an implicit requirement on computation perspective: the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
+This class of models are designed to model evolving systems that output some observable events over time, which depends on the internal state of the system in an on-line manner. This imposes an implicit requirement on computation perspective: the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
 
 Arguably, the most common inference problem in HMMs is the smoothing distribution, $p(x_{0:t} \mid y_{0:t})$, that is estimating the states $x_{0:t}$ based on the sequence of observations up to time $t$, $y_{0:t}$. Using Bayes rules, we can write the density of the distribution of interest in the recursion form as follows:
 \begin{align}
@@ -144,7 +144,7 @@ Another distribution of interest is  the prediction distribution, that is the es
 \end{equation}
 Therefore, any prediction density can be obtained by simply integrating out the variables of not interest from the above equation.
 
-While these expressions \emph{appear} to be very simple, the distribution estimation problem is in fact far from being resolved in practice. The integrals involved in the above equations are often intractable because they require the evaluation of complex high-dimensional integrals\footnote{Except under very special setting, in which the marginal filtering density $p(x_t \mid y_{0:t})$, the prediction density $p(x_t \mid y_{0:t-1})$ and the recursive likelihood $P(y_t \mid y_{0:t-1})$ are all Gaussian densities, then their means and variances can be computed analytically using Kalman Filter as shown in Appendix \ref{sec:KF}.}. 
+While these expressions \emph{appear} to be very simple, the distribution estimation problem is in fact far from being resolved in practice. The integrals involved in the above equations are often intractable because they require the evaluation of complex high-dimensional integrals\footnote{Except under very special setting, in which the marginal filtering density $p(x_t \mid y_{0:t})$, the prediction density $p(x_t \mid y_{0:t-1})$ and the recursive likelihood $P(y_t \mid y_{0:t-1})$ are all Gaussian densities, then their means and variances can be computed analytically using the Kalman Filter recursions as shown in Appendix \ref{sec:KF}.}. 
 
 \subsection{Sequential Important Sampling (SIS)}
 \label{sec:SIS}
@@ -176,7 +176,7 @@ A particular important instance of SMC is obtained when the prior distribution i
 	             &= p_0(x_0) \prod^t_{i=1} p_i(x_i \mid x_{0:i-1})
 \label{eq:bf}
 \end{align}
-This greatly simplifies importance weight to follows:
+This greatly simplifies importance weight to the following:
 \begin{equation}
   \tilde{w}^{(i)}_t \propto \tilde{w}^{(i)}_{t-1} g (y_t \mid x^{(i)}_{t}) 
 \end{equation}
@@ -192,7 +192,7 @@ The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 \begin{equation*}
  \tilde{w}^{(i)}_0 = \dfrac{f(x_0^{(i)})g_0(y_0 \mid x^{(i)}_0)}{q_0(x^{(i)}_0 \mid y_0)}
 \end{equation*}
-\State For $i \in 1, \ldots, N$, normalize the importance weights:
+\State For $i \in 1, \ldots, N$, normalise the importance weights:
 \begin{equation*}
 \hat{w}^{(i)}_0 = \dfrac{\tilde{w}^{(i)}_0}{\sum^N_{j=1} \tilde{w}^{(j)}_0}
 \end{equation*}
@@ -204,7 +204,7 @@ The SIS algorithm is summarised in Algorithm \ref{algo:sis}.
 \begin{equation*}
  \tilde{w}^{(i)}_t = w^{(i)}_{t-1} \dfrac{f_t(x^{(i)}_t \mid x^{(i)}_{t-1})g_t(y_t \mid x^{(i)}_t)}{q_t(x^{(i)}_t \mid x^{(i)}_{0:t-1}, y_{0:t})}
 \end{equation*}
-\State For $i \in 1, \ldots, N$, normalize the importance weights:
+\State For $i \in 1, \ldots, N$, normalise the importance weights:
 \begin{equation*}
 \hat{w}^{(i)}_t = \dfrac{\tilde{w}^{(i)}_t}{\sum^N_{j=1} \tilde{w}^{(j)}_t}
 \end{equation*}
@@ -278,7 +278,7 @@ To trade-off between the two requirements, one could adopt a sliding windows app
 \label{sec:msmc}
 In practice, many models may not be entirely non-linear or non-Gaussian. Some states may be linear and Gaussian, conditional upon other states. Instead of naively modelling all state spaces using SMC, a better approach would be carrying out analytical computation as much as possible on the linear Gaussian states and use SMC to model only the non-linear states. This marginalisation setting will yield estimate that has smaller variance.
 
-To illustrate this, let consider the a simple conditional linear Gaussian Model as follows:
+To illustrate this, let consider a simple conditional linear Gaussian Model as follows:
 \begin{align}
   X^L_t &= A_t(X^N_t)X^L_{t-1} + B_t(X^N_t)W_t + F_t(X^N_t) \\
   Y_t &= C_t(X^N_t)X^L_t + D_t(X^N_t)V_t + G_t(X^N_t)
@@ -292,7 +292,7 @@ The discussion here has been focused on the conditional linear Gaussian model. T
 \section{Conclusion}
 This chapter presents a review of Monte Carlo methods, with a particular focus on Sequential Monte Carlo (SMC), along with various extensions proposed in the literature, used in this thesis for portfolio optimisation.
 
-It is worth to have a remark here that the SMC is not only restricted to solving sequential filtering/smoothing problem. For example, it has been established that it is possible to use SMC within MCMC framework (pMCMC, where p stands for particle) \cite{CA10} to build high dimensional proposal distribution to improve standard MCMC. In the next chapter, we will show how SMC can be used as a maximiser to search for a optimal strategy for the optimal portfolio, given a multiplicative reward function.
+It is worth to have a remark here that the SMC is not only restricted to solving sequential filtering/smoothing problem. For example, it has been established that it is possible to use SMC within MCMC framework (pMCMC, where p stands for particle) \cite{CA10} to build high dimensional proposal distribution to improve standard MCMC. In the next chapter, we will show how SMC can be used as a maximiser to search for an optimal strategy for the optimal portfolio, given a multiplicative reward function.
 
 % ------------------------------------------------------------------------
 
