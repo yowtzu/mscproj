@@ -338,7 +338,7 @@ One possible explanation to this result is that high $\gamma$ settings sharpen t
 In terms of the sample size setting used, the performance increased monotonically with the number of samples used for all time periods. This can seen clearly from the box-plots shown in Figure \ref{fig:rm1}, Figure \ref{fig:rm2} and Figure \ref{fig:rm3}. This is in-line with the theory that more samples is always better. For the shorter time-period considered, says $T=5$, the performance improvement sometimes is ``saturated'' even with lower number of samples, says $T=1000$ or $T=5000$. This suggests the optimal control parameters may have been attained.
 
  \subsubsection{Various $\gamma$ settings}
-A more interesting result is to compare the performance with different $\gamma$ settings. Let first consider the fixed $\gamma$ settings. Excessive high $\gamma$ settings may lead to the issue discussed earlier and stuck at local optimal. On the other hand, low $\gamma$ settings also does not perform too well either (consider the process of searching for the mode by randomly sampling a very flat distribution). The optimal $\gamma$ setting seems to lie sometimes in between. In this case, the $\gamma=100$ setting results in the best performance.
+A more interesting result is to compare the performance with different $\gamma$ settings. Let first consider the fixed $\gamma$ settings. Excessive high $\gamma$ settings may lead to the issue discussed earlier and stuck at local optimal. On the other hand, low $\gamma$ settings also do not perform too well either (consider the process of searching for the mode by randomly sampling a very flat distribution). The optimal $\gamma$ setting seems to lie sometimes in between. In this case, the $\gamma=100$ setting results in the best performance.
 
 In \cite{NK11}, it was suggested that using an increasing $\gamma$ setting may be a good pragmatic compromise between accuracy and good mixing. We investigate further on this by setting $\gamma$ to be increasing function of the form $\alpha t$, where $\alpha$ is constant and $t$ is the time step. The results show that the performance seems to be reasonably good when the $\alpha$ value is set low, but  worse when the $\alpha$ value is set too high. This suggests a capping on the maximum value on $\alpha$ or a more moderate increase in $t$ may be more suitable. We therefore carry out two extra $\gamma$ settings: $50\log(t+1)$ and $100\log(t+1)$ to investigate this. The results of these runs are shown in Figure \ref{fig:log}. The results from these runs look good but they are not statistically different from a simple fixed $\gamma=100$ setting.
 
@@ -507,7 +507,7 @@ Here, we define $L = 0.1\diag(4,3,2,1)$  and also impose additional constraints 
 For the sake of simplicity, we will use the SMC algorithm to target $\pi^\gamma$ where $\gamma=100$ and important sampling step, $U_{1,n}$ is sampled uniformly from the range bounded by the constraints mentioned above. The experiment is carried out for $30$ independent runs, each with sample size is fixed to $10000$ and no Resample-Move step is used here.
 
 \subsection{Results and discussion}
-As in previous experiment, the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs are shown in Figure \ref{fig:dax}.  The output of the model produce using the estimated $\hat{u}^*_{1:T}$ is closely tracking the reference index level, $y^{DAX4}$. The average annualised\footnote{the annualisation factor is set to be $\sqrt{252}$ as the daily return is measured here.} tracking error of $0.023288$ over the $30$ runs. Having said that, the estimated set of control parameter $\hat{u}^*_{1:T}$ which represents the holding position of each stock does not seem very stable.
+As in previous experiment, the estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs are shown in Figure \ref{fig:dax}.  The output of the model produce using the estimated $\hat{u}^*_{1:T}$ is closely tracking the reference index level, $y^{DAX4}$. The average annualised\footnote{the annualisation factor is set to be $\sqrt{252}$ as the daily return is measured here.} tracking error of $0.023288$ over the $30$ runs. Having said that, the estimated set of control parameters $\hat{u}^*_{1:T}$ which represents the holding position of each stock does not seem very stable.
 
 \begin{figure}[tbp]
 \centering
@@ -657,11 +657,11 @@ In the last experiment, we attempt to demonstrate the scalability of the techniq
 \centering
     \begin{minipage}{\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{DAXMPC-u-2-long}
+        \includegraphics[width=1.1\textwidth, height=0.3\textheight]{DAXMPC-u-2-long}
     \end{minipage}
     \begin{minipage}{\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{DAXMPC-y-2-long}
+        \includegraphics[width=1.1\textwidth, height=0.3\textheight]{DAXMPC-y-2-long}
     \end{minipage}
 \caption{The estimated optimal control $u^*_{1:T}$ and the mean of the recursive likelihood $m_{t \mid t-1}(u^*_{1:T})$ obtained in one of the independent runs with the estimated DAX index level ($\hat{y}^{ref}_{t:t+H}$) set to be the target reference using the MPC framework with $H=5$ and $T=125$.}
 \label{fig:mpc2long}

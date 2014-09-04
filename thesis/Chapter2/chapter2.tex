@@ -1,7 +1,7 @@
 \chapter{Monte Carlo methods}
 \graphicspath{{Chapter2/figures/}}
 \label{cha:mcmethods}
-Monte Carlo Methods have achieved significant success in its application to various domains in the last few decades. This chapter reviews some fundamental concepts in Monte Carlo methods that are related to this thesis. It begins with a summary on the main concept of Bayesian inference. It then discusses some basic Monte Carlo methods such as perfect Monte Carlo sampling, rejection sampling and importance sampling. Lastly, it introduces Sequential Monte Carlo (SMC), along with various enhancement made to the technique, used in this thesis.
+Monte Carlo Methods have achieved significant success in its application to various domains in the last few decades. This chapter reviews some fundamental concepts in Monte Carlo methods that are related to this thesis. It begins with a summary on the main concept of Bayesian inference. It then discusses some basic Monte Carlo methods such as perfect Monte Carlo sampling, rejection sampling and importance sampling. Lastly, it introduces Sequential Monte Carlo (SMC), along with various enhancements made to the technique, used in this thesis.
 
 \section{Bayesian inference}
 In Bayesian inference, each unknown parameter in the model is assumed to be random variable and is associated with a prior distribution that characterises the initial belief. The inference process is merely about updating the belief with new observable evidence in a systematic fashion using Bayes theorem.
@@ -13,7 +13,7 @@ Formally, let $\mathcal{M}$ be the model used, $\theta$ be the set of parameters
   \text{posterior} &\propto \text{likelihood} \times \text{prior}
 \end{align}
 
-This problem formulation is elegant, but there remains some subtle issues in practice. One particular issue is the calculation of the normalisation constant $p(x \mid \mathcal{M})$ in \eqref{eq:bayes}, which demands us to be able to carry out the following integral  analytically:
+This problem formulation is elegant, but there remain some subtle issues in practice. One particular issue is the calculation of the normalisation constant $p(x \mid \mathcal{M})$ in \eqref{eq:bayes}, which demands us to be able to carry out the following integral  analytically:
 \begin{equation}
   p(x \mid \mathcal{M}) = \int p(x \mid \theta, \mathcal{M}) p(\theta \mid \mathcal{M})~d\theta
 \end{equation}
@@ -29,7 +29,7 @@ Assuming we are able to sample $N$ independent and identically distributed (i.i.
 \begin{equation}
   \hat{I} = \frac{1}{N} \sum^N_{i=1} f(x^{(i)})
 \end{equation}
-This approximation can be viewed as discretisation of the continuous distribution with \emph{random} grid points. This estimate is unbiased and converge almost surely to $I$ as $N \to \infty$ by the Law of Large number \cite{RCP05}. 
+This approximation can be viewed as discretisation of the continuous distribution with \emph{random} grid points. This estimate is unbiased and converges almost surely to $I$ as $N \to \infty$ by the Law of Large number \cite{RCP05}. 
 
 Moreover, if the variance of $f(\cdot)$ is bounded ($\sigma^2_f < \infty$), as $N \to \infty$, then the following central limit theorem holds:
 \begin{equation}
@@ -116,7 +116,7 @@ where $f(x_t \mid x_{t-1})$ is the Markov transition density and $g(y_t \mid x_t
 \label{fig:HMM}
 \end{figure}
 
-This class of models are designed to model evolving systems that output some observable events over time, which depends on the internal state of the system in an on-line manner. This imposes an implicit requirement on computation perspective: the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
+This class of models is designed to model evolving systems that output some observable events over time, which depends on the internal state of the system in an on-line manner. This imposes an implicit requirement on computation perspective: the estimate calculation cost should remain constant over time, i.e., the calculation cost does not increase with the increasing number of states.
 
 Arguably, the most common inference problem in HMMs is the smoothing distribution, $p(x_{0:t} \mid y_{0:t})$, that is estimating the states $x_{0:t}$ based on the sequence of observations up to time $t$, $y_{0:t}$. Using Bayes rules, we can write the density of the distribution of interest in the recursion form as follows:
 \begin{align}
