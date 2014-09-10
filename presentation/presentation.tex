@@ -131,27 +131,6 @@ where $r_p$ is the return of the fund and $r_b$ is the return of the benchmark i
 
 \section{Methodology}
 
-\begin{frame}{Time varying controlled HMM}
-\begin{block}{Notation}
-\begin{itemize}
-\item $U_t$  --- proportion of each asset in portfolio
-\item $X_t$ --- vector of prices of different assets
-\item $Y_t$ --- index price
-\end{itemize}
-\end{block}
-\begin{block}{Open Loop Policies}
-\begin{itemize}
-\item Express the objectives as a total \emph{reward} function $J_{x_0}(u_{1:T})$.
-\item For an investment period $T$,  compute in one go at $t=0$:
-   \begin{equation*}
-      u^*_{1:T} = \arg\max J_{x_0}(u_{1:T})
-   \end{equation*}
-\item Easy but conservative.
-\item Does not take into account $y_{1:t}, u_{1:t}$ at each time $t$.
-\item A possible extension: MPC (see later).
-\end{itemize}
-\end{block}
-\end{frame}
 
 \begin{frame}{Time varying controlled HMM}
   \begin{figure}
@@ -159,6 +138,29 @@ where $r_p$ is the return of the fund and $r_b$ is the return of the benchmark i
     \includegraphics[width = 0.9\textwidth]{figures/hmm.jpg}
     %\caption{Awesome figure}
   \end{figure}
+\end{frame}
+
+\begin{frame}{Time varying controlled HMM}
+\begin{block}{Notation}
+\begin{itemize}
+\item $U_t$  --- proportion of each asset in portfolio
+\item $X_t$ --- vector of prices of different assets
+\item $Y_t$ --- estimated index price
+\item $y^{ref}_t$ --- reference target
+\end{itemize}
+\end{block}
+\begin{block}{Open Loop Policies}
+\begin{itemize}
+\item Express the objectives as a total \emph{reward} function $J_{x_0}(u_{1:T})$.
+\item For an investment period $T$,  compute in one go at $t=0$:
+ \small \begin{equation*}
+      u^*_{1:T} = \arg\max J_{x_0}(u_{1:T})
+   \end{equation*}\normalsize
+\item Easy but conservative.
+\item Does not take into account $y_{1:t}, u_{1:t}$ at each time $t$.
+\item A possible extension: MPC (see later).
+\end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}{Conditional Linear Gaussian Model}
