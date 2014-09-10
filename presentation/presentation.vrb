@@ -1,0 +1,9 @@
+\frametitle{Presentation}
+\begin{align}
+  X_t &= X_{t-1} + W_t + U_t \nonumber \\
+  Y_t &= X_t + V_t
+\label{eq:refnmodel}
+\end{align}
+with $W_t, V_t \sim \mathcal{N}(0,I)$.
+
+$L=0.1$
